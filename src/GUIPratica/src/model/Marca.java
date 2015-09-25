@@ -6,14 +6,28 @@
 
 package model;
 
+import java.util.List;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
+
 /**
  *
  * @author Charles
  */
+
+@Entity
+@SequenceGenerator(name = "seq_marca",allocationSize = 1,sequenceName = "seq_marca")
 public class Marca {
-    
+    @Id
+    @GeneratedValue(generator = "seq_marca",strategy = GenerationType.SEQUENCE)
     private int id;
     private String nome;
+    @OneToMany(mappedBy = "marca")
+    private List<Produto> produtos;
     public Marca(int id){
         this.setId(id);
     }

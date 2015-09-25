@@ -5,7 +5,7 @@
  */
 package components;
 
-import BLL.Repository;
+import services.Service;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.event.ActionListener;
@@ -81,7 +81,7 @@ public class JValidadorDeCampos {
         addValidar(control, tipo, null);
     }
 
-    public void validarDeBanco(Component control, Repository repositorio) {
+    public void validarDeBanco(Component control, Service repositorio) {
         addValidar(control, ValidacoesTipos.chaveBanco, new Object[]{repositorio});
     }
 
@@ -233,7 +233,7 @@ class ValidacaoCampos {
     }
 
     private boolean validaChaveBanco() {
-        if (adicionais == null || adicionais.length == 0 || !(adicionais[0] instanceof Repository)) {
+        if (adicionais == null || adicionais.length == 0 || !(adicionais[0] instanceof Service)) {
             return false;
         }
         String s = getValorControl();
@@ -241,7 +241,7 @@ class ValidacaoCampos {
             return false;
         }
 
-        Repository r = (Repository) adicionais[0];
+        Service r = (Service) adicionais[0];
 
         return r.findById(Integer.parseInt(s)) != null;
     }
