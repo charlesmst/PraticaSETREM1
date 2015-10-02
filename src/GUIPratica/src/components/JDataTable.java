@@ -39,7 +39,7 @@ public class JDataTable {
             ResultSetMetaData rsmd = rs.getMetaData();
             int numColumns = rsmd.getColumnCount();
             //System.out.println("numColumns: " + numColumns);  
-
+    
             // Get the column names; column indices start from 1  
             for (int i = 1; i <= numColumns; i++) {
                 String columnName = rsmd.getColumnName(i);

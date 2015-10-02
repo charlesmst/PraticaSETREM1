@@ -24,6 +24,8 @@ import javax.swing.tree.TreeSelectionModel;
 import components.treemenu.TreeMenuModel;
 import components.treemenu.TreeNodeMenu;
 import components.JPanelControleButtons;
+import javax.swing.ImageIcon;
+import utils.AlertaTipos;
 
 /**
  *
@@ -48,6 +50,14 @@ public class frmMain extends javax.swing.JFrame {
         return instance;
     }
 
+    public void iniciaProgress() {
+        progressGeral.setIndeterminate(true);
+    }
+
+    public void paraProgress() {
+        progressGeral.setIndeterminate(false);
+    }
+
     /**
      * Creates new form frmMain
      */
@@ -60,6 +70,7 @@ public class frmMain extends javax.swing.JFrame {
         setupTree();
         setupWelcome();
         setupToolbar();
+        paraProgress();
     }
 
     public void alert(String alert) {
@@ -71,8 +82,26 @@ public class frmMain extends javax.swing.JFrame {
     }
 
     private void setupFrame() {
-
+        lblIcone.setVisible(false);
         setExtendedState(java.awt.Frame.MAXIMIZED_BOTH);
+    }
+
+    public void setIcone(AlertaTipos tipo) {
+        ImageIcon i;
+        switch (tipo) {
+            case sucesso:
+                i = new ImageIcon(getClass().getClassLoader().getResource("resources/success.png"));
+                break;
+            case erro:
+                i = new ImageIcon(getClass().getClassLoader().getResource("resources/erro.png"));
+                break;
+            default:
+                i = null;
+                break;
+        }
+        lblIcone.setIcon(i);
+        lblIcone.setVisible(true);
+        lblIcone.setText("");
     }
 
     private void setupToolbar() {
@@ -138,6 +167,11 @@ public class frmMain extends javax.swing.JFrame {
         gerenciamento.add(new TreeNodeMenu("Produtos", "forms.frmProduto"));
 
         gerenciamento.add(new TreeNodeMenu("Marcas", "forms.frmMarca"));
+        gerenciamento.add(new TreeNodeMenu("Usuários", "forms.frmUsuarios"));     
+        
+        gerenciamento.add(new TreeNodeMenu("Ordem de Serviço", "forms.ordem.frmOrdemServico"));
+
+
         root.add(gerenciamento);
 
         model.nodeChanged(root);
@@ -241,7 +275,8 @@ public class frmMain extends javax.swing.JFrame {
         btnAtualizar = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         lblStatus = new javax.swing.JLabel();
-        jProgressBar1 = new javax.swing.JProgressBar();
+        progressGeral = new javax.swing.JProgressBar();
+        lblIcone = new javax.swing.JLabel();
         jtabs = new components.JTabbedPaneCloseButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu2 = new javax.swing.JMenu();
@@ -355,15 +390,19 @@ public class frmMain extends javax.swing.JFrame {
         lblStatus.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         lblStatus.setText("Status");
 
+        lblIcone.setText("Label");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
+                .addComponent(lblIcone, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblStatus)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jProgressBar1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(progressGeral, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -371,8 +410,10 @@ public class frmMain extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jProgressBar1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblStatus))
+                    .addComponent(progressGeral, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(lblStatus)
+                        .addComponent(lblIcone)))
                 .addContainerGap())
         );
 
@@ -541,14 +582,15 @@ public class frmMain extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPopupMenu jPopupMenu1;
-    private javax.swing.JProgressBar jProgressBar1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JToolBar jToolBar1;
     private javax.swing.JTree jTreeMenu;
     private javax.swing.JTabbedPane jtabs;
+    private javax.swing.JLabel lblIcone;
     private javax.swing.JLabel lblStatus;
     private java.awt.Menu menu1;
     private java.awt.Menu menu2;
     private java.awt.MenuBar menuBar1;
+    private javax.swing.JProgressBar progressGeral;
     // End of variables declaration//GEN-END:variables
 }

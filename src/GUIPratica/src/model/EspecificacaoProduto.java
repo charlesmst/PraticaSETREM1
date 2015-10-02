@@ -3,15 +3,24 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package model;
 
-/**
- *
- * @author Charles
- */
-public class EspecificacaoProduto {
+import java.io.Serializable;
+import java.util.Objects;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.IdClass;
+import javax.persistence.ManyToOne;
+
+@Entity
+@IdClass(EspecificacaoProdutoPK.class)
+public class EspecificacaoProduto implements Serializable {
+
+    @Id
+    @ManyToOne
     private Produto produto;
+    @Id
+    @ManyToOne
     private Especificacao especificacao;
     private String descricao;
 
@@ -38,6 +47,5 @@ public class EspecificacaoProduto {
     public void setDescricao(String descricao) {
         this.descricao = descricao;
     }
-    
-    
+
 }

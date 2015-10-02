@@ -18,5 +18,14 @@ public class Forms {
      */
     public static void mensagem(String mensagem, AlertaTipos tipo){
         frmMain.getInstance().alert(mensagem);
+        frmMain.getInstance().setIcone(tipo);
+    }
+
+    public static void iniciaProgress() {
+        frmMain.getInstance().iniciaProgress();
+    }
+    
+    public static void paraProgress() {
+        frmMain.getInstance().paraProgress();
     }
 }

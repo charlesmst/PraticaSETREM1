@@ -6,6 +6,9 @@
 package components;
 
 import forms.frmMain;
+import forms.frmTopoTexto;
+import java.awt.LayoutManager;
+import javax.swing.GroupLayout;
 import javax.swing.JPanel;
 
 /**
@@ -21,6 +24,30 @@ public abstract class JPanelControleButtons extends JPanel {
     private boolean btnCancelarEnable;
     private boolean btnAtualizarEnable;
 
+    public void addPanelTopo(String text){
+//        JPanel jPanel1 = new frmTopoTexto(text);
+//        
+//        GroupLayout layout = new javax.swing.GroupLayout(jPanel1);;
+//        jPanel1.setLayout(getLayout());
+//        layout.setHorizontalGroup(
+//            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+//            .addGap(0, 0, Short.MAX_VALUE)
+//        );
+//        layout.setVerticalGroup(
+//            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+//            .addGap(0, 25, Short.MAX_VALUE)
+//        );
+//        
+//        layout = (GroupLayout) getLayout();
+//        layout.setHorizontalGroup(
+//            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+//            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+//        );
+        
+        
+
+    }
+    
     public boolean isBtnAtualizarEnable() {
         return btnAtualizarEnable;
     }

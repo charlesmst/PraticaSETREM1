@@ -3,15 +3,18 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+package services;
 
-package utils;
+import model.Usuario;
 
 /**
  *
  * @author Charles
  */
-public enum AlertaTipos {
-    sucesso,
-    erro,
-    nenhum
+public class UsuarioService extends Service<Usuario>{
+
+    public UsuarioService() {
+        super(Usuario.class);
+    }
+    
 }

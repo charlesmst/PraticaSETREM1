@@ -5,6 +5,7 @@
  */
 package components.treemenu;
 
+import components.JPanelControleButtons;
 import javax.swing.JPanel;
 import javax.swing.tree.DefaultMutableTreeNode;
 import utils.AlertaTipos;
@@ -30,6 +31,9 @@ public class TreeNodeMenu extends DefaultMutableTreeNode {
             try {
                 Class c = Class.forName(classRef);
                 instance = (JPanel)c.newInstance();
+                if(instance instanceof JPanelControleButtons){
+                    ((JPanelControleButtons)instance).addPanelTopo(getUserObject().toString());
+                }
 
             } catch (Exception e) {
                 utils.Forms.mensagem("Erro ao abrir janela " + classRef, AlertaTipos.erro);

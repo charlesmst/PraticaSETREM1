@@ -6,7 +6,10 @@
 package guipratica;
 
 import com.alee.laf.WebLookAndFeel;
+import forms.frmLogin;
 import forms.frmMain;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.UIManager;
 
 /**
@@ -15,12 +18,25 @@ import javax.swing.UIManager;
  */
 public class GUIPratica {
 
+    public GUIPratica() {
+        LoginListener evento = new LoginListener();
+        frmLogin login = new frmLogin(null, true);
+        login.setAutenticadoListener(evento);
+        login.setVisible(true);
+
+        if (evento.isAutenticou()) {
+            frmMain frm;
+            frm = new frmMain();
+            frm.setVisible(true);
+        }
+    }
+
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
         try {
-            WebLookAndFeel.install ();
+            WebLookAndFeel.install();
 
 //         UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 //            for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
@@ -32,8 +48,23 @@ public class GUIPratica {
         } catch (Exception e) {
             // If Nimbus is not available, you can set the GUI to another look and feel.
         }
-        frmMain frm = new frmMain();
-        frm.setVisible(true);
+
+        new GUIPratica();
+//        System.exit(0);
     }
+
+    class LoginListener implements ActionListener {
+
+        private boolean autenticou = false;
+
+        public boolean isAutenticou() {
+            return autenticou;
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            autenticou = true;
+        }
+    };
 
 }

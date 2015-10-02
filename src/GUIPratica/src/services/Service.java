@@ -9,14 +9,13 @@ import java.io.Serializable;
 import java.util.Collection;
 import java.util.Iterator;
 import org.hibernate.Criteria;
-import org.hibernate.Hibernate;
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Criterion;
+import org.hibernate.criterion.Example;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.exception.ConstraintViolationException;
-import org.hibernate.service.spi.ServiceException;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 import utils.HibernateUtil;
 
 /**
@@ -26,6 +25,14 @@ import utils.HibernateUtil;
 public abstract class Service<T> {
 
     private final Class<T> classRef;
+
+    protected boolean autoClose = true;
+
+    private void autoClose(Session s) {
+        if (autoClose) {
+            s.close();
+        }
+    }
 
     public Service(Class<T> classRef) {
         this.classRef = classRef;
@@ -41,51 +48,64 @@ public abstract class Service<T> {
     }
 
     public T findById(Serializable id) {
+        return findById(id, false);
+    }
+
+    public T findById(Serializable id, boolean full) {
         Session s = getSession();
         T obj = (T) s.get(classRef, id);
-
+        if (full) {
+            //@todo implementar load full
+        }
+        autoClose(s);
         return obj;
     }
 
-    public T loadById(Serializable id) {
+    public void insert(T obj) throws ServiceException {
         Session s = getSession();
-        T obj = (T) s.load(classRef, id);
-        return obj;
-    }
+        try {
+            Transaction t = s.beginTransaction();
+            s.save(obj);
+            t.commit();
 
-    public void insert(T obj) throws ServiceException{
-        try{
-        Session s = getSession();
-        Transaction t = s.beginTransaction();
-        s.save(obj);
-        t.commit();
-         } catch (ConstraintViolationException e) {
-            throw new ServiceException("Erro ao inserir " + classRef.getSimpleName());
+        } catch (ConstraintViolationException e) {
+            throw new ServiceException("Erro ao inserir " + classRef.getSimpleName(), e);
+        } finally {
+            autoClose(s);
+
         }
 //        s.close();
     }
 
     public void update(T obj) throws ServiceException {
+        Session s = getSession();
+
         try {
-            Session s = getSession();
             Transaction t = s.beginTransaction();
             s.merge(obj);
             t.commit();
         } catch (ConstraintViolationException e) {
-            throw new ServiceException("Erro ao alterar " + classRef.getSimpleName());
+            throw new ServiceException("Erro ao alterar " + classRef.getSimpleName(), e);
+        } finally {
+            autoClose(s);
+
         }
 //        s.close();
     }
 
     public void delete(Serializable key) throws ServiceException {
+        Session s = getSession();
+
         try {
-            Session s = getSession();
             Transaction t = s.beginTransaction();
             Object persistentInstance = s.load(classRef, key);
             s.delete(persistentInstance);
             t.commit();
         } catch (ConstraintViolationException e) {
-            throw new ServiceException("Erro ao excluir " + classRef.getSimpleName());
+            throw new ServiceException("Erro ao excluir " + classRef.getSimpleName(), e);
+        } finally {
+            autoClose(s);
+
         }
 
     }
@@ -94,12 +114,21 @@ public abstract class Service<T> {
         return getSession().createQuery("from " + classRef.getSimpleName()).list();
     }
 
-    protected Collection<T> findFilter(Criterion... no) {
-        Criteria c = getSession().createCriteria(classRef);
-        for (Criterion no1 : no) {
-            c.add(no1);
+    protected Collection<T> findFilter(Criterion[] no) throws ServiceException {
+        Session s = getSession();
+        try {
+            Criteria cr = s.createCriteria(classRef);
+            for (Criterion no1 : no) {
+                cr.add(no1);
+            }
+            return cr.list();
+        } catch (ConstraintViolationException e) {
+            throw new ServiceException("Erro ao selecionar registros de " + classRef.getSimpleName(), e);
+        } finally {
+            s.close();
+
         }
-        return c.list();
+
     }
 
     public Iterator findAllIterator() {
@@ -112,6 +141,27 @@ public abstract class Service<T> {
 
     public Collection<T> findBy(String column, Serializable value, String operador) {
         return getSession().createQuery("from " + classRef.getSimpleName() + " where " + column + " = ").list();
+    }
+
+    public Collection<T> findByMultipleColumns(String valor, String... colunas) throws ServiceException {
+        Session s = getSession();
+        try {
+            Criteria c = s.createCriteria(classRef);
+            if (!valor.equals("")) {
+                Criterion[] cr = new Criterion[colunas.length];
+                for (int i = 0; i < colunas.length; i++) {
+                    cr[i] = Restrictions.like(colunas[i], "%" + valor.replaceAll("\\s+", "%") + "%");
+                }
+                c.add(Restrictions.or(cr));
+            }
+            Collection<T> r = c.list();
+            return r;
+        } catch (HibernateException e) {
+            throw new ServiceException("Erro ao selecionar dados", e);
+        } finally {
+            autoClose(s);
+        }
+
     }
 
     public void close() {

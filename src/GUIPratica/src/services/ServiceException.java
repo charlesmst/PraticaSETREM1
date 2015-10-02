@@ -9,8 +9,8 @@ package services;
  *
  * @author Charles
  */
-public class ServiceExeption extends Exception{
-    public ServiceExeption(String mensagem){
+public class ServiceException extends Exception{
+    public ServiceException(String mensagem, Exception ex){
         super(mensagem);
     }
 }

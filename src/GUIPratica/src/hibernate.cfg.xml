@@ -12,7 +12,10 @@
         <property name="hibernate.format_sql">true</property>
         <mapping class="model.Marca"/>
         <mapping class="model.Produto"/>
-        <mapping class="model.Segmento"/>
+        <mapping class="model.Segmento"/>       
+        <!--<mapping class="model.Pessoa"/>-->
+        <mapping class="model.Usuario"/>
+
 
     </session-factory>
 </hibernate-configuration>
