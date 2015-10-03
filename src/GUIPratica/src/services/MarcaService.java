@@ -22,13 +22,13 @@ public class MarcaService extends Service<Marca> {
     public MarcaService() {
         super(Marca.class);
     }
-    public Collection<Marca> marcasAtivas() {
-        
-        try {
-            return findFilter(Restrictions.eq("ativo", true));
-        } catch (services.ServiceException ex) {
-            Logger.getLogger(MarcaService.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
-    }
+//    public Collection<Marca> marcasAtivas() {
+//        
+//        try {
+//            return findFilter(Restrictions.eq("ativo", true));
+//        } catch (services.ServiceException ex) {
+//            Logger.getLogger(MarcaService.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//        return null;
+//    }
 }
