@@ -16,6 +16,7 @@ import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Example;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.exception.ConstraintViolationException;
+import org.hibernate.type.Type;
 import utils.HibernateUtil;
 
 /**
@@ -150,6 +151,8 @@ public abstract class Service<T> {
             if (!valor.equals("")) {
                 Criterion[] cr = new Criterion[colunas.length];
                 for (int i = 0; i < colunas.length; i++) {
+                    Type t = HibernateUtil.getColumnType(classRef, colunas[i]);
+                    
                     cr[i] = Restrictions.like(colunas[i], "%" + valor.replaceAll("\\s+", "%") + "%");
                 }
                 c.add(Restrictions.or(cr));

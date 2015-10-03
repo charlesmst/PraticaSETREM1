@@ -14,6 +14,7 @@ import model.Usuario;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.type.Type;
 import services.UsuarioService;
 import utils.HibernateUtil;
 
@@ -23,17 +24,19 @@ import utils.HibernateUtil;
  */
 public class Tests {
     public static void main(String[] args) throws Exception{
-        Session session = HibernateUtil.getSessionFactory().openSession();
-        
-        UsuarioService service = new UsuarioService();
-        for (int i = 0; i < 10; i++) {
-            Usuario u = new Usuario();
-            u.setUsuario("usuario"+i);
-            u.setNivel(1);
-            u.setAtivo(true);
-            service.insert(u);
-        }
-        
+        Type t = HibernateUtil.getColumnType(Usuario.class, "id_pessoa");
+        System.out.println(t);
+//        Session session = HibernateUtil.getSessionFactory().openSession();
+//        
+//        UsuarioService service = new UsuarioService();
+//        for (int i = 0; i < 10; i++) {
+//            Usuario u = new Usuario();
+//            u.setUsuario("usuario"+i);
+//            u.setNivel(1);
+//            u.setAtivo(true);
+//            service.insert(u);
+//        }
+//        
 //        
 //        Marca m = new Marca();
 //        m.setId(1);

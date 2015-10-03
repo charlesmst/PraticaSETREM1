@@ -40,11 +40,13 @@ public class frmUsuarios extends JPanelControleButtons {
         setBtnAddEnable(true);
 
         service = new UsuarioService();
+        
+        
         new JCampoBusca(txtBuscar, new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                atualizar();
+                table.atualizar();
             }
         });
 
@@ -74,11 +76,6 @@ public class frmUsuarios extends JPanelControleButtons {
 
     }
 
-    public final void atualizar() {
-        DefaultTableModel model = (DefaultTableModel) jtbDados.getModel();
-        model.setRowCount(0);
-        model.addRow(new String[]{"1", "sa"});
-    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -96,7 +93,8 @@ public class frmUsuarios extends JPanelControleButtons {
 
         jtbDados.setModel(new javax.swing.table.DefaultTableModel(
             new Object[][]{
-                {null,null,null,null}
+                {null,null,null,null},
+                {null,null,null,null},{null,null,null,null},{null,null,null,null}
 
             }
             ,
@@ -167,6 +165,7 @@ public class frmUsuarios extends JPanelControleButtons {
     @Override
     public void btnAddActionPerformed(ActionEvent evt) {
 //        model.createNew();
+        
     }
 
     @Override
