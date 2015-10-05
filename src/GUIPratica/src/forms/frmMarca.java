@@ -5,12 +5,22 @@
  */
 package forms;
 
+import components.JCampoBusca;
 import java.awt.event.ActionEvent;
 import components.JPanelControleButtons;
 
 import components.JRepositoryModelListener;
+import components.JTableDataBinder;
+import components.JTableDataBinderListener;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Map;
 import model.Marca;
+import model.Usuario;
+import services.UsuarioService;
+import services.aul.MarcaService;
+import utils.AlertaTipos;
 
 /**
  *
@@ -19,10 +29,50 @@ import model.Marca;
 public class frmMarca extends JPanelControleButtons {
 
 
+    private final MarcaService service;
+    JTableDataBinder table;
     public frmMarca() {
         initComponents();
-        setBtnAddEnable(true);
+        setBtnAddEnable(true);        
+        setBtnAlterarEnable(true);
+        setBtnExcluirEnable(true);
+
        
+        
+        service = new MarcaService();
+        
+        
+        new JCampoBusca(txtBuscar, new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                table.atualizar();
+            }
+        });
+
+        ((JTableDataBinder) jTable1).setListener(new JTableDataBinderListener<Marca>() {
+
+            @Override
+            public Collection<Marca> lista(String busca) {
+                try {
+                    return service.findByMultipleColumns(busca,"id","id","nome");
+                } catch (Exception e) {
+                    utils.Forms.mensagem(e.getMessage(), AlertaTipos.erro);
+                }
+                return new ArrayList<Marca>();
+            }
+
+            @Override
+            public Object[] addRow(Marca dado) {
+                return new Object[]{dado.getId(), dado.getNome()};
+
+            }
+        });
+
+        table = ((JTableDataBinder) jTable1);
+
+        table.setBusca(txtBuscar);
+        table.atualizar();
     }
 
     /**
@@ -35,37 +85,72 @@ public class frmMarca extends JPanelControleButtons {
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        jTable1 = new JTableDataBinder<Marca>();
+        txtBuscar = new javax.swing.JTextField();
+        jLabel2 = new javax.swing.JLabel();
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Código", "Nome"
             }
-        ));
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane1.setViewportView(jTable1);
+
+        jLabel2.setText("Buscar:");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(txtBuscar, javax.swing.GroupLayout.DEFAULT_SIZE, 334, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(16, 16, 16)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 246, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
+    private javax.swing.JTextField txtBuscar;
     // End of variables declaration//GEN-END:variables
 
     @Override

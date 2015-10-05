@@ -55,7 +55,7 @@ public class frmUsuarios extends JPanelControleButtons {
             @Override
             public Collection<Usuario> lista(String busca) {
                 try {
-                    return service.findByMultipleColumns(busca,"id","usuario");
+                    return service.findByMultipleColumns(busca,"id_pessoa","usuario");
                 } catch (Exception e) {
                     utils.Forms.mensagem(e.getMessage(), AlertaTipos.erro);
                 }
@@ -64,7 +64,7 @@ public class frmUsuarios extends JPanelControleButtons {
 
             @Override
             public Object[] addRow(Usuario dado) {
-                return new Object[]{dado.getId_pessoa(), dado.getUsuario()};
+                return new Object[]{dado.getId_pessoa(), dado.getUsuario(),dado.getUsuario(),dado.isAtivo()?"S":"N"};
 
             }
         });

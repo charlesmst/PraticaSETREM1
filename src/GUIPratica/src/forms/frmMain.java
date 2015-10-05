@@ -174,6 +174,9 @@ public class frmMain extends javax.swing.JFrame {
 
         root.add(gerenciamento);
 
+         DefaultMutableTreeNode aula = new DefaultMutableTreeNode("Aula");
+        aula.add(new TreeNodeMenu("Marcas", "forms.frmMarca"));
+        
         model.nodeChanged(root);
 
         int j = jTreeMenu.getRowCount();

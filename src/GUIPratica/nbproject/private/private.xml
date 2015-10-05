@@ -7,6 +7,7 @@
             <file>file:/C:/Users/Charles/Documents/GitHub/PraticaSETREM1/src/GUIPratica/src/model/Produto.java</file>
             <file>file:/C:/Users/Charles/Documents/GitHub/PraticaSETREM1/src/GUIPratica/src/model/Promocao.java</file>
             <file>file:/C:/Users/Charles/Documents/GitHub/PraticaSETREM1/src/GUIPratica/src/forms/frmBemVindo.java</file>
+            <file>file:/C:/Users/Charles/Documents/GitHub/PraticaSETREM1/src/GUIPratica/src/services/aul/MarcaService.java</file>
             <file>file:/C:/Users/Charles/Documents/GitHub/PraticaSETREM1/src/GUIPratica/src/services/ServiceException.java</file>
             <file>file:/C:/Users/Charles/Documents/GitHub/PraticaSETREM1/src/GUIPratica/src/components/JTableDataBinder.java</file>
             <file>file:/C:/Users/Charles/Documents/GitHub/PraticaSETREM1/src/GUIPratica/src/utils/HibernateUtil.java</file>
@@ -17,10 +18,10 @@
             <file>file:/C:/Users/Charles/Documents/GitHub/PraticaSETREM1/src/GUIPratica/src/forms/frmLogin.java</file>
             <file>file:/C:/Users/Charles/Documents/GitHub/PraticaSETREM1/src/GUIPratica/src/utils/Utils.java</file>
             <file>file:/C:/Users/Charles/Documents/GitHub/PraticaSETREM1/src/GUIPratica/src/model/Especificacao.java</file>
+            <file>file:/C:/Users/Charles/Documents/GitHub/PraticaSETREM1/src/GUIPratica/src/forms/frmMarca.java</file>
             <file>file:/C:/Users/Charles/Documents/GitHub/PraticaSETREM1/src/GUIPratica/src/services/UsuarioService.java</file>
             <file>file:/C:/Users/Charles/Documents/GitHub/PraticaSETREM1/src/GUIPratica/src/model/Marca.java</file>
             <file>file:/C:/Users/Charles/Documents/GitHub/PraticaSETREM1/src/GUIPratica/src/services/Service.java</file>
-            <file>file:/C:/Users/Charles/Documents/GitHub/PraticaSETREM1/src/GUIPratica/src/services/MarcaService.java</file>
             <file>file:/C:/Users/Charles/Documents/GitHub/PraticaSETREM1/src/GUIPratica/src/forms/frmProduto.java</file>
             <file>file:/C:/Users/Charles/Documents/GitHub/PraticaSETREM1/src/GUIPratica/src/forms/jPanelModelo.java</file>
             <file>file:/C:/Users/Charles/Documents/GitHub/PraticaSETREM1/src/GUIPratica/src/forms/frmUsuarios.java</file>

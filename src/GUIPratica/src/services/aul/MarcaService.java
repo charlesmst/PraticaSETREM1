@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package services;
+package services.aul;
 
 import java.io.Serializable;
 import java.util.Collection;
@@ -14,6 +14,7 @@ import model.Marca;
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.service.spi.ServiceException;
+import services.Service;
 
 
 public class MarcaService extends Service<Marca> {

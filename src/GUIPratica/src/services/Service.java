@@ -6,6 +6,7 @@
 package services;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import org.hibernate.Criteria;
@@ -14,6 +15,7 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Example;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.exception.ConstraintViolationException;
 import org.hibernate.type.Type;
@@ -111,6 +113,10 @@ public abstract class Service<T> {
 
     }
 
+    public Collection<T> findAll(String order) {
+        return getSession().createQuery("from " + classRef.getSimpleName() + " order by " + order).list();
+    }
+
     public Collection<T> findAll() {
         return getSession().createQuery("from " + classRef.getSimpleName()).list();
     }
@@ -144,18 +150,38 @@ public abstract class Service<T> {
         return getSession().createQuery("from " + classRef.getSimpleName() + " where " + column + " = ").list();
     }
 
-    public Collection<T> findByMultipleColumns(String valor, String... colunas) throws ServiceException {
+    public Collection<T> findByMultipleColumns(String valor, String order, String... colunas) throws ServiceException {
         Session s = getSession();
         try {
             Criteria c = s.createCriteria(classRef);
             if (!valor.equals("")) {
-                Criterion[] cr = new Criterion[colunas.length];
+                ArrayList<Criterion> cr = new ArrayList<>();
+                boolean isInteger = false;
+                try {
+                    Integer.parseInt(valor);
+                    isInteger = true;
+                } catch (Exception e) {
+                }
                 for (int i = 0; i < colunas.length; i++) {
                     Type t = HibernateUtil.getColumnType(classRef, colunas[i]);
-                    
-                    cr[i] = Restrictions.like(colunas[i], "%" + valor.replaceAll("\\s+", "%") + "%");
+                    System.out.println(t);
+                    if (t instanceof org.hibernate.type.IntegerType) {
+                        if (isInteger) {
+                            cr.add(Restrictions.eq(colunas[i], new Integer(valor)));
+                        }
+                    } else {
+                        cr.add(Restrictions.like(colunas[i], "%" + valor.replaceAll("\\s+", "%") + "%"));
+
+                    }
                 }
-                c.add(Restrictions.or(cr));
+                Criterion[] cra = new Criterion[cr.size()];
+                for (int i = 0; i < cr.size(); i++) {
+                    cra[i] = cr.get(i);
+                }
+                c.add(Restrictions.or(cra));
+            }
+            if (order != null) {
+                c.addOrder(Order.asc(order));
             }
             Collection<T> r = c.list();
             return r;
