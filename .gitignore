@@ -23,10 +23,12 @@ $RECYCLE.BIN/
 
 # OSX
 # =========================
-.class
+*.class
 .DS_Store
 .AppleDouble
 .LSOverride
+
+hibernate.cfg.xml
 
 # Thumbnails
 ._*
@@ -41,3 +43,4 @@ $RECYCLE.BIN/
 Network Trash Folder
 Temporary Items
 .apdisk
+/src/GUIPratica/build/
