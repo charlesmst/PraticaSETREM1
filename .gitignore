@@ -28,6 +28,8 @@ $RECYCLE.BIN/
 .AppleDouble
 .LSOverride
 
+src\GUIPratica\nbproject\*
+
 hibernate.cfg.xml
 *.lock
 # Thumbnails

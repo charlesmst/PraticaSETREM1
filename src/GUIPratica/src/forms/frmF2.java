@@ -60,6 +60,7 @@ public class frmF2 extends javax.swing.JDialog {
         jTable1 = new JTableDataBinder();
         btnSelecionar = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
+        btnNovo = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -97,6 +98,8 @@ public class frmF2 extends javax.swing.JDialog {
 
         jButton2.setText("Cancelar");
 
+        btnNovo.setText("Novo");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -113,6 +116,8 @@ public class frmF2 extends javax.swing.JDialog {
                         .addComponent(btnSelecionar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnNovo)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -131,7 +136,9 @@ public class frmF2 extends javax.swing.JDialog {
                         .addComponent(btnSelecionar)
                         .addGap(7, 7, 7))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jButton2)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jButton2)
+                            .addComponent(btnNovo))
                         .addContainerGap())))
         );
 
@@ -141,6 +148,7 @@ public class frmF2 extends javax.swing.JDialog {
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnNovo;
     private javax.swing.JButton btnSelecionar;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel2;
