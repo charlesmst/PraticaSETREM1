@@ -3,44 +3,8 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Charles/Documents/GitHub/PraticaSETREM1/src/GUIPratica/src/utils/Forms.java</file>
-            <file>file:/C:/Users/Charles/Documents/GitHub/PraticaSETREM1/src/GUIPratica/src/model/Produto.java</file>
-            <file>file:/C:/Users/Charles/Documents/GitHub/PraticaSETREM1/src/GUIPratica/src/model/Promocao.java</file>
-            <file>file:/C:/Users/Charles/Documents/GitHub/PraticaSETREM1/src/GUIPratica/src/forms/frmBemVindo.java</file>
-            <file>file:/C:/Users/Charles/Documents/GitHub/PraticaSETREM1/src/GUIPratica/src/services/aul/MarcaService.java</file>
-            <file>file:/C:/Users/Charles/Documents/GitHub/PraticaSETREM1/src/GUIPratica/src/services/ServiceException.java</file>
-            <file>file:/C:/Users/Charles/Documents/GitHub/PraticaSETREM1/src/GUIPratica/src/components/JTableDataBinder.java</file>
-            <file>file:/C:/Users/Charles/Documents/GitHub/PraticaSETREM1/src/GUIPratica/src/utils/HibernateUtil.java</file>
-            <file>file:/C:/Users/Charles/Documents/GitHub/PraticaSETREM1/src/GUIPratica/src/tests/Tests.java</file>
-            <file>file:/C:/Users/Charles/Documents/GitHub/PraticaSETREM1/src/GUIPratica/src/hibernate.cfg.xml</file>
-            <file>file:/C:/Users/Charles/Documents/GitHub/PraticaSETREM1/src/GUIPratica/src/forms/frmMain.java</file>
-            <file>file:/C:/Users/Charles/Documents/GitHub/PraticaSETREM1/src/GUIPratica/src/components/JDataTableModel.java</file>
-            <file>file:/C:/Users/Charles/Documents/GitHub/PraticaSETREM1/src/GUIPratica/src/forms/frmLogin.java</file>
-            <file>file:/C:/Users/Charles/Documents/GitHub/PraticaSETREM1/src/GUIPratica/src/utils/Utils.java</file>
-            <file>file:/C:/Users/Charles/Documents/GitHub/PraticaSETREM1/src/GUIPratica/src/model/Especificacao.java</file>
-            <file>file:/C:/Users/Charles/Documents/GitHub/PraticaSETREM1/src/GUIPratica/src/forms/frmMarca.java</file>
-            <file>file:/C:/Users/Charles/Documents/GitHub/PraticaSETREM1/src/GUIPratica/src/services/UsuarioService.java</file>
-            <file>file:/C:/Users/Charles/Documents/GitHub/PraticaSETREM1/src/GUIPratica/src/model/Marca.java</file>
-            <file>file:/C:/Users/Charles/Documents/GitHub/PraticaSETREM1/src/GUIPratica/src/services/Service.java</file>
-            <file>file:/C:/Users/Charles/Documents/GitHub/PraticaSETREM1/src/GUIPratica/src/forms/frmProduto.java</file>
-            <file>file:/C:/Users/Charles/Documents/GitHub/PraticaSETREM1/src/GUIPratica/src/forms/jPanelModelo.java</file>
-            <file>file:/C:/Users/Charles/Documents/GitHub/PraticaSETREM1/src/GUIPratica/src/forms/frmUsuarios.java</file>
-            <file>file:/C:/Users/Charles/Documents/GitHub/PraticaSETREM1/src/GUIPratica/src/model/EspecificacaoProduto.java</file>
-            <file>file:/C:/Users/Charles/Documents/GitHub/PraticaSETREM1/src/GUIPratica/src/components/JDataTable.java</file>
-            <file>file:/C:/Users/Charles/Documents/GitHub/PraticaSETREM1/src/GUIPratica/src/model/Segmento.java</file>
-            <file>file:/C:/Users/Charles/Documents/GitHub/PraticaSETREM1/src/GUIPratica/src/forms/frmTopoTexto.java</file>
-            <file>file:/C:/Users/Charles/Documents/GitHub/PraticaSETREM1/src/GUIPratica/src/utils/AlertaTipos.java</file>
-            <file>file:/C:/Users/Charles/Documents/GitHub/PraticaSETREM1/src/GUIPratica/src/components/JTableDataBinderListener.java</file>
-            <file>file:/C:/Users/Charles/Documents/GitHub/PraticaSETREM1/src/GUIPratica/src/utils/ConnectionUtil.java</file>
-            <file>file:/C:/Users/Charles/Documents/GitHub/PraticaSETREM1/src/GUIPratica/src/components/JValidadorDeCampos.java</file>
-            <file>file:/C:/Users/Charles/Documents/GitHub/PraticaSETREM1/src/GUIPratica/test/BLL/RepositoryTest.java</file>
-            <file>file:/C:/Users/Charles/Documents/GitHub/PraticaSETREM1/src/GUIPratica/src/model/Pessoa.java</file>
-            <file>file:/C:/Users/Charles/Documents/GitHub/PraticaSETREM1/src/GUIPratica/src/components/JCampoBusca.java</file>
-            <file>file:/C:/Users/Charles/Documents/GitHub/PraticaSETREM1/src/GUIPratica/src/components/JPanelControleButtons.java</file>
-            <file>file:/C:/Users/Charles/Documents/GitHub/PraticaSETREM1/src/GUIPratica/src/guipratica/GUIPratica.java</file>
-            <file>file:/C:/Users/Charles/Documents/GitHub/PraticaSETREM1/src/GUIPratica/src/components/treemenu/TreeNodeMenu.java</file>
-            <file>file:/C:/Users/Charles/Documents/GitHub/PraticaSETREM1/src/GUIPratica/src/model/Usuario.java</file>
-            <file>file:/C:/Users/Charles/Documents/GitHub/PraticaSETREM1/src/GUIPratica/src/forms/ordem/frmOrdemServico.java</file>
+            <file>file:/C:/Users/Charles/Documents/GitHub/PraticaSETREM1/src/GUIPratica/src/components/F2.java</file>
+            <file>file:/C:/Users/Charles/Documents/GitHub/PraticaSETREM1/src/GUIPratica/src/forms/frmF2.java</file>
         </group>
     </open-files>
 </project-private>

@@ -29,7 +29,7 @@ $RECYCLE.BIN/
 .LSOverride
 
 hibernate.cfg.xml
-
+*.lock
 # Thumbnails
 ._*
 
