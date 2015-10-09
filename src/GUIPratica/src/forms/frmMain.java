@@ -31,7 +31,7 @@ import utils.AlertaTipos;
  *
  * @author Charles
  */
-public class frmMain extends javax.swing.JFrame {
+public class FrmMain extends javax.swing.JFrame {
 
     public JPanelControleButtons getCurrentComponent() {
         JPanelControleButtons comp = null;
@@ -44,9 +44,9 @@ public class frmMain extends javax.swing.JFrame {
         return comp;
     }
 
-    private static frmMain instance;
+    private static FrmMain instance;
 
-    public static frmMain getInstance() {
+    public static FrmMain getInstance() {
         return instance;
     }
 
@@ -61,7 +61,7 @@ public class frmMain extends javax.swing.JFrame {
     /**
      * Creates new form frmMain
      */
-    public frmMain() {
+    public FrmMain() {
         if (instance == null) {
             instance = this;
         }
@@ -78,7 +78,7 @@ public class frmMain extends javax.swing.JFrame {
     }
 
     private void setupWelcome() {
-        jtabs.addTab("Bem Vindo", new frmBemVindo());
+        jtabs.addTab("Bem Vindo", new FrmBemVindo());
     }
 
     private void setupFrame() {
@@ -164,12 +164,12 @@ public class frmMain extends javax.swing.JFrame {
 //        estoque.add(new DefaultMutableTreeNode("Tipos de produtos"));
 //        root.add(estoque);
         DefaultMutableTreeNode gerenciamento = new DefaultMutableTreeNode("Gerenciamento");
-        gerenciamento.add(new TreeNodeMenu("Produtos", "forms.frmProduto"));
+        gerenciamento.add(new TreeNodeMenu("Produtos", "forms.FrmProduto"));
 
-        gerenciamento.add(new TreeNodeMenu("Marcas", "forms.frmMarca"));
-        gerenciamento.add(new TreeNodeMenu("Usuários", "forms.frmUsuarios"));     
+        gerenciamento.add(new TreeNodeMenu("Marcas", "forms.aula.FrmMarca"));
+        gerenciamento.add(new TreeNodeMenu("Usuários", "forms.FrmUsuarios"));     
         
-        gerenciamento.add(new TreeNodeMenu("Ordem de Serviço", "forms.ordem.frmOrdemServico"));
+        gerenciamento.add(new TreeNodeMenu("Ordem de Serviço", "forms.ordem.FrmOrdemServico"));
 
 
         root.add(gerenciamento);
@@ -551,20 +551,21 @@ public class frmMain extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(frmMain.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmMain.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(frmMain.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmMain.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(frmMain.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmMain.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(frmMain.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmMain.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new frmMain().setVisible(true);
+                new FrmMain().setVisible(true);
             }
         });
     }

@@ -5,8 +5,8 @@
  */
 package components;
 
-import forms.frmMain;
-import forms.frmTopoTexto;
+import forms.FrmMain;
+import forms.FrmTopoTexto;
 import java.awt.LayoutManager;
 import javax.swing.GroupLayout;
 import javax.swing.JPanel;
@@ -57,7 +57,7 @@ public abstract class JPanelControleButtons extends JPanel {
     }
 
     public final boolean isAtivo() {
-        frmMain frm = frmMain.getInstance();
+        FrmMain frm = FrmMain.getInstance();
         return frm.getCurrentComponent() == this;
     }
 
@@ -103,7 +103,7 @@ public abstract class JPanelControleButtons extends JPanel {
 
     public final void fireButtonsChanged() {
         if (isAtivo()) {
-            frmMain.getInstance().refreshButtons();
+            FrmMain.getInstance().refreshButtons();
         }
     }
 

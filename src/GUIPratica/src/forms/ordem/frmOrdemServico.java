@@ -15,10 +15,10 @@ import javax.swing.JOptionPane;
  *
  * @author Charles
  */
-public class frmOrdemServico extends JPanelControleButtons {
+public class FrmOrdemServico extends JPanelControleButtons {
 
     JValidadorDeCampos validador;
-    public frmOrdemServico() {
+    public FrmOrdemServico() {
         initComponents();
         setBtnAlterarEnable(true);     
         setBtnExcluirEnable(true);

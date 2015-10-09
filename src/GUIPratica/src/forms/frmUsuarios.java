@@ -30,12 +30,12 @@ import utils.AlertaTipos;
  *
  * @author Charles
  */
-public class frmUsuarios extends JPanelControleButtons {
+public class FrmUsuarios extends JPanelControleButtons {
 
     private final UsuarioService service;
     JTableDataBinder table;
 
-    public frmUsuarios() {
+    public FrmUsuarios() {
         initComponents();
         setBtnAddEnable(true);
 

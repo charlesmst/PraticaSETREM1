@@ -56,9 +56,13 @@ public abstract class Service<T> {
 
     public T findById(Serializable id, boolean full) {
         Session s = getSession();
-        T obj = (T) s.get(classRef, id);
+        T obj  ;
         if (full) {
             //@todo implementar load full
+            obj = (T) s.load(classRef, id);
+
+        } else {
+            obj = (T) s.get(classRef, id);
         }
         autoClose(s);
         return obj;

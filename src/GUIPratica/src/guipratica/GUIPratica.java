@@ -6,8 +6,8 @@
 package guipratica;
 
 import com.alee.laf.WebLookAndFeel;
-import forms.frmLogin;
-import forms.frmMain;
+import forms.FrmLogin;
+import forms.FrmMain;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.UIManager;
@@ -20,13 +20,13 @@ public class GUIPratica {
 
     public GUIPratica() {
         LoginListener evento = new LoginListener();
-        frmLogin login = new frmLogin(null, true);
+        FrmLogin login = new FrmLogin(null, true);
         login.setAutenticadoListener(evento);
         login.setVisible(true);
 
         if (evento.isAutenticou()) {
-            frmMain frm;
-            frm = new frmMain();
+            FrmMain frm;
+            frm = new FrmMain();
             frm.setVisible(true);
         }
     }

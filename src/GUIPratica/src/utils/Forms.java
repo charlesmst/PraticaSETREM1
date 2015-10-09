@@ -6,7 +6,7 @@
 
 package utils;
 
-import forms.frmMain;
+import forms.FrmMain;
 
 /**
  *
@@ -17,15 +17,15 @@ public class Forms {
      * Mostra mensagem na tela
      */
     public static void mensagem(String mensagem, AlertaTipos tipo){
-        frmMain.getInstance().alert(mensagem);
-        frmMain.getInstance().setIcone(tipo);
+        FrmMain.getInstance().alert(mensagem);
+        FrmMain.getInstance().setIcone(tipo);
     }
 
     public static void iniciaProgress() {
-        frmMain.getInstance().iniciaProgress();
+        FrmMain.getInstance().iniciaProgress();
     }
     
     public static void paraProgress() {
-        frmMain.getInstance().paraProgress();
+        FrmMain.getInstance().paraProgress();
     }
 }

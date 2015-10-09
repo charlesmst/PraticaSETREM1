@@ -3,28 +3,74 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package forms;
+package forms.aula;
 
-import antlr.actions.cpp.ActionLexer;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import components.JValidadorDeCampos;
+import model.aula.Marca;
+import services.aul.MarcaService;
+import utils.AlertaTipos;
 
 /**
  *
  * @author Charles
  */
-public class FrmLogin extends javax.swing.JDialog {
+public class FrmMarcaCadastro extends javax.swing.JDialog {
 
-    public FrmLogin(java.awt.Frame parent, boolean modal) {
-        super(parent, modal);
-        initComponents();
-        setupFrame();
+    private int id;
+    private final MarcaService service = new MarcaService();
+    private final JValidadorDeCampos validator = new JValidadorDeCampos();
+
+    /**
+     * Creates new form frmCadastroMarca
+     */
+    public FrmMarcaCadastro(java.awt.Frame parent, boolean modal) {
+        this(parent, modal, 0);
     }
 
-    ActionListener autenticadoEvent;
+    public FrmMarcaCadastro(java.awt.Frame parent, boolean modal, int id) {
+        super(parent, modal);
+        initComponents();
+        this.id = id;
+        setupForm();
+    }
 
-    public void setAutenticadoListener(ActionListener ac) {
-        autenticadoEvent = ac;
+    private void setupForm() {
+        txtCodigo.setEditable(false);
+        validator.validarObrigatorio(txtNome);
+
+        if (id > 0) {
+            load();
+        }
+    }
+
+    private void load() {
+        Marca m = service.findById(id);
+        txtCodigo.setText(String.valueOf(m.getId()));
+        txtNome.setText(m.getNome());
+    }
+
+    private void save() {
+        if (!validator.isValido()) {
+            return;
+        }
+        Marca m;
+        if (id > 0) {
+            m = service.findById(id);
+        } else {
+            m = new Marca();
+        }
+        m.setNome(txtNome.getText());
+
+        try {
+
+            if (id > 0) {
+                service.insert(m);
+            } else {
+                service.update(m);
+            }
+        } catch (Exception e) {
+            utils.Forms.mensagem(e.getMessage(), AlertaTipos.erro);
+        }
     }
 
     /**
@@ -37,23 +83,22 @@ public class FrmLogin extends javax.swing.JDialog {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
-        txtUsuario = new javax.swing.JTextField();
+        txtCodigo = new javax.swing.JTextField();
+        txtNome = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
-        txtSenha = new javax.swing.JTextField();
-        btnLogin = new javax.swing.JButton();
+        btnSalvar = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setModal(true);
 
-        jLabel1.setText("Usuário:");
+        jLabel1.setText("Código");
 
-        jLabel2.setText("Senha:");
+        jLabel2.setText("Nome");
 
-        btnLogin.setText("Login");
-        btnLogin.addActionListener(new java.awt.event.ActionListener() {
+        btnSalvar.setText("Salvar");
+        btnSalvar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnLoginActionPerformed(evt);
+                btnSalvarActionPerformed(evt);
             }
         });
 
@@ -71,51 +116,47 @@ public class FrmLogin extends javax.swing.JDialog {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtUsuario)
-                    .addComponent(txtSenha)
+                    .addComponent(txtCodigo)
+                    .addComponent(txtNome)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel1)
                             .addComponent(jLabel2)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(btnLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(btnSalvar)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(btnCancelar)))
-                        .addGap(0, 170, Short.MAX_VALUE)))
+                        .addGap(0, 236, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(27, 27, 27)
+                .addContainerGap()
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtSenha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 19, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnLogin)
+                    .addComponent(btnSalvar)
                     .addComponent(btnCancelar))
-                .addContainerGap(32, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
-        if (autenticadoEvent != null) {
-            autenticadoEvent.actionPerformed(new ActionEvent(evt, 1, "autenticado", 1));
-        }
-        dispose();
-    }//GEN-LAST:event_btnLoginActionPerformed
-
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
         dispose();
-
     }//GEN-LAST:event_btnCancelarActionPerformed
+
+    private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
+        save();
+    }//GEN-LAST:event_btnSalvarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -134,13 +175,13 @@ public class FrmLogin extends javax.swing.JDialog {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(FrmLogin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmMarcaCadastro.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(FrmLogin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmMarcaCadastro.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(FrmLogin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmMarcaCadastro.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(FrmLogin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmMarcaCadastro.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
         //</editor-fold>
@@ -148,7 +189,7 @@ public class FrmLogin extends javax.swing.JDialog {
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                FrmLogin dialog = new FrmLogin(new javax.swing.JFrame(), true);
+                FrmMarcaCadastro dialog = new FrmMarcaCadastro(new javax.swing.JFrame(), true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
@@ -162,16 +203,10 @@ public class FrmLogin extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancelar;
-    private javax.swing.JButton btnLogin;
+    private javax.swing.JButton btnSalvar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JTextField txtSenha;
-    private javax.swing.JTextField txtUsuario;
+    private javax.swing.JTextField txtCodigo;
+    private javax.swing.JTextField txtNome;
     // End of variables declaration//GEN-END:variables
-
-    private void setupFrame() {
-
-        setLocationRelativeTo(null);
-
-    }
 }

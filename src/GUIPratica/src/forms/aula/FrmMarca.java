@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package forms;
+package forms.aula;
 
 import components.JCampoBusca;
 import java.awt.event.ActionEvent;
@@ -26,12 +26,12 @@ import utils.AlertaTipos;
  *
  * @author Charles
  */
-public class frmMarca extends JPanelControleButtons {
+public class FrmMarca extends JPanelControleButtons {
 
 
     private final MarcaService service;
     JTableDataBinder table;
-    public frmMarca() {
+    public FrmMarca() {
         initComponents();
         setBtnAddEnable(true);        
         setBtnAlterarEnable(true);

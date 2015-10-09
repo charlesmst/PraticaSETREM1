@@ -18,10 +18,10 @@ import utils.AlertaTipos;
  *
  * @author Charles
  */
-public class frmBemVindo extends JPanelControleButtons {
+public class FrmBemVindo extends JPanelControleButtons {
 
     JValidadorDeCampos validador = new JValidadorDeCampos();
-    public frmBemVindo() {
+    public FrmBemVindo() {
         initComponents();
         validador.validarObrigatorio(jTextField1);
         validador.validar(jTextField1, ValidacoesTipos.numero);

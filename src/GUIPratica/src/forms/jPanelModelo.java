@@ -10,12 +10,12 @@ package forms;
  *
  * @author Charles
  */
-public class jPanelModelo extends javax.swing.JPanel {
+public class JPanelModelo extends javax.swing.JPanel {
 
     /**
      * Creates new form jPanelModelo
      */
-    public jPanelModelo() {
+    public JPanelModelo() {
         initComponents();
     }
 

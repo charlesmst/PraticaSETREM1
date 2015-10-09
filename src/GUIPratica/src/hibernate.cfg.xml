@@ -10,9 +10,9 @@
         <property name="hibernate.hbm2ddl.auto">update</property>
         <property name="hibernate.show_sql">true</property>
         <property name="hibernate.format_sql">true</property>
-        <mapping class="model.Marca"/>
-        <mapping class="model.Produto"/>
-        <mapping class="model.Segmento"/>       
+        <mapping class="model.aula.Marca"/>
+        <mapping class="model.aula.Produto"/>
+        <mapping class="model.aula.Segmento"/>       
         <!--<mapping class="model.Pessoa"/>-->
         <mapping class="model.Usuario"/>
 

@@ -17,11 +17,11 @@ import model.aula.Produto;
  *
  * @author Charles
  */
-public class frmProduto extends JPanelControleButtons {
+public class FrmProduto extends JPanelControleButtons {
 
 
 
-    public frmProduto() {
+    public FrmProduto() {
         initComponents();
         setBtnAddEnable(true);
      
