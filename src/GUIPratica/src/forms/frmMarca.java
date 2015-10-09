@@ -16,7 +16,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
-import model.Marca;
+import model.aula.Marca;
 import model.Usuario;
 import services.UsuarioService;
 import services.aul.MarcaService;

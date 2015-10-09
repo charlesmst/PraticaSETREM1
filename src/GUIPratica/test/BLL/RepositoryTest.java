@@ -8,7 +8,7 @@ package BLL;
 import services.Service;
 import java.io.Serializable;
 import java.util.Collection;
-import model.Marca;
+import model.aula.Marca;
 import org.hibernate.Session;
 import org.junit.After;
 import org.junit.AfterClass;

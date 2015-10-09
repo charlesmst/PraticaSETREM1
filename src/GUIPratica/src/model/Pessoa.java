@@ -1,58 +1,33 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package model;
 
-import java.io.Serializable;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
+import java.util.Date;
 
-/**
- *
- * @author Charles
- * @todo Implementar Cep
- */
-@Entity
-@SequenceGenerator(name = "seq_pessoa", allocationSize = 1, sequenceName = "seq_pessoa")
-@Table(name = "sh_pessoa")
-public class Pessoa implements Serializable{
+public class Pessoa  {
 
-    @Id
-    @GeneratedValue(generator = "seq_pessoa", strategy = GenerationType.SEQUENCE)
-    private int id;
-    private String nome;
+	private int id;
 
-//    @OneToOne(fetch = FetchType.LAZY, mappedBy = "sh_usuario",optional = true)
-    private Usuario usuario;
-    public int getId() {
-        return id;
-    }
+	private String nome;
 
-    public void setId(int id) {
-        this.id = id;
-    }
+	private String telefone;
 
-    public String getNome() {
-        return nome;
-    }
+	private String telefoneSecundario;
 
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
+	private Cidade cidade;
 
-    public Usuario getUsuario() {
-        return usuario;
-    }
+	private String email;
 
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
-    }
+	private Date dataNascimento;
+
+	private char tipo;
+
+	private String endereco;
+
+	public void insert() {
+
+	}
+
+	public void update() {
+
+	}
+
 }

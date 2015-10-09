@@ -10,7 +10,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import model.Marca;
+import model.aula.Marca;
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.service.spi.ServiceException;
@@ -18,6 +18,7 @@ import services.Service;
 
 
 public class MarcaService extends Service<Marca> {
+
 
     
     public MarcaService() {

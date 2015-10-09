@@ -10,8 +10,8 @@ import components.JPanelControleButtons;
 import components.JRepositoryModelListener;
 import java.util.HashMap;
 import java.util.Map;
-import model.Marca;
-import model.Produto;
+import model.aula.Marca;
+import model.aula.Produto;
 
 /**
  *

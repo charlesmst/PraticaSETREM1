@@ -9,7 +9,7 @@ import java.util.Iterator;
 import services.aul.MarcaService;
 import services.Service;
 import java.util.List;
-import model.Marca;
+import model.aula.Marca;
 import model.Usuario;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
