@@ -9,6 +9,7 @@ import forms.frmF2;
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.Cursor;
+import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
@@ -16,6 +17,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.function.BiConsumer;
 import javafx.scene.input.KeyCode;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
@@ -28,20 +30,30 @@ import utils.HibernateUtil;
  *
  * @author Charles
  */
-public class F2 {
+public class F2 extends JTextFieldIcone {
 
     private ThrowingFunction<Integer, String> listener;
     private final JLabel label;
-    private JTextField txt;
     private Class<? extends forms.frmF2> classRef;
 
-    public F2(JTextField txt, Class<? extends forms.frmF2> classRef) {
-        this.txt = txt;
+    private BiConsumer<Integer, String> valueSelectedListener;
+
+    public void setValueSelectedListener(BiConsumer<Integer, String> valueSelectedListener) {
+        this.valueSelectedListener = valueSelectedListener;
+    }
+
+    public F2(Class<? extends forms.frmF2> classRef, ThrowingFunction<Integer, String> a) {
+        super();
+        setBuscador(a);
         this.classRef = classRef;
 
         label = new JLabel();
 
-        setupLabel();
+        //Para não dar nullExceptionPointer, executa isso quando a janela está criada
+        EventQueue.invokeLater(() -> {
+
+            setupLabel();
+        });
 
         if (classRef != null) {
             KeyAdapter keyAdapter = new KeyAdapter() {
@@ -54,9 +66,9 @@ public class F2 {
 
                 }
             };
-            txt.addKeyListener(keyAdapter);
-            txt.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-            txt.addMouseListener(new MouseAdapter() {
+            this.addKeyListener(keyAdapter);
+            this.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+            this.addMouseListener(new MouseAdapter() {
                 public void mouseClicked(MouseEvent e) {
                     openDialog();
                 }
@@ -68,14 +80,14 @@ public class F2 {
 //            
 //            panel.add(lbl,2);
 //            panel.setBackground(Color.red);
-//            JRootPane pPai = txt.getRootPane();
-//            int x = txt.getX();
-//            int y = txt.getY();
-//            txt.getLayout().addLayoutComponent("LEADING", panel);
+//            JRootPane pPai = this.getRootPane();
+//            int x = this.getX();
+//            int y = this.getY();
+//            this.getLayout().addLayoutComponent("LEADING", panel);
 //            pPai.add(panel);
-//            pPai.remove(txt);
-//            panel.add(txt,1);
-//            panel.setBounds(x,y,txt.getWidth(),txt.getHeight());
+//            pPai.remove(this);
+//            panel.add(this,1);
+//            panel.setBounds(x,y,this.getWidth(),this.getHeight());
 
         }
 
@@ -84,8 +96,13 @@ public class F2 {
     private void openDialog() {
         try {
             frmF2 frm = classRef.newInstance();
-            frm.setBusca(txt.getText());
-            frm.setCallback((id, text) -> setSelected(id, text));
+            frm.setBusca(this.getText());
+            frm.setCallback((id, text) -> {
+                setSelected(id, text);
+                if (valueSelectedListener != null) {
+                    valueSelectedListener.accept(id, text);
+                }
+            });
             frm.setVisible(true);
         } catch (Exception ex) {
 
@@ -94,25 +111,27 @@ public class F2 {
     }
 
     private final void setSelected(int id, String desc) {
-        txt.setText(String.valueOf(id));
+        this.setText(String.valueOf(id));
         label.setText(desc);
     }
 
     private void setupLabel() {
 
-        Container parent = txt.getParent();
-        parent.add(label);
+//        Container parent = this.getParent();
+        getRootPane().add(label);
         posicionaLabel();
 
     }
 
     private void posicionaLabel() {
 
-        int x = txt.getX() + txt.getWidth() + 6;
-        int y = ((int) (txt.getHeight() + 16) / 2) + txt.getY() - 16;
-//        label.setLocation(x, control.getY());
+        int x = this.getX() + this.getWidth() + 6;
+        int y = ((int) (this.getHeight() + 16) / 2) + this.getY() - 16;
+        label.setLocation(x, y);
+        label.setText("teste");
 //        label.setLocation(0,0);
-        label.setLabelFor(txt);
+        label.setLabelFor(this);
+
         // label.setBounds(x, y, 16, 16);
 //            label.setLocation(Integer.parseInt(JOptionPane.showInputDialog("x")), Integer.parseInt(JOptionPane.showInputDialog("y")));
     }
@@ -123,11 +142,11 @@ public class F2 {
         this.listener = a;
 
         if (!wasOne) {
-            new JCampoBusca(txt, () -> {
+            new JCampoBusca(this, () -> {
                 if (listener != null) {
                     String v = "";
-                    if (utils.Utils.isNumber(txt.getText())) {
-                        v = listener.apply(Integer.parseInt(txt.getText()));
+                    if (utils.Utils.isNumber(this.getText())) {
+                        v = listener.apply(Integer.parseInt(this.getText()));
                     }
                     label.setText(v);
                 }

@@ -23,7 +23,6 @@ public class FrmSegmentoCadastro extends JDialogController {
 
     private int id;
     private final SegmentoService service = new SegmentoService();
-    private final JValidadorDeCampos validator = new JValidadorDeCampos();
 
     /**
      * Creates new form frmCadastroSegmento

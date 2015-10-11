@@ -23,7 +23,6 @@ public class FrmMarcaCadastro extends JDialogController {
 
     private int id;
     private final MarcaService service = new MarcaService();
-    private final JValidadorDeCampos validator = new JValidadorDeCampos();
 
     /**
      * Creates new form frmCadastroMarca

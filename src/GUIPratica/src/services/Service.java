@@ -73,12 +73,14 @@ public abstract class Service<T> {
 
     public void insert(T obj) throws ServiceException {
         Session s = getSession();
+
+        Transaction t = s.beginTransaction();
         try {
-            Transaction t = s.beginTransaction();
             s.save(obj);
             t.commit();
 
         } catch (ConstraintViolationException e) {
+            t.rollback();
             throw new ServiceException("Erro ao inserir " + classRef.getSimpleName(), e, logger);
         } finally {
             autoClose(s);
@@ -89,12 +91,13 @@ public abstract class Service<T> {
 
     public void update(T obj) throws ServiceException {
         Session s = getSession();
+        Transaction t = s.beginTransaction();
 
         try {
-            Transaction t = s.beginTransaction();
             s.merge(obj);
             t.commit();
         } catch (ConstraintViolationException e) {
+            t.rollback();
             throw new ServiceException("Erro ao alterar " + classRef.getSimpleName(), e, logger);
         } finally {
             autoClose(s);
@@ -105,13 +108,14 @@ public abstract class Service<T> {
 
     public void delete(Serializable key) throws ServiceException {
         Session s = getSession();
+        Transaction t = s.beginTransaction();
 
         try {
-            Transaction t = s.beginTransaction();
             Object persistentInstance = s.load(classRef, key);
             s.delete(persistentInstance);
             t.commit();
         } catch (ConstraintViolationException e) {
+            t.rollback();
             throw new ServiceException("Erro ao excluir " + classRef.getSimpleName(), e, logger);
         } finally {
             autoClose(s);
@@ -181,7 +185,7 @@ public abstract class Service<T> {
                         if (!gone.contains(table)) {
                             gone.add(table);
                             String nome = Character.toString((char) ((char) 'A' + (char) gone.indexOf(table)));
-                
+
                             c.createAlias(table, "tab" + nome);
                         }
                         //Adjust column name

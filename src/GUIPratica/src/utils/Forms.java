@@ -6,29 +6,18 @@
 package utils;
 
 import forms.frmMain;
-import java.awt.AWTException;
-import java.awt.Component;
-import java.awt.KeyEventDispatcher;
-import java.awt.KeyboardFocusManager;
-import java.awt.Robot;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
-import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowEvent;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
-import javax.swing.InputMap;
 import javax.swing.JComponent;
 import javax.swing.JDialog;
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 import javax.swing.JRootPane;
-import javax.swing.JTextField;
 import javax.swing.KeyStroke;
+import org.apache.log4j.LogManager;
 
 /**
  *
@@ -39,11 +28,15 @@ public class Forms {
     /**
      * Mostra mensagem na tela
      */
-    public static void mensagem(String mensagem, AlertaTipos tipo) {
-        frmMain.getInstance().alert(mensagem);
+    public static void mensagem(String text, AlertaTipos tipo) {
+        mensagem(text, tipo,true);
+    }
+
+    public static void mensagem(String text, AlertaTipos tipo,boolean beepOnError) {
+        frmMain.getInstance().alert(text);
         frmMain.getInstance().setIcone(tipo);
 
-        if (tipo == AlertaTipos.erro) {
+        if (tipo == AlertaTipos.erro && beepOnError) {
             beep();
         }
     }
@@ -85,5 +78,9 @@ public class Forms {
     public static boolean dialogDelete() {
         int dialogResult = JOptionPane.showConfirmDialog(null, Mensagens.exclusaoConfirmacao);
         return (dialogResult == JOptionPane.YES_OPTION);
+    }
+    
+    public static void log(Exception ex){
+         LogManager.getLogger(Forms.class).error(ex.getMessage(), ex);
     }
 }

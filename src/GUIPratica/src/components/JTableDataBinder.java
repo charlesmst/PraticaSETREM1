@@ -97,8 +97,12 @@ public class JTableDataBinder<T> extends JTable {
 
         model.setRowCount(0);
 
-        for (T linha : c) {
-            model.addRow(listener.addRow(linha));
+        try {
+            for (T linha : c) {
+                model.addRow(listener.addRow(linha));
+            }
+        } catch (Exception e) {
+            utils.Forms.log(e);
         }
 
         if (model.getRowCount() > wasSelected && wasSelected >= 0) {
@@ -113,7 +117,8 @@ public class JTableDataBinder<T> extends JTable {
     public void setListener(JTableDataBinderListener listener) {
         this.listener = listener;
     }
-    public DefaultTableModel getDefaultTableModel(){
-        return (DefaultTableModel)getModel();
+
+    public DefaultTableModel getDefaultTableModel() {
+        return (DefaultTableModel) getModel();
     }
 }

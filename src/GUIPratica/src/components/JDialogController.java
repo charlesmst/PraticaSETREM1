@@ -5,6 +5,7 @@
  */
 package components;
 
+import java.awt.EventQueue;
 import java.awt.Frame;
 import javax.swing.JButton;
 import javax.swing.JRootPane;
@@ -16,12 +17,18 @@ import javax.swing.SwingUtilities;
  */
 public class JDialogController extends javax.swing.JDialog {
 
+    protected final JValidadorDeCampos validator = new JValidadorDeCampos();
+
     public JDialogController(Frame owner, String title) {
         super(owner, title, true);
 
         utils.Forms.installEscapeCloseOperation(this);
-        
 
+        EventQueue.invokeLater(() -> {
+            if (validator != null) {
+                validator.isValido(false);
+            }
+        });
     }
 
     protected void setDefaultButton(JButton btnDefault) {

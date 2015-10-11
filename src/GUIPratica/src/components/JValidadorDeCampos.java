@@ -9,6 +9,7 @@ import services.Service;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
@@ -45,23 +46,19 @@ public class JValidadorDeCampos {
     private void addListener(final Component contro) {
 
         if (contro instanceof JTextComponent) {
-            ((JTextComponent) contro).addKeyListener(new KeyListener() {
-
-                @Override
-                public void keyTyped(KeyEvent e) {
-                }
-
-                @Override
-                public void keyPressed(KeyEvent e) {
-
-                }
-
+            ((JTextComponent) contro).addKeyListener(new KeyAdapter() {
                 @Override
                 public void keyReleased(KeyEvent e) {
                     validaControl(contro);
 
                 }
             });
+            if(contro instanceof F2){
+                ((F2)contro).setValueSelectedListener((id,text)->{
+                    validaControl(contro);
+                });
+                
+            }
         }
     }
 
@@ -108,6 +105,10 @@ public class JValidadorDeCampos {
     }
 
     public boolean isValido() {
+        return isValido(true);
+    }
+
+    public boolean isValido(boolean beep) {
         boolean valido = true;
 
         for (Map.Entry<Component, List<ValidacaoCampos>> entry : controls.entrySet()) {
@@ -119,7 +120,7 @@ public class JValidadorDeCampos {
         }
 
         if (!valido) {
-            utils.Forms.mensagem(utils.Mensagens.verifiqueCampos, AlertaTipos.erro);
+            utils.Forms.mensagem(utils.Mensagens.verifiqueCampos, AlertaTipos.erro, beep);
         }
         return valido;
     }
@@ -241,8 +242,9 @@ class ValidacaoCampos {
         }
         String s = getValorControl();
         //Se não tem nada é valido, pois deve ser verificado se é obrigatorio
-        if(s.equals(""))
+        if (s.equals("")) {
             return true;
+        }
         if (!validaNumero()) {
             return false;
         }
