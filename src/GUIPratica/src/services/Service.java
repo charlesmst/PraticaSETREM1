@@ -59,166 +59,203 @@ public abstract class Service<T> {
 
     public T findById(Serializable id, boolean full) {
         Session s = getSession();
-        T obj;
-        if (full) {
-            //@todo implementar load full
-            obj = (T) s.load(classRef, id);
+        synchronized (s) {
+            T obj;
+            try {
+                if (full) {
+                    //@todo implementar load full
+                    obj = (T) s.load(classRef, id);
 
-        } else {
-            obj = (T) s.get(classRef, id);
+                } else {
+                    obj = (T) s.get(classRef, id);
+                }
+
+                return obj;
+            } finally {
+                autoClose(s);
+            }
         }
-        autoClose(s);
-        return obj;
+
     }
 
     public void insert(T obj) throws ServiceException {
         Session s = getSession();
+        synchronized (s) {
+            Transaction t = s.beginTransaction();
+            try {
+                s.save(obj);
+                t.commit();
 
-        Transaction t = s.beginTransaction();
-        try {
-            s.save(obj);
-            t.commit();
+            } catch (ConstraintViolationException e) {
+                t.rollback();
+                throw new ServiceException("Erro ao inserir " + classRef.getSimpleName(), e, logger);
+            } finally {
+                autoClose(s);
 
-        } catch (ConstraintViolationException e) {
-            t.rollback();
-            throw new ServiceException("Erro ao inserir " + classRef.getSimpleName(), e, logger);
-        } finally {
-            autoClose(s);
-
+            }
         }
 //        s.close();
     }
 
     public void update(T obj) throws ServiceException {
         Session s = getSession();
-        Transaction t = s.beginTransaction();
+        synchronized (s) {
+            Transaction t = s.beginTransaction();
 
-        try {
-            s.merge(obj);
-            t.commit();
-        } catch (ConstraintViolationException e) {
-            t.rollback();
-            throw new ServiceException("Erro ao alterar " + classRef.getSimpleName(), e, logger);
-        } finally {
-            autoClose(s);
+            try {
+                s.merge(obj);
+                t.commit();
+            } catch (ConstraintViolationException e) {
+                t.rollback();
+                throw new ServiceException("Erro ao alterar " + classRef.getSimpleName(), e, logger);
+            } finally {
+                autoClose(s);
 
+            }
         }
 //        s.close();
     }
 
     public void delete(Serializable key) throws ServiceException {
         Session s = getSession();
-        Transaction t = s.beginTransaction();
+        synchronized (s) {
+            Transaction t = s.beginTransaction();
 
-        try {
-            Object persistentInstance = s.load(classRef, key);
-            s.delete(persistentInstance);
-            t.commit();
-        } catch (ConstraintViolationException e) {
-            t.rollback();
-            throw new ServiceException("Erro ao excluir " + classRef.getSimpleName(), e, logger);
-        } finally {
-            autoClose(s);
+            try {
+                Object persistentInstance = s.load(classRef, key);
+                s.delete(persistentInstance);
+                t.commit();
+            } catch (ConstraintViolationException e) {
+                t.rollback();
+                throw new ServiceException("Erro ao excluir " + classRef.getSimpleName(), e, logger);
+            } finally {
+                autoClose(s);
 
+            }
         }
 
     }
 
     public Collection<T> findAll(String order) {
-        return getSession().createQuery("from " + classRef.getSimpleName() + " order by " + order).list();
+        Session s = getSession();
+        synchronized (s) {
+            try {
+                return s.createQuery("from " + classRef.getSimpleName() + " order by " + order).list();
+            } finally {
+                autoClose(s);
+            }
+        }
     }
 
     public Collection<T> findAll() {
-        return getSession().createQuery("from " + classRef.getSimpleName()).list();
-    }
-
-    protected Collection<T> findFilter(Criterion[] no) throws ServiceException {
         Session s = getSession();
-        try {
-            Criteria cr = s.createCriteria(classRef);
-            for (Criterion no1 : no) {
-                cr.add(no1);
+        synchronized (s) {
+            try {
+                return s.createQuery("from " + classRef.getSimpleName()).list();
+            } finally {
+                autoClose(s);
             }
-            return cr.list();
-        } catch (ConstraintViolationException e) {
-            throw new ServiceException("Erro ao selecionar registros de " + classRef.getSimpleName(), e, logger);
-        } finally {
-            s.close();
-
         }
 
     }
 
-    public Iterator findAllIterator() {
-        return getSession().createQuery("from " + classRef.getSimpleName()).iterate();
+    protected Collection<T> findFilter(Criterion[] no) throws ServiceException {
+        Session s = getSession();
+        synchronized (s) {
+            try {
+                Criteria cr = s.createCriteria(classRef);
+                for (Criterion no1 : no) {
+                    cr.add(no1);
+                }
+                return cr.list();
+            } catch (ConstraintViolationException e) {
+                throw new ServiceException("Erro ao selecionar registros de " + classRef.getSimpleName(), e, logger);
+            } finally {
+                autoClose(s);
+
+            }
+        }
     }
+//
+//    public Iterator findAllIterator() {
+//        return getSession().createQuery("from " + classRef.getSimpleName()).iterate();
+//    }
 
     public Collection<T> findBy(String column, Serializable value) {
         return findBy(column, value, "=");
     }
 
     public Collection<T> findBy(String column, Serializable value, String operador) {
-        return getSession().createQuery("from " + classRef.getSimpleName() + " where " + column + " = ").list();
+        Session s = getSession();
+        synchronized (s) {
+            try {
+                return s.createQuery("from " + classRef.getSimpleName() + " where " + column + " = ").list();
+            } finally {
+                autoClose(s);
+            }
+        }
+//        return getSession();
     }
 
     public Collection<T> findByMultipleColumns(String valor, String order, String... colunas) throws ServiceException {
         Session s = getSession();
-        try {
-            Criteria c = s.createCriteria(classRef);
-            if (!valor.equals("")) {
+        synchronized (s) {
+            try {
+                Criteria c = s.createCriteria(classRef);
+                if (!valor.equals("")) {
 
-                ArrayList<Criterion> cr = new ArrayList<>();
-                boolean isInteger = false;
-                try {
-                    Integer.parseInt(valor);
-                    isInteger = true;
-                } catch (Exception e) {
-                }
-                ArrayList<String> gone = new ArrayList<>();
-
-                for (int i = 0; i < colunas.length; i++) {
-                    Type t = HibernateUtil.getColumnType(classRef, colunas[i]);
-                    String coluna = colunas[i];
-                    //Verify if is necessary to create an alias
-                    if (coluna.contains(".")) {
-                        String table = coluna.substring(0, coluna.indexOf("."));
-                        if (!gone.contains(table)) {
-                            gone.add(table);
-                            String nome = Character.toString((char) ((char) 'A' + (char) gone.indexOf(table)));
-
-                            c.createAlias(table, "tab" + nome);
-                        }
-                        //Adjust column name
-                        colunas[i] = coluna.replaceAll("^[^\\.]+(\\..+)$", "tab" + Character.toString((char) ((char) 'A' + (char) gone.indexOf(table))) + "$1");
-
+                    ArrayList<Criterion> cr = new ArrayList<>();
+                    boolean isInteger = false;
+                    try {
+                        Integer.parseInt(valor);
+                        isInteger = true;
+                    } catch (Exception e) {
                     }
-                    if (t instanceof org.hibernate.type.IntegerType) {
-                        if (isInteger) {
-                            cr.add(Restrictions.eq(colunas[i], new Integer(valor)));
+                    ArrayList<String> gone = new ArrayList<>();
+
+                    for (int i = 0; i < colunas.length; i++) {
+                        Type t = HibernateUtil.getColumnType(classRef, colunas[i]);
+                        String coluna = colunas[i];
+                        //Verify if is necessary to create an alias
+                        if (coluna.contains(".")) {
+                            String table = coluna.substring(0, coluna.indexOf("."));
+                            if (!gone.contains(table)) {
+                                gone.add(table);
+                                String nome = Character.toString((char) ((char) 'A' + (char) gone.indexOf(table)));
+
+                                c.createAlias(table, "tab" + nome);
+                            }
+                            //Adjust column name
+                            colunas[i] = coluna.replaceAll("^[^\\.]+(\\..+)$", "tab" + Character.toString((char) ((char) 'A' + (char) gone.indexOf(table))) + "$1");
+
                         }
-                    } else {
-                        cr.add(Restrictions.like(colunas[i], "%" + valor.replaceAll("\\s+", "%") + "%"));
+                        if (t instanceof org.hibernate.type.IntegerType) {
+                            if (isInteger) {
+                                cr.add(Restrictions.eq(colunas[i], new Integer(valor)));
+                            }
+                        } else {
+                            cr.add(Restrictions.like(colunas[i], "%" + valor.replaceAll("\\s+", "%") + "%"));
 
+                        }
                     }
+                    Criterion[] cra = new Criterion[cr.size()];
+                    for (int i = 0; i < cr.size(); i++) {
+                        cra[i] = cr.get(i);
+                    }
+                    c.add(Restrictions.or(cra));
                 }
-                Criterion[] cra = new Criterion[cr.size()];
-                for (int i = 0; i < cr.size(); i++) {
-                    cra[i] = cr.get(i);
+                if (order != null) {
+                    c.addOrder(Order.asc(order));
                 }
-                c.add(Restrictions.or(cra));
-            }
-            if (order != null) {
-                c.addOrder(Order.asc(order));
-            }
 
-            Collection<T> r = c.list();
-            return r;
-        } catch (HibernateException e) {
-            throw new ServiceException("Erro ao selecionar dados", e, logger);
-        } finally {
-            autoClose(s);
+                Collection<T> r = c.list();
+                return r;
+            } catch (HibernateException e) {
+                throw new ServiceException("Erro ao selecionar dados", e, logger);
+            } finally {
+                autoClose(s);
+            }
         }
-
     }
 
     public void close() {

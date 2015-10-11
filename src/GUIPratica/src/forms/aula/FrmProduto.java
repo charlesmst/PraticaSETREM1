@@ -47,7 +47,7 @@ public class FrmProduto extends JPanelControleButtons {
 
             @Override
             public Object[] addRow(Produto dado) {
-                return new Object[]{dado.getId(), dado.getDescricao(), dado.getMarca().getNome(),dado.getSegmento().getNome()};
+                return new Object[]{dado.getId(), dado.getDescricao(),dado.getMarca() != null ? dado.getMarca().getNome():"",dado.getSegmento() != null?dado.getSegmento().getNome():""};
 
             }
         });

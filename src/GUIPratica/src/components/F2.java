@@ -10,6 +10,8 @@ import java.awt.Color;
 import java.awt.Container;
 import java.awt.Cursor;
 import java.awt.EventQueue;
+import java.awt.FontMetrics;
+import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
@@ -32,8 +34,42 @@ import utils.HibernateUtil;
  */
 public class F2 extends JTextFieldIcone {
 
+    private String textValue;
+
+    @Override
+    public void paint(Graphics g) {
+        super.paint(g); //To change body of generated methods, choose Tools | Templates.
+        if (textValue != null) {
+            FontMetrics metrics = g.getFontMetrics(getFont());
+            
+            int widthUsed = metrics.stringWidth(getText());
+            int widthRequired = metrics.stringWidth(textValue)+ 30;
+            
+            String textDraw = textValue;
+            int x = 0;
+            int y = (int)Math.ceil(getHeight() + getFont().getSize2D() / 2 - (getFont().getSize2D())) - 2 ;
+            if(getWidth() >= (widthUsed + widthRequired)){
+                x =  getWidth() -  metrics.stringWidth(textValue) - 25;
+            }else{
+                //Calcula quanto do texto pode colocar
+                int usado = metrics.stringWidth("...");
+                int l = 0;
+                int available = getWidth() - 60 - metrics.stringWidth(getText());
+                for (int i = 0; i < textValue.length() && (usado + metrics.charWidth(textValue.charAt(i))) <= available; i++) {
+                    usado += metrics.charWidth(textValue.charAt(i));
+                    l++;
+                }
+                
+                textDraw = textValue.substring(0, l)+"...";
+                x = getWidth() - usado - 25;
+            }
+            g.drawString(textDraw, x,y);
+        }
+    }
+
+   
     private ThrowingFunction<Integer, String> listener;
-    private final JLabel label;
+//    private final JLabel label;
     private Class<? extends forms.frmF2> classRef;
 
     private BiConsumer<Integer, String> valueSelectedListener;
@@ -47,14 +83,12 @@ public class F2 extends JTextFieldIcone {
         setBuscador(a);
         this.classRef = classRef;
 
-        label = new JLabel();
-
         //Para não dar nullExceptionPointer, executa isso quando a janela está criada
         EventQueue.invokeLater(() -> {
 
-            setupLabel();
+            if(buscador != null)
+                buscador.go();
         });
-
         if (classRef != null) {
             KeyAdapter keyAdapter = new KeyAdapter() {
                 @Override
@@ -112,46 +146,58 @@ public class F2 extends JTextFieldIcone {
 
     private final void setSelected(int id, String desc) {
         this.setText(String.valueOf(id));
-        label.setText(desc);
+        setTextValue(desc);
+        repaint();
+    }
+//
+//    private void setupLabel() {
+//
+////        Container parent = this.getParent();
+//        getParent().add(label);
+//        posicionaLabel();
+//
+//    }
+
+    public String getTextValue() {
+        return textValue;
     }
 
-    private void setupLabel() {
-
-//        Container parent = this.getParent();
-        getRootPane().add(label);
-        posicionaLabel();
-
+    public void setTextValue(String textValue) {
+        this.textValue = textValue;
+        repaint();
     }
 
-    private void posicionaLabel() {
-
-        int x = this.getX() + this.getWidth() + 6;
-        int y = ((int) (this.getHeight() + 16) / 2) + this.getY() - 16;
-        label.setLocation(x, y);
-        label.setText("teste");
-//        label.setLocation(0,0);
-        label.setLabelFor(this);
-
-        // label.setBounds(x, y, 16, 16);
-//            label.setLocation(Integer.parseInt(JOptionPane.showInputDialog("x")), Integer.parseInt(JOptionPane.showInputDialog("y")));
-    }
-
+//    private void posicionaLabel() {
+//
+//        int x = this.getX() + this.getWidth() + 6;
+//        int y = ((int) (this.getHeight() + 16) / 2) + this.getY() - 16;
+//        label.setLocation(x, y);
+//        label.setText("teste");
+////        label.setLocation(0,0);
+//        label.setLabelFor(this);
+//
+//        // label.setBounds(x, y, 16, 16);
+////            label.setLocation(Integer.parseInt(JOptionPane.showInputDialog("x")), Integer.parseInt(JOptionPane.showInputDialog("y")));
+//    }
+    
+    private JCampoBusca buscador;
     public void setBuscador(ThrowingFunction<Integer, String> a) {
 
         boolean wasOne = listener != null;
         this.listener = a;
 
         if (!wasOne) {
-            new JCampoBusca(this, () -> {
+            buscador = new JCampoBusca(this, () -> {
                 if (listener != null) {
                     String v = "";
                     if (utils.Utils.isNumber(this.getText())) {
                         v = listener.apply(Integer.parseInt(this.getText()));
                     }
-                    label.setText(v);
+                    setTextValue(v);
                 }
             }
-            ).go();
+            );
+            buscador.go();
         }
     }
 }

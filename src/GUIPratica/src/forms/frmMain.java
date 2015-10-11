@@ -14,9 +14,10 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
-import components.treemenu.TreeMenuModel;
-import components.treemenu.TreeNodeMenu;
+import components.TreeMenuModel;
+import components.TreeNodeMenu;
 import components.JPanelControleButtons;
+import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.ImageIcon;
@@ -30,6 +31,7 @@ import utils.AlertaTipos;
 public class frmMain extends javax.swing.JFrame {
 
     private Timer timerAlert;
+    private boolean startedTree = false;
 
     public JPanelControleButtons getCurrentComponent() {
         JPanelControleButtons comp = null;
@@ -206,6 +208,7 @@ public class frmMain extends javax.swing.JFrame {
             i += 1;
             j = jTreeMenu.getRowCount();
         }
+        startedTree = true;
 
     }
 
@@ -215,7 +218,7 @@ public class frmMain extends javax.swing.JFrame {
         }
         if (current instanceof TreeNodeMenu) {
             TreeNodeMenu m = (TreeNodeMenu) current;
-            if (m.getPanel() == finding) {
+            if (m.instantiated() &&  m.getPanel() == finding) {
                 return m;
             }
         }
@@ -526,17 +529,23 @@ public class frmMain extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void jTreeMenuValueChanged(javax.swing.event.TreeSelectionEvent evt) {//GEN-FIRST:event_jTreeMenuValueChanged
-        TreePath path = evt.getNewLeadSelectionPath();
-        if (path != null) {
-            Object o = path.getLastPathComponent();
 
-            openTab((DefaultMutableTreeNode) o);
+        if (startedTree) {
+            TreePath path = evt.getNewLeadSelectionPath();
+            if (path != null) {
+                Object o = path.getLastPathComponent();
+
+                openTab((DefaultMutableTreeNode) o);
+            }
         }
     }//GEN-LAST:event_jTreeMenuValueChanged
 
     private void jtabsStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jtabsStateChanged
-        refreshButtons();
-        refreshSelectionTree();
+
+        if (startedTree && isVisible()) {
+            refreshSelectionTree();
+            refreshButtons();
+        }
         //Verifica se é pra mudar o menu selecionado
 
     }//GEN-LAST:event_jtabsStateChanged

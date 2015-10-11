@@ -11,6 +11,7 @@ import java.text.DateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import javax.swing.SwingWorker;
 
 /**
  *
@@ -18,7 +19,6 @@ import java.util.Map;
  */
 public class Utils {
 
-  
     public static Date convertDate(java.sql.Date date) {
         try {
 
@@ -30,7 +30,8 @@ public class Utils {
             return null;
         }
     }
-    public static boolean isNumber(String text){
+
+    public static boolean isNumber(String text) {
         try {
             Integer.parseInt(text);
             return true;
@@ -38,7 +39,28 @@ public class Utils {
             return false;
         }
     }
-    public static void safeCode(ThrowingCommand command){
-        command.action();
+
+    public static void safeCode(ThrowingCommand command) {
+        
+        SwingWorker worker;
+        worker = new CommandWorker(command);
+        worker.execute();
+    }
+
+    private static class CommandWorker extends SwingWorker {
+
+        private final ThrowingCommand command;
+
+        public CommandWorker(ThrowingCommand command) {
+            this.command = command;
+        }
+
+        @Override
+        protected Object doInBackground() throws Exception {
+            Forms.iniciaProgress();
+            command.action();
+            Forms.paraProgress();
+            return null;
+        }
     }
 }

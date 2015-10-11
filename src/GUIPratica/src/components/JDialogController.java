@@ -26,7 +26,7 @@ public class JDialogController extends javax.swing.JDialog {
 
         EventQueue.invokeLater(() -> {
             if (validator != null) {
-                validator.isValido(false);
+                validator.testComponents();
             }
         });
     }

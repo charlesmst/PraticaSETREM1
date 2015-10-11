@@ -53,11 +53,11 @@ public class JValidadorDeCampos {
 
                 }
             });
-            if(contro instanceof F2){
-                ((F2)contro).setValueSelectedListener((id,text)->{
+            if (contro instanceof F2) {
+                ((F2) contro).setValueSelectedListener((id, text) -> {
                     validaControl(contro);
                 });
-                
+
             }
         }
     }
@@ -106,6 +106,14 @@ public class JValidadorDeCampos {
 
     public boolean isValido() {
         return isValido(true);
+    }
+
+    public void testComponents() {
+        for (Map.Entry<Component, List<ValidacaoCampos>> entry : controls.entrySet()) {
+            Component component = entry.getKey();
+            validaControl(component);
+
+        }
     }
 
     public boolean isValido(boolean beep) {

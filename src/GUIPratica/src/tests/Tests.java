@@ -12,12 +12,14 @@ import java.util.List;
 import model.aula.Marca;
 import model.Usuario;
 import model.aula.Produto;
+import model.aula.Segmento;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.type.Type;
 import services.UsuarioService;
+import services.aul.SegmentoService;
 import utils.HibernateUtil;
 
 /**
@@ -77,15 +79,28 @@ public class Tests {
 //        });
 //        session.close();
 
-        Session session = HibernateUtil.getSessionFactory().openSession();
-        Criteria c = session.createCriteria(Produto.class);
-        c.createAlias("marca", "m");
-        c.add(Restrictions.eq("m.nome", "sadsadasdasfasf"));
-        for (Object list : c.list()) {
-            Produto p = (Produto) list;
-            System.out.println(p.getId());
-                        System.out.println(p.getMarca().getNome());
-
+//        Session session = HibernateUtil.getSessionFactory().openSession();
+//        Criteria c = session.createCriteria(Produto.class);
+//        c.createAlias("marca", "m");
+//        c.add(Restrictions.eq("m.nome", "sadsadasdasfasf"));
+//        for (Object list : c.list()) {
+//            Produto p = (Produto) list;
+//            System.out.println(p.getId());
+//                        System.out.println(p.getMarca().getNome());
+//
+//        }
+//        MarcaService service = new MarcaService();
+//        for (int i = 0; i < 10000; i++) {
+//            Marca m = new Marca();
+//            m.setNome("Marca "+i);
+//            service.insert(m);
+//        }
+//        
+        SegmentoService serviceSegmento = new SegmentoService();
+        for (int i = 0; i < 100000; i++) {
+            Segmento m = new Segmento();
+            m.setNome("Segmento "+i);
+            serviceSegmento.insert(m);
         }
     }
 }
