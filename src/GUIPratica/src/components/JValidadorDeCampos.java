@@ -25,7 +25,6 @@ import javax.swing.JTextField;
 import javax.swing.text.JTextComponent;
 import utils.AlertaTipos;
 
-
 /**
  *
  * @author Charles
@@ -54,7 +53,7 @@ public class JValidadorDeCampos {
 
                 @Override
                 public void keyPressed(KeyEvent e) {
-                   
+
                 }
 
                 @Override
@@ -119,7 +118,7 @@ public class JValidadorDeCampos {
 
         }
 
-        if(!valido){
+        if (!valido) {
             utils.Forms.mensagem(utils.Mensagens.verifiqueCampos, AlertaTipos.erro);
         }
         return valido;
@@ -157,6 +156,7 @@ class ValidacaoCampos {
 //        label.setLocation(0,0);
         label.setLabelFor(control);
         label.setBounds(x, y, 16, 16);
+//        ((JTextArea) control).setComponentZOrder(label, 1);
 //            label.setLocation(Integer.parseInt(JOptionPane.showInputDialog("x")), Integer.parseInt(JOptionPane.showInputDialog("y")));
     }
     boolean valido;
@@ -240,12 +240,20 @@ class ValidacaoCampos {
             return false;
         }
         String s = getValorControl();
+        //Se não tem nada é valido, pois deve ser verificado se é obrigatorio
+        if(s.equals(""))
+            return true;
         if (!validaNumero()) {
             return false;
         }
 
         Service r = (Service) adicionais[0];
 
-        return r.findById(Integer.parseInt(s)) != null;
+        if (r.findById(Integer.parseInt(s)) == null) {
+            mensagem = "Valor não encontrado no banco de dados";
+            return false;
+        } else {
+            return true;
+        }
     }
 }

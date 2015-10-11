@@ -11,46 +11,42 @@ import components.JPanelControleButtons;
 
 import components.JTableDataBinder;
 import components.JTableDataBinderListener;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Collection;
 import javax.swing.JDialog;
-import model.aula.Marca;
+import model.aula.Segmento;
 import services.ServiceException;
-import services.aul.MarcaService;
+import services.aul.SegmentoService;
 import utils.AlertaTipos;
 
 /**
  *
  * @author Charles
  */
-public class FrmMarca extends JPanelControleButtons {
+public class FrmSegmento extends JPanelControleButtons {
 
-    private final MarcaService service;
+    private final SegmentoService service;
     JTableDataBinder table;
 
-    public FrmMarca() {
+    public FrmSegmento() {
         initComponents();
         setBtnAddEnable(true);
         setBtnAlterarEnable(true);
         setBtnExcluirEnable(true);
         setBtnAtualizarEnable(true);
 
-        service = new MarcaService();
+        service = new SegmentoService();
 
         new JCampoBusca(txtBuscar, () -> table.atualizar());
 
-        ((JTableDataBinder) jTable1).setListener(new JTableDataBinderListener<Marca>() {
-
+        ((JTableDataBinder) jTable1).setListener(new JTableDataBinderListener<Segmento>() {
             @Override
-            public Collection<Marca> lista(String busca) throws ServiceException{
-                
-                    return service.findByMultipleColumns(busca, "id", "id", "nome");
-              
+            public Collection<Segmento> lista(String busca) throws ServiceException {
+                return service.findByMultipleColumns(busca, "id", "id", "nome");
             }
 
             @Override
-            public Object[] addRow(Marca dado) {
+            public Object[] addRow(Segmento dado) {
                 return new Object[]{dado.getId(), dado.getNome()};
 
             }
@@ -72,7 +68,7 @@ public class FrmMarca extends JPanelControleButtons {
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new JTableDataBinder<Marca>();
+        jTable1 = new JTableDataBinder<Segmento>();
         txtBuscar = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
 
@@ -143,7 +139,7 @@ public class FrmMarca extends JPanelControleButtons {
     @Override
     public void btnAddActionPerformed(ActionEvent evt) {
 //        model.createNew();
-        JDialog dialog = new FrmMarcaCadastro();
+        JDialog dialog = new FrmSegmentoCadastro();
         dialog.setVisible(true);
         table.atualizar();
     }
@@ -151,7 +147,7 @@ public class FrmMarca extends JPanelControleButtons {
     @Override
     public void btnAlterarActionPerformed(ActionEvent evt) {
         defaultUpdateOperation(table, (i) -> {
-            JDialog dialog = new FrmMarcaCadastro(i);
+            JDialog dialog = new FrmSegmentoCadastro(i);
             dialog.setVisible(true);
         });
 

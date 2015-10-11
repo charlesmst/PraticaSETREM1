@@ -19,13 +19,13 @@ public class JCampoBusca {
 
     private final Timer timer;
 
-    public JCampoBusca(JTextField component, final ActionListener listener) {
+    public JCampoBusca(JTextField component, final ThrowingCommand listener) {
         timer = new Timer(300, new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent e) {
                 timer.stop();
-                listener.actionPerformed(e);
+                listener.action();
             }
         });
 
@@ -35,5 +35,9 @@ public class JCampoBusca {
                 timer.start();
             }
         });
+    }
+
+    public void go() {
+        timer.start();
     }
 }

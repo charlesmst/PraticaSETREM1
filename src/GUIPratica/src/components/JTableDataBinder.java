@@ -12,6 +12,7 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
+import utils.AlertaTipos;
 
 public class JTableDataBinder<T> extends JTable {
 
@@ -51,6 +52,15 @@ public class JTableDataBinder<T> extends JTable {
         });
     }
 
+    public void runOnSelected(ThrowingConsumer<Integer> callback) {
+        if (getSelectedId() > 0) {
+            callback.accept(getSelectedId());
+            atualizar();
+        } else {
+            utils.Forms.mensagem(utils.Mensagens.selecioneUmItem, AlertaTipos.erro);
+        }
+    }
+
     public int getSelectedId() {
         int selected = getSelectedRow();
         if (selected >= 0) {
@@ -72,24 +82,38 @@ public class JTableDataBinder<T> extends JTable {
             textobusca = this.busca.getText();
         }
 
-        Collection<T> c = listener.lista(textobusca);
-
         int wasSelected = getSelectedRow();
         DefaultTableModel model = ((DefaultTableModel) this.getModel());
+        Collection<T> c = null;
+        try {
+            c = listener.lista(textobusca);
+
+        } catch (Exception e) {
+            utils.Forms.mensagem(e.getMessage(), AlertaTipos.erro);
+            model.setRowCount(0);
+
+            return;
+        }
 
         model.setRowCount(0);
 
         for (T linha : c) {
             model.addRow(listener.addRow(linha));
         }
-        
-        if(model.getRowCount() > wasSelected && wasSelected >= 0){
+
+        if (model.getRowCount() > wasSelected && wasSelected >= 0) {
             setRowSelectionInterval(wasSelected, wasSelected);
+        } else if ((wasSelected - 1) == model.getRowCount() - 1) {
+            setRowSelectionInterval(wasSelected - 1, wasSelected - 1);
+
         }
     }
     private JTableDataBinderListener listener;
 
     public void setListener(JTableDataBinderListener listener) {
         this.listener = listener;
+    }
+    public DefaultTableModel getDefaultTableModel(){
+        return (DefaultTableModel)getModel();
     }
 }

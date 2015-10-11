@@ -10,8 +10,8 @@ import components.JValidadorDeCampos;
 import forms.frmMain;
 import javax.swing.JRootPane;
 import javax.swing.SwingUtilities;
-import model.aula.Marca;
-import services.aul.MarcaService;
+import model.aula.Segmento;
+import services.aul.SegmentoService;
 import utils.AlertaTipos;
 import utils.Utils;
 
@@ -19,21 +19,21 @@ import utils.Utils;
  *
  * @author Charles
  */
-public class FrmMarcaCadastro extends JDialogController {
+public class FrmSegmentoCadastro extends JDialogController {
 
     private int id;
-    private final MarcaService service = new MarcaService();
+    private final SegmentoService service = new SegmentoService();
     private final JValidadorDeCampos validator = new JValidadorDeCampos();
 
     /**
-     * Creates new form frmCadastroMarca
+     * Creates new form frmCadastroSegmento
      */
-    public FrmMarcaCadastro() {
+    public FrmSegmentoCadastro() {
         this(0);
     }
 
-    public FrmMarcaCadastro(int id) {
-        super(frmMain.getInstance(), "Manutenção de Marcas");
+    public FrmSegmentoCadastro(int id) {
+        super(frmMain.getInstance(), "Manutenção de Segmentos");
         initComponents();
         this.id = id;
         setupForm();
@@ -53,7 +53,7 @@ public class FrmMarcaCadastro extends JDialogController {
     }
 
     private void load() {
-        Marca m = service.findById(id);
+        Segmento m = service.findById(id);
         txtCodigo.setText(String.valueOf(m.getId()));
         txtNome.setText(m.getNome());
     }
@@ -62,11 +62,11 @@ public class FrmMarcaCadastro extends JDialogController {
         if (!validator.isValido()) {
             return;
         }
-        Marca m;
+        Segmento m;
         if (id > 0) {
             m = service.findById(id);
         } else {
-            m = new Marca();
+            m = new Segmento();
         }
         m.setNome(txtNome.getText());
 

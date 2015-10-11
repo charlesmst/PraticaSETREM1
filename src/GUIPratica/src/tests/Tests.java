@@ -11,6 +11,8 @@ import services.Service;
 import java.util.List;
 import model.aula.Marca;
 import model.Usuario;
+import model.aula.Produto;
+import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
@@ -23,9 +25,10 @@ import utils.HibernateUtil;
  * @author Charles
  */
 public class Tests {
-    public static void main(String[] args) throws Exception{
-        Type t = HibernateUtil.getColumnType(Usuario.class, "id_pessoa");
-        System.out.println(t);
+
+    public static void main(String[] args) throws Exception {
+//        Type t = HibernateUtil.getColumnType(Usuario.class, "id_pessoa");
+//        System.out.println(t);
 //        Session session = HibernateUtil.getSessionFactory().openSession();
 //        
 //        UsuarioService service = new UsuarioService();
@@ -73,5 +76,16 @@ public class Tests {
 //            System.out.println(_item.getId()+" "+_item.getNome());
 //        });
 //        session.close();
+
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        Criteria c = session.createCriteria(Produto.class);
+        c.createAlias("marca", "m");
+        c.add(Restrictions.eq("m.nome", "sadsadasdasfasf"));
+        for (Object list : c.list()) {
+            Produto p = (Produto) list;
+            System.out.println(p.getId());
+                        System.out.println(p.getMarca().getNome());
+
+        }
     }
 }

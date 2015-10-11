@@ -5,6 +5,8 @@
  */
 package utils;
 
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.hibernate.cfg.AnnotationConfiguration;
 import org.hibernate.SessionFactory;
 import org.hibernate.mapping.PersistentClass;
@@ -20,7 +22,7 @@ public class HibernateUtil {
 
     private static final SessionFactory sessionFactory;
     private static final AnnotationConfiguration conf;
-    
+    public static final Logger defaultLogger = LogManager.getLogger(HibernateUtil.class);
     static {
         try {
             // Create the SessionFactory from standard (hibernate.cfg.xml) 

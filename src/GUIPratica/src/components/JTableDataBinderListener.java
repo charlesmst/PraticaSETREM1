@@ -6,12 +6,13 @@
 package components;
 
 import java.util.Collection;
+import services.ServiceException;
 
 /**
  *
  * @author Charles
  */
 public interface JTableDataBinderListener<T> {
-    Collection<T> lista(String busca);
+    Collection<T> lista(String busca) throws ServiceException;
     Object[] addRow(T dado );
 }

@@ -44,8 +44,13 @@ public class Forms {
         frmMain.getInstance().setIcone(tipo);
 
         if (tipo == AlertaTipos.erro) {
-            Toolkit.getDefaultToolkit().beep();
+            beep();
         }
+    }
+
+    public static void beep() {
+        Toolkit.getDefaultToolkit().beep();
+
     }
 
     public static void iniciaProgress() {

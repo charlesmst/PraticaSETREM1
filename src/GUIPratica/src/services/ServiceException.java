@@ -5,6 +5,10 @@
  */
 package services;
 
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
+import utils.HibernateUtil;
+
 /**
  *
  * @author Charles
@@ -12,5 +16,22 @@ package services;
 public class ServiceException extends Exception{
     public ServiceException(String mensagem, Exception ex){
         super(mensagem);
+        if(ex != null){
+            HibernateUtil.defaultLogger.error(ex.getMessage());
+        }
+    }
+    
+    public ServiceException(String mensagem, Exception ex, Logger logger){
+        super(mensagem);
+        if(ex != null){
+            logger.error(ex.getMessage());
+        }
+    }
+    
+    public ServiceException(String mensagem, Exception ex, Class classLogger){
+        super(mensagem);
+         if(ex != null){
+             LogManager.getLogger(classLogger).error(ex.getMessage());
+        }
     }
 }

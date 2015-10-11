@@ -39,22 +39,15 @@ public class frmUsuarios extends JPanelControleButtons {
         setBtnAddEnable(true);
 
         service = new UsuarioService();
-        
-        
-        new JCampoBusca(txtBuscar, new ActionListener() {
 
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                table.atualizar();
-            }
-        });
+        new JCampoBusca(txtBuscar, () -> table.atualizar());
 
         ((JTableDataBinder) jtbDados).setListener(new JTableDataBinderListener<Usuario>() {
 
             @Override
             public Collection<Usuario> lista(String busca) {
                 try {
-                    return service.findByMultipleColumns(busca,"id_pessoa","usuario");
+                    return service.findByMultipleColumns(busca, "id_pessoa", "usuario");
                 } catch (Exception e) {
                     utils.Forms.mensagem(e.getMessage(), AlertaTipos.erro);
                 }
@@ -63,7 +56,7 @@ public class frmUsuarios extends JPanelControleButtons {
 
             @Override
             public Object[] addRow(Usuario dado) {
-                return new Object[]{dado.getId_pessoa(), dado.getUsuario(),dado.getUsuario(),dado.isAtivo()?"S":"N"};
+                return new Object[]{dado.getId_pessoa(), dado.getUsuario(), dado.getUsuario(), dado.isAtivo() ? "S" : "N"};
 
             }
         });
@@ -74,7 +67,6 @@ public class frmUsuarios extends JPanelControleButtons {
         table.atualizar();
 
     }
-
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -164,7 +156,7 @@ public class frmUsuarios extends JPanelControleButtons {
     @Override
     public void btnAddActionPerformed(ActionEvent evt) {
 //        model.createNew();
-        
+
     }
 
     @Override
@@ -176,7 +168,6 @@ public class frmUsuarios extends JPanelControleButtons {
     public void btnExcluirActionPerformed(ActionEvent evt) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-
 
     @Override
     public void btnAtualizarActionPerformed(ActionEvent evt) {

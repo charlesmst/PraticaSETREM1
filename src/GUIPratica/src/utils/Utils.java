@@ -5,6 +5,7 @@
  */
 package utils;
 
+import components.ThrowingCommand;
 import java.lang.reflect.Method;
 import java.text.DateFormat;
 import java.util.Date;
@@ -28,5 +29,16 @@ public class Utils {
         } catch (Exception e) {
             return null;
         }
+    }
+    public static boolean isNumber(String text){
+        try {
+            Integer.parseInt(text);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+    public static void safeCode(ThrowingCommand command){
+        command.action();
     }
 }

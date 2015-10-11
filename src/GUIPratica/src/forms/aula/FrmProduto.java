@@ -11,47 +11,43 @@ import components.JPanelControleButtons;
 
 import components.JTableDataBinder;
 import components.JTableDataBinderListener;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Collection;
 import javax.swing.JDialog;
-import model.aula.Marca;
+import model.aula.Produto;
 import services.ServiceException;
-import services.aul.MarcaService;
+import services.aul.ProdutoService;
 import utils.AlertaTipos;
 
 /**
  *
  * @author Charles
  */
-public class FrmMarca extends JPanelControleButtons {
+public class FrmProduto extends JPanelControleButtons {
 
-    private final MarcaService service;
+    private final ProdutoService service;
     JTableDataBinder table;
 
-    public FrmMarca() {
+    public FrmProduto() {
         initComponents();
         setBtnAddEnable(true);
         setBtnAlterarEnable(true);
         setBtnExcluirEnable(true);
         setBtnAtualizarEnable(true);
 
-        service = new MarcaService();
+        service = new ProdutoService();
 
         new JCampoBusca(txtBuscar, () -> table.atualizar());
 
-        ((JTableDataBinder) jTable1).setListener(new JTableDataBinderListener<Marca>() {
-
+        ((JTableDataBinder) jTable1).setListener(new JTableDataBinderListener<Produto>() {
             @Override
-            public Collection<Marca> lista(String busca) throws ServiceException{
-                
-                    return service.findByMultipleColumns(busca, "id", "id", "nome");
-              
+            public Collection<Produto> lista(String busca) throws ServiceException{
+                    return service.findByMultipleColumns(busca, "id", "id", "descricao","marca.nome","segmento.nome");
             }
 
             @Override
-            public Object[] addRow(Marca dado) {
-                return new Object[]{dado.getId(), dado.getNome()};
+            public Object[] addRow(Produto dado) {
+                return new Object[]{dado.getId(), dado.getDescricao(), dado.getMarca().getNome(),dado.getSegmento().getNome()};
 
             }
         });
@@ -72,26 +68,26 @@ public class FrmMarca extends JPanelControleButtons {
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new JTableDataBinder<Marca>();
+        jTable1 = new JTableDataBinder<Produto>();
         txtBuscar = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null}
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
             },
             new String [] {
-                "Código", "Nome"
+                "Código", "Nome", "Marca", "Segmento"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false
+                false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -143,7 +139,7 @@ public class FrmMarca extends JPanelControleButtons {
     @Override
     public void btnAddActionPerformed(ActionEvent evt) {
 //        model.createNew();
-        JDialog dialog = new FrmMarcaCadastro();
+        JDialog dialog = new FrmProdutoCadastro();
         dialog.setVisible(true);
         table.atualizar();
     }
@@ -151,7 +147,7 @@ public class FrmMarca extends JPanelControleButtons {
     @Override
     public void btnAlterarActionPerformed(ActionEvent evt) {
         defaultUpdateOperation(table, (i) -> {
-            JDialog dialog = new FrmMarcaCadastro(i);
+            JDialog dialog = new FrmProdutoCadastro(i);
             dialog.setVisible(true);
         });
 

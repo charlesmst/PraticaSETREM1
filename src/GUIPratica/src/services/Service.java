@@ -9,12 +9,12 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
+import org.apache.log4j.LogManager;
 import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Criterion;
-import org.hibernate.criterion.Example;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.exception.ConstraintViolationException;
@@ -29,6 +29,8 @@ public abstract class Service<T> {
 
     private final Class<T> classRef;
 
+    private final org.apache.log4j.Logger logger;
+
     protected boolean autoClose = true;
 
     private void autoClose(Session s) {
@@ -39,6 +41,7 @@ public abstract class Service<T> {
 
     public Service(Class<T> classRef) {
         this.classRef = classRef;
+        logger = LogManager.getLogger(classRef);
     }
 
     private Session session;
@@ -56,7 +59,7 @@ public abstract class Service<T> {
 
     public T findById(Serializable id, boolean full) {
         Session s = getSession();
-        T obj  ;
+        T obj;
         if (full) {
             //@todo implementar load full
             obj = (T) s.load(classRef, id);
@@ -76,7 +79,7 @@ public abstract class Service<T> {
             t.commit();
 
         } catch (ConstraintViolationException e) {
-            throw new ServiceException("Erro ao inserir " + classRef.getSimpleName(), e);
+            throw new ServiceException("Erro ao inserir " + classRef.getSimpleName(), e, logger);
         } finally {
             autoClose(s);
 
@@ -92,7 +95,7 @@ public abstract class Service<T> {
             s.merge(obj);
             t.commit();
         } catch (ConstraintViolationException e) {
-            throw new ServiceException("Erro ao alterar " + classRef.getSimpleName(), e);
+            throw new ServiceException("Erro ao alterar " + classRef.getSimpleName(), e, logger);
         } finally {
             autoClose(s);
 
@@ -109,7 +112,7 @@ public abstract class Service<T> {
             s.delete(persistentInstance);
             t.commit();
         } catch (ConstraintViolationException e) {
-            throw new ServiceException("Erro ao excluir " + classRef.getSimpleName(), e);
+            throw new ServiceException("Erro ao excluir " + classRef.getSimpleName(), e, logger);
         } finally {
             autoClose(s);
 
@@ -134,7 +137,7 @@ public abstract class Service<T> {
             }
             return cr.list();
         } catch (ConstraintViolationException e) {
-            throw new ServiceException("Erro ao selecionar registros de " + classRef.getSimpleName(), e);
+            throw new ServiceException("Erro ao selecionar registros de " + classRef.getSimpleName(), e, logger);
         } finally {
             s.close();
 
@@ -159,6 +162,7 @@ public abstract class Service<T> {
         try {
             Criteria c = s.createCriteria(classRef);
             if (!valor.equals("")) {
+
                 ArrayList<Criterion> cr = new ArrayList<>();
                 boolean isInteger = false;
                 try {
@@ -166,9 +170,24 @@ public abstract class Service<T> {
                     isInteger = true;
                 } catch (Exception e) {
                 }
+                ArrayList<String> gone = new ArrayList<>();
+
                 for (int i = 0; i < colunas.length; i++) {
                     Type t = HibernateUtil.getColumnType(classRef, colunas[i]);
-                    System.out.println(t);
+                    String coluna = colunas[i];
+                    //Verify if is necessary to create an alias
+                    if (coluna.contains(".")) {
+                        String table = coluna.substring(0, coluna.indexOf("."));
+                        if (!gone.contains(table)) {
+                            gone.add(table);
+                            String nome = Character.toString((char) ((char) 'A' + (char) gone.indexOf(table)));
+                
+                            c.createAlias(table, "tab" + nome);
+                        }
+                        //Adjust column name
+                        colunas[i] = coluna.replaceAll("^[^\\.]+(\\..+)$", "tab" + Character.toString((char) ((char) 'A' + (char) gone.indexOf(table))) + "$1");
+
+                    }
                     if (t instanceof org.hibernate.type.IntegerType) {
                         if (isInteger) {
                             cr.add(Restrictions.eq(colunas[i], new Integer(valor)));
@@ -187,10 +206,11 @@ public abstract class Service<T> {
             if (order != null) {
                 c.addOrder(Order.asc(order));
             }
+
             Collection<T> r = c.list();
             return r;
         } catch (HibernateException e) {
-            throw new ServiceException("Erro ao selecionar dados", e);
+            throw new ServiceException("Erro ao selecionar dados", e, logger);
         } finally {
             autoClose(s);
         }

@@ -20,6 +20,7 @@ public class JDialogController extends javax.swing.JDialog {
         super(owner, title, true);
 
         utils.Forms.installEscapeCloseOperation(this);
+        
 
     }
 

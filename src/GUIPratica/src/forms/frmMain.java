@@ -185,15 +185,17 @@ public class frmMain extends javax.swing.JFrame {
         DefaultMutableTreeNode gerenciamento = new DefaultMutableTreeNode("Gerenciamento");
         gerenciamento.add(new TreeNodeMenu("Produtos", "forms.frmProduto"));
 
-        gerenciamento.add(new TreeNodeMenu("Marcas", "forms.aula.FrmMarca"));
         gerenciamento.add(new TreeNodeMenu("Usuários", "forms.frmUsuarios"));
-
-        gerenciamento.add(new TreeNodeMenu("Ordem de Serviço", "forms.ordem.frmOrdemServico"));
-
         root.add(gerenciamento);
 
         DefaultMutableTreeNode aula = new DefaultMutableTreeNode("Aula");
-        aula.add(new TreeNodeMenu("Marcas", "forms.frmMarca"));
+        aula.add(new TreeNodeMenu("Produtos", "forms.aula.FrmProduto"));
+
+        aula.add(new TreeNodeMenu("Marcas", "forms.aula.FrmMarca"));
+        aula.add(new TreeNodeMenu("Segmentos", "forms.aula.FrmSegmento"));
+//        gerenciamento.add(new TreeNodeMenu("Ordem de Serviço", "forms.ordem.frmOrdemServico"));
+
+        root.add(aula);
 
         model.nodeChanged(root);
 

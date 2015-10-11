@@ -102,6 +102,7 @@ public abstract class JPanelControleButtons extends JPanel {
     public abstract void btnAtualizarActionPerformed(java.awt.event.ActionEvent evt);
 
     protected void defaultDeleteOperation(JTableDataBinder table, ThrowingConsumer<Serializable> callback) {
+        
         if (table.getSelectedId() > 0) {
             if (!utils.Forms.dialogDelete()) {
                 return;
@@ -120,11 +121,6 @@ public abstract class JPanelControleButtons extends JPanel {
     }
 
     protected void defaultUpdateOperation(JTableDataBinder table, ThrowingConsumer<Integer> callback) {
-        if (table.getSelectedId() > 0) {
-            callback.accept(table.getSelectedId());
-            table.atualizar();
-        } else {
-            utils.Forms.mensagem(utils.Mensagens.selecioneUmItem, AlertaTipos.erro);
-        }
+        table.runOnSelected(callback);
     }
 }
