@@ -9,12 +9,12 @@ package forms;
  *
  * @author Charles
  */
-public class FrmTopoTexto extends javax.swing.JPanel {
+public class frmTopoTexto extends javax.swing.JPanel {
 
     /**
      * Creates new form frmTopoTexto
      */
-    public FrmTopoTexto(String texto) {
+    public frmTopoTexto(String texto) {
         initComponents();
         lblNome.setText(texto);
     }

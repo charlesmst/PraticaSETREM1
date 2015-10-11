@@ -16,14 +16,14 @@ import java.awt.event.ActionListener;
  *
  * @author Charles
  */
-public class FrmF2 extends javax.swing.JDialog {
+public class frmF2 extends javax.swing.JDialog {
 
     JTableDataBinder table;
-
-    public FrmF2(java.awt.Frame parent, JTableDataBinderListener listener) {
+    public frmF2(java.awt.Frame parent, JTableDataBinderListener listener) {
         super(parent, true);
         initComponents();
-
+        
+        
         table = ((JTableDataBinder) jTable1);
 
         table.setBusca(txtBuscar);
@@ -34,17 +34,15 @@ public class FrmF2 extends javax.swing.JDialog {
                 table.atualizar();
             }
         });
-
+        
+        
+        
         table.atualizar();
     }
     private ActionListener callback;
-
-    public void setCallback(ActionListener action) {
+    
+    public void setCallback(ActionListener action){
         this.callback = action;
-    }
-
-    public void requireNew() {
-        //Nada implementado aqui, as filhas devem implementar
     }
 
     /**
@@ -101,11 +99,6 @@ public class FrmF2 extends javax.swing.JDialog {
         jButton2.setText("Cancelar");
 
         btnNovo.setText("Novo");
-        btnNovo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnNovoActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -152,10 +145,7 @@ public class FrmF2 extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnNovoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNovoActionPerformed
-        requireNew();
-    }//GEN-LAST:event_btnNovoActionPerformed
-
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnNovo;

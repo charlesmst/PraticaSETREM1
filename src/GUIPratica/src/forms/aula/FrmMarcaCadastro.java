@@ -5,7 +5,11 @@
  */
 package forms.aula;
 
+import components.JDialogController;
 import components.JValidadorDeCampos;
+import forms.frmMain;
+import javax.swing.JRootPane;
+import javax.swing.SwingUtilities;
 import model.aula.Marca;
 import services.aul.MarcaService;
 import utils.AlertaTipos;
@@ -14,7 +18,7 @@ import utils.AlertaTipos;
  *
  * @author Charles
  */
-public class FrmMarcaCadastro extends javax.swing.JDialog {
+public class FrmMarcaCadastro extends JDialogController {
 
     private int id;
     private final MarcaService service = new MarcaService();
@@ -23,19 +27,23 @@ public class FrmMarcaCadastro extends javax.swing.JDialog {
     /**
      * Creates new form frmCadastroMarca
      */
-    public FrmMarcaCadastro(java.awt.Frame parent, boolean modal) {
-        this(parent, modal, 0);
+    public FrmMarcaCadastro() {
+        this(0);
     }
 
-    public FrmMarcaCadastro(java.awt.Frame parent, boolean modal, int id) {
-        super(parent, modal);
+    public FrmMarcaCadastro(int id) {
+        super(frmMain.getInstance(), "Manutenção de Marcas");
         initComponents();
         this.id = id;
         setupForm();
     }
 
     private void setupForm() {
-        txtCodigo.setEditable(false);
+        // center the jframe on screen
+        setLocationRelativeTo(null);
+        setDefaultButton(btnSalvar);
+        txtCodigo.setEnabled(false);
+
         validator.validarObrigatorio(txtNome);
 
         if (id > 0) {
@@ -63,11 +71,14 @@ public class FrmMarcaCadastro extends javax.swing.JDialog {
 
         try {
 
-            if (id > 0) {
+            if (id == 0) {
                 service.insert(m);
             } else {
                 service.update(m);
             }
+            utils.Forms.mensagem(utils.Mensagens.registroSalvo, AlertaTipos.sucesso);
+
+            dispose();
         } catch (Exception e) {
             utils.Forms.mensagem(e.getMessage(), AlertaTipos.erro);
         }
@@ -95,6 +106,7 @@ public class FrmMarcaCadastro extends javax.swing.JDialog {
 
         jLabel2.setText("Nome");
 
+        btnSalvar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/save.png"))); // NOI18N
         btnSalvar.setText("Salvar");
         btnSalvar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -102,6 +114,7 @@ public class FrmMarcaCadastro extends javax.swing.JDialog {
             }
         });
 
+        btnCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/cancel.png"))); // NOI18N
         btnCancelar.setText("Cancelar");
         btnCancelar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -114,20 +127,18 @@ public class FrmMarcaCadastro extends javax.swing.JDialog {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(20, 20, 20)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtCodigo)
-                    .addComponent(txtNome)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1)
-                            .addComponent(jLabel2)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(btnSalvar)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnCancelar)))
-                        .addGap(0, 236, Short.MAX_VALUE)))
-                .addContainerGap())
+                    .addComponent(jLabel2)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(txtNome, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 621, Short.MAX_VALUE)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                            .addComponent(btnSalvar)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(btnCancelar))
+                        .addComponent(txtCodigo, javax.swing.GroupLayout.Alignment.LEADING)))
+                .addGap(26, 26, 26))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -140,7 +151,7 @@ public class FrmMarcaCadastro extends javax.swing.JDialog {
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 19, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 17, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnSalvar)
                     .addComponent(btnCancelar))
@@ -158,48 +169,6 @@ public class FrmMarcaCadastro extends javax.swing.JDialog {
         save();
     }//GEN-LAST:event_btnSalvarActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(FrmMarcaCadastro.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(FrmMarcaCadastro.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(FrmMarcaCadastro.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(FrmMarcaCadastro.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        //</editor-fold>
-
-        /* Create and display the dialog */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                FrmMarcaCadastro dialog = new FrmMarcaCadastro(new javax.swing.JFrame(), true);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                    @Override
-                    public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
-                    }
-                });
-                dialog.setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancelar;

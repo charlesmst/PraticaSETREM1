@@ -9,16 +9,13 @@ import components.JCampoBusca;
 import java.awt.event.ActionEvent;
 import components.JPanelControleButtons;
 
-import components.JRepositoryModelListener;
 import components.JTableDataBinder;
 import components.JTableDataBinderListener;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Map;
+import javax.swing.JDialog;
 import model.aula.Marca;
-import model.Usuario;
-import services.UsuarioService;
 import services.aul.MarcaService;
 import utils.AlertaTipos;
 
@@ -28,20 +25,18 @@ import utils.AlertaTipos;
  */
 public class FrmMarca extends JPanelControleButtons {
 
-
     private final MarcaService service;
     JTableDataBinder table;
+
     public FrmMarca() {
         initComponents();
-        setBtnAddEnable(true);        
+        setBtnAddEnable(true);
         setBtnAlterarEnable(true);
         setBtnExcluirEnable(true);
-
-       
+        setBtnAtualizarEnable(true);
         
         service = new MarcaService();
-        
-        
+
         new JCampoBusca(txtBuscar, new ActionListener() {
 
             @Override
@@ -55,7 +50,7 @@ public class FrmMarca extends JPanelControleButtons {
             @Override
             public Collection<Marca> lista(String busca) {
                 try {
-                    return service.findByMultipleColumns(busca,"id","id","nome");
+                    return service.findByMultipleColumns(busca, "id", "id", "nome");
                 } catch (Exception e) {
                     utils.Forms.mensagem(e.getMessage(), AlertaTipos.erro);
                 }
@@ -156,30 +151,27 @@ public class FrmMarca extends JPanelControleButtons {
     @Override
     public void btnAddActionPerformed(ActionEvent evt) {
 //        model.createNew();
+        JDialog dialog = new FrmMarcaCadastro();
+        dialog.setVisible(true);
+        table.atualizar();
     }
 
     @Override
     public void btnAlterarActionPerformed(ActionEvent evt) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        defaultUpdateOperation(table, (i)->{
+            JDialog dialog = new FrmMarcaCadastro(i);
+            dialog.setVisible(true);
+        });
+
     }
 
     @Override
     public void btnExcluirActionPerformed(ActionEvent evt) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void btnSalvarActionPerformed(ActionEvent evt) {
-//        model.commit();
-    }
-
-    @Override
-    public void btnCancelarActionPerformed(ActionEvent evt) {
-//        model.roolback();
+        defaultDeleteOperation(table, (i)-> service.delete(i));
     }
 
     @Override
     public void btnAtualizarActionPerformed(ActionEvent evt) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        table.atualizar();
     }
 }

@@ -15,8 +15,7 @@ import java.util.Map;
 import javax.swing.JOptionPane;
 import javax.swing.Timer;
 import javax.swing.table.DefaultTableModel;
-import model.aula.Marca;
-import model.aula.Produto;
+
 import components.JTableDataBinder;
 import components.JTableDataBinderListener;
 import java.util.ArrayList;
@@ -30,12 +29,12 @@ import utils.AlertaTipos;
  *
  * @author Charles
  */
-public class FrmUsuarios extends JPanelControleButtons {
+public class frmUsuarios extends JPanelControleButtons {
 
     private final UsuarioService service;
     JTableDataBinder table;
 
-    public FrmUsuarios() {
+    public frmUsuarios() {
         initComponents();
         setBtnAddEnable(true);
 
@@ -178,15 +177,6 @@ public class FrmUsuarios extends JPanelControleButtons {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    @Override
-    public void btnSalvarActionPerformed(ActionEvent evt) {
-//        model.commit();
-    }
-
-    @Override
-    public void btnCancelarActionPerformed(ActionEvent evt) {
-//        model.roolback();
-    }
 
     @Override
     public void btnAtualizarActionPerformed(ActionEvent evt) {

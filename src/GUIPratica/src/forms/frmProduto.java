@@ -10,18 +10,17 @@ import components.JPanelControleButtons;
 import components.JRepositoryModelListener;
 import java.util.HashMap;
 import java.util.Map;
-import model.aula.Marca;
-import model.aula.Produto;
+
 
 /**
  *
  * @author Charles
  */
-public class FrmProduto extends JPanelControleButtons {
+public class frmProduto extends JPanelControleButtons {
 
 
 
-    public FrmProduto() {
+    public frmProduto() {
         initComponents();
         setBtnAddEnable(true);
      
@@ -86,15 +85,6 @@ public class FrmProduto extends JPanelControleButtons {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    @Override
-    public void btnSalvarActionPerformed(ActionEvent evt) {
-//        model.commit();
-    }
-
-    @Override
-    public void btnCancelarActionPerformed(ActionEvent evt) {
-//        model.roolback();
-    }
 
     @Override
     public void btnAtualizarActionPerformed(ActionEvent evt) {

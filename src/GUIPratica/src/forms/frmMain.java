@@ -7,31 +7,29 @@ package forms;
 
 import java.awt.Component;
 import java.awt.FlowLayout;
-import java.awt.event.HierarchyEvent;
-import java.awt.event.HierarchyListener;
-import java.awt.event.MouseListener;
 import javax.swing.BorderFactory;
-import javax.swing.JButton;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JTree;
 import javax.swing.border.Border;
 import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
 import components.treemenu.TreeMenuModel;
 import components.treemenu.TreeNodeMenu;
 import components.JPanelControleButtons;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.ImageIcon;
+import javax.swing.Timer;
 import utils.AlertaTipos;
 
 /**
  *
  * @author Charles
  */
-public class FrmMain extends javax.swing.JFrame {
+public class frmMain extends javax.swing.JFrame {
+
+    private Timer timerAlert;
 
     public JPanelControleButtons getCurrentComponent() {
         JPanelControleButtons comp = null;
@@ -44,9 +42,9 @@ public class FrmMain extends javax.swing.JFrame {
         return comp;
     }
 
-    private static FrmMain instance;
+    private static frmMain instance;
 
-    public static FrmMain getInstance() {
+    public static frmMain getInstance() {
         return instance;
     }
 
@@ -61,7 +59,7 @@ public class FrmMain extends javax.swing.JFrame {
     /**
      * Creates new form frmMain
      */
-    public FrmMain() {
+    public frmMain() {
         if (instance == null) {
             instance = this;
         }
@@ -71,19 +69,40 @@ public class FrmMain extends javax.swing.JFrame {
         setupWelcome();
         setupToolbar();
         paraProgress();
+        timerAlert = new Timer(5000, new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                frmMain.getInstance().resetAlert();
+                timerAlert.stop();
+            }
+        });
+        timerAlert.stop();
+
     }
 
     public void alert(String alert) {
         lblStatus.setText(alert);
+        lblStatus.setVisible(true);
+
+        if (timerAlert != null) {
+            timerAlert.stop();
+            timerAlert.start();
+        }
     }
 
     private void setupWelcome() {
-        jtabs.addTab("Bem Vindo", new FrmBemVindo());
+        jtabs.addTab("Bem Vindo", new frmBemVindo());
     }
 
     private void setupFrame() {
-        lblIcone.setVisible(false);
+        resetAlert();
         setExtendedState(java.awt.Frame.MAXIMIZED_BOTH);
+    }
+
+    private void resetAlert() {
+        lblIcone.setVisible(false);
+        lblStatus.setVisible(false);
     }
 
     public void setIcone(AlertaTipos tipo) {
@@ -164,19 +183,18 @@ public class FrmMain extends javax.swing.JFrame {
 //        estoque.add(new DefaultMutableTreeNode("Tipos de produtos"));
 //        root.add(estoque);
         DefaultMutableTreeNode gerenciamento = new DefaultMutableTreeNode("Gerenciamento");
-        gerenciamento.add(new TreeNodeMenu("Produtos", "forms.FrmProduto"));
+        gerenciamento.add(new TreeNodeMenu("Produtos", "forms.frmProduto"));
 
         gerenciamento.add(new TreeNodeMenu("Marcas", "forms.aula.FrmMarca"));
-        gerenciamento.add(new TreeNodeMenu("Usuários", "forms.FrmUsuarios"));     
-        
-        gerenciamento.add(new TreeNodeMenu("Ordem de Serviço", "forms.ordem.FrmOrdemServico"));
+        gerenciamento.add(new TreeNodeMenu("Usuários", "forms.frmUsuarios"));
 
+        gerenciamento.add(new TreeNodeMenu("Ordem de Serviço", "forms.ordem.frmOrdemServico"));
 
         root.add(gerenciamento);
 
-         DefaultMutableTreeNode aula = new DefaultMutableTreeNode("Aula");
+        DefaultMutableTreeNode aula = new DefaultMutableTreeNode("Aula");
         aula.add(new TreeNodeMenu("Marcas", "forms.frmMarca"));
-        
+
         model.nodeChanged(root);
 
         int j = jTreeMenu.getRowCount();
@@ -237,17 +255,25 @@ public class FrmMain extends javax.swing.JFrame {
             btnAdd.setEnabled(c.isBtnAddEnable());
             btnAlterar.setEnabled(c.isBtnAlterarEnable());
             btnExcluir.setEnabled(c.isBtnExcluirEnable());
-            btnSalvar.setEnabled(c.isBtnSalvarEnable());
-            btnCancelar.setEnabled(c.isBtnCancelarEnable());
+//            btnSalvar.setEnabled(c.isBtnSalvarEnable());
+//            btnCancelar.setEnabled(c.isBtnCancelarEnable());
             btnAtualizar.setEnabled(c.isBtnAtualizarEnable());
+
+            menuNovo.setEnabled(c.isBtnAddEnable());
+            menuAlterar.setEnabled(c.isBtnAlterarEnable());
+            menuExcluir.setEnabled(c.isBtnExcluirEnable());
+            menuAtualizar.setEnabled(c.isBtnAtualizarEnable());
 
         } else {
             btnAdd.setEnabled(false);
             btnAlterar.setEnabled(false);
             btnExcluir.setEnabled(false);
-            btnSalvar.setEnabled(false);
-            btnCancelar.setEnabled(false);
             btnAtualizar.setEnabled(false);
+
+            menuNovo.setEnabled(false);
+            menuAlterar.setEnabled(false);
+            menuExcluir.setEnabled(false);
+            menuAtualizar.setEnabled(false);
 
         }
     }
@@ -273,8 +299,6 @@ public class FrmMain extends javax.swing.JFrame {
         btnAdd = new javax.swing.JButton();
         btnAlterar = new javax.swing.JButton();
         btnExcluir = new javax.swing.JButton();
-        btnSalvar = new javax.swing.JButton();
-        btnCancelar = new javax.swing.JButton();
         btnAtualizar = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         lblStatus = new javax.swing.JLabel();
@@ -286,6 +310,11 @@ public class FrmMain extends javax.swing.JFrame {
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenuItem2 = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
+        jMenu4 = new javax.swing.JMenu();
+        menuNovo = new javax.swing.JMenuItem();
+        menuAlterar = new javax.swing.JMenuItem();
+        menuExcluir = new javax.swing.JMenuItem();
+        menuAtualizar = new javax.swing.JMenuItem();
 
         menu1.setLabel("File");
         menuBar1.add(menu1);
@@ -321,7 +350,7 @@ public class FrmMain extends javax.swing.JFrame {
         jToolBar1.setRollover(false);
         jToolBar1.setFloatable(false);
 
-        btnAdd.setText("Adicionar");
+        btnAdd.setText("Novo");
         btnAdd.setFocusable(false);
         btnAdd.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnAdd.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -353,28 +382,6 @@ public class FrmMain extends javax.swing.JFrame {
             }
         });
         jToolBar1.add(btnExcluir);
-
-        btnSalvar.setText("Salvar");
-        btnSalvar.setFocusable(false);
-        btnSalvar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btnSalvar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        btnSalvar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSalvarActionPerformed(evt);
-            }
-        });
-        jToolBar1.add(btnSalvar);
-
-        btnCancelar.setText("Cancelar");
-        btnCancelar.setFocusable(false);
-        btnCancelar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btnCancelar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        btnCancelar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCancelarActionPerformed(evt);
-            }
-        });
-        jToolBar1.add(btnCancelar);
 
         btnAtualizar.setText("Atualizar");
         btnAtualizar.setFocusable(false);
@@ -444,6 +451,46 @@ public class FrmMain extends javax.swing.JFrame {
         jMenu3.setText("Editar");
         jMenuBar1.add(jMenu3);
 
+        jMenu4.setText("Ações");
+
+        menuNovo.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_INSERT, 0));
+        menuNovo.setText("Novo");
+        menuNovo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuNovoActionPerformed(evt);
+            }
+        });
+        jMenu4.add(menuNovo);
+
+        menuAlterar.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F3, 0));
+        menuAlterar.setText("Alterar");
+        menuAlterar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuAlterarActionPerformed(evt);
+            }
+        });
+        jMenu4.add(menuAlterar);
+
+        menuExcluir.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_DELETE, 0));
+        menuExcluir.setText("Excluir");
+        menuExcluir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuExcluirActionPerformed(evt);
+            }
+        });
+        jMenu4.add(menuExcluir);
+
+        menuAtualizar.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F5, 0));
+        menuAtualizar.setText("Atualizar");
+        menuAtualizar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuAtualizarActionPerformed(evt);
+            }
+        });
+        jMenu4.add(menuAtualizar);
+
+        jMenuBar1.add(jMenu4);
+
         setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -499,20 +546,6 @@ public class FrmMain extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnAtualizarActionPerformed
 
-    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
-        JPanelControleButtons c = getCurrentComponent();
-        if (c != null) {
-            c.btnCancelarActionPerformed(evt);
-        }
-    }//GEN-LAST:event_btnCancelarActionPerformed
-
-    private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
-        JPanelControleButtons c = getCurrentComponent();
-        if (c != null) {
-            c.btnSalvarActionPerformed(evt);
-        }
-    }//GEN-LAST:event_btnSalvarActionPerformed
-
     private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed
         JPanelControleButtons c = getCurrentComponent();
         if (c != null) {
@@ -534,6 +567,23 @@ public class FrmMain extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnAddActionPerformed
 
+    private void menuNovoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuNovoActionPerformed
+
+        btnAdd.doClick();
+    }//GEN-LAST:event_menuNovoActionPerformed
+
+    private void menuAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuAlterarActionPerformed
+        btnAlterar.doClick();        // TODO add your handling code here:
+    }//GEN-LAST:event_menuAlterarActionPerformed
+
+    private void menuExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuExcluirActionPerformed
+        btnExcluir.doClick();        // TODO add your handling code here:
+    }//GEN-LAST:event_menuExcluirActionPerformed
+
+    private void menuAtualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuAtualizarActionPerformed
+        btnAtualizar.doClick();        // TODO add your handling code here:
+    }//GEN-LAST:event_menuAtualizarActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -551,21 +601,20 @@ public class FrmMain extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(FrmMain.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(frmMain.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(FrmMain.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(frmMain.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(FrmMain.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(frmMain.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(FrmMain.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(frmMain.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new FrmMain().setVisible(true);
+                new frmMain().setVisible(true);
             }
         });
     }
@@ -574,13 +623,12 @@ public class FrmMain extends javax.swing.JFrame {
     private javax.swing.JButton btnAdd;
     private javax.swing.JButton btnAlterar;
     private javax.swing.JButton btnAtualizar;
-    private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnExcluir;
-    private javax.swing.JButton btnSalvar;
     private javax.swing.JFrame jFrame1;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
+    private javax.swing.JMenu jMenu4;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
@@ -594,7 +642,11 @@ public class FrmMain extends javax.swing.JFrame {
     private javax.swing.JLabel lblStatus;
     private java.awt.Menu menu1;
     private java.awt.Menu menu2;
+    private javax.swing.JMenuItem menuAlterar;
+    private javax.swing.JMenuItem menuAtualizar;
     private java.awt.MenuBar menuBar1;
+    private javax.swing.JMenuItem menuExcluir;
+    private javax.swing.JMenuItem menuNovo;
     private javax.swing.JProgressBar progressGeral;
     // End of variables declaration//GEN-END:variables
 }

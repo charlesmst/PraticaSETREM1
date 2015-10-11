@@ -6,11 +6,10 @@
 package guipratica;
 
 import com.alee.laf.WebLookAndFeel;
-import forms.FrmLogin;
-import forms.FrmMain;
+import forms.frmLogin;
+import forms.frmMain;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.swing.UIManager;
 
 /**
  *
@@ -20,21 +19,23 @@ public class GUIPratica {
 
     public GUIPratica() {
         LoginListener evento = new LoginListener();
-        FrmLogin login = new FrmLogin(null, true);
+        frmLogin login = new frmLogin(null, true);
         login.setAutenticadoListener(evento);
         login.setVisible(true);
 
         if (evento.isAutenticou()) {
-            FrmMain frm;
-            frm = new FrmMain();
+            frmMain frm;
+            frm = new frmMain();
             frm.setVisible(true);
         }
     }
+   
 
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
+        
         try {
             WebLookAndFeel.install();
 

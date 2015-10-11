@@ -5,11 +5,17 @@
  */
 package components;
 
-import forms.FrmMain;
-import forms.FrmTopoTexto;
+import forms.aula.FrmMarcaCadastro;
+import forms.frmMain;
 import java.awt.LayoutManager;
+import java.io.Serializable;
+import java.util.function.Consumer;
 import javax.swing.GroupLayout;
+import javax.swing.JDialog;
 import javax.swing.JPanel;
+import services.ServiceException;
+import utils.AlertaTipos;
+import utils.Mensagens;
 
 /**
  *
@@ -20,11 +26,9 @@ public abstract class JPanelControleButtons extends JPanel {
     private boolean btnAddEnable;
     private boolean btnAlterarEnable;
     private boolean btnExcluirEnable;
-    private boolean btnSalvarEnable;
-    private boolean btnCancelarEnable;
     private boolean btnAtualizarEnable;
 
-    public void addPanelTopo(String text){
+    public void addPanelTopo(String text) {
 //        JPanel jPanel1 = new frmTopoTexto(text);
 //        
 //        GroupLayout layout = new javax.swing.GroupLayout(jPanel1);;
@@ -43,11 +47,9 @@ public abstract class JPanelControleButtons extends JPanel {
 //            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
 //            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 //        );
-        
-        
 
     }
-    
+
     public boolean isBtnAtualizarEnable() {
         return btnAtualizarEnable;
     }
@@ -57,7 +59,7 @@ public abstract class JPanelControleButtons extends JPanel {
     }
 
     public final boolean isAtivo() {
-        FrmMain frm = FrmMain.getInstance();
+        frmMain frm = frmMain.getInstance();
         return frm.getCurrentComponent() == this;
     }
 
@@ -85,25 +87,9 @@ public abstract class JPanelControleButtons extends JPanel {
         this.btnExcluirEnable = btnExcluirEnable;
     }
 
-    public boolean isBtnSalvarEnable() {
-        return btnSalvarEnable;
-    }
-
-    public void setBtnSalvarEnable(boolean btnSalvarEnable) {
-        this.btnSalvarEnable = btnSalvarEnable;
-    }
-
-    public boolean isBtnCancelarEnable() {
-        return btnCancelarEnable;
-    }
-
-    public void setBtnCancelarEnable(boolean btnCancelarEnable) {
-        this.btnCancelarEnable = btnCancelarEnable;
-    }
-
     public final void fireButtonsChanged() {
         if (isAtivo()) {
-            FrmMain.getInstance().refreshButtons();
+            frmMain.getInstance().refreshButtons();
         }
     }
 
@@ -113,10 +99,32 @@ public abstract class JPanelControleButtons extends JPanel {
 
     public abstract void btnExcluirActionPerformed(java.awt.event.ActionEvent evt);
 
-    public abstract void btnSalvarActionPerformed(java.awt.event.ActionEvent evt);
-
-    public abstract void btnCancelarActionPerformed(java.awt.event.ActionEvent evt);
-
     public abstract void btnAtualizarActionPerformed(java.awt.event.ActionEvent evt);
 
+    protected void defaultDeleteOperation(JTableDataBinder table, ThrowingConsumer<Serializable> callback) {
+        if (table.getSelectedId() > 0) {
+            if (!utils.Forms.dialogDelete()) {
+                return;
+            }
+            try {
+                callback.accept(table.getSelectedId());
+                utils.Forms.mensagem(Mensagens.excluidoSucesso, AlertaTipos.sucesso);
+
+                table.atualizar();
+            } catch (Exception ex) {
+                utils.Forms.mensagem(ex.getMessage(), AlertaTipos.erro);
+            }
+        } else {
+            utils.Forms.mensagem(utils.Mensagens.selecioneUmItem, AlertaTipos.erro);
+        }
+    }
+
+    protected void defaultUpdateOperation(JTableDataBinder table, ThrowingConsumer<Integer> callback) {
+        if (table.getSelectedId() > 0) {
+            callback.accept(table.getSelectedId());
+            table.atualizar();
+        } else {
+            utils.Forms.mensagem(utils.Mensagens.selecioneUmItem, AlertaTipos.erro);
+        }
+    }
 }

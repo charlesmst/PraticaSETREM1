@@ -5,7 +5,7 @@
  */
 package components;
 
-import forms.FrmF2;
+import forms.frmF2;
 import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -25,9 +25,9 @@ public class F2 {
     private F2Listener listener;
     private final JLabel label;
     private JTextField txt;
-    private Class<? extends forms.FrmF2> classRef;
+    private Class<? extends forms.frmF2> classRef;
 
-    public F2(JTextField txt, Class<? extends forms.FrmF2> classRef) {
+    public F2(JTextField txt, Class<? extends forms.frmF2> classRef) {
         this.txt = txt;
         this.classRef = classRef;
         new JCampoBusca(txt, new ActionListener() {
@@ -50,7 +50,7 @@ public class F2 {
                     //Apertou F2
                     if (e.getKeyCode() == 113) {
                         try {
-                            FrmF2 frm = classRef.newInstance();
+                            frmF2 frm = classRef.newInstance();
                             int o = 0;
                             frm.setCallback(new ActionListener() {
 

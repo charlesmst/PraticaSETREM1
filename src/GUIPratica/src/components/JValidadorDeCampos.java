@@ -119,6 +119,9 @@ public class JValidadorDeCampos {
 
         }
 
+        if(!valido){
+            utils.Forms.mensagem(utils.Mensagens.verifiqueCampos, AlertaTipos.erro);
+        }
         return valido;
     }
 }
