@@ -47,9 +47,9 @@ public abstract class Service<T> {
     private Session session;
 
     public Session getSession() {
-        if (session == null || !session.isOpen()) {
+//        if (session == null || !session.isOpen()) {
             session = HibernateUtil.getSessionFactory().openSession();
-        }
+//        }
         return session;
     }
 

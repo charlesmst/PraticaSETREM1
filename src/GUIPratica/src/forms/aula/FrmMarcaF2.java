@@ -19,7 +19,7 @@ import services.aul.MarcaService;
  */
 public class FrmMarcaF2 extends frmF2 {
 
-    MarcaService service = new MarcaService();
+    protected final MarcaService service = new MarcaService();
 
     public FrmMarcaF2() {
         super(frmMain.getInstance(), "Buscar Marca");

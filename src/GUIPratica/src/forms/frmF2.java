@@ -9,6 +9,7 @@ import components.JCampoBusca;
 import components.JDialogController;
 import components.JTableDataBinder;
 import components.JTableDataBinderListener;
+import java.awt.EventQueue;
 import java.awt.event.KeyEvent;
 import java.util.function.BiConsumer;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
@@ -45,7 +46,8 @@ public class frmF2 extends JDialogController {
 
     public void setBusca(String texto) {
         txtBuscar.setText(texto);
-        campo.go();
+//        EventQueue.invokeLater(()->campo.go());
+
     }
 
     protected JTableDataBinderListener getListener() {
@@ -128,6 +130,11 @@ public class frmF2 extends JDialogController {
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
+            }
+        });
+        jtbDados.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jtbDadosMousePressed(evt);
             }
         });
         jtbDados.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -268,6 +275,12 @@ public class frmF2 extends JDialogController {
             btnNovo.doClick();
         }
     }//GEN-LAST:event_jtbDadosKeyPressed
+
+    private void jtbDadosMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtbDadosMousePressed
+        if(evt.getClickCount() == 2){
+            btnSelecionar.doClick();
+        }
+    }//GEN-LAST:event_jtbDadosMousePressed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

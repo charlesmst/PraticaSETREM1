@@ -5672,3 +5672,688 @@ java.lang.NullPointerException
 2015-10-11 19:58:23 INFO  SchemaUpdate:242 - HHH000232: Schema update complete
 2015-10-11 19:58:27 ERROR Segmento:27 - Session is closed!
 2015-10-11 19:58:39 ERROR Segmento:27 - Session is closed!
+2015-10-11 20:02:07 INFO  Version:66 - HCANN000001: Hibernate Commons Annotations {4.0.4.Final}
+2015-10-11 20:02:07 INFO  Version:54 - HHH000412: Hibernate Core {4.3.1.Final}
+2015-10-11 20:02:07 INFO  Environment:239 - HHH000206: hibernate.properties not found
+2015-10-11 20:02:07 INFO  Environment:346 - HHH000021: Bytecode provider name : javassist
+2015-10-11 20:02:07 INFO  Configuration:2073 - HHH000043: Configuring from resource: /hibernate.cfg.xml
+2015-10-11 20:02:07 INFO  Configuration:2092 - HHH000040: Configuration resource: /hibernate.cfg.xml
+2015-10-11 20:02:07 WARN  DTDEntityResolver:75 - HHH000223: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/. Use namespace http://www.hibernate.org/dtd/ instead. Refer to Hibernate 3.6 Migration Guide!
+2015-10-11 20:02:07 INFO  Configuration:2214 - HHH000041: Configured SessionFactory: null
+2015-10-11 20:02:07 WARN  DriverManagerConnectionProviderImpl:93 - HHH000402: Using Hibernate built-in connection pool (not for production use!)
+2015-10-11 20:02:07 INFO  DriverManagerConnectionProviderImpl:166 - HHH000401: using driver [org.postgresql.Driver] at URL [jdbc:postgresql://localhost:5432/AULA2]
+2015-10-11 20:02:07 INFO  DriverManagerConnectionProviderImpl:175 - HHH000046: Connection properties: {user=postgres, password=****}
+2015-10-11 20:02:07 INFO  DriverManagerConnectionProviderImpl:180 - HHH000006: Autocommit mode: false
+2015-10-11 20:02:07 INFO  DriverManagerConnectionProviderImpl:102 - HHH000115: Hibernate connection pool size: 20 (min=1)
+2015-10-11 20:02:08 INFO  Dialect:145 - HHH000400: Using dialect: org.hibernate.dialect.PostgreSQLDialect
+2015-10-11 20:02:08 INFO  LobCreatorBuilder:123 - HHH000424: Disabling contextual LOB creation as createClob() method threw error : java.lang.reflect.InvocationTargetException
+2015-10-11 20:02:08 INFO  TransactionFactoryInitiator:62 - HHH000399: Using default transaction strategy (direct JDBC transactions)
+2015-10-11 20:02:08 INFO  ASTQueryTranslatorFactory:47 - HHH000397: Using ASTQueryTranslatorFactory
+2015-10-11 20:02:08 INFO  SchemaUpdate:182 - HHH000228: Running hbm2ddl schema update
+2015-10-11 20:02:08 INFO  SchemaUpdate:193 - HHH000102: Fetching database metadata
+2015-10-11 20:02:08 INFO  SchemaUpdate:205 - HHH000396: Updating schema
+2015-10-11 20:02:09 INFO  TableMetadata:66 - HHH000261: Table found: public.marca
+2015-10-11 20:02:09 INFO  TableMetadata:67 - HHH000037: Columns: [nome, id]
+2015-10-11 20:02:09 INFO  TableMetadata:69 - HHH000108: Foreign keys: []
+2015-10-11 20:02:09 INFO  TableMetadata:70 - HHH000126: Indexes: [marca_pkey]
+2015-10-11 20:02:09 INFO  TableMetadata:66 - HHH000261: Table found: public.produto
+2015-10-11 20:02:09 INFO  TableMetadata:67 - HHH000037: Columns: [segmento_id, id, marca_id, descricao]
+2015-10-11 20:02:09 INFO  TableMetadata:69 - HHH000108: Foreign keys: [fk_7uq9blapf1iuhv5qvp9deiylk, fk_nurdtcs13e2jlx6g6jfgjxf0a]
+2015-10-11 20:02:09 INFO  TableMetadata:70 - HHH000126: Indexes: [produto_pkey]
+2015-10-11 20:02:09 INFO  TableMetadata:66 - HHH000261: Table found: public.segmento
+2015-10-11 20:02:09 INFO  TableMetadata:67 - HHH000037: Columns: [nome, id]
+2015-10-11 20:02:09 INFO  TableMetadata:69 - HHH000108: Foreign keys: []
+2015-10-11 20:02:09 INFO  TableMetadata:70 - HHH000126: Indexes: [segmento_pkey]
+2015-10-11 20:02:09 INFO  TableMetadata:66 - HHH000261: Table found: public.sh_usuario
+2015-10-11 20:02:09 INFO  TableMetadata:67 - HHH000037: Columns: [id_pessoa, ativo, usuario, nivel]
+2015-10-11 20:02:09 INFO  TableMetadata:69 - HHH000108: Foreign keys: []
+2015-10-11 20:02:09 INFO  TableMetadata:70 - HHH000126: Indexes: [sh_usuario_pkey]
+2015-10-11 20:02:09 INFO  SchemaUpdate:242 - HHH000232: Schema update complete
+2015-10-11 20:02:16 ERROR Segmento:27 - Session is closed!
+2015-10-11 20:03:21 INFO  Version:66 - HCANN000001: Hibernate Commons Annotations {4.0.4.Final}
+2015-10-11 20:03:21 INFO  Version:54 - HHH000412: Hibernate Core {4.3.1.Final}
+2015-10-11 20:03:21 INFO  Environment:239 - HHH000206: hibernate.properties not found
+2015-10-11 20:03:21 INFO  Environment:346 - HHH000021: Bytecode provider name : javassist
+2015-10-11 20:03:21 INFO  Configuration:2073 - HHH000043: Configuring from resource: /hibernate.cfg.xml
+2015-10-11 20:03:21 INFO  Configuration:2092 - HHH000040: Configuration resource: /hibernate.cfg.xml
+2015-10-11 20:03:21 WARN  DTDEntityResolver:75 - HHH000223: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/. Use namespace http://www.hibernate.org/dtd/ instead. Refer to Hibernate 3.6 Migration Guide!
+2015-10-11 20:03:21 INFO  Configuration:2214 - HHH000041: Configured SessionFactory: null
+2015-10-11 20:03:21 WARN  DriverManagerConnectionProviderImpl:93 - HHH000402: Using Hibernate built-in connection pool (not for production use!)
+2015-10-11 20:03:21 INFO  DriverManagerConnectionProviderImpl:166 - HHH000401: using driver [org.postgresql.Driver] at URL [jdbc:postgresql://localhost:5432/AULA2]
+2015-10-11 20:03:21 INFO  DriverManagerConnectionProviderImpl:175 - HHH000046: Connection properties: {user=postgres, password=****}
+2015-10-11 20:03:21 INFO  DriverManagerConnectionProviderImpl:180 - HHH000006: Autocommit mode: false
+2015-10-11 20:03:21 INFO  DriverManagerConnectionProviderImpl:102 - HHH000115: Hibernate connection pool size: 20 (min=1)
+2015-10-11 20:03:21 INFO  Dialect:145 - HHH000400: Using dialect: org.hibernate.dialect.PostgreSQLDialect
+2015-10-11 20:03:21 INFO  LobCreatorBuilder:123 - HHH000424: Disabling contextual LOB creation as createClob() method threw error : java.lang.reflect.InvocationTargetException
+2015-10-11 20:03:22 INFO  TransactionFactoryInitiator:62 - HHH000399: Using default transaction strategy (direct JDBC transactions)
+2015-10-11 20:03:22 INFO  ASTQueryTranslatorFactory:47 - HHH000397: Using ASTQueryTranslatorFactory
+2015-10-11 20:03:22 INFO  SchemaUpdate:182 - HHH000228: Running hbm2ddl schema update
+2015-10-11 20:03:22 INFO  SchemaUpdate:193 - HHH000102: Fetching database metadata
+2015-10-11 20:03:22 INFO  SchemaUpdate:205 - HHH000396: Updating schema
+2015-10-11 20:03:22 INFO  TableMetadata:66 - HHH000261: Table found: public.marca
+2015-10-11 20:03:22 INFO  TableMetadata:67 - HHH000037: Columns: [nome, id]
+2015-10-11 20:03:22 INFO  TableMetadata:69 - HHH000108: Foreign keys: []
+2015-10-11 20:03:22 INFO  TableMetadata:70 - HHH000126: Indexes: [marca_pkey]
+2015-10-11 20:03:22 INFO  TableMetadata:66 - HHH000261: Table found: public.produto
+2015-10-11 20:03:22 INFO  TableMetadata:67 - HHH000037: Columns: [segmento_id, id, marca_id, descricao]
+2015-10-11 20:03:22 INFO  TableMetadata:69 - HHH000108: Foreign keys: [fk_7uq9blapf1iuhv5qvp9deiylk, fk_nurdtcs13e2jlx6g6jfgjxf0a]
+2015-10-11 20:03:22 INFO  TableMetadata:70 - HHH000126: Indexes: [produto_pkey]
+2015-10-11 20:03:22 INFO  TableMetadata:66 - HHH000261: Table found: public.segmento
+2015-10-11 20:03:22 INFO  TableMetadata:67 - HHH000037: Columns: [nome, id]
+2015-10-11 20:03:22 INFO  TableMetadata:69 - HHH000108: Foreign keys: []
+2015-10-11 20:03:22 INFO  TableMetadata:70 - HHH000126: Indexes: [segmento_pkey]
+2015-10-11 20:03:22 INFO  TableMetadata:66 - HHH000261: Table found: public.sh_usuario
+2015-10-11 20:03:22 INFO  TableMetadata:67 - HHH000037: Columns: [id_pessoa, ativo, usuario, nivel]
+2015-10-11 20:03:22 INFO  TableMetadata:69 - HHH000108: Foreign keys: []
+2015-10-11 20:03:22 INFO  TableMetadata:70 - HHH000126: Indexes: [sh_usuario_pkey]
+2015-10-11 20:03:22 INFO  SchemaUpdate:242 - HHH000232: Schema update complete
+2015-10-11 20:04:23 ERROR Segmento:27 - Session is closed!
+2015-10-11 20:06:58 INFO  Version:66 - HCANN000001: Hibernate Commons Annotations {4.0.4.Final}
+2015-10-11 20:06:58 INFO  Version:54 - HHH000412: Hibernate Core {4.3.1.Final}
+2015-10-11 20:06:58 INFO  Environment:239 - HHH000206: hibernate.properties not found
+2015-10-11 20:06:58 INFO  Environment:346 - HHH000021: Bytecode provider name : javassist
+2015-10-11 20:06:58 INFO  Configuration:2073 - HHH000043: Configuring from resource: /hibernate.cfg.xml
+2015-10-11 20:06:58 INFO  Configuration:2092 - HHH000040: Configuration resource: /hibernate.cfg.xml
+2015-10-11 20:06:58 WARN  DTDEntityResolver:75 - HHH000223: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/. Use namespace http://www.hibernate.org/dtd/ instead. Refer to Hibernate 3.6 Migration Guide!
+2015-10-11 20:06:58 INFO  Configuration:2214 - HHH000041: Configured SessionFactory: null
+2015-10-11 20:06:58 WARN  DriverManagerConnectionProviderImpl:93 - HHH000402: Using Hibernate built-in connection pool (not for production use!)
+2015-10-11 20:06:58 INFO  DriverManagerConnectionProviderImpl:166 - HHH000401: using driver [org.postgresql.Driver] at URL [jdbc:postgresql://localhost:5432/AULA2]
+2015-10-11 20:06:58 INFO  DriverManagerConnectionProviderImpl:175 - HHH000046: Connection properties: {user=postgres, password=****}
+2015-10-11 20:06:58 INFO  DriverManagerConnectionProviderImpl:180 - HHH000006: Autocommit mode: false
+2015-10-11 20:06:58 INFO  DriverManagerConnectionProviderImpl:102 - HHH000115: Hibernate connection pool size: 20 (min=1)
+2015-10-11 20:06:58 INFO  Dialect:145 - HHH000400: Using dialect: org.hibernate.dialect.PostgreSQLDialect
+2015-10-11 20:06:58 INFO  LobCreatorBuilder:123 - HHH000424: Disabling contextual LOB creation as createClob() method threw error : java.lang.reflect.InvocationTargetException
+2015-10-11 20:06:58 INFO  TransactionFactoryInitiator:62 - HHH000399: Using default transaction strategy (direct JDBC transactions)
+2015-10-11 20:06:58 INFO  ASTQueryTranslatorFactory:47 - HHH000397: Using ASTQueryTranslatorFactory
+2015-10-11 20:06:59 INFO  SchemaUpdate:182 - HHH000228: Running hbm2ddl schema update
+2015-10-11 20:06:59 INFO  SchemaUpdate:193 - HHH000102: Fetching database metadata
+2015-10-11 20:06:59 INFO  SchemaUpdate:205 - HHH000396: Updating schema
+2015-10-11 20:06:59 INFO  TableMetadata:66 - HHH000261: Table found: public.marca
+2015-10-11 20:06:59 INFO  TableMetadata:67 - HHH000037: Columns: [nome, id]
+2015-10-11 20:06:59 INFO  TableMetadata:69 - HHH000108: Foreign keys: []
+2015-10-11 20:06:59 INFO  TableMetadata:70 - HHH000126: Indexes: [marca_pkey]
+2015-10-11 20:06:59 INFO  TableMetadata:66 - HHH000261: Table found: public.produto
+2015-10-11 20:06:59 INFO  TableMetadata:67 - HHH000037: Columns: [segmento_id, id, marca_id, descricao]
+2015-10-11 20:06:59 INFO  TableMetadata:69 - HHH000108: Foreign keys: [fk_7uq9blapf1iuhv5qvp9deiylk, fk_nurdtcs13e2jlx6g6jfgjxf0a]
+2015-10-11 20:06:59 INFO  TableMetadata:70 - HHH000126: Indexes: [produto_pkey]
+2015-10-11 20:06:59 INFO  TableMetadata:66 - HHH000261: Table found: public.segmento
+2015-10-11 20:06:59 INFO  TableMetadata:67 - HHH000037: Columns: [nome, id]
+2015-10-11 20:06:59 INFO  TableMetadata:69 - HHH000108: Foreign keys: []
+2015-10-11 20:06:59 INFO  TableMetadata:70 - HHH000126: Indexes: [segmento_pkey]
+2015-10-11 20:06:59 INFO  TableMetadata:66 - HHH000261: Table found: public.sh_usuario
+2015-10-11 20:06:59 INFO  TableMetadata:67 - HHH000037: Columns: [id_pessoa, ativo, usuario, nivel]
+2015-10-11 20:06:59 INFO  TableMetadata:69 - HHH000108: Foreign keys: []
+2015-10-11 20:06:59 INFO  TableMetadata:70 - HHH000126: Indexes: [sh_usuario_pkey]
+2015-10-11 20:06:59 INFO  SchemaUpdate:242 - HHH000232: Schema update complete
+2015-10-11 20:07:04 ERROR Segmento:27 - Session is closed!
+2015-10-11 20:07:07 ERROR Segmento:27 - Session is closed!
+2015-10-11 20:10:05 INFO  Version:66 - HCANN000001: Hibernate Commons Annotations {4.0.4.Final}
+2015-10-11 20:10:05 INFO  Version:54 - HHH000412: Hibernate Core {4.3.1.Final}
+2015-10-11 20:10:05 INFO  Environment:239 - HHH000206: hibernate.properties not found
+2015-10-11 20:10:05 INFO  Environment:346 - HHH000021: Bytecode provider name : javassist
+2015-10-11 20:10:05 INFO  Configuration:2073 - HHH000043: Configuring from resource: /hibernate.cfg.xml
+2015-10-11 20:10:05 INFO  Configuration:2092 - HHH000040: Configuration resource: /hibernate.cfg.xml
+2015-10-11 20:10:05 WARN  DTDEntityResolver:75 - HHH000223: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/. Use namespace http://www.hibernate.org/dtd/ instead. Refer to Hibernate 3.6 Migration Guide!
+2015-10-11 20:10:05 INFO  Configuration:2214 - HHH000041: Configured SessionFactory: null
+2015-10-11 20:10:05 WARN  DriverManagerConnectionProviderImpl:93 - HHH000402: Using Hibernate built-in connection pool (not for production use!)
+2015-10-11 20:10:05 INFO  DriverManagerConnectionProviderImpl:166 - HHH000401: using driver [org.postgresql.Driver] at URL [jdbc:postgresql://localhost:5432/AULA2]
+2015-10-11 20:10:05 INFO  DriverManagerConnectionProviderImpl:175 - HHH000046: Connection properties: {user=postgres, password=****}
+2015-10-11 20:10:05 INFO  DriverManagerConnectionProviderImpl:180 - HHH000006: Autocommit mode: false
+2015-10-11 20:10:05 INFO  DriverManagerConnectionProviderImpl:102 - HHH000115: Hibernate connection pool size: 20 (min=1)
+2015-10-11 20:10:05 INFO  Dialect:145 - HHH000400: Using dialect: org.hibernate.dialect.PostgreSQLDialect
+2015-10-11 20:10:05 INFO  LobCreatorBuilder:123 - HHH000424: Disabling contextual LOB creation as createClob() method threw error : java.lang.reflect.InvocationTargetException
+2015-10-11 20:10:05 INFO  TransactionFactoryInitiator:62 - HHH000399: Using default transaction strategy (direct JDBC transactions)
+2015-10-11 20:10:05 INFO  ASTQueryTranslatorFactory:47 - HHH000397: Using ASTQueryTranslatorFactory
+2015-10-11 20:10:06 INFO  SchemaUpdate:182 - HHH000228: Running hbm2ddl schema update
+2015-10-11 20:10:06 INFO  SchemaUpdate:193 - HHH000102: Fetching database metadata
+2015-10-11 20:10:06 INFO  SchemaUpdate:205 - HHH000396: Updating schema
+2015-10-11 20:10:06 INFO  TableMetadata:66 - HHH000261: Table found: public.marca
+2015-10-11 20:10:06 INFO  TableMetadata:67 - HHH000037: Columns: [nome, id]
+2015-10-11 20:10:06 INFO  TableMetadata:69 - HHH000108: Foreign keys: []
+2015-10-11 20:10:06 INFO  TableMetadata:70 - HHH000126: Indexes: [marca_pkey]
+2015-10-11 20:10:06 INFO  TableMetadata:66 - HHH000261: Table found: public.produto
+2015-10-11 20:10:06 INFO  TableMetadata:67 - HHH000037: Columns: [segmento_id, id, marca_id, descricao]
+2015-10-11 20:10:06 INFO  TableMetadata:69 - HHH000108: Foreign keys: [fk_7uq9blapf1iuhv5qvp9deiylk, fk_nurdtcs13e2jlx6g6jfgjxf0a]
+2015-10-11 20:10:06 INFO  TableMetadata:70 - HHH000126: Indexes: [produto_pkey]
+2015-10-11 20:10:06 INFO  TableMetadata:66 - HHH000261: Table found: public.segmento
+2015-10-11 20:10:06 INFO  TableMetadata:67 - HHH000037: Columns: [nome, id]
+2015-10-11 20:10:06 INFO  TableMetadata:69 - HHH000108: Foreign keys: []
+2015-10-11 20:10:06 INFO  TableMetadata:70 - HHH000126: Indexes: [segmento_pkey]
+2015-10-11 20:10:06 INFO  TableMetadata:66 - HHH000261: Table found: public.sh_usuario
+2015-10-11 20:10:06 INFO  TableMetadata:67 - HHH000037: Columns: [id_pessoa, ativo, usuario, nivel]
+2015-10-11 20:10:06 INFO  TableMetadata:69 - HHH000108: Foreign keys: []
+2015-10-11 20:10:06 INFO  TableMetadata:70 - HHH000126: Indexes: [sh_usuario_pkey]
+2015-10-11 20:10:06 INFO  SchemaUpdate:242 - HHH000232: Schema update complete
+2015-10-11 20:10:10 ERROR Segmento:27 - Session is closed!
+2015-10-11 20:11:49 INFO  Version:66 - HCANN000001: Hibernate Commons Annotations {4.0.4.Final}
+2015-10-11 20:11:49 INFO  Version:54 - HHH000412: Hibernate Core {4.3.1.Final}
+2015-10-11 20:11:49 INFO  Environment:239 - HHH000206: hibernate.properties not found
+2015-10-11 20:11:49 INFO  Environment:346 - HHH000021: Bytecode provider name : javassist
+2015-10-11 20:11:49 INFO  Configuration:2073 - HHH000043: Configuring from resource: /hibernate.cfg.xml
+2015-10-11 20:11:49 INFO  Configuration:2092 - HHH000040: Configuration resource: /hibernate.cfg.xml
+2015-10-11 20:11:49 WARN  DTDEntityResolver:75 - HHH000223: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/. Use namespace http://www.hibernate.org/dtd/ instead. Refer to Hibernate 3.6 Migration Guide!
+2015-10-11 20:11:49 INFO  Configuration:2214 - HHH000041: Configured SessionFactory: null
+2015-10-11 20:11:49 WARN  DriverManagerConnectionProviderImpl:93 - HHH000402: Using Hibernate built-in connection pool (not for production use!)
+2015-10-11 20:11:49 INFO  DriverManagerConnectionProviderImpl:166 - HHH000401: using driver [org.postgresql.Driver] at URL [jdbc:postgresql://localhost:5432/AULA2]
+2015-10-11 20:11:49 INFO  DriverManagerConnectionProviderImpl:175 - HHH000046: Connection properties: {user=postgres, password=****}
+2015-10-11 20:11:49 INFO  DriverManagerConnectionProviderImpl:180 - HHH000006: Autocommit mode: false
+2015-10-11 20:11:49 INFO  DriverManagerConnectionProviderImpl:102 - HHH000115: Hibernate connection pool size: 20 (min=1)
+2015-10-11 20:11:49 INFO  Dialect:145 - HHH000400: Using dialect: org.hibernate.dialect.PostgreSQLDialect
+2015-10-11 20:11:49 INFO  LobCreatorBuilder:123 - HHH000424: Disabling contextual LOB creation as createClob() method threw error : java.lang.reflect.InvocationTargetException
+2015-10-11 20:11:49 INFO  TransactionFactoryInitiator:62 - HHH000399: Using default transaction strategy (direct JDBC transactions)
+2015-10-11 20:11:49 INFO  ASTQueryTranslatorFactory:47 - HHH000397: Using ASTQueryTranslatorFactory
+2015-10-11 20:11:50 INFO  SchemaUpdate:182 - HHH000228: Running hbm2ddl schema update
+2015-10-11 20:11:50 INFO  SchemaUpdate:193 - HHH000102: Fetching database metadata
+2015-10-11 20:11:50 INFO  SchemaUpdate:205 - HHH000396: Updating schema
+2015-10-11 20:11:50 INFO  TableMetadata:66 - HHH000261: Table found: public.marca
+2015-10-11 20:11:50 INFO  TableMetadata:67 - HHH000037: Columns: [nome, id]
+2015-10-11 20:11:50 INFO  TableMetadata:69 - HHH000108: Foreign keys: []
+2015-10-11 20:11:50 INFO  TableMetadata:70 - HHH000126: Indexes: [marca_pkey]
+2015-10-11 20:11:50 INFO  TableMetadata:66 - HHH000261: Table found: public.produto
+2015-10-11 20:11:50 INFO  TableMetadata:67 - HHH000037: Columns: [segmento_id, id, marca_id, descricao]
+2015-10-11 20:11:50 INFO  TableMetadata:69 - HHH000108: Foreign keys: [fk_7uq9blapf1iuhv5qvp9deiylk, fk_nurdtcs13e2jlx6g6jfgjxf0a]
+2015-10-11 20:11:50 INFO  TableMetadata:70 - HHH000126: Indexes: [produto_pkey]
+2015-10-11 20:11:50 INFO  TableMetadata:66 - HHH000261: Table found: public.segmento
+2015-10-11 20:11:50 INFO  TableMetadata:67 - HHH000037: Columns: [nome, id]
+2015-10-11 20:11:50 INFO  TableMetadata:69 - HHH000108: Foreign keys: []
+2015-10-11 20:11:50 INFO  TableMetadata:70 - HHH000126: Indexes: [segmento_pkey]
+2015-10-11 20:11:50 INFO  TableMetadata:66 - HHH000261: Table found: public.sh_usuario
+2015-10-11 20:11:50 INFO  TableMetadata:67 - HHH000037: Columns: [id_pessoa, ativo, usuario, nivel]
+2015-10-11 20:11:50 INFO  TableMetadata:69 - HHH000108: Foreign keys: []
+2015-10-11 20:11:50 INFO  TableMetadata:70 - HHH000126: Indexes: [sh_usuario_pkey]
+2015-10-11 20:11:50 INFO  SchemaUpdate:242 - HHH000232: Schema update complete
+2015-10-11 20:11:52 ERROR Segmento:27 - Session is closed!
+2015-10-11 20:13:17 ERROR Segmento:27 - Session is closed!
+2015-10-11 20:14:10 INFO  Version:66 - HCANN000001: Hibernate Commons Annotations {4.0.4.Final}
+2015-10-11 20:14:10 INFO  Version:54 - HHH000412: Hibernate Core {4.3.1.Final}
+2015-10-11 20:14:10 INFO  Environment:239 - HHH000206: hibernate.properties not found
+2015-10-11 20:14:10 INFO  Environment:346 - HHH000021: Bytecode provider name : javassist
+2015-10-11 20:14:10 INFO  Configuration:2073 - HHH000043: Configuring from resource: /hibernate.cfg.xml
+2015-10-11 20:14:10 INFO  Configuration:2092 - HHH000040: Configuration resource: /hibernate.cfg.xml
+2015-10-11 20:14:10 WARN  DTDEntityResolver:75 - HHH000223: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/. Use namespace http://www.hibernate.org/dtd/ instead. Refer to Hibernate 3.6 Migration Guide!
+2015-10-11 20:14:10 INFO  Configuration:2214 - HHH000041: Configured SessionFactory: null
+2015-10-11 20:14:10 WARN  DriverManagerConnectionProviderImpl:93 - HHH000402: Using Hibernate built-in connection pool (not for production use!)
+2015-10-11 20:14:10 INFO  DriverManagerConnectionProviderImpl:166 - HHH000401: using driver [org.postgresql.Driver] at URL [jdbc:postgresql://localhost:5432/AULA2]
+2015-10-11 20:14:10 INFO  DriverManagerConnectionProviderImpl:175 - HHH000046: Connection properties: {user=postgres, password=****}
+2015-10-11 20:14:10 INFO  DriverManagerConnectionProviderImpl:180 - HHH000006: Autocommit mode: false
+2015-10-11 20:14:10 INFO  DriverManagerConnectionProviderImpl:102 - HHH000115: Hibernate connection pool size: 20 (min=1)
+2015-10-11 20:14:10 INFO  Dialect:145 - HHH000400: Using dialect: org.hibernate.dialect.PostgreSQLDialect
+2015-10-11 20:14:10 INFO  LobCreatorBuilder:123 - HHH000424: Disabling contextual LOB creation as createClob() method threw error : java.lang.reflect.InvocationTargetException
+2015-10-11 20:14:10 INFO  TransactionFactoryInitiator:62 - HHH000399: Using default transaction strategy (direct JDBC transactions)
+2015-10-11 20:14:10 INFO  ASTQueryTranslatorFactory:47 - HHH000397: Using ASTQueryTranslatorFactory
+2015-10-11 20:14:11 INFO  SchemaUpdate:182 - HHH000228: Running hbm2ddl schema update
+2015-10-11 20:14:11 INFO  SchemaUpdate:193 - HHH000102: Fetching database metadata
+2015-10-11 20:14:11 INFO  SchemaUpdate:205 - HHH000396: Updating schema
+2015-10-11 20:14:11 INFO  TableMetadata:66 - HHH000261: Table found: public.marca
+2015-10-11 20:14:11 INFO  TableMetadata:67 - HHH000037: Columns: [nome, id]
+2015-10-11 20:14:11 INFO  TableMetadata:69 - HHH000108: Foreign keys: []
+2015-10-11 20:14:11 INFO  TableMetadata:70 - HHH000126: Indexes: [marca_pkey]
+2015-10-11 20:14:11 INFO  TableMetadata:66 - HHH000261: Table found: public.produto
+2015-10-11 20:14:11 INFO  TableMetadata:67 - HHH000037: Columns: [segmento_id, id, marca_id, descricao]
+2015-10-11 20:14:11 INFO  TableMetadata:69 - HHH000108: Foreign keys: [fk_7uq9blapf1iuhv5qvp9deiylk, fk_nurdtcs13e2jlx6g6jfgjxf0a]
+2015-10-11 20:14:11 INFO  TableMetadata:70 - HHH000126: Indexes: [produto_pkey]
+2015-10-11 20:14:11 INFO  TableMetadata:66 - HHH000261: Table found: public.segmento
+2015-10-11 20:14:11 INFO  TableMetadata:67 - HHH000037: Columns: [nome, id]
+2015-10-11 20:14:11 INFO  TableMetadata:69 - HHH000108: Foreign keys: []
+2015-10-11 20:14:11 INFO  TableMetadata:70 - HHH000126: Indexes: [segmento_pkey]
+2015-10-11 20:14:11 INFO  TableMetadata:66 - HHH000261: Table found: public.sh_usuario
+2015-10-11 20:14:11 INFO  TableMetadata:67 - HHH000037: Columns: [id_pessoa, ativo, usuario, nivel]
+2015-10-11 20:14:11 INFO  TableMetadata:69 - HHH000108: Foreign keys: []
+2015-10-11 20:14:11 INFO  TableMetadata:70 - HHH000126: Indexes: [sh_usuario_pkey]
+2015-10-11 20:14:11 INFO  SchemaUpdate:242 - HHH000232: Schema update complete
+2015-10-11 20:14:15 ERROR Segmento:27 - Session is closed!
+2015-10-11 20:15:01 INFO  Version:66 - HCANN000001: Hibernate Commons Annotations {4.0.4.Final}
+2015-10-11 20:15:01 INFO  Version:54 - HHH000412: Hibernate Core {4.3.1.Final}
+2015-10-11 20:15:01 INFO  Environment:239 - HHH000206: hibernate.properties not found
+2015-10-11 20:15:01 INFO  Environment:346 - HHH000021: Bytecode provider name : javassist
+2015-10-11 20:15:01 INFO  Configuration:2073 - HHH000043: Configuring from resource: /hibernate.cfg.xml
+2015-10-11 20:15:01 INFO  Configuration:2092 - HHH000040: Configuration resource: /hibernate.cfg.xml
+2015-10-11 20:15:01 WARN  DTDEntityResolver:75 - HHH000223: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/. Use namespace http://www.hibernate.org/dtd/ instead. Refer to Hibernate 3.6 Migration Guide!
+2015-10-11 20:15:02 INFO  Configuration:2214 - HHH000041: Configured SessionFactory: null
+2015-10-11 20:15:02 WARN  DriverManagerConnectionProviderImpl:93 - HHH000402: Using Hibernate built-in connection pool (not for production use!)
+2015-10-11 20:15:02 INFO  DriverManagerConnectionProviderImpl:166 - HHH000401: using driver [org.postgresql.Driver] at URL [jdbc:postgresql://localhost:5432/AULA2]
+2015-10-11 20:15:02 INFO  DriverManagerConnectionProviderImpl:175 - HHH000046: Connection properties: {user=postgres, password=****}
+2015-10-11 20:15:02 INFO  DriverManagerConnectionProviderImpl:180 - HHH000006: Autocommit mode: false
+2015-10-11 20:15:02 INFO  DriverManagerConnectionProviderImpl:102 - HHH000115: Hibernate connection pool size: 20 (min=1)
+2015-10-11 20:15:02 INFO  Dialect:145 - HHH000400: Using dialect: org.hibernate.dialect.PostgreSQLDialect
+2015-10-11 20:15:02 INFO  LobCreatorBuilder:123 - HHH000424: Disabling contextual LOB creation as createClob() method threw error : java.lang.reflect.InvocationTargetException
+2015-10-11 20:15:02 INFO  TransactionFactoryInitiator:62 - HHH000399: Using default transaction strategy (direct JDBC transactions)
+2015-10-11 20:15:02 INFO  ASTQueryTranslatorFactory:47 - HHH000397: Using ASTQueryTranslatorFactory
+2015-10-11 20:15:02 INFO  SchemaUpdate:182 - HHH000228: Running hbm2ddl schema update
+2015-10-11 20:15:02 INFO  SchemaUpdate:193 - HHH000102: Fetching database metadata
+2015-10-11 20:15:02 INFO  SchemaUpdate:205 - HHH000396: Updating schema
+2015-10-11 20:15:02 INFO  TableMetadata:66 - HHH000261: Table found: public.marca
+2015-10-11 20:15:02 INFO  TableMetadata:67 - HHH000037: Columns: [nome, id]
+2015-10-11 20:15:02 INFO  TableMetadata:69 - HHH000108: Foreign keys: []
+2015-10-11 20:15:02 INFO  TableMetadata:70 - HHH000126: Indexes: [marca_pkey]
+2015-10-11 20:15:03 INFO  TableMetadata:66 - HHH000261: Table found: public.produto
+2015-10-11 20:15:03 INFO  TableMetadata:67 - HHH000037: Columns: [segmento_id, id, marca_id, descricao]
+2015-10-11 20:15:03 INFO  TableMetadata:69 - HHH000108: Foreign keys: [fk_7uq9blapf1iuhv5qvp9deiylk, fk_nurdtcs13e2jlx6g6jfgjxf0a]
+2015-10-11 20:15:03 INFO  TableMetadata:70 - HHH000126: Indexes: [produto_pkey]
+2015-10-11 20:15:03 INFO  TableMetadata:66 - HHH000261: Table found: public.segmento
+2015-10-11 20:15:03 INFO  TableMetadata:67 - HHH000037: Columns: [nome, id]
+2015-10-11 20:15:03 INFO  TableMetadata:69 - HHH000108: Foreign keys: []
+2015-10-11 20:15:03 INFO  TableMetadata:70 - HHH000126: Indexes: [segmento_pkey]
+2015-10-11 20:15:03 INFO  TableMetadata:66 - HHH000261: Table found: public.sh_usuario
+2015-10-11 20:15:03 INFO  TableMetadata:67 - HHH000037: Columns: [id_pessoa, ativo, usuario, nivel]
+2015-10-11 20:15:03 INFO  TableMetadata:69 - HHH000108: Foreign keys: []
+2015-10-11 20:15:03 INFO  TableMetadata:70 - HHH000126: Indexes: [sh_usuario_pkey]
+2015-10-11 20:15:03 INFO  SchemaUpdate:242 - HHH000232: Schema update complete
+2015-10-11 20:15:06 ERROR Segmento:27 - Session is closed!
+2015-10-11 20:15:28 ERROR Segmento:27 - Session is closed!
+2015-10-11 20:17:28 INFO  Version:66 - HCANN000001: Hibernate Commons Annotations {4.0.4.Final}
+2015-10-11 20:17:28 INFO  Version:54 - HHH000412: Hibernate Core {4.3.1.Final}
+2015-10-11 20:17:28 INFO  Environment:239 - HHH000206: hibernate.properties not found
+2015-10-11 20:17:28 INFO  Environment:346 - HHH000021: Bytecode provider name : javassist
+2015-10-11 20:17:28 INFO  Configuration:2073 - HHH000043: Configuring from resource: /hibernate.cfg.xml
+2015-10-11 20:17:28 INFO  Configuration:2092 - HHH000040: Configuration resource: /hibernate.cfg.xml
+2015-10-11 20:17:28 WARN  DTDEntityResolver:75 - HHH000223: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/. Use namespace http://www.hibernate.org/dtd/ instead. Refer to Hibernate 3.6 Migration Guide!
+2015-10-11 20:17:28 INFO  Configuration:2214 - HHH000041: Configured SessionFactory: null
+2015-10-11 20:17:28 WARN  DriverManagerConnectionProviderImpl:93 - HHH000402: Using Hibernate built-in connection pool (not for production use!)
+2015-10-11 20:17:28 INFO  DriverManagerConnectionProviderImpl:166 - HHH000401: using driver [org.postgresql.Driver] at URL [jdbc:postgresql://localhost:5432/AULA2]
+2015-10-11 20:17:28 INFO  DriverManagerConnectionProviderImpl:175 - HHH000046: Connection properties: {user=postgres, password=****}
+2015-10-11 20:17:28 INFO  DriverManagerConnectionProviderImpl:180 - HHH000006: Autocommit mode: false
+2015-10-11 20:17:28 INFO  DriverManagerConnectionProviderImpl:102 - HHH000115: Hibernate connection pool size: 20 (min=1)
+2015-10-11 20:17:29 INFO  Dialect:145 - HHH000400: Using dialect: org.hibernate.dialect.PostgreSQLDialect
+2015-10-11 20:17:29 INFO  LobCreatorBuilder:123 - HHH000424: Disabling contextual LOB creation as createClob() method threw error : java.lang.reflect.InvocationTargetException
+2015-10-11 20:17:29 INFO  TransactionFactoryInitiator:62 - HHH000399: Using default transaction strategy (direct JDBC transactions)
+2015-10-11 20:17:29 INFO  ASTQueryTranslatorFactory:47 - HHH000397: Using ASTQueryTranslatorFactory
+2015-10-11 20:17:29 INFO  SchemaUpdate:182 - HHH000228: Running hbm2ddl schema update
+2015-10-11 20:17:29 INFO  SchemaUpdate:193 - HHH000102: Fetching database metadata
+2015-10-11 20:17:29 INFO  SchemaUpdate:205 - HHH000396: Updating schema
+2015-10-11 20:17:29 INFO  TableMetadata:66 - HHH000261: Table found: public.marca
+2015-10-11 20:17:29 INFO  TableMetadata:67 - HHH000037: Columns: [nome, id]
+2015-10-11 20:17:29 INFO  TableMetadata:69 - HHH000108: Foreign keys: []
+2015-10-11 20:17:29 INFO  TableMetadata:70 - HHH000126: Indexes: [marca_pkey]
+2015-10-11 20:17:29 INFO  TableMetadata:66 - HHH000261: Table found: public.produto
+2015-10-11 20:17:29 INFO  TableMetadata:67 - HHH000037: Columns: [segmento_id, id, marca_id, descricao]
+2015-10-11 20:17:29 INFO  TableMetadata:69 - HHH000108: Foreign keys: [fk_7uq9blapf1iuhv5qvp9deiylk, fk_nurdtcs13e2jlx6g6jfgjxf0a]
+2015-10-11 20:17:29 INFO  TableMetadata:70 - HHH000126: Indexes: [produto_pkey]
+2015-10-11 20:17:29 INFO  TableMetadata:66 - HHH000261: Table found: public.segmento
+2015-10-11 20:17:29 INFO  TableMetadata:67 - HHH000037: Columns: [nome, id]
+2015-10-11 20:17:29 INFO  TableMetadata:69 - HHH000108: Foreign keys: []
+2015-10-11 20:17:29 INFO  TableMetadata:70 - HHH000126: Indexes: [segmento_pkey]
+2015-10-11 20:17:29 INFO  TableMetadata:66 - HHH000261: Table found: public.sh_usuario
+2015-10-11 20:17:29 INFO  TableMetadata:67 - HHH000037: Columns: [id_pessoa, ativo, usuario, nivel]
+2015-10-11 20:17:29 INFO  TableMetadata:69 - HHH000108: Foreign keys: []
+2015-10-11 20:17:29 INFO  TableMetadata:70 - HHH000126: Indexes: [sh_usuario_pkey]
+2015-10-11 20:17:29 INFO  SchemaUpdate:242 - HHH000232: Schema update complete
+2015-10-11 20:17:53 ERROR Segmento:27 - Session is closed!
+2015-10-11 20:19:04 INFO  Version:66 - HCANN000001: Hibernate Commons Annotations {4.0.4.Final}
+2015-10-11 20:19:04 INFO  Version:54 - HHH000412: Hibernate Core {4.3.1.Final}
+2015-10-11 20:19:04 INFO  Environment:239 - HHH000206: hibernate.properties not found
+2015-10-11 20:19:04 INFO  Environment:346 - HHH000021: Bytecode provider name : javassist
+2015-10-11 20:19:04 INFO  Configuration:2073 - HHH000043: Configuring from resource: /hibernate.cfg.xml
+2015-10-11 20:19:04 INFO  Configuration:2092 - HHH000040: Configuration resource: /hibernate.cfg.xml
+2015-10-11 20:19:04 WARN  DTDEntityResolver:75 - HHH000223: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/. Use namespace http://www.hibernate.org/dtd/ instead. Refer to Hibernate 3.6 Migration Guide!
+2015-10-11 20:19:04 INFO  Configuration:2214 - HHH000041: Configured SessionFactory: null
+2015-10-11 20:19:04 WARN  DriverManagerConnectionProviderImpl:93 - HHH000402: Using Hibernate built-in connection pool (not for production use!)
+2015-10-11 20:19:04 INFO  DriverManagerConnectionProviderImpl:166 - HHH000401: using driver [org.postgresql.Driver] at URL [jdbc:postgresql://localhost:5432/AULA2]
+2015-10-11 20:19:04 INFO  DriverManagerConnectionProviderImpl:175 - HHH000046: Connection properties: {user=postgres, password=****}
+2015-10-11 20:19:04 INFO  DriverManagerConnectionProviderImpl:180 - HHH000006: Autocommit mode: false
+2015-10-11 20:19:04 INFO  DriverManagerConnectionProviderImpl:102 - HHH000115: Hibernate connection pool size: 20 (min=1)
+2015-10-11 20:19:05 INFO  Dialect:145 - HHH000400: Using dialect: org.hibernate.dialect.PostgreSQLDialect
+2015-10-11 20:19:05 INFO  LobCreatorBuilder:123 - HHH000424: Disabling contextual LOB creation as createClob() method threw error : java.lang.reflect.InvocationTargetException
+2015-10-11 20:19:05 INFO  TransactionFactoryInitiator:62 - HHH000399: Using default transaction strategy (direct JDBC transactions)
+2015-10-11 20:19:05 INFO  ASTQueryTranslatorFactory:47 - HHH000397: Using ASTQueryTranslatorFactory
+2015-10-11 20:19:05 INFO  SchemaUpdate:182 - HHH000228: Running hbm2ddl schema update
+2015-10-11 20:19:05 INFO  SchemaUpdate:193 - HHH000102: Fetching database metadata
+2015-10-11 20:19:05 INFO  SchemaUpdate:205 - HHH000396: Updating schema
+2015-10-11 20:19:05 INFO  TableMetadata:66 - HHH000261: Table found: public.marca
+2015-10-11 20:19:05 INFO  TableMetadata:67 - HHH000037: Columns: [nome, id]
+2015-10-11 20:19:05 INFO  TableMetadata:69 - HHH000108: Foreign keys: []
+2015-10-11 20:19:05 INFO  TableMetadata:70 - HHH000126: Indexes: [marca_pkey]
+2015-10-11 20:19:05 INFO  TableMetadata:66 - HHH000261: Table found: public.produto
+2015-10-11 20:19:05 INFO  TableMetadata:67 - HHH000037: Columns: [segmento_id, id, marca_id, descricao]
+2015-10-11 20:19:05 INFO  TableMetadata:69 - HHH000108: Foreign keys: [fk_7uq9blapf1iuhv5qvp9deiylk, fk_nurdtcs13e2jlx6g6jfgjxf0a]
+2015-10-11 20:19:05 INFO  TableMetadata:70 - HHH000126: Indexes: [produto_pkey]
+2015-10-11 20:19:05 INFO  TableMetadata:66 - HHH000261: Table found: public.segmento
+2015-10-11 20:19:05 INFO  TableMetadata:67 - HHH000037: Columns: [nome, id]
+2015-10-11 20:19:05 INFO  TableMetadata:69 - HHH000108: Foreign keys: []
+2015-10-11 20:19:05 INFO  TableMetadata:70 - HHH000126: Indexes: [segmento_pkey]
+2015-10-11 20:19:05 INFO  TableMetadata:66 - HHH000261: Table found: public.sh_usuario
+2015-10-11 20:19:05 INFO  TableMetadata:67 - HHH000037: Columns: [id_pessoa, ativo, usuario, nivel]
+2015-10-11 20:19:05 INFO  TableMetadata:69 - HHH000108: Foreign keys: []
+2015-10-11 20:19:05 INFO  TableMetadata:70 - HHH000126: Indexes: [sh_usuario_pkey]
+2015-10-11 20:19:05 INFO  SchemaUpdate:242 - HHH000232: Schema update complete
+2015-10-11 20:19:11 ERROR Segmento:27 - Session is closed!
+2015-10-11 20:19:31 INFO  Version:66 - HCANN000001: Hibernate Commons Annotations {4.0.4.Final}
+2015-10-11 20:19:31 INFO  Version:54 - HHH000412: Hibernate Core {4.3.1.Final}
+2015-10-11 20:19:31 INFO  Environment:239 - HHH000206: hibernate.properties not found
+2015-10-11 20:19:31 INFO  Environment:346 - HHH000021: Bytecode provider name : javassist
+2015-10-11 20:19:31 INFO  Configuration:2073 - HHH000043: Configuring from resource: /hibernate.cfg.xml
+2015-10-11 20:19:31 INFO  Configuration:2092 - HHH000040: Configuration resource: /hibernate.cfg.xml
+2015-10-11 20:19:32 WARN  DTDEntityResolver:75 - HHH000223: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/. Use namespace http://www.hibernate.org/dtd/ instead. Refer to Hibernate 3.6 Migration Guide!
+2015-10-11 20:19:32 INFO  Configuration:2214 - HHH000041: Configured SessionFactory: null
+2015-10-11 20:19:32 WARN  DriverManagerConnectionProviderImpl:93 - HHH000402: Using Hibernate built-in connection pool (not for production use!)
+2015-10-11 20:19:32 INFO  DriverManagerConnectionProviderImpl:166 - HHH000401: using driver [org.postgresql.Driver] at URL [jdbc:postgresql://localhost:5432/AULA2]
+2015-10-11 20:19:32 INFO  DriverManagerConnectionProviderImpl:175 - HHH000046: Connection properties: {user=postgres, password=****}
+2015-10-11 20:19:32 INFO  DriverManagerConnectionProviderImpl:180 - HHH000006: Autocommit mode: false
+2015-10-11 20:19:32 INFO  DriverManagerConnectionProviderImpl:102 - HHH000115: Hibernate connection pool size: 20 (min=1)
+2015-10-11 20:19:32 INFO  Dialect:145 - HHH000400: Using dialect: org.hibernate.dialect.PostgreSQLDialect
+2015-10-11 20:19:32 INFO  LobCreatorBuilder:123 - HHH000424: Disabling contextual LOB creation as createClob() method threw error : java.lang.reflect.InvocationTargetException
+2015-10-11 20:19:32 INFO  TransactionFactoryInitiator:62 - HHH000399: Using default transaction strategy (direct JDBC transactions)
+2015-10-11 20:19:32 INFO  ASTQueryTranslatorFactory:47 - HHH000397: Using ASTQueryTranslatorFactory
+2015-10-11 20:19:32 INFO  SchemaUpdate:182 - HHH000228: Running hbm2ddl schema update
+2015-10-11 20:19:32 INFO  SchemaUpdate:193 - HHH000102: Fetching database metadata
+2015-10-11 20:19:32 INFO  SchemaUpdate:205 - HHH000396: Updating schema
+2015-10-11 20:19:32 INFO  TableMetadata:66 - HHH000261: Table found: public.marca
+2015-10-11 20:19:32 INFO  TableMetadata:67 - HHH000037: Columns: [nome, id]
+2015-10-11 20:19:32 INFO  TableMetadata:69 - HHH000108: Foreign keys: []
+2015-10-11 20:19:32 INFO  TableMetadata:70 - HHH000126: Indexes: [marca_pkey]
+2015-10-11 20:19:32 INFO  TableMetadata:66 - HHH000261: Table found: public.produto
+2015-10-11 20:19:32 INFO  TableMetadata:67 - HHH000037: Columns: [segmento_id, id, marca_id, descricao]
+2015-10-11 20:19:32 INFO  TableMetadata:69 - HHH000108: Foreign keys: [fk_7uq9blapf1iuhv5qvp9deiylk, fk_nurdtcs13e2jlx6g6jfgjxf0a]
+2015-10-11 20:19:32 INFO  TableMetadata:70 - HHH000126: Indexes: [produto_pkey]
+2015-10-11 20:19:33 INFO  TableMetadata:66 - HHH000261: Table found: public.segmento
+2015-10-11 20:19:33 INFO  TableMetadata:67 - HHH000037: Columns: [nome, id]
+2015-10-11 20:19:33 INFO  TableMetadata:69 - HHH000108: Foreign keys: []
+2015-10-11 20:19:33 INFO  TableMetadata:70 - HHH000126: Indexes: [segmento_pkey]
+2015-10-11 20:19:33 INFO  TableMetadata:66 - HHH000261: Table found: public.sh_usuario
+2015-10-11 20:19:33 INFO  TableMetadata:67 - HHH000037: Columns: [id_pessoa, ativo, usuario, nivel]
+2015-10-11 20:19:33 INFO  TableMetadata:69 - HHH000108: Foreign keys: []
+2015-10-11 20:19:33 INFO  TableMetadata:70 - HHH000126: Indexes: [sh_usuario_pkey]
+2015-10-11 20:19:33 INFO  SchemaUpdate:242 - HHH000232: Schema update complete
+2015-10-11 20:19:38 ERROR Segmento:27 - Session is closed!
+2015-10-11 20:19:53 INFO  Version:66 - HCANN000001: Hibernate Commons Annotations {4.0.4.Final}
+2015-10-11 20:19:53 INFO  Version:54 - HHH000412: Hibernate Core {4.3.1.Final}
+2015-10-11 20:19:53 INFO  Environment:239 - HHH000206: hibernate.properties not found
+2015-10-11 20:19:53 INFO  Environment:346 - HHH000021: Bytecode provider name : javassist
+2015-10-11 20:19:53 INFO  Configuration:2073 - HHH000043: Configuring from resource: /hibernate.cfg.xml
+2015-10-11 20:19:53 INFO  Configuration:2092 - HHH000040: Configuration resource: /hibernate.cfg.xml
+2015-10-11 20:19:53 WARN  DTDEntityResolver:75 - HHH000223: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/. Use namespace http://www.hibernate.org/dtd/ instead. Refer to Hibernate 3.6 Migration Guide!
+2015-10-11 20:19:53 INFO  Configuration:2214 - HHH000041: Configured SessionFactory: null
+2015-10-11 20:19:53 WARN  DriverManagerConnectionProviderImpl:93 - HHH000402: Using Hibernate built-in connection pool (not for production use!)
+2015-10-11 20:19:53 INFO  DriverManagerConnectionProviderImpl:166 - HHH000401: using driver [org.postgresql.Driver] at URL [jdbc:postgresql://localhost:5432/AULA2]
+2015-10-11 20:19:53 INFO  DriverManagerConnectionProviderImpl:175 - HHH000046: Connection properties: {user=postgres, password=****}
+2015-10-11 20:19:53 INFO  DriverManagerConnectionProviderImpl:180 - HHH000006: Autocommit mode: false
+2015-10-11 20:19:53 INFO  DriverManagerConnectionProviderImpl:102 - HHH000115: Hibernate connection pool size: 20 (min=1)
+2015-10-11 20:19:54 INFO  Dialect:145 - HHH000400: Using dialect: org.hibernate.dialect.PostgreSQLDialect
+2015-10-11 20:19:54 INFO  LobCreatorBuilder:123 - HHH000424: Disabling contextual LOB creation as createClob() method threw error : java.lang.reflect.InvocationTargetException
+2015-10-11 20:19:54 INFO  TransactionFactoryInitiator:62 - HHH000399: Using default transaction strategy (direct JDBC transactions)
+2015-10-11 20:19:54 INFO  ASTQueryTranslatorFactory:47 - HHH000397: Using ASTQueryTranslatorFactory
+2015-10-11 20:19:54 INFO  SchemaUpdate:182 - HHH000228: Running hbm2ddl schema update
+2015-10-11 20:19:54 INFO  SchemaUpdate:193 - HHH000102: Fetching database metadata
+2015-10-11 20:19:54 INFO  SchemaUpdate:205 - HHH000396: Updating schema
+2015-10-11 20:19:54 INFO  TableMetadata:66 - HHH000261: Table found: public.marca
+2015-10-11 20:19:54 INFO  TableMetadata:67 - HHH000037: Columns: [nome, id]
+2015-10-11 20:19:54 INFO  TableMetadata:69 - HHH000108: Foreign keys: []
+2015-10-11 20:19:54 INFO  TableMetadata:70 - HHH000126: Indexes: [marca_pkey]
+2015-10-11 20:19:54 INFO  TableMetadata:66 - HHH000261: Table found: public.produto
+2015-10-11 20:19:54 INFO  TableMetadata:67 - HHH000037: Columns: [segmento_id, id, marca_id, descricao]
+2015-10-11 20:19:54 INFO  TableMetadata:69 - HHH000108: Foreign keys: [fk_7uq9blapf1iuhv5qvp9deiylk, fk_nurdtcs13e2jlx6g6jfgjxf0a]
+2015-10-11 20:19:54 INFO  TableMetadata:70 - HHH000126: Indexes: [produto_pkey]
+2015-10-11 20:19:54 INFO  TableMetadata:66 - HHH000261: Table found: public.segmento
+2015-10-11 20:19:54 INFO  TableMetadata:67 - HHH000037: Columns: [nome, id]
+2015-10-11 20:19:54 INFO  TableMetadata:69 - HHH000108: Foreign keys: []
+2015-10-11 20:19:54 INFO  TableMetadata:70 - HHH000126: Indexes: [segmento_pkey]
+2015-10-11 20:19:54 INFO  TableMetadata:66 - HHH000261: Table found: public.sh_usuario
+2015-10-11 20:19:54 INFO  TableMetadata:67 - HHH000037: Columns: [id_pessoa, ativo, usuario, nivel]
+2015-10-11 20:19:54 INFO  TableMetadata:69 - HHH000108: Foreign keys: []
+2015-10-11 20:19:54 INFO  TableMetadata:70 - HHH000126: Indexes: [sh_usuario_pkey]
+2015-10-11 20:19:54 INFO  SchemaUpdate:242 - HHH000232: Schema update complete
+2015-10-11 20:19:59 ERROR Segmento:27 - Session is closed!
+2015-10-11 20:20:19 INFO  Version:66 - HCANN000001: Hibernate Commons Annotations {4.0.4.Final}
+2015-10-11 20:20:19 INFO  Version:54 - HHH000412: Hibernate Core {4.3.1.Final}
+2015-10-11 20:20:19 INFO  Environment:239 - HHH000206: hibernate.properties not found
+2015-10-11 20:20:19 INFO  Environment:346 - HHH000021: Bytecode provider name : javassist
+2015-10-11 20:20:19 INFO  Configuration:2073 - HHH000043: Configuring from resource: /hibernate.cfg.xml
+2015-10-11 20:20:19 INFO  Configuration:2092 - HHH000040: Configuration resource: /hibernate.cfg.xml
+2015-10-11 20:20:19 WARN  DTDEntityResolver:75 - HHH000223: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/. Use namespace http://www.hibernate.org/dtd/ instead. Refer to Hibernate 3.6 Migration Guide!
+2015-10-11 20:20:19 INFO  Configuration:2214 - HHH000041: Configured SessionFactory: null
+2015-10-11 20:20:19 WARN  DriverManagerConnectionProviderImpl:93 - HHH000402: Using Hibernate built-in connection pool (not for production use!)
+2015-10-11 20:20:19 INFO  DriverManagerConnectionProviderImpl:166 - HHH000401: using driver [org.postgresql.Driver] at URL [jdbc:postgresql://localhost:5432/AULA2]
+2015-10-11 20:20:19 INFO  DriverManagerConnectionProviderImpl:175 - HHH000046: Connection properties: {user=postgres, password=****}
+2015-10-11 20:20:19 INFO  DriverManagerConnectionProviderImpl:180 - HHH000006: Autocommit mode: false
+2015-10-11 20:20:19 INFO  DriverManagerConnectionProviderImpl:102 - HHH000115: Hibernate connection pool size: 20 (min=1)
+2015-10-11 20:20:20 INFO  Dialect:145 - HHH000400: Using dialect: org.hibernate.dialect.PostgreSQLDialect
+2015-10-11 20:20:20 INFO  LobCreatorBuilder:123 - HHH000424: Disabling contextual LOB creation as createClob() method threw error : java.lang.reflect.InvocationTargetException
+2015-10-11 20:20:20 INFO  TransactionFactoryInitiator:62 - HHH000399: Using default transaction strategy (direct JDBC transactions)
+2015-10-11 20:20:20 INFO  ASTQueryTranslatorFactory:47 - HHH000397: Using ASTQueryTranslatorFactory
+2015-10-11 20:20:20 INFO  SchemaUpdate:182 - HHH000228: Running hbm2ddl schema update
+2015-10-11 20:20:20 INFO  SchemaUpdate:193 - HHH000102: Fetching database metadata
+2015-10-11 20:20:20 INFO  SchemaUpdate:205 - HHH000396: Updating schema
+2015-10-11 20:20:20 INFO  TableMetadata:66 - HHH000261: Table found: public.marca
+2015-10-11 20:20:20 INFO  TableMetadata:67 - HHH000037: Columns: [nome, id]
+2015-10-11 20:20:20 INFO  TableMetadata:69 - HHH000108: Foreign keys: []
+2015-10-11 20:20:20 INFO  TableMetadata:70 - HHH000126: Indexes: [marca_pkey]
+2015-10-11 20:20:20 INFO  TableMetadata:66 - HHH000261: Table found: public.produto
+2015-10-11 20:20:20 INFO  TableMetadata:67 - HHH000037: Columns: [segmento_id, id, marca_id, descricao]
+2015-10-11 20:20:20 INFO  TableMetadata:69 - HHH000108: Foreign keys: [fk_7uq9blapf1iuhv5qvp9deiylk, fk_nurdtcs13e2jlx6g6jfgjxf0a]
+2015-10-11 20:20:20 INFO  TableMetadata:70 - HHH000126: Indexes: [produto_pkey]
+2015-10-11 20:20:20 INFO  TableMetadata:66 - HHH000261: Table found: public.segmento
+2015-10-11 20:20:20 INFO  TableMetadata:67 - HHH000037: Columns: [nome, id]
+2015-10-11 20:20:20 INFO  TableMetadata:69 - HHH000108: Foreign keys: []
+2015-10-11 20:20:20 INFO  TableMetadata:70 - HHH000126: Indexes: [segmento_pkey]
+2015-10-11 20:20:20 INFO  TableMetadata:66 - HHH000261: Table found: public.sh_usuario
+2015-10-11 20:20:20 INFO  TableMetadata:67 - HHH000037: Columns: [id_pessoa, ativo, usuario, nivel]
+2015-10-11 20:20:20 INFO  TableMetadata:69 - HHH000108: Foreign keys: []
+2015-10-11 20:20:20 INFO  TableMetadata:70 - HHH000126: Indexes: [sh_usuario_pkey]
+2015-10-11 20:20:20 INFO  SchemaUpdate:242 - HHH000232: Schema update complete
+2015-10-11 20:20:24 ERROR Segmento:27 - Session is closed!
+2015-10-11 20:20:28 ERROR Segmento:27 - Session is closed!
+2015-10-11 20:21:07 ERROR Segmento:27 - Session is closed!
+2015-10-11 20:22:59 INFO  Version:66 - HCANN000001: Hibernate Commons Annotations {4.0.4.Final}
+2015-10-11 20:22:59 INFO  Version:54 - HHH000412: Hibernate Core {4.3.1.Final}
+2015-10-11 20:22:59 INFO  Environment:239 - HHH000206: hibernate.properties not found
+2015-10-11 20:22:59 INFO  Environment:346 - HHH000021: Bytecode provider name : javassist
+2015-10-11 20:22:59 INFO  Configuration:2073 - HHH000043: Configuring from resource: /hibernate.cfg.xml
+2015-10-11 20:22:59 INFO  Configuration:2092 - HHH000040: Configuration resource: /hibernate.cfg.xml
+2015-10-11 20:22:59 WARN  DTDEntityResolver:75 - HHH000223: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/. Use namespace http://www.hibernate.org/dtd/ instead. Refer to Hibernate 3.6 Migration Guide!
+2015-10-11 20:22:59 INFO  Configuration:2214 - HHH000041: Configured SessionFactory: null
+2015-10-11 20:22:59 WARN  DriverManagerConnectionProviderImpl:93 - HHH000402: Using Hibernate built-in connection pool (not for production use!)
+2015-10-11 20:22:59 INFO  DriverManagerConnectionProviderImpl:166 - HHH000401: using driver [org.postgresql.Driver] at URL [jdbc:postgresql://localhost:5432/AULA2]
+2015-10-11 20:22:59 INFO  DriverManagerConnectionProviderImpl:175 - HHH000046: Connection properties: {user=postgres, password=****}
+2015-10-11 20:22:59 INFO  DriverManagerConnectionProviderImpl:180 - HHH000006: Autocommit mode: false
+2015-10-11 20:22:59 INFO  DriverManagerConnectionProviderImpl:102 - HHH000115: Hibernate connection pool size: 20 (min=1)
+2015-10-11 20:22:59 INFO  Dialect:145 - HHH000400: Using dialect: org.hibernate.dialect.PostgreSQLDialect
+2015-10-11 20:22:59 INFO  LobCreatorBuilder:123 - HHH000424: Disabling contextual LOB creation as createClob() method threw error : java.lang.reflect.InvocationTargetException
+2015-10-11 20:22:59 INFO  TransactionFactoryInitiator:62 - HHH000399: Using default transaction strategy (direct JDBC transactions)
+2015-10-11 20:22:59 INFO  ASTQueryTranslatorFactory:47 - HHH000397: Using ASTQueryTranslatorFactory
+2015-10-11 20:23:00 INFO  SchemaUpdate:182 - HHH000228: Running hbm2ddl schema update
+2015-10-11 20:23:00 INFO  SchemaUpdate:193 - HHH000102: Fetching database metadata
+2015-10-11 20:23:00 INFO  SchemaUpdate:205 - HHH000396: Updating schema
+2015-10-11 20:23:00 INFO  TableMetadata:66 - HHH000261: Table found: public.marca
+2015-10-11 20:23:00 INFO  TableMetadata:67 - HHH000037: Columns: [nome, id]
+2015-10-11 20:23:00 INFO  TableMetadata:69 - HHH000108: Foreign keys: []
+2015-10-11 20:23:00 INFO  TableMetadata:70 - HHH000126: Indexes: [marca_pkey]
+2015-10-11 20:23:00 INFO  TableMetadata:66 - HHH000261: Table found: public.produto
+2015-10-11 20:23:00 INFO  TableMetadata:67 - HHH000037: Columns: [segmento_id, id, marca_id, descricao]
+2015-10-11 20:23:00 INFO  TableMetadata:69 - HHH000108: Foreign keys: [fk_7uq9blapf1iuhv5qvp9deiylk, fk_nurdtcs13e2jlx6g6jfgjxf0a]
+2015-10-11 20:23:00 INFO  TableMetadata:70 - HHH000126: Indexes: [produto_pkey]
+2015-10-11 20:23:00 INFO  TableMetadata:66 - HHH000261: Table found: public.segmento
+2015-10-11 20:23:00 INFO  TableMetadata:67 - HHH000037: Columns: [nome, id]
+2015-10-11 20:23:00 INFO  TableMetadata:69 - HHH000108: Foreign keys: []
+2015-10-11 20:23:00 INFO  TableMetadata:70 - HHH000126: Indexes: [segmento_pkey]
+2015-10-11 20:23:00 INFO  TableMetadata:66 - HHH000261: Table found: public.sh_usuario
+2015-10-11 20:23:00 INFO  TableMetadata:67 - HHH000037: Columns: [id_pessoa, ativo, usuario, nivel]
+2015-10-11 20:23:00 INFO  TableMetadata:69 - HHH000108: Foreign keys: []
+2015-10-11 20:23:00 INFO  TableMetadata:70 - HHH000126: Indexes: [sh_usuario_pkey]
+2015-10-11 20:23:00 INFO  SchemaUpdate:242 - HHH000232: Schema update complete
+2015-10-11 20:23:07 ERROR Segmento:27 - Session is closed!
+2015-10-11 20:23:16 INFO  Version:66 - HCANN000001: Hibernate Commons Annotations {4.0.4.Final}
+2015-10-11 20:23:16 INFO  Version:54 - HHH000412: Hibernate Core {4.3.1.Final}
+2015-10-11 20:23:16 INFO  Environment:239 - HHH000206: hibernate.properties not found
+2015-10-11 20:23:16 INFO  Environment:346 - HHH000021: Bytecode provider name : javassist
+2015-10-11 20:23:16 INFO  Configuration:2073 - HHH000043: Configuring from resource: /hibernate.cfg.xml
+2015-10-11 20:23:16 INFO  Configuration:2092 - HHH000040: Configuration resource: /hibernate.cfg.xml
+2015-10-11 20:23:16 WARN  DTDEntityResolver:75 - HHH000223: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/. Use namespace http://www.hibernate.org/dtd/ instead. Refer to Hibernate 3.6 Migration Guide!
+2015-10-11 20:23:16 INFO  Configuration:2214 - HHH000041: Configured SessionFactory: null
+2015-10-11 20:23:16 WARN  DriverManagerConnectionProviderImpl:93 - HHH000402: Using Hibernate built-in connection pool (not for production use!)
+2015-10-11 20:23:16 INFO  DriverManagerConnectionProviderImpl:166 - HHH000401: using driver [org.postgresql.Driver] at URL [jdbc:postgresql://localhost:5432/AULA2]
+2015-10-11 20:23:16 INFO  DriverManagerConnectionProviderImpl:175 - HHH000046: Connection properties: {user=postgres, password=****}
+2015-10-11 20:23:16 INFO  DriverManagerConnectionProviderImpl:180 - HHH000006: Autocommit mode: false
+2015-10-11 20:23:16 INFO  DriverManagerConnectionProviderImpl:102 - HHH000115: Hibernate connection pool size: 20 (min=1)
+2015-10-11 20:23:16 INFO  Dialect:145 - HHH000400: Using dialect: org.hibernate.dialect.PostgreSQLDialect
+2015-10-11 20:23:16 INFO  LobCreatorBuilder:123 - HHH000424: Disabling contextual LOB creation as createClob() method threw error : java.lang.reflect.InvocationTargetException
+2015-10-11 20:23:16 INFO  TransactionFactoryInitiator:62 - HHH000399: Using default transaction strategy (direct JDBC transactions)
+2015-10-11 20:23:16 INFO  ASTQueryTranslatorFactory:47 - HHH000397: Using ASTQueryTranslatorFactory
+2015-10-11 20:23:17 INFO  SchemaUpdate:182 - HHH000228: Running hbm2ddl schema update
+2015-10-11 20:23:17 INFO  SchemaUpdate:193 - HHH000102: Fetching database metadata
+2015-10-11 20:23:17 INFO  SchemaUpdate:205 - HHH000396: Updating schema
+2015-10-11 20:23:17 INFO  TableMetadata:66 - HHH000261: Table found: public.marca
+2015-10-11 20:23:17 INFO  TableMetadata:67 - HHH000037: Columns: [nome, id]
+2015-10-11 20:23:17 INFO  TableMetadata:69 - HHH000108: Foreign keys: []
+2015-10-11 20:23:17 INFO  TableMetadata:70 - HHH000126: Indexes: [marca_pkey]
+2015-10-11 20:23:17 INFO  TableMetadata:66 - HHH000261: Table found: public.produto
+2015-10-11 20:23:17 INFO  TableMetadata:67 - HHH000037: Columns: [segmento_id, id, marca_id, descricao]
+2015-10-11 20:23:17 INFO  TableMetadata:69 - HHH000108: Foreign keys: [fk_7uq9blapf1iuhv5qvp9deiylk, fk_nurdtcs13e2jlx6g6jfgjxf0a]
+2015-10-11 20:23:17 INFO  TableMetadata:70 - HHH000126: Indexes: [produto_pkey]
+2015-10-11 20:23:17 INFO  TableMetadata:66 - HHH000261: Table found: public.segmento
+2015-10-11 20:23:17 INFO  TableMetadata:67 - HHH000037: Columns: [nome, id]
+2015-10-11 20:23:17 INFO  TableMetadata:69 - HHH000108: Foreign keys: []
+2015-10-11 20:23:17 INFO  TableMetadata:70 - HHH000126: Indexes: [segmento_pkey]
+2015-10-11 20:23:17 INFO  TableMetadata:66 - HHH000261: Table found: public.sh_usuario
+2015-10-11 20:23:17 INFO  TableMetadata:67 - HHH000037: Columns: [id_pessoa, ativo, usuario, nivel]
+2015-10-11 20:23:17 INFO  TableMetadata:69 - HHH000108: Foreign keys: []
+2015-10-11 20:23:17 INFO  TableMetadata:70 - HHH000126: Indexes: [sh_usuario_pkey]
+2015-10-11 20:23:17 INFO  SchemaUpdate:242 - HHH000232: Schema update complete
+2015-10-11 20:23:55 ERROR Segmento:27 - Session is closed!
+2015-10-11 20:25:56 INFO  Version:66 - HCANN000001: Hibernate Commons Annotations {4.0.4.Final}
+2015-10-11 20:25:56 INFO  Version:54 - HHH000412: Hibernate Core {4.3.1.Final}
+2015-10-11 20:25:56 INFO  Environment:239 - HHH000206: hibernate.properties not found
+2015-10-11 20:25:56 INFO  Environment:346 - HHH000021: Bytecode provider name : javassist
+2015-10-11 20:25:56 INFO  Configuration:2073 - HHH000043: Configuring from resource: /hibernate.cfg.xml
+2015-10-11 20:25:56 INFO  Configuration:2092 - HHH000040: Configuration resource: /hibernate.cfg.xml
+2015-10-11 20:25:56 WARN  DTDEntityResolver:75 - HHH000223: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/. Use namespace http://www.hibernate.org/dtd/ instead. Refer to Hibernate 3.6 Migration Guide!
+2015-10-11 20:25:56 INFO  Configuration:2214 - HHH000041: Configured SessionFactory: null
+2015-10-11 20:25:56 WARN  DriverManagerConnectionProviderImpl:93 - HHH000402: Using Hibernate built-in connection pool (not for production use!)
+2015-10-11 20:25:56 INFO  DriverManagerConnectionProviderImpl:166 - HHH000401: using driver [org.postgresql.Driver] at URL [jdbc:postgresql://localhost:5432/AULA2]
+2015-10-11 20:25:56 INFO  DriverManagerConnectionProviderImpl:175 - HHH000046: Connection properties: {user=postgres, password=****}
+2015-10-11 20:25:56 INFO  DriverManagerConnectionProviderImpl:180 - HHH000006: Autocommit mode: false
+2015-10-11 20:25:56 INFO  DriverManagerConnectionProviderImpl:102 - HHH000115: Hibernate connection pool size: 20 (min=1)
+2015-10-11 20:25:57 INFO  Dialect:145 - HHH000400: Using dialect: org.hibernate.dialect.PostgreSQLDialect
+2015-10-11 20:25:57 INFO  LobCreatorBuilder:123 - HHH000424: Disabling contextual LOB creation as createClob() method threw error : java.lang.reflect.InvocationTargetException
+2015-10-11 20:25:57 INFO  TransactionFactoryInitiator:62 - HHH000399: Using default transaction strategy (direct JDBC transactions)
+2015-10-11 20:25:57 INFO  ASTQueryTranslatorFactory:47 - HHH000397: Using ASTQueryTranslatorFactory
+2015-10-11 20:25:57 INFO  SchemaUpdate:182 - HHH000228: Running hbm2ddl schema update
+2015-10-11 20:25:57 INFO  SchemaUpdate:193 - HHH000102: Fetching database metadata
+2015-10-11 20:25:57 INFO  SchemaUpdate:205 - HHH000396: Updating schema
+2015-10-11 20:25:57 INFO  TableMetadata:66 - HHH000261: Table found: public.marca
+2015-10-11 20:25:57 INFO  TableMetadata:67 - HHH000037: Columns: [nome, id]
+2015-10-11 20:25:57 INFO  TableMetadata:69 - HHH000108: Foreign keys: []
+2015-10-11 20:25:57 INFO  TableMetadata:70 - HHH000126: Indexes: [marca_pkey]
+2015-10-11 20:25:57 INFO  TableMetadata:66 - HHH000261: Table found: public.produto
+2015-10-11 20:25:57 INFO  TableMetadata:67 - HHH000037: Columns: [segmento_id, id, marca_id, descricao]
+2015-10-11 20:25:57 INFO  TableMetadata:69 - HHH000108: Foreign keys: [fk_7uq9blapf1iuhv5qvp9deiylk, fk_nurdtcs13e2jlx6g6jfgjxf0a]
+2015-10-11 20:25:57 INFO  TableMetadata:70 - HHH000126: Indexes: [produto_pkey]
+2015-10-11 20:25:57 INFO  TableMetadata:66 - HHH000261: Table found: public.segmento
+2015-10-11 20:25:57 INFO  TableMetadata:67 - HHH000037: Columns: [nome, id]
+2015-10-11 20:25:57 INFO  TableMetadata:69 - HHH000108: Foreign keys: []
+2015-10-11 20:25:57 INFO  TableMetadata:70 - HHH000126: Indexes: [segmento_pkey]
+2015-10-11 20:25:57 INFO  TableMetadata:66 - HHH000261: Table found: public.sh_usuario
+2015-10-11 20:25:57 INFO  TableMetadata:67 - HHH000037: Columns: [id_pessoa, ativo, usuario, nivel]
+2015-10-11 20:25:57 INFO  TableMetadata:69 - HHH000108: Foreign keys: []
+2015-10-11 20:25:57 INFO  TableMetadata:70 - HHH000126: Indexes: [sh_usuario_pkey]
+2015-10-11 20:25:57 INFO  SchemaUpdate:242 - HHH000232: Schema update complete
+2015-10-11 20:27:42 INFO  Version:66 - HCANN000001: Hibernate Commons Annotations {4.0.4.Final}
+2015-10-11 20:27:42 INFO  Version:54 - HHH000412: Hibernate Core {4.3.1.Final}
+2015-10-11 20:27:42 INFO  Environment:239 - HHH000206: hibernate.properties not found
+2015-10-11 20:27:42 INFO  Environment:346 - HHH000021: Bytecode provider name : javassist
+2015-10-11 20:27:42 INFO  Configuration:2073 - HHH000043: Configuring from resource: /hibernate.cfg.xml
+2015-10-11 20:27:42 INFO  Configuration:2092 - HHH000040: Configuration resource: /hibernate.cfg.xml
+2015-10-11 20:27:42 WARN  DTDEntityResolver:75 - HHH000223: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/. Use namespace http://www.hibernate.org/dtd/ instead. Refer to Hibernate 3.6 Migration Guide!
+2015-10-11 20:27:42 INFO  Configuration:2214 - HHH000041: Configured SessionFactory: null
+2015-10-11 20:27:42 WARN  DriverManagerConnectionProviderImpl:93 - HHH000402: Using Hibernate built-in connection pool (not for production use!)
+2015-10-11 20:27:42 INFO  DriverManagerConnectionProviderImpl:166 - HHH000401: using driver [org.postgresql.Driver] at URL [jdbc:postgresql://localhost:5432/AULA2]
+2015-10-11 20:27:42 INFO  DriverManagerConnectionProviderImpl:175 - HHH000046: Connection properties: {user=postgres, password=****}
+2015-10-11 20:27:42 INFO  DriverManagerConnectionProviderImpl:180 - HHH000006: Autocommit mode: false
+2015-10-11 20:27:42 INFO  DriverManagerConnectionProviderImpl:102 - HHH000115: Hibernate connection pool size: 20 (min=1)
+2015-10-11 20:27:42 INFO  Dialect:145 - HHH000400: Using dialect: org.hibernate.dialect.PostgreSQLDialect
+2015-10-11 20:27:42 INFO  LobCreatorBuilder:123 - HHH000424: Disabling contextual LOB creation as createClob() method threw error : java.lang.reflect.InvocationTargetException
+2015-10-11 20:27:42 INFO  TransactionFactoryInitiator:62 - HHH000399: Using default transaction strategy (direct JDBC transactions)
+2015-10-11 20:27:42 INFO  ASTQueryTranslatorFactory:47 - HHH000397: Using ASTQueryTranslatorFactory
+2015-10-11 20:27:43 INFO  SchemaUpdate:182 - HHH000228: Running hbm2ddl schema update
+2015-10-11 20:27:43 INFO  SchemaUpdate:193 - HHH000102: Fetching database metadata
+2015-10-11 20:27:43 INFO  SchemaUpdate:205 - HHH000396: Updating schema
+2015-10-11 20:27:43 INFO  TableMetadata:66 - HHH000261: Table found: public.marca
+2015-10-11 20:27:43 INFO  TableMetadata:67 - HHH000037: Columns: [nome, id]
+2015-10-11 20:27:43 INFO  TableMetadata:69 - HHH000108: Foreign keys: []
+2015-10-11 20:27:43 INFO  TableMetadata:70 - HHH000126: Indexes: [marca_pkey]
+2015-10-11 20:27:43 INFO  TableMetadata:66 - HHH000261: Table found: public.produto
+2015-10-11 20:27:43 INFO  TableMetadata:67 - HHH000037: Columns: [segmento_id, id, marca_id, descricao]
+2015-10-11 20:27:43 INFO  TableMetadata:69 - HHH000108: Foreign keys: [fk_7uq9blapf1iuhv5qvp9deiylk, fk_nurdtcs13e2jlx6g6jfgjxf0a]
+2015-10-11 20:27:43 INFO  TableMetadata:70 - HHH000126: Indexes: [produto_pkey]
+2015-10-11 20:27:43 INFO  TableMetadata:66 - HHH000261: Table found: public.segmento
+2015-10-11 20:27:43 INFO  TableMetadata:67 - HHH000037: Columns: [nome, id]
+2015-10-11 20:27:43 INFO  TableMetadata:69 - HHH000108: Foreign keys: []
+2015-10-11 20:27:43 INFO  TableMetadata:70 - HHH000126: Indexes: [segmento_pkey]
+2015-10-11 20:27:43 INFO  TableMetadata:66 - HHH000261: Table found: public.sh_usuario
+2015-10-11 20:27:43 INFO  TableMetadata:67 - HHH000037: Columns: [id_pessoa, ativo, usuario, nivel]
+2015-10-11 20:27:43 INFO  TableMetadata:69 - HHH000108: Foreign keys: []
+2015-10-11 20:27:43 INFO  TableMetadata:70 - HHH000126: Indexes: [sh_usuario_pkey]
+2015-10-11 20:27:43 INFO  SchemaUpdate:242 - HHH000232: Schema update complete
+2015-10-11 20:28:26 INFO  Version:66 - HCANN000001: Hibernate Commons Annotations {4.0.4.Final}
+2015-10-11 20:28:26 INFO  Version:54 - HHH000412: Hibernate Core {4.3.1.Final}
+2015-10-11 20:28:26 INFO  Environment:239 - HHH000206: hibernate.properties not found
+2015-10-11 20:28:26 INFO  Environment:346 - HHH000021: Bytecode provider name : javassist
+2015-10-11 20:28:26 INFO  Configuration:2073 - HHH000043: Configuring from resource: /hibernate.cfg.xml
+2015-10-11 20:28:26 INFO  Configuration:2092 - HHH000040: Configuration resource: /hibernate.cfg.xml
+2015-10-11 20:28:26 WARN  DTDEntityResolver:75 - HHH000223: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/. Use namespace http://www.hibernate.org/dtd/ instead. Refer to Hibernate 3.6 Migration Guide!
+2015-10-11 20:28:26 INFO  Configuration:2214 - HHH000041: Configured SessionFactory: null
+2015-10-11 20:28:27 WARN  DriverManagerConnectionProviderImpl:93 - HHH000402: Using Hibernate built-in connection pool (not for production use!)
+2015-10-11 20:28:27 INFO  DriverManagerConnectionProviderImpl:166 - HHH000401: using driver [org.postgresql.Driver] at URL [jdbc:postgresql://localhost:5432/AULA2]
+2015-10-11 20:28:27 INFO  DriverManagerConnectionProviderImpl:175 - HHH000046: Connection properties: {user=postgres, password=****}
+2015-10-11 20:28:27 INFO  DriverManagerConnectionProviderImpl:180 - HHH000006: Autocommit mode: false
+2015-10-11 20:28:27 INFO  DriverManagerConnectionProviderImpl:102 - HHH000115: Hibernate connection pool size: 20 (min=1)
+2015-10-11 20:28:27 INFO  Dialect:145 - HHH000400: Using dialect: org.hibernate.dialect.PostgreSQLDialect
+2015-10-11 20:28:27 INFO  LobCreatorBuilder:123 - HHH000424: Disabling contextual LOB creation as createClob() method threw error : java.lang.reflect.InvocationTargetException
+2015-10-11 20:28:27 INFO  TransactionFactoryInitiator:62 - HHH000399: Using default transaction strategy (direct JDBC transactions)
+2015-10-11 20:28:27 INFO  ASTQueryTranslatorFactory:47 - HHH000397: Using ASTQueryTranslatorFactory
+2015-10-11 20:28:27 INFO  SchemaUpdate:182 - HHH000228: Running hbm2ddl schema update
+2015-10-11 20:28:27 INFO  SchemaUpdate:193 - HHH000102: Fetching database metadata
+2015-10-11 20:28:27 INFO  SchemaUpdate:205 - HHH000396: Updating schema
+2015-10-11 20:28:27 INFO  TableMetadata:66 - HHH000261: Table found: public.marca
+2015-10-11 20:28:27 INFO  TableMetadata:67 - HHH000037: Columns: [nome, id]
+2015-10-11 20:28:27 INFO  TableMetadata:69 - HHH000108: Foreign keys: []
+2015-10-11 20:28:27 INFO  TableMetadata:70 - HHH000126: Indexes: [marca_pkey]
+2015-10-11 20:28:27 INFO  TableMetadata:66 - HHH000261: Table found: public.produto
+2015-10-11 20:28:27 INFO  TableMetadata:67 - HHH000037: Columns: [segmento_id, id, marca_id, descricao]
+2015-10-11 20:28:27 INFO  TableMetadata:69 - HHH000108: Foreign keys: [fk_7uq9blapf1iuhv5qvp9deiylk, fk_nurdtcs13e2jlx6g6jfgjxf0a]
+2015-10-11 20:28:27 INFO  TableMetadata:70 - HHH000126: Indexes: [produto_pkey]
+2015-10-11 20:28:27 INFO  TableMetadata:66 - HHH000261: Table found: public.segmento
+2015-10-11 20:28:27 INFO  TableMetadata:67 - HHH000037: Columns: [nome, id]
+2015-10-11 20:28:27 INFO  TableMetadata:69 - HHH000108: Foreign keys: []
+2015-10-11 20:28:27 INFO  TableMetadata:70 - HHH000126: Indexes: [segmento_pkey]
+2015-10-11 20:28:27 INFO  TableMetadata:66 - HHH000261: Table found: public.sh_usuario
+2015-10-11 20:28:27 INFO  TableMetadata:67 - HHH000037: Columns: [id_pessoa, ativo, usuario, nivel]
+2015-10-11 20:28:27 INFO  TableMetadata:69 - HHH000108: Foreign keys: []
+2015-10-11 20:28:27 INFO  TableMetadata:70 - HHH000126: Indexes: [sh_usuario_pkey]
+2015-10-11 20:28:27 INFO  SchemaUpdate:242 - HHH000232: Schema update complete
+2015-10-11 20:30:17 INFO  Version:66 - HCANN000001: Hibernate Commons Annotations {4.0.4.Final}
+2015-10-11 20:30:17 INFO  Version:54 - HHH000412: Hibernate Core {4.3.1.Final}
+2015-10-11 20:30:17 INFO  Environment:239 - HHH000206: hibernate.properties not found
+2015-10-11 20:30:17 INFO  Environment:346 - HHH000021: Bytecode provider name : javassist
+2015-10-11 20:30:17 INFO  Configuration:2073 - HHH000043: Configuring from resource: /hibernate.cfg.xml
+2015-10-11 20:30:17 INFO  Configuration:2092 - HHH000040: Configuration resource: /hibernate.cfg.xml
+2015-10-11 20:30:17 WARN  DTDEntityResolver:75 - HHH000223: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/. Use namespace http://www.hibernate.org/dtd/ instead. Refer to Hibernate 3.6 Migration Guide!
+2015-10-11 20:30:17 INFO  Configuration:2214 - HHH000041: Configured SessionFactory: null
+2015-10-11 20:30:17 WARN  DriverManagerConnectionProviderImpl:93 - HHH000402: Using Hibernate built-in connection pool (not for production use!)
+2015-10-11 20:30:17 INFO  DriverManagerConnectionProviderImpl:166 - HHH000401: using driver [org.postgresql.Driver] at URL [jdbc:postgresql://localhost:5432/AULA2]
+2015-10-11 20:30:17 INFO  DriverManagerConnectionProviderImpl:175 - HHH000046: Connection properties: {user=postgres, password=****}
+2015-10-11 20:30:17 INFO  DriverManagerConnectionProviderImpl:180 - HHH000006: Autocommit mode: false
+2015-10-11 20:30:17 INFO  DriverManagerConnectionProviderImpl:102 - HHH000115: Hibernate connection pool size: 20 (min=1)
+2015-10-11 20:30:17 INFO  Dialect:145 - HHH000400: Using dialect: org.hibernate.dialect.PostgreSQLDialect
+2015-10-11 20:30:17 INFO  LobCreatorBuilder:123 - HHH000424: Disabling contextual LOB creation as createClob() method threw error : java.lang.reflect.InvocationTargetException
+2015-10-11 20:30:17 INFO  TransactionFactoryInitiator:62 - HHH000399: Using default transaction strategy (direct JDBC transactions)
+2015-10-11 20:30:17 INFO  ASTQueryTranslatorFactory:47 - HHH000397: Using ASTQueryTranslatorFactory
+2015-10-11 20:30:18 INFO  SchemaUpdate:182 - HHH000228: Running hbm2ddl schema update
+2015-10-11 20:30:18 INFO  SchemaUpdate:193 - HHH000102: Fetching database metadata
+2015-10-11 20:30:18 INFO  SchemaUpdate:205 - HHH000396: Updating schema
+2015-10-11 20:30:18 INFO  TableMetadata:66 - HHH000261: Table found: public.marca
+2015-10-11 20:30:18 INFO  TableMetadata:67 - HHH000037: Columns: [nome, id]
+2015-10-11 20:30:18 INFO  TableMetadata:69 - HHH000108: Foreign keys: []
+2015-10-11 20:30:18 INFO  TableMetadata:70 - HHH000126: Indexes: [marca_pkey]
+2015-10-11 20:30:18 INFO  TableMetadata:66 - HHH000261: Table found: public.produto
+2015-10-11 20:30:18 INFO  TableMetadata:67 - HHH000037: Columns: [segmento_id, id, marca_id, descricao]
+2015-10-11 20:30:18 INFO  TableMetadata:69 - HHH000108: Foreign keys: [fk_7uq9blapf1iuhv5qvp9deiylk, fk_nurdtcs13e2jlx6g6jfgjxf0a]
+2015-10-11 20:30:18 INFO  TableMetadata:70 - HHH000126: Indexes: [produto_pkey]
+2015-10-11 20:30:18 INFO  TableMetadata:66 - HHH000261: Table found: public.segmento
+2015-10-11 20:30:18 INFO  TableMetadata:67 - HHH000037: Columns: [nome, id]
+2015-10-11 20:30:18 INFO  TableMetadata:69 - HHH000108: Foreign keys: []
+2015-10-11 20:30:18 INFO  TableMetadata:70 - HHH000126: Indexes: [segmento_pkey]
+2015-10-11 20:30:18 INFO  TableMetadata:66 - HHH000261: Table found: public.sh_usuario
+2015-10-11 20:30:18 INFO  TableMetadata:67 - HHH000037: Columns: [id_pessoa, ativo, usuario, nivel]
+2015-10-11 20:30:18 INFO  TableMetadata:69 - HHH000108: Foreign keys: []
+2015-10-11 20:30:18 INFO  TableMetadata:70 - HHH000126: Indexes: [sh_usuario_pkey]
+2015-10-11 20:30:18 INFO  SchemaUpdate:242 - HHH000232: Schema update complete
