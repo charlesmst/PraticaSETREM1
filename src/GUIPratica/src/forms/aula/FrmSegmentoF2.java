@@ -19,7 +19,7 @@ import services.aul.SegmentoService;
  */
 public class FrmSegmentoF2 extends frmF2 {
 
-    SegmentoService service = new SegmentoService();
+    protected final SegmentoService service = new SegmentoService();
 
     public FrmSegmentoF2() {
         super(frmMain.getInstance(), "Buscar Segmento");

@@ -21,8 +21,6 @@ public class Ordem {
 
 	private int km;
 
-	private double desconto;
-
 	public void insert() {
 
 	}

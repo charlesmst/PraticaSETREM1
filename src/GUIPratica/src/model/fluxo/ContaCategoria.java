@@ -10,6 +10,8 @@ public class ContaCategoria {
 
 	private boolean ativo;
 
+	private Conta conta;
+
 	public void insert() {
 
 	}

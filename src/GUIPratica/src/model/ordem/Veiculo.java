@@ -1,6 +1,6 @@
 package model.ordem;
 
-public class Veiculo {
+public class Veiculo  {
 
 	private int placa;
 

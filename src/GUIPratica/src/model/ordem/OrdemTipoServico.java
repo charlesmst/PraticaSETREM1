@@ -10,8 +10,6 @@ public class OrdemTipoServico {
 
 	private double valorEntrada;
 
-	private double valorSaida;
-
 	public void insert() {
 
 	}

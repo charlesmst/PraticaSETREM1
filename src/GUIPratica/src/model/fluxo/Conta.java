@@ -7,7 +7,7 @@ public class Conta {
 
 	private int id;
 
-	private String notaFisca;
+	private String notaFiscal;
 
 	private String descricao;
 
@@ -18,6 +18,9 @@ public class Conta {
 	private ContaCategoria categoria;
 
 	private List parcelas;
+
+	private Parcela parcela;
+
 
 	public void insert() {
 

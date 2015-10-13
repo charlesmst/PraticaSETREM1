@@ -1,6 +1,7 @@
 package model.ordem;
 
 import java.util.Date;
+import model.fluxo.Conta;
 
 public class OrdemServico {
 
@@ -12,13 +13,11 @@ public class OrdemServico {
 
 	private double valorEntrada;
 
-	private double valorSaida;
-
 	private int quantidade;
 
 	private Date dataRealizada;
 
-	private double desconto;
+	private Conta conta;
 
 	public void insert() {
 

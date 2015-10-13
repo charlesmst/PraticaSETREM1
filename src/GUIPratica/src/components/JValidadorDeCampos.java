@@ -6,7 +6,6 @@
 package components;
 
 import services.Service;
-import java.awt.Component;
 import java.awt.Container;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
@@ -16,13 +15,23 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JComponent;
+import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.JViewport;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 import javax.swing.text.JTextComponent;
 import utils.AlertaTipos;
 
@@ -32,20 +41,21 @@ import utils.AlertaTipos;
  */
 public class JValidadorDeCampos {
 
-    private final Map<Component, List<ValidacaoCampos>> controls;
+    private final Map<JComponent, List<ValidacaoCampos>> controls;
 
     public JValidadorDeCampos() {
         controls = new HashMap<>();
     }
 
-    public void validarObrigatorio(Component control) {
+    public void validarObrigatorio(JComponent control) {
         addValidar(control, ValidacoesTipos.obrigatorio, null);
 
     }
 
-    private void addListener(final Component contro) {
+    private void addListener(final JComponent contro) {
 
         if (contro instanceof JTextComponent) {
+            
             ((JTextComponent) contro).addKeyListener(new KeyAdapter() {
                 @Override
                 public void keyReleased(KeyEvent e) {
@@ -53,16 +63,24 @@ public class JValidadorDeCampos {
 
                 }
             });
-            if(contro instanceof F2){
-                ((F2)contro).setValueSelectedListener((id,text)->{
+            if (contro instanceof F2) {
+                ((F2) contro).setValueSelectedListener((id, text) -> {
                     validaControl(contro);
                 });
-                
+
             }
+        } else if (contro instanceof JTable) {
+            ((JTable) contro).getModel().addTableModelListener(new TableModelListener() {
+
+                public void tableChanged(TableModelEvent e) {
+                    validaControl(contro);
+
+                }
+            });
         }
     }
 
-    private void addValidar(Component contro, ValidacoesTipos tipo, Object[] extras) {
+    private void addValidar(JComponent contro, ValidacoesTipos tipo, Object[] extras) {
         if (!controls.containsKey(contro)) {
             controls.put(contro, new ArrayList<ValidacaoCampos>());
             addListener(contro);
@@ -73,15 +91,19 @@ public class JValidadorDeCampos {
 //        validaControl(contro);
     }
 
-    public void validar(Component control, ValidacoesTipos tipo) {
+    public void validar(JComponent control, ValidacoesTipos tipo) {
         addValidar(control, tipo, null);
     }
 
-    public void validarDeBanco(Component control, Service repositorio) {
+    public void validarDeBanco(JComponent control, Service repositorio) {
         addValidar(control, ValidacoesTipos.chaveBanco, new Object[]{repositorio});
     }
 
-    private final boolean validaControl(Component control) {
+    public void validarCustom(JComponent control, Function<String, Boolean> function, String mensagem) {
+        addValidar(control, ValidacoesTipos.custom, new Object[]{function, mensagem});
+    }
+
+    private final boolean validaControl(JComponent control) {
         boolean valido = true;
         List<ValidacaoCampos> list = controls.get(control);
         int indiceInvalido = -1;
@@ -108,11 +130,19 @@ public class JValidadorDeCampos {
         return isValido(true);
     }
 
+    public void testComponents() {
+        for (Map.Entry<JComponent, List<ValidacaoCampos>> entry : controls.entrySet()) {
+            JComponent component = entry.getKey();
+            validaControl(component);
+
+        }
+    }
+
     public boolean isValido(boolean beep) {
         boolean valido = true;
 
-        for (Map.Entry<Component, List<ValidacaoCampos>> entry : controls.entrySet()) {
-            Component component = entry.getKey();
+        for (Map.Entry<JComponent, List<ValidacaoCampos>> entry : controls.entrySet()) {
+            JComponent component = entry.getKey();
             if (!validaControl(component)) {
                 valido = false;
             }
@@ -128,9 +158,9 @@ public class JValidadorDeCampos {
 
 class ValidacaoCampos {
 
-    private Component control;
+    private JComponent control;
 
-    public Component getControl() {
+    public JComponent getControl() {
         return control;
     }
     private ValidacoesTipos validacao;
@@ -138,26 +168,61 @@ class ValidacaoCampos {
 
     private String mensagem;
     JLabel label;
+    private Container lastAcessible;
 
-    public ValidacaoCampos(Component control, ValidacoesTipos validacao) {
+    public ValidacaoCampos(JComponent control, ValidacoesTipos validacao) {
         this.control = control;
         this.validacao = validacao;
         mensagem = "Campo inválido";
         label = new JLabel(mensagem);
-        Container parent = control.getParent();
-        parent.add(label);
+
+        Container parent = control;
+
+        Container lastAcessible = control;
+        while (parent != null && !(parent instanceof JPanel || parent instanceof JFrame || parent instanceof JDialog)) {
+            lastAcessible = parent;
+            parent = parent.getParent();
+        }
+        if (parent != null) {
+            parent.add(label);
+        }
+        this.lastAcessible = lastAcessible;
+//        else if((parent instanceof JScrollPane)){
+//            ((JComponent) control).getParent().getParent().add(label);
+//        }
+
         label.setVisible(false);
+    }
+
+    public boolean validaCustom() {
+        if (adicionais == null || adicionais.length == 0 || !(adicionais[0] instanceof Function) || !(adicionais[1] instanceof String)) {
+            return false;
+        }
+        String s = getValorControl();
+//        //Se não tem nada é valido, pois deve ser verificado se é obrigatorio
+//        if (s.equals("")) {
+//            return true;
+//        }
+
+        Function<String, Boolean> function = (Function<String, Boolean>) adicionais[0];
+
+        if (!function.apply(s)) {
+            mensagem = (String) adicionais[1];
+            return false;
+        } else {
+            return true;
+        }
     }
 
     private void posicionaLabel() {
 
-        int x = control.getX() + control.getWidth() + 3;
-        int y = ((int) (control.getHeight() + 16) / 2) + control.getY() - 16;
+        int x = lastAcessible.getX() + lastAcessible.getWidth() + 3;
+        int y = ((int) (lastAcessible.getHeight() + 16) / 2) + lastAcessible.getY() - 16;
 //        label.setLocation(x, control.getY());
 //        label.setLocation(0,0);
         label.setLabelFor(control);
         label.setBounds(x, y, 16, 16);
-//        ((JTextArea) control).setComponentZOrder(label, 1);
+//        ((JTextArea) control).setJComponentZOrder(label, 1);
 //            label.setLocation(Integer.parseInt(JOptionPane.showInputDialog("x")), Integer.parseInt(JOptionPane.showInputDialog("y")));
     }
     boolean valido;
@@ -175,6 +240,8 @@ class ValidacaoCampos {
                 return validaObrigatorio();
             case chaveBanco:
                 return validaChaveBanco();
+            case custom:
+                return validaCustom();
         }
         return false;
     }
@@ -231,8 +298,8 @@ class ValidacaoCampos {
         } else if (control instanceof JComboBox) {
             return ((JComboBox) control).getSelectedItem().toString();
         } else {
-            utils.Forms.mensagem("Campo " + control.getName() + " não é reconhecido na validação", AlertaTipos.erro);
-            return null;
+//            utils.Forms.mensagem("Campo " + control.getName() + " não é reconhecido na validação", AlertaTipos.erro);
+            return "";
         }
     }
 

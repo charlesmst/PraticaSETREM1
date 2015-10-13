@@ -13,7 +13,14 @@
         <mapping class="model.aula.Marca"/>
         <mapping class="model.aula.Produto"/>
         <mapping class="model.aula.Segmento"/>       
-        <!--<mapping class="model.Pessoa"/>-->
+        <mapping class="model.aula.Especificacao"/>
+        <mapping class="model.aula.EspecificacaoProduto"/>
+
+        <!-- Fluxo de caixa -->        
+        <mapping class="model.fluxo.ContaBancaria"/>
+
+        <!-- /Fluxo de caixa -->
+
         <mapping class="model.Usuario"/>
 
 

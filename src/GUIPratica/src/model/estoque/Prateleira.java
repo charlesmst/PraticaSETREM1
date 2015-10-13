@@ -6,6 +6,8 @@ public class Prateleira {
 
 	private String descricao;
 
+	private Item item;
+
 	public void insert() {
 
 	}

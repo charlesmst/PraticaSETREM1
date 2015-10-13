@@ -8,6 +8,8 @@ public class ItemTipo {
 
 	private boolean ativo;
 
+	private Item item;
+
 	public void insert() {
 
 	}

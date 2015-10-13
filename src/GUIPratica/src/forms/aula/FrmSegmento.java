@@ -26,7 +26,7 @@ import utils.AlertaTipos;
 public class FrmSegmento extends JPanelControleButtons {
 
     private final SegmentoService service;
-    JTableDataBinder table;
+//    JTableDataBinder table;
 
     public FrmSegmento() {
         initComponents();
@@ -39,7 +39,7 @@ public class FrmSegmento extends JPanelControleButtons {
 
         new JCampoBusca(txtBuscar, () -> table.atualizar());
 
-        ((JTableDataBinder) jTable1).setListener(new JTableDataBinderListener<Segmento>() {
+        table.setListener(new JTableDataBinderListener<Segmento>() {
             @Override
             public Collection<Segmento> lista(String busca) throws ServiceException {
                 return service.findByMultipleColumns(busca, "id", "id", "nome");
@@ -52,7 +52,6 @@ public class FrmSegmento extends JPanelControleButtons {
             }
         });
 
-        table = ((JTableDataBinder) jTable1);
 
         table.setBusca(txtBuscar);
         table.atualizar();
@@ -67,12 +66,14 @@ public class FrmSegmento extends JPanelControleButtons {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new JTableDataBinder<Segmento>();
         txtBuscar = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        table = new components.JTableDataBinder();
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        jLabel2.setText("Buscar:");
+
+        table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null},
                 {null, null},
@@ -80,7 +81,7 @@ public class FrmSegmento extends JPanelControleButtons {
                 {null, null}
             },
             new String [] {
-                "Código", "Nome"
+                "Id", "Nome"
             }
         ) {
             Class[] types = new Class [] {
@@ -98,9 +99,7 @@ public class FrmSegmento extends JPanelControleButtons {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(jTable1);
-
-        jLabel2.setText("Buscar:");
+        jScrollPane2.setViewportView(table);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -109,11 +108,11 @@ public class FrmSegmento extends JPanelControleButtons {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(txtBuscar, javax.swing.GroupLayout.DEFAULT_SIZE, 334, Short.MAX_VALUE)))
+                        .addComponent(txtBuscar, javax.swing.GroupLayout.DEFAULT_SIZE, 334, Short.MAX_VALUE))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -123,16 +122,17 @@ public class FrmSegmento extends JPanelControleButtons {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 246, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 247, Short.MAX_VALUE)
+                .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private components.JTableDataBinder table;
     private javax.swing.JTextField txtBuscar;
     // End of variables declaration//GEN-END:variables
 

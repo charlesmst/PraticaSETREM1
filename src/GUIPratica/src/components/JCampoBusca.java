@@ -38,6 +38,7 @@ public class JCampoBusca {
     }
 
     public void go() {
+        timer.stop();
         timer.start();
     }
 }

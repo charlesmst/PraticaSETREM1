@@ -10,6 +10,8 @@ public class FormaPagamento {
 
 	private double acresimo;
 
+	private Conta conta;
+
 	public void insert() {
 
 	}
