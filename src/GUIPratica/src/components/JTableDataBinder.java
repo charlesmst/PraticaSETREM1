@@ -36,9 +36,17 @@ public class JTableDataBinder<T> extends JTable {
     }
 
     public void setBusca(JTextField componente) {
+        setBusca(componente, false);
+    }
+
+    public void setBusca(JTextField componente, boolean adicionarbusca) {
         busca = componente;
         addKeyDownNavigation();
         busca.requestFocus();
+        if (adicionarbusca) {
+            new JCampoBusca(componente, () -> atualizar());
+        }
+
     }
     List<Class> columnClasses;
 

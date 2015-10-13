@@ -18,6 +18,8 @@
 
         <!-- Fluxo de caixa -->        
         <mapping class="model.fluxo.ContaBancaria"/>
+        <mapping class="model.fluxo.ContaCategoria"/>
+        <mapping class="model.fluxo.FormaPagamento"/>
 
         <!-- /Fluxo de caixa -->
 

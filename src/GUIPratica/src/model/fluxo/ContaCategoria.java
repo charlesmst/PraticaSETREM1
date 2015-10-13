@@ -1,23 +1,66 @@
 package model.fluxo;
 
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "fc_conta_categoria")
+@SequenceGenerator(name = "seq_fc_conta_categoria",sequenceName = "seq_fc_conta_categoria", initialValue = 1,allocationSize = 1)
+
 public class ContaCategoria {
 
-	private int id;
+    @Id    
+    @GeneratedValue(generator = "seq_fc_conta_categoria", strategy = GenerationType.SEQUENCE)
+    private int id;
 
-	private String nome;
+    private String nome;
 
-	private int tipo;
+    @Enumerated(EnumType.ORDINAL)
+    private TipoCategoria tipo;
 
-	private boolean ativo;
+    private boolean ativo;
 
-	private Conta conta;
+    public int getId() {
+        return id;
+    }
 
-	public void insert() {
+    public void setId(int id) {
+        this.id = id;
+    }
 
-	}
+    public String getNome() {
+        return nome;
+    }
 
-	public void update() {
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
 
-	}
+    public TipoCategoria getTipo() {
+        return tipo;
+    }
 
+    public void setTipo(TipoCategoria tipo) {
+        this.tipo = tipo;
+    }
+
+    public boolean isAtivo() {
+        return ativo;
+    }
+
+    public void setAtivo(boolean ativo) {
+        this.ativo = ativo;
+    }
+
+    public enum TipoCategoria {
+
+        entrada,
+        saida
+    }
 }
