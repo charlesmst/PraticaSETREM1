@@ -190,6 +190,14 @@ public class frmMain extends javax.swing.JFrame {
         gerenciamento.add(new TreeNodeMenu("Usuários", "forms.frmUsuarios"));
         root.add(gerenciamento);
 
+        
+        DefaultMutableTreeNode caixa = new DefaultMutableTreeNode("Fluxo de Caixa");
+        caixa.add(new TreeNodeMenu("Contas Bancárias", "forms.fluxo.FrmContaBancaria"));
+
+//        caixa.add(new TreeNodeMenu("Usuários", "forms.frmUsuarios"));
+        root.add(caixa);
+
+        
         DefaultMutableTreeNode aula = new DefaultMutableTreeNode("Aula");
         aula.add(new TreeNodeMenu("Produtos", "forms.aula.FrmProduto"));
 

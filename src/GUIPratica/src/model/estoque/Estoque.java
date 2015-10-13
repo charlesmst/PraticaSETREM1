@@ -1,6 +1,7 @@
 package model.estoque;
 
 import java.util.Date;
+import java.util.List;
 
 public class Estoque {
 
@@ -21,6 +22,8 @@ public class Estoque {
 	private double valorUnidadeVenda;
 
 	private Date dataValidade;
+
+	private List movimentacoes;
 
 	public void insert() {
 

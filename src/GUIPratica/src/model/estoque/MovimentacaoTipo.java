@@ -1,14 +1,16 @@
 package model.estoque;
 
-public class ItemTipo {
+public class MovimentacaoTipo {
 
 	private int id;
 
-	private String nome;
+	private String descricao;
 
 	private boolean ativo;
 
-	private Item item;
+	private int tipo;
+
+	private EstoqueMovimentacao estoqueMovimentacao;
 
 	public void insert() {
 

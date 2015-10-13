@@ -5,33 +5,46 @@
         <group>
             <file>file:/C:/Users/Charles/Documents/GitHub/PraticaSETREM1/src/GUIPratica/src/utils/Forms.java</file>
             <file>file:/C:/Users/Charles/Documents/GitHub/PraticaSETREM1/src/GUIPratica/src/components/JDialogController.java</file>
+            <file>file:/C:/Users/Charles/Documents/GitHub/PraticaSETREM1/src/GUIPratica/src/model/fluxo/ContaBancaria.java</file>
             <file>file:/C:/Users/Charles/Documents/GitHub/PraticaSETREM1/src/GUIPratica/src/services/ServiceException.java</file>
             <file>file:/C:/Users/Charles/Documents/GitHub/PraticaSETREM1/src/GUIPratica/src/components/JTableDataBinder.java</file>
             <file>file:/C:/Users/Charles/Documents/GitHub/PraticaSETREM1/src/GUIPratica/src/utils/HibernateUtil.java</file>
             <file>file:/C:/Users/Charles/Documents/GitHub/PraticaSETREM1/src/GUIPratica/src/forms/aula/FrmMarcaF2.java</file>
             <file>file:/C:/Users/Charles/Documents/GitHub/PraticaSETREM1/src/GUIPratica/src/tests/Tests.java</file>
+            <file>file:/C:/Users/Charles/Documents/GitHub/PraticaSETREM1/src/GUIPratica/src/components/JTextFieldUpper.java</file>
             <file>file:/C:/Users/Charles/Documents/GitHub/PraticaSETREM1/src/GUIPratica/src/hibernate.cfg.xml</file>
+            <file>file:/C:/Users/Charles/Documents/GitHub/PraticaSETREM1/src/GUIPratica/src/model/fluxo/Parcela.java</file>
             <file>file:/C:/Users/Charles/Documents/GitHub/PraticaSETREM1/src/GUIPratica/src/forms/frmMain.java</file>
             <file>file:/C:/Users/Charles/Documents/GitHub/PraticaSETREM1/src/GUIPratica/src/components/F2.java</file>
+            <file>file:/C:/Users/Charles/Documents/GitHub/PraticaSETREM1/src/GUIPratica/src/utils/Globals.java</file>
             <file>file:/C:/Users/Charles/Documents/GitHub/PraticaSETREM1/src/GUIPratica/src/utils/Utils.java</file>
+            <file>file:/C:/Users/Charles/Documents/GitHub/PraticaSETREM1/src/GUIPratica/src/forms/fluxo/FrmContaBancariaCadastro.java</file>
             <file>file:/C:/Users/Charles/Documents/GitHub/PraticaSETREM1/src/GUIPratica/src/forms/frmF2.java</file>
             <file>file:/C:/Users/Charles/Documents/GitHub/PraticaSETREM1/src/GUIPratica/src/components/ThrowingFunction.java</file>
             <file>file:/C:/Users/Charles/Documents/GitHub/PraticaSETREM1/src/GUIPratica/src/forms/aula/FrmProduto.java</file>
+            <file>file:/C:/Users/Charles/Documents/GitHub/PraticaSETREM1/src/GUIPratica/src/model/aula/Marca.java</file>
             <file>file:/C:/Users/Charles/Documents/GitHub/PraticaSETREM1/src/GUIPratica/src/model/aula/Produto.java</file>
             <file>file:/C:/Users/Charles/Documents/GitHub/PraticaSETREM1/src/GUIPratica/src/services/Service.java</file>
             <file>file:/C:/Users/Charles/Documents/GitHub/PraticaSETREM1/src/GUIPratica/src/services/aul/SegmentoService.java</file>
+            <file>file:/C:/Users/Charles/Documents/GitHub/PraticaSETREM1/src/GUIPratica/src/model/fluxo/Conta.java</file>
             <file>file:/C:/Users/Charles/Documents/GitHub/PraticaSETREM1/src/GUIPratica/src/model/aula/EspecificacaoProdutoPK.java</file>
             <file>file:/C:/Users/Charles/Documents/GitHub/PraticaSETREM1/src/GUIPratica/src/model/aula/Segmento.java</file>
             <file>file:/C:/Users/Charles/Documents/GitHub/PraticaSETREM1/src/GUIPratica/src/forms/aula/FrmMarca.java</file>
+            <file>file:/C:/Users/Charles/Documents/GitHub/PraticaSETREM1/src/GUIPratica/src/model/estoque/MovimentacaoTipo.java</file>
             <file>file:/C:/Users/Charles/Documents/GitHub/PraticaSETREM1/src/GUIPratica/src/components/ThrowingConsumer.java</file>
+            <file>file:/C:/Users/Charles/Documents/GitHub/PraticaSETREM1/src/GUIPratica/src/forms/fluxo/FrmContaBancaria.java</file>
             <file>file:/C:/Users/Charles/Documents/GitHub/PraticaSETREM1/src/GUIPratica/src/log4j.properties</file>
+            <file>file:/C:/Users/Charles/Documents/GitHub/PraticaSETREM1/src/GUIPratica/src/model/ordem/Marca.java</file>
             <file>file:/C:/Users/Charles/Documents/GitHub/PraticaSETREM1/src/GUIPratica/src/forms/aula/FrmSegmentoCadastro.java</file>
+            <file>file:/C:/Users/Charles/Documents/GitHub/PraticaSETREM1/src/GUIPratica/src/services/fluxo/ContaBancariaService.java</file>
             <file>file:/C:/Users/Charles/Documents/GitHub/PraticaSETREM1/src/GUIPratica/src/components/JTableDataBinderListener.java</file>
             <file>file:/C:/Users/Charles/Documents/GitHub/PraticaSETREM1/src/GUIPratica/src/forms/aula/FrmProdutoCadastro.java</file>
             <file>file:/C:/Users/Charles/Documents/GitHub/PraticaSETREM1/src/GUIPratica/src/model/aula/Especificacao.java</file>
             <file>file:/C:/Users/Charles/Documents/GitHub/PraticaSETREM1/src/GUIPratica/src/forms/aula/FrmSegmento.java</file>
             <file>file:/C:/Users/Charles/Documents/GitHub/PraticaSETREM1/src/GUIPratica/src/services/aul/ProdutoService.java</file>
+            <file>file:/C:/Users/Charles/Documents/GitHub/PraticaSETREM1/src/GUIPratica/src/model/ordem/Veiculo.java</file>
             <file>file:/C:/Users/Charles/Documents/GitHub/PraticaSETREM1/src/GUIPratica/src/model/aula/EspecificacaoProduto.java</file>
+            <file>file:/C:/Users/Charles/Documents/GitHub/PraticaSETREM1/src/GUIPratica/src/model/Usuario.java</file>
         </group>
     </open-files>
 </project-private>

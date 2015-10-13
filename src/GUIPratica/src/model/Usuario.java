@@ -26,6 +26,9 @@ import javax.persistence.Table;
 @Table(name = "sh_usuario")
 public class Usuario {
 
+    public enum Tipo{
+        funcionario,gestor
+    }
     @Id
     @GeneratedValue(generator = "seq_usuario", strategy = GenerationType.SEQUENCE)
     private int id_pessoa;

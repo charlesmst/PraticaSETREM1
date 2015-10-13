@@ -16,6 +16,11 @@
         <mapping class="model.aula.Especificacao"/>
         <mapping class="model.aula.EspecificacaoProduto"/>
 
+        <!-- Fluxo de caixa -->        
+        <mapping class="model.fluxo.ContaBancaria"/>
+
+        <!-- /Fluxo de caixa -->
+
         <mapping class="model.Usuario"/>
 
 

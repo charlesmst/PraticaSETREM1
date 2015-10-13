@@ -47,3 +47,5 @@ Temporary Items
 .apdisk
 /src/GUIPratica/build/
 *.log
+*.log
+src/GUIPratica/logging.log
