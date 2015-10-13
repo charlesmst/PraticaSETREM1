@@ -41,16 +41,16 @@ public class F2 extends JTextFieldIcone {
         super.paint(g); //To change body of generated methods, choose Tools | Templates.
         if (textValue != null) {
             FontMetrics metrics = g.getFontMetrics(getFont());
-            
+
             int widthUsed = metrics.stringWidth(getText());
-            int widthRequired = metrics.stringWidth(textValue)+ 30;
-            
+            int widthRequired = metrics.stringWidth(textValue) + 30;
+
             String textDraw = textValue;
             int x = 0;
-            int y = (int)Math.ceil(getHeight() + getFont().getSize2D() / 2 - (getFont().getSize2D())) - 2 ;
-            if(getWidth() >= (widthUsed + widthRequired)){
-                x =  getWidth() -  metrics.stringWidth(textValue) - 25;
-            }else{
+            int y = (int) Math.ceil(getHeight() + getFont().getSize2D() / 2 - (getFont().getSize2D())) - 2;
+            if (getWidth() >= (widthUsed + widthRequired)) {
+                x = getWidth() - metrics.stringWidth(textValue) - 25;
+            } else {
                 //Calcula quanto do texto pode colocar
                 int usado = metrics.stringWidth("...");
                 int l = 0;
@@ -59,15 +59,14 @@ public class F2 extends JTextFieldIcone {
                     usado += metrics.charWidth(textValue.charAt(i));
                     l++;
                 }
-                
-                textDraw = textValue.substring(0, l)+"...";
+
+                textDraw = textValue.substring(0, l) + "...";
                 x = getWidth() - usado - 25;
             }
-            g.drawString(textDraw, x,y);
+            g.drawString(textDraw, x, y);
         }
     }
 
-   
     private ThrowingFunction<Integer, String> listener;
 //    private final JLabel label;
     private Class<? extends forms.frmF2> classRef;
@@ -78,17 +77,9 @@ public class F2 extends JTextFieldIcone {
         this.valueSelectedListener = valueSelectedListener;
     }
 
-    public F2(Class<? extends forms.frmF2> classRef, ThrowingFunction<Integer, String> a) {
-        super();
-        setBuscador(a);
+    public void setForm(Class<? extends forms.frmF2> classRef) {
         this.classRef = classRef;
 
-        //Para não dar nullExceptionPointer, executa isso quando a janela está criada
-        EventQueue.invokeLater(() -> {
-
-            if(buscador != null)
-                buscador.go();
-        });
         if (classRef != null) {
             KeyAdapter keyAdapter = new KeyAdapter() {
                 @Override
@@ -127,6 +118,16 @@ public class F2 extends JTextFieldIcone {
 
     }
 
+    public F2() {
+        super();
+    }
+
+    public F2(Class<? extends forms.frmF2> classRef, ThrowingFunction<Integer, String> a) {
+        super();
+        setBuscador(a);
+        setForm(classRef);
+    }
+
     private void openDialog() {
         try {
             frmF2 frm = classRef.newInstance();
@@ -144,8 +145,31 @@ public class F2 extends JTextFieldIcone {
 
     }
 
+    public int getValueSelected(){
+        try {
+            return Integer.parseInt(getText());
+        } catch (Exception e) {
+            return 0;
+        }
+    }
+    @Override
+    public void setText(String text) {
+        setText(text, true);
+        if (valueSelectedListener != null) {
+            valueSelectedListener.accept(getValueSelected(), textValue);
+        }
+    }
+
+    public void setText(String text, boolean refresh) {
+        super.setText(text);
+        if (refresh) {
+            buscador.go();
+        }
+
+    }
+
     private final void setSelected(int id, String desc) {
-        this.setText(String.valueOf(id));
+        this.setText(String.valueOf(id), false);
         setTextValue(desc);
         repaint();
     }
@@ -179,8 +203,8 @@ public class F2 extends JTextFieldIcone {
 //        // label.setBounds(x, y, 16, 16);
 ////            label.setLocation(Integer.parseInt(JOptionPane.showInputDialog("x")), Integer.parseInt(JOptionPane.showInputDialog("y")));
 //    }
-    
     private JCampoBusca buscador;
+
     public void setBuscador(ThrowingFunction<Integer, String> a) {
 
         boolean wasOne = listener != null;
@@ -197,7 +221,15 @@ public class F2 extends JTextFieldIcone {
                 }
             }
             );
-            buscador.go();
+            //Para não dar nullExceptionPointer, executa isso quando a janela está criada
+            EventQueue.invokeLater(() -> {
+
+                if (buscador != null) {
+                    buscador.go();
+                }
+            });
+
+//            buscador.go();
         }
     }
 }

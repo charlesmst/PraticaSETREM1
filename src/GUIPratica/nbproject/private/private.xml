@@ -20,6 +20,7 @@
             <file>file:/C:/Users/Charles/Documents/GitHub/PraticaSETREM1/src/GUIPratica/src/model/aula/Produto.java</file>
             <file>file:/C:/Users/Charles/Documents/GitHub/PraticaSETREM1/src/GUIPratica/src/services/Service.java</file>
             <file>file:/C:/Users/Charles/Documents/GitHub/PraticaSETREM1/src/GUIPratica/src/services/aul/SegmentoService.java</file>
+            <file>file:/C:/Users/Charles/Documents/GitHub/PraticaSETREM1/src/GUIPratica/src/model/aula/EspecificacaoProdutoPK.java</file>
             <file>file:/C:/Users/Charles/Documents/GitHub/PraticaSETREM1/src/GUIPratica/src/model/aula/Segmento.java</file>
             <file>file:/C:/Users/Charles/Documents/GitHub/PraticaSETREM1/src/GUIPratica/src/forms/aula/FrmMarca.java</file>
             <file>file:/C:/Users/Charles/Documents/GitHub/PraticaSETREM1/src/GUIPratica/src/components/ThrowingConsumer.java</file>
@@ -27,9 +28,10 @@
             <file>file:/C:/Users/Charles/Documents/GitHub/PraticaSETREM1/src/GUIPratica/src/forms/aula/FrmSegmentoCadastro.java</file>
             <file>file:/C:/Users/Charles/Documents/GitHub/PraticaSETREM1/src/GUIPratica/src/components/JTableDataBinderListener.java</file>
             <file>file:/C:/Users/Charles/Documents/GitHub/PraticaSETREM1/src/GUIPratica/src/forms/aula/FrmProdutoCadastro.java</file>
-            <file>file:/C:/Users/Charles/Documents/GitHub/PraticaSETREM1/src/GUIPratica/src/components/JValidadorDeCampos.java</file>
+            <file>file:/C:/Users/Charles/Documents/GitHub/PraticaSETREM1/src/GUIPratica/src/model/aula/Especificacao.java</file>
             <file>file:/C:/Users/Charles/Documents/GitHub/PraticaSETREM1/src/GUIPratica/src/forms/aula/FrmSegmento.java</file>
             <file>file:/C:/Users/Charles/Documents/GitHub/PraticaSETREM1/src/GUIPratica/src/services/aul/ProdutoService.java</file>
+            <file>file:/C:/Users/Charles/Documents/GitHub/PraticaSETREM1/src/GUIPratica/src/model/aula/EspecificacaoProduto.java</file>
         </group>
     </open-files>
 </project-private>

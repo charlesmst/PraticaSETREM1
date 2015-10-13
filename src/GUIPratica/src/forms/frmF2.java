@@ -12,6 +12,7 @@ import components.JTableDataBinderListener;
 import java.awt.EventQueue;
 import java.awt.event.KeyEvent;
 import java.util.function.BiConsumer;
+import javafx.scene.input.KeyCode;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 import utils.Forms;
 
@@ -22,7 +23,7 @@ import utils.Forms;
 public class frmF2 extends JDialogController {
 
     protected boolean allowNew = true;
-    JTableDataBinder table;
+
 
     JCampoBusca campo;
 
@@ -30,7 +31,6 @@ public class frmF2 extends JDialogController {
         super(parent, title);
         initComponents();
 
-        table = ((JTableDataBinder) jtbDados);
 
         table.setBusca(txtBuscar);
         campo = new JCampoBusca(txtBuscar, () -> {
@@ -80,11 +80,11 @@ public class frmF2 extends JDialogController {
 
         txtBuscar = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jtbDados = new JTableDataBinder();
         btnSelecionar = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         btnNovo = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        table = new components.JTableDataBinder();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -106,7 +106,30 @@ public class frmF2 extends JDialogController {
 
         jLabel2.setText("Buscar:");
 
-        jtbDados.setModel(new javax.swing.table.DefaultTableModel(
+        btnSelecionar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/success.png"))); // NOI18N
+        btnSelecionar.setText("Selecionar");
+        btnSelecionar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSelecionarActionPerformed(evt);
+            }
+        });
+
+        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/cancel.png"))); // NOI18N
+        jButton2.setText("Cancelar");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
+        btnNovo.setText("Novo");
+        btnNovo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNovoActionPerformed(evt);
+            }
+        });
+
+        table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null},
                 {null, null},
@@ -132,46 +155,17 @@ public class frmF2 extends JDialogController {
                 return canEdit [columnIndex];
             }
         });
-        jtbDados.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                jtbDadosMousePressed(evt);
+        table.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tableMouseClicked(evt);
             }
         });
-        jtbDados.addKeyListener(new java.awt.event.KeyAdapter() {
+        table.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
-                jtbDadosKeyPressed(evt);
-            }
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                jtbDadosKeyReleased(evt);
-            }
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                jtbDadosKeyTyped(evt);
+                tableKeyPressed(evt);
             }
         });
-        jScrollPane1.setViewportView(jtbDados);
-
-        btnSelecionar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/success.png"))); // NOI18N
-        btnSelecionar.setText("Selecionar");
-        btnSelecionar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSelecionarActionPerformed(evt);
-            }
-        });
-
-        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/cancel.png"))); // NOI18N
-        jButton2.setText("Cancelar");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
-            }
-        });
-
-        btnNovo.setText("Novo");
-        btnNovo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnNovoActionPerformed(evt);
-            }
-        });
+        jScrollPane2.setViewportView(table);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -184,14 +178,14 @@ public class frmF2 extends JDialogController {
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(txtBuscar, javax.swing.GroupLayout.DEFAULT_SIZE, 334, Short.MAX_VALUE))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(btnSelecionar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnNovo)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -201,9 +195,9 @@ public class frmF2 extends JDialogController {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(btnSelecionar)
@@ -231,10 +225,6 @@ public class frmF2 extends JDialogController {
         requestNew();
         table.atualizar();
     }//GEN-LAST:event_btnNovoActionPerformed
-
-    private void jtbDadosKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtbDadosKeyReleased
-        
-    }//GEN-LAST:event_jtbDadosKeyReleased
 
     private void formKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_formKeyReleased
         if (evt.getKeyCode() == KeyEvent.VK_INSERT) {
@@ -264,23 +254,17 @@ public class frmF2 extends JDialogController {
         dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
 
-    private void jtbDadosKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtbDadosKeyTyped
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jtbDadosKeyTyped
-
-    private void jtbDadosKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtbDadosKeyPressed
-        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+    private void tableKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tableKeyPressed
+        if(evt.getKeyCode() == KeyEvent.VK_ENTER)
             btnSelecionar.doClick();
-        } else if (evt.getKeyCode() == KeyEvent.VK_INSERT) {
+        else if(evt.getKeyCode() == KeyEvent.VK_INSERT)
             btnNovo.doClick();
-        }
-    }//GEN-LAST:event_jtbDadosKeyPressed
+    }//GEN-LAST:event_tableKeyPressed
 
-    private void jtbDadosMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtbDadosMousePressed
-        if(evt.getClickCount() == 2){
+    private void tableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableMouseClicked
+        if(evt.getClickCount() == 2)
             btnSelecionar.doClick();
-        }
-    }//GEN-LAST:event_jtbDadosMousePressed
+    }//GEN-LAST:event_tableMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -288,8 +272,8 @@ public class frmF2 extends JDialogController {
     private javax.swing.JButton btnSelecionar;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jtbDados;
+    private javax.swing.JScrollPane jScrollPane2;
+    private components.JTableDataBinder table;
     private javax.swing.JTextField txtBuscar;
     // End of variables declaration//GEN-END:variables
 }

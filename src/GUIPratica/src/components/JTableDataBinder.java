@@ -13,10 +13,12 @@ import java.util.Collection;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.DefaultCellEditor;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingWorker;
+import javax.swing.event.ListSelectionEvent;
 import javax.swing.table.DefaultTableModel;
 import utils.AlertaTipos;
 import utils.Forms;
@@ -80,17 +82,22 @@ public class JTableDataBinder<T> extends JTable {
         }
     }
 
+    public void hideColumn(String nome) {
+        getColumnModel().removeColumn(getColumn(nome));
+    }
+
     public void atualizar() {
         atualizar(true);
     }
 
-    
-    public void scrollTo(int row){
+    public void scrollTo(int row) {
         scrollRectToVisible(new Rectangle(getCellRect(row, 0, true)));
     }
-    public void scrollToSelected(){
+
+    public void scrollToSelected() {
         scrollTo(getSelectedRow());
     }
+
     public void atualizar(boolean keepSelected) {
         String textobusca = null;
         if (this.busca != null) {
@@ -104,7 +111,7 @@ public class JTableDataBinder<T> extends JTable {
         worker = new RefreshWorker<>(listener, model, textobusca, this);
         final RefreshWorker<T> workerN = worker;
         EventQueue.invokeLater(() -> {
-                workerN.runStart();
+            workerN.runStart();
 
         });
 
@@ -148,6 +155,15 @@ public class JTableDataBinder<T> extends JTable {
     public DefaultTableModel getDefaultTableModel() {
         return (DefaultTableModel) getModel();
     }
+
+    public void startEditing(int row, int column) {
+        editCellAt(row, column);
+        setRowSelectionInterval(row, row);
+        requestFocus();
+//        DefaultCellEditor ed = (DefaultCellEditor) getCellEditor(row, column);
+//
+//        ed.shouldSelectCell(new ListSelectionEvent(this, row, row, true));
+    }
 }
 
 class RefreshWorker<T> extends SwingWorker<DefaultTableModel, Object[]> {
@@ -164,7 +180,7 @@ class RefreshWorker<T> extends SwingWorker<DefaultTableModel, Object[]> {
             table.setRowSelectionInterval(wasSelected - 1, wasSelected - 1);
 
         }
-        
+
         table.scrollToSelected();
     }
     private JTableDataBinderListener listener;
@@ -183,8 +199,9 @@ class RefreshWorker<T> extends SwingWorker<DefaultTableModel, Object[]> {
     }
 
     public void runStart() {
-        if(isCancelled())
+        if (isCancelled()) {
             return;
+        }
         Forms.iniciaProgress();
         execute();
     }

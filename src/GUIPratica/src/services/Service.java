@@ -5,10 +5,15 @@
  */
 package services;
 
+import components.ThrowingConsumer;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.function.BiConsumer;
+import java.util.function.BiFunction;
+import java.util.function.Consumer;
+import java.util.function.Function;
 import org.apache.log4j.LogManager;
 import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
@@ -48,7 +53,7 @@ public abstract class Service<T> {
 
     public Session getSession() {
 //        if (session == null || !session.isOpen()) {
-            session = HibernateUtil.getSessionFactory().openSession();
+        session = HibernateUtil.getSessionFactory().openSession();
 //        }
         return session;
     }
@@ -56,6 +61,61 @@ public abstract class Service<T> {
     public T findById(Serializable id) {
         return findById(id, false);
     }
+//
+    protected Object selectOnSession(Function<Session, Object> f) throws ServiceException {
+        Session s = getSession();
+        try {
+            return f.apply(s);
+//            return r;
+        } catch (Exception e) {
+            throw new ServiceException(e.getMessage(), e);
+
+        } finally {
+            s.close();
+        }
+    }
+
+    protected void executeOnSession(Consumer<Session> f) throws ServiceException {
+        Session s = getSession();
+        try {
+            f.accept(s);
+        } catch (Exception e) {
+            throw new ServiceException(e.getMessage(), e);
+
+        } finally {
+            s.close();
+        }
+    }
+
+    protected void executeOnTransaction(BiConsumer<Session, Transaction> f) throws ServiceException {
+        Session s = getSession();
+        Transaction t = s.beginTransaction();
+        try {
+            f.accept(s, t);
+
+        } catch (Exception e) {
+            t.rollback();
+            throw new ServiceException(e.getMessage(), e);
+
+        } finally {
+            s.close();
+        }
+    }
+//
+//    protected <L> L executeOnTransaction(BiFunction<Session, Transaction, L> f) throws ServiceException {
+//        Session s = getSession();
+//        Transaction t = s.beginTransaction();
+//        try {
+//            L r = f.apply(s, t);
+//            return r;
+//        } catch (Exception e) {
+//            t.rollback();
+//            throw new ServiceException(e.getMessage(), e);
+//
+//        } finally {
+//            s.close();
+//        }
+//    }
 
     public T findById(Serializable id, boolean full) {
         Session s = getSession();

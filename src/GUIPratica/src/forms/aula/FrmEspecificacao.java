@@ -14,44 +14,45 @@ import components.JTableDataBinderListener;
 import java.util.ArrayList;
 import java.util.Collection;
 import javax.swing.JDialog;
-import model.aula.Segmento;
+import model.aula.Especificacao;
 import services.ServiceException;
-import services.aul.SegmentoService;
+import services.aul.EspecificacaoService;
 import utils.AlertaTipos;
 
 /**
  *
  * @author Charles
  */
-public class FrmSegmento extends JPanelControleButtons {
+public class FrmEspecificacao extends JPanelControleButtons {
 
-    private final SegmentoService service;
-//    JTableDataBinder table;
+    private final EspecificacaoService service;
+    JTableDataBinder table;
 
-    public FrmSegmento() {
+    public FrmEspecificacao() {
         initComponents();
         setBtnAddEnable(true);
         setBtnAlterarEnable(true);
         setBtnExcluirEnable(true);
         setBtnAtualizarEnable(true);
 
-        service = new SegmentoService();
+        service = new EspecificacaoService();
 
         new JCampoBusca(txtBuscar, () -> table.atualizar());
 
-        table.setListener(new JTableDataBinderListener<Segmento>() {
+        ((JTableDataBinder) jTable1).setListener(new JTableDataBinderListener<Especificacao>() {
             @Override
-            public Collection<Segmento> lista(String busca) throws ServiceException {
-                return service.findByMultipleColumns(busca, "id", "id", "nome");
+            public Collection<Especificacao> lista(String busca) throws ServiceException {
+                return service.findByMultipleColumns(busca, "id", "id", "titulo");
             }
 
             @Override
-            public Object[] addRow(Segmento dado) {
-                return new Object[]{dado.getId(), dado.getNome()};
+            public Object[] addRow(Especificacao dado) {
+                return new Object[]{dado.getId(), dado.getTitulo()};
 
             }
         });
 
+        table = ((JTableDataBinder) jTable1);
 
         table.setBusca(txtBuscar);
         table.atualizar();
@@ -66,14 +67,12 @@ public class FrmSegmento extends JPanelControleButtons {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable1 = new JTableDataBinder<Especificacao>();
         txtBuscar = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        table = new components.JTableDataBinder();
 
-        jLabel2.setText("Buscar:");
-
-        table.setModel(new javax.swing.table.DefaultTableModel(
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null},
                 {null, null},
@@ -81,7 +80,7 @@ public class FrmSegmento extends JPanelControleButtons {
                 {null, null}
             },
             new String [] {
-                "Id", "Nome"
+                "Código", "Título"
             }
         ) {
             Class[] types = new Class [] {
@@ -99,7 +98,9 @@ public class FrmSegmento extends JPanelControleButtons {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane2.setViewportView(table);
+        jScrollPane1.setViewportView(jTable1);
+
+        jLabel2.setText("Buscar:");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -108,11 +109,11 @@ public class FrmSegmento extends JPanelControleButtons {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(txtBuscar, javax.swing.GroupLayout.DEFAULT_SIZE, 334, Short.MAX_VALUE))
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                        .addComponent(txtBuscar, javax.swing.GroupLayout.DEFAULT_SIZE, 334, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -122,24 +123,23 @@ public class FrmSegmento extends JPanelControleButtons {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 247, Short.MAX_VALUE)
-                .addContainerGap())
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 246, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JScrollPane jScrollPane2;
-    private components.JTableDataBinder table;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable jTable1;
     private javax.swing.JTextField txtBuscar;
     // End of variables declaration//GEN-END:variables
 
     @Override
     public void btnAddActionPerformed(ActionEvent evt) {
 //        model.createNew();
-        JDialog dialog = new FrmSegmentoCadastro();
+        JDialog dialog = new FrmEspecificacaoCadastro();
         dialog.setVisible(true);
         table.atualizar();
     }
@@ -147,7 +147,7 @@ public class FrmSegmento extends JPanelControleButtons {
     @Override
     public void btnAlterarActionPerformed(ActionEvent evt) {
         defaultUpdateOperation(table, (i) -> {
-            JDialog dialog = new FrmSegmentoCadastro(i);
+            JDialog dialog = new FrmEspecificacaoCadastro(i);
             dialog.setVisible(true);
         });
 

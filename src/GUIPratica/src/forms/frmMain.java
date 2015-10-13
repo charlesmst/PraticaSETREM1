@@ -194,7 +194,9 @@ public class frmMain extends javax.swing.JFrame {
         aula.add(new TreeNodeMenu("Produtos", "forms.aula.FrmProduto"));
 
         aula.add(new TreeNodeMenu("Marcas", "forms.aula.FrmMarca"));
-        aula.add(new TreeNodeMenu("Segmentos", "forms.aula.FrmSegmento"));
+        aula.add(new TreeNodeMenu("Segmentos", "forms.aula.FrmSegmento"));       
+        aula.add(new TreeNodeMenu("Especificações", "forms.aula.FrmEspecificacao"));
+
 //        gerenciamento.add(new TreeNodeMenu("Ordem de Serviço", "forms.ordem.frmOrdemServico"));
 
         root.add(aula);
