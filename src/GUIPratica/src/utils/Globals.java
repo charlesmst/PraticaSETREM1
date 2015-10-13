@@ -5,6 +5,7 @@
  */
 package utils;
 
+import javax.swing.ImageIcon;
 import model.Usuario;
 
 /**
@@ -12,6 +13,14 @@ import model.Usuario;
  * @author Charles
  */
 public class Globals {
+
     public static Usuario.Tipo nivel = Usuario.Tipo.gestor;
-    
+    public static ImageIcon iconeSuccess;
+    public static ImageIcon iconeError;
+
+    static {
+        iconeSuccess = new ImageIcon(Globals.class.getClassLoader().getResource("resources/success.png"));
+        iconeError = new ImageIcon(Globals.class.getClassLoader().getResource("resources/erro.png"));
+
+    }
 }

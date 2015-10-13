@@ -15,14 +15,17 @@ import javax.swing.text.PlainDocument;
  *
  * @author Charles
  */
-public class JTextFieldUpper extends JTextField {
+public class JTextFieldUpper extends JTextFieldIcone {
 
-    public JTextFieldUpper(int cols) {
-        super(cols);
+    public JTextFieldUpper(String icone) {
+        super(icone);
     }
-    
+    public JTextFieldUpper(boolean mostraiconebusca) {
+        
+        super(mostraiconebusca?"resources/find.png":null);
+    }
     public JTextFieldUpper() {
-        super();
+        super("");
     }
 
     protected Document createDefaultModel() {

@@ -120,7 +120,7 @@ public class FrmProdutoCadastro extends JDialogController {
         txtDescricao.setText(m.getDescricao());
         txtMarca.setText(m.getMarca().getId() + "");
         txtSegmento.setText(m.getSegmento().getId() + "");
-        
+
         table.setListener(new JTableDataBinderListener<EspecificacaoProduto>() {
 
             @Override
@@ -130,7 +130,7 @@ public class FrmProdutoCadastro extends JDialogController {
 
             @Override
             public Object[] addRow(EspecificacaoProduto dado) {
-                return new String[]{dado.getEspecificacao().getId()+"",dado.getEspecificacao().getTitulo(),dado.getDescricao()};
+                return new String[]{dado.getEspecificacao().getId() + "", dado.getEspecificacao().getTitulo(), dado.getDescricao()};
             }
         });
         table.atualizar();
@@ -150,9 +150,9 @@ public class FrmProdutoCadastro extends JDialogController {
         m.setDescricao(txtDescricao.getText());
 
         m.setMarca(new Marca(Integer.valueOf(txtMarca.getText())));
-        
+
         m.setSegmento(new Segmento(Integer.valueOf(txtSegmento.getText())));
-        
+
         List<EspecificacaoProduto> especificacoes = new ArrayList<>();
         for (int i = 0; i < table.getDefaultTableModel().getRowCount(); i++) {
             Especificacao e = new Especificacao();

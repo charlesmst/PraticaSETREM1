@@ -26,16 +26,19 @@ public class ContaBancaria {
     @Column(nullable = false,length = 100)
     private String nome;
 
-    @Enumerated(EnumType.ORDINAL)
+    @Enumerated(EnumType.STRING)
     private TipoContaBancaria tipo;
 
-    private int agencia;
+  
+    private boolean ativo;
 
-    private int contaCorrente;
+    public boolean isAtivo() {
+        return ativo;
+    }
 
-    private int carteira;
-
-    private int modalidade;
+    public void setAtivo(boolean ativo) {
+        this.ativo = ativo;
+    }
 
     public int getId() {
         return id;
@@ -53,45 +56,12 @@ public class ContaBancaria {
         this.nome = nome;
     }
 
-
-    public int getAgencia() {
-        return agencia;
-    }
-
-    public void setAgencia(int agencia) {
-        this.agencia = agencia;
-    }
-
-    public int getContaCorrente() {
-        return contaCorrente;
-    }
-
-    public void setContaCorrente(int contaCorrente) {
-        this.contaCorrente = contaCorrente;
-    }
-
     public TipoContaBancaria getTipo() {
         return tipo;
     }
 
     public void setTipo(TipoContaBancaria tipo) {
         this.tipo = tipo;
-    }
-
-    public int getCarteira() {
-        return carteira;
-    }
-
-    public void setCarteira(int carteira) {
-        this.carteira = carteira;
-    }
-
-    public int getModalidade() {
-        return modalidade;
-    }
-
-    public void setModalidade(int modalidade) {
-        this.modalidade = modalidade;
     }
 
 }

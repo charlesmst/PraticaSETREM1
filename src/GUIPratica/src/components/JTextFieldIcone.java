@@ -15,22 +15,28 @@ import javax.swing.JTextField;
  * @author Charles
  */
 public class JTextFieldIcone extends JTextField {
-    private  String image ;
-    public JTextFieldIcone(){
+
+    private String image;
+
+    public JTextFieldIcone() {
         this("resources/find.png");
     }
-    public JTextFieldIcone(String image){
+
+    public JTextFieldIcone(String image) {
         this.image = image;
     }
+
     public void paint(Graphics g) {
         super.paint(g);
 
-        try {
-            Image image = ImageIO.read(getClass().getClassLoader().getResource(this.image));
-            
-            g.drawImage(image,getWidth() - image.getWidth(null) - 5, (getHeight() + image.getHeight(null)) / 2 - image.getHeight(null), null);
-        } catch (Exception ex) {
+        if (image != null && image != "") {
+            try {
+                Image image = ImageIO.read(getClass().getClassLoader().getResource(this.image));
 
+                g.drawImage(image, getWidth() - image.getWidth(null) - 5, (getHeight() + image.getHeight(null)) / 2 - image.getHeight(null), null);
+            } catch (Exception ex) {
+
+            }
         }
     }
 }

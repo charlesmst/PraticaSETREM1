@@ -9,6 +9,7 @@ import java.awt.EventQueue;
 import java.awt.Rectangle;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.logging.Level;
@@ -38,6 +39,14 @@ public class JTableDataBinder<T> extends JTable {
         busca = componente;
         addKeyDownNavigation();
         busca.requestFocus();
+    }
+    List<Class> columnClasses;
+
+    public Class getColumnClass(int column) {
+        if (columnClasses != null && columnClasses.size() > column) {
+            return columnClasses.get(column);
+        }
+        return super.getColumnClass(column);
     }
 
     private void addKeyDownNavigation() {
@@ -103,12 +112,13 @@ public class JTableDataBinder<T> extends JTable {
         if (this.busca != null) {
             textobusca = this.busca.getText();
         }
+        columnClasses = new ArrayList<>(getColumnCount());
 
         DefaultTableModel model = ((DefaultTableModel) this.getModel());
         if (worker != null) {
             worker.cancel(true);
         }
-        worker = new RefreshWorker<>(listener, model, textobusca, this);
+        worker = new RefreshWorker<>(listener, model, textobusca, this, columnClasses);
         final RefreshWorker<T> workerN = worker;
         EventQueue.invokeLater(() -> {
             workerN.runStart();
@@ -176,7 +186,7 @@ class RefreshWorker<T> extends SwingWorker<DefaultTableModel, Object[]> {
         Forms.paraProgress();
         if (model.getRowCount() > wasSelected && wasSelected >= 0) {
             table.setRowSelectionInterval(wasSelected, wasSelected);
-        } else if ((wasSelected - 1) == model.getRowCount() - 1) {
+        } else if ((wasSelected - 1) == model.getRowCount() - 1 && model.getRowCount() > 0) {
             table.setRowSelectionInterval(wasSelected - 1, wasSelected - 1);
 
         }
@@ -188,14 +198,16 @@ class RefreshWorker<T> extends SwingWorker<DefaultTableModel, Object[]> {
     private String textoBusca;
     private int wasSelected = 0;
     private JTableDataBinder<T> table;
+    private List<Class> columnClasses;
 
-    public RefreshWorker(JTableDataBinderListener listener, DefaultTableModel model, String textoBusca, JTableDataBinder<T> table) {
+    public RefreshWorker(JTableDataBinderListener listener, DefaultTableModel model, String textoBusca, JTableDataBinder<T> table, List<Class> columnClasses) {
         this.listener = listener;
         this.model = model;
         this.textoBusca = textoBusca;
         this.wasSelected = table.getSelectedRow();
         model.setRowCount(0);
         this.table = table;
+        this.columnClasses = columnClasses;
     }
 
     public void runStart() {
@@ -222,10 +234,18 @@ class RefreshWorker<T> extends SwingWorker<DefaultTableModel, Object[]> {
 
         try {
             for (T linha : c) {
-                publish(listener.addRow(linha));
+
+                Object[] o = listener.addRow(linha);
+                if (columnClasses.size() == 0) {
+                    for (int i = 0; i < o.length; i++) {
+                        columnClasses.add(o[i] != null ? o[i].getClass() : Object.class);
+                    }
+                }
+                publish(o);
                 if (isCancelled()) {
                     break;
                 }
+
             }
         } catch (Exception e) {
             utils.Forms.log(e);

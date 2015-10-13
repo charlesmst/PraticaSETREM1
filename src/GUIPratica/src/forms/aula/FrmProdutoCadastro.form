@@ -254,7 +254,7 @@
     </Container>
     <Component class="components.F2" name="txtMarca">
       <AuxValues>
-        <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new F2(FrmMarcaF2.class,(id) -&gt; new MarcaService().findById(id).getNome());"/>
+        <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new F2(FrmMarcaF2.class,(id) -&gt; new MarcaService().findById(id).getNome())"/>
       </AuxValues>
     </Component>
     <Component class="components.F2" name="txtSegmento">

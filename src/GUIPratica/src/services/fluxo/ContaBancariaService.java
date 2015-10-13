@@ -5,6 +5,7 @@
  */
 package services.fluxo;
 
+import java.io.Serializable;
 import model.fluxo.ContaBancaria;
 import services.Service;
 import services.ServiceException;
@@ -14,6 +15,15 @@ import services.ServiceException;
  * @author Charles
  */
 public class ContaBancariaService extends Service<ContaBancaria> {
+
+    @Override
+    public void delete(Serializable key) throws ServiceException {
+        //Faz update pra inativo
+        ContaBancaria c = findById(key);
+        c.setAtivo(false);
+        
+        update(c); //To change body of generated methods, choose Tools | Templates.
+    }
 
     public ContaBancariaService() {
         super(ContaBancaria.class);

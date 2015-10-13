@@ -62,6 +62,12 @@ public class FrmContaBancariaCadastro extends JDialogController {
         ContaBancaria m = service.findById(id);
         txtCodigo.setText(String.valueOf(m.getId()));
         txtNome.setText(m.getNome());
+        jcbAtivo.setSelected(m.isAtivo());
+        
+        if(m.getTipo() == ContaBancaria.TipoContaBancaria.banco)
+            jrbContaBancaria.setSelected(true);
+        else
+            jrbCaixa.setSelected(true);
     }
 
     private void save() {
@@ -82,6 +88,7 @@ public class FrmContaBancariaCadastro extends JDialogController {
             m.setTipo(ContaBancaria.TipoContaBancaria.banco);
 
         }
+        m.setAtivo(jcbAtivo.isSelected());
         Utils.safeCode(() -> {
             if (id == 0) {
                 service.insert(m);
@@ -112,6 +119,11 @@ public class FrmContaBancariaCadastro extends JDialogController {
         jrbCaixa = new javax.swing.JRadioButton();
         jrbContaBancaria = new javax.swing.JRadioButton();
         txtNome = new components.JTextFieldUpper();
+        jLabel3 = new javax.swing.JLabel();
+        jtbSaldoAtual = new javax.swing.JFormattedTextField();
+        jcbAtivo = new javax.swing.JCheckBox();
+        btnMovimentar = new javax.swing.JButton();
+        btnVisualizarMovimentacoes = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -139,6 +151,27 @@ public class FrmContaBancariaCadastro extends JDialogController {
 
         jrbContaBancaria.setText("CONTA BANCARIA");
 
+        jLabel3.setText("Saldo atual");
+
+        jtbSaldoAtual.setEnabled(false);
+
+        jcbAtivo.setSelected(true);
+        jcbAtivo.setText("Ativo");
+
+        btnMovimentar.setText("Fazer Movimentação");
+        btnMovimentar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMovimentarActionPerformed(evt);
+            }
+        });
+
+        btnVisualizarMovimentacoes.setText("Visualizar Movimentações");
+        btnVisualizarMovimentacoes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnVisualizarMovimentacoesActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -146,8 +179,14 @@ public class FrmContaBancariaCadastro extends JDialogController {
             .addGroup(layout.createSequentialGroup()
                 .addGap(20, 20, 20)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jrbCaixa)
+                        .addGap(18, 18, 18)
+                        .addComponent(jrbContaBancaria)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jtbSaldoAtual, javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txtNome, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(txtCodigo, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 621, Short.MAX_VALUE)
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
@@ -157,14 +196,18 @@ public class FrmContaBancariaCadastro extends JDialogController {
                                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                                         .addComponent(btnSalvar)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(btnCancelar)))
+                                        .addComponent(btnCancelar)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(btnMovimentar)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(btnVisualizarMovimentacoes)))
                                 .addGap(0, 0, Short.MAX_VALUE)))
                         .addGap(26, 26, 26))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jrbCaixa)
-                        .addGap(18, 18, 18)
-                        .addComponent(jrbContaBancaria)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jcbAtivo)
+                            .addComponent(jLabel3))
+                        .addGap(0, 0, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -177,14 +220,22 @@ public class FrmContaBancariaCadastro extends JDialogController {
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jrbCaixa)
                     .addComponent(jrbContaBancaria))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jtbSaldoAtual, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jcbAtivo)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnSalvar)
-                    .addComponent(btnCancelar))
+                    .addComponent(btnCancelar)
+                    .addComponent(btnMovimentar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnVisualizarMovimentacoes))
                 .addContainerGap())
         );
 
@@ -199,15 +250,28 @@ public class FrmContaBancariaCadastro extends JDialogController {
         save();
     }//GEN-LAST:event_btnSalvarActionPerformed
 
+    private void btnMovimentarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMovimentarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnMovimentarActionPerformed
+
+    private void btnVisualizarMovimentacoesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVisualizarMovimentacoesActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnVisualizarMovimentacoesActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancelar;
+    private javax.swing.JButton btnMovimentar;
     private javax.swing.JButton btnSalvar;
+    private javax.swing.JButton btnVisualizarMovimentacoes;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JCheckBox jcbAtivo;
     private javax.swing.JRadioButton jrbCaixa;
     private javax.swing.JRadioButton jrbContaBancaria;
+    private javax.swing.JFormattedTextField jtbSaldoAtual;
     private javax.swing.JTextField txtCodigo;
     private components.JTextFieldUpper txtNome;
     // End of variables declaration//GEN-END:variables

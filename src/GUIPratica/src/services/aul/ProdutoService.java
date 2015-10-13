@@ -23,6 +23,7 @@ public class ProdutoService extends Service<Produto> {
     }
 
     public void insertOrUpdateProduto(Produto p, List<EspecificacaoProduto> especificacoes) throws ServiceException {
+        
         this.executeOnTransaction((s, t) -> {
             s.saveOrUpdate(p);
 
