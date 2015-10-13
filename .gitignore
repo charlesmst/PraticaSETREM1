@@ -47,3 +47,4 @@ Temporary Items
 .apdisk
 /src/GUIPratica/build/
 *.log
+src/GUIPratica/nbproject/private/private.properties

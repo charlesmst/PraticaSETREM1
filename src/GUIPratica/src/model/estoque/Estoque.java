@@ -4,30 +4,22 @@ import java.util.Date;
 
 public class Estoque {
 
-	private int id;
+    private int id;
+    private EstoqueEntrada entrada;
+    private int lote;
+    private Item item;
+    private int quantidadeCompra;
+    private int quantidadeDisponivel;
+    private double valorUnitario;
+    private double valorUnidadeVenda;
+    private Date dataValidade;
 
-	private EstoqueEntrada entrada;
+    public void insert() {
 
-	private int lote;
+    }
 
-	private Item item;
+    public void update() {
 
-	private int quantidadeCompra;
-
-	private int quantidadeDisponivel;
-
-	private double valorUnitario;
-
-	private double valorUnidadeVenda;
-
-	private Date dataValidade;
-
-	public void insert() {
-
-	}
-
-	public void update() {
-
-	}
+    }
 
 }
