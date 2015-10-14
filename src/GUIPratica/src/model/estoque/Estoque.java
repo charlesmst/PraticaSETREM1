@@ -4,33 +4,102 @@ import java.util.Date;
 import java.util.List;
 
 public class Estoque {
+    private int id;
+    private EstoqueEntrada entrada;
+    private int lote;
+    private Item item;
+    private int quantidadeCompra;
+    private int quantidadeDisponivel;
+    private double valorUnitario;
+    private double valorUnidadeVenda;
+    private Date dataValidade;
 
-	private int id;
+    private List movimentacoes;
 
-	private EstoqueEntrada entrada;
+    public void insert() {
+    }
 
-	private int lote;
+    public void update() {
+    }
 
-	private Item item;
+    public int getId() {
+        return id;
+    }
 
-	private int quantidadeCompra;
+    public void setId(int id) {
+        this.id = id;
+    }
 
-	private int quantidadeDisponivel;
+    public EstoqueEntrada getEntrada() {
+        return entrada;
+    }
 
-	private double valorUnitario;
+    public void setEntrada(EstoqueEntrada entrada) {
+        this.entrada = entrada;
+    }
 
-	private double valorUnidadeVenda;
+    public int getLote() {
+        return lote;
+    }
 
-	private Date dataValidade;
+    public void setLote(int lote) {
+        this.lote = lote;
+    }
 
-	private List movimentacoes;
+    public Item getItem() {
+        return item;
+    }
 
-	public void insert() {
+    public void setItem(Item item) {
+        this.item = item;
+    }
 
-	}
+    public int getQuantidadeCompra() {
+        return quantidadeCompra;
+    }
 
-	public void update() {
+    public void setQuantidadeCompra(int quantidadeCompra) {
+        this.quantidadeCompra = quantidadeCompra;
+    }
 
-	}
+    public int getQuantidadeDisponivel() {
+        return quantidadeDisponivel;
+    }
+
+    public void setQuantidadeDisponivel(int quantidadeDisponivel) {
+        this.quantidadeDisponivel = quantidadeDisponivel;
+    }
+
+    public double getValorUnitario() {
+        return valorUnitario;
+    }
+
+    public void setValorUnitario(double valorUnitario) {
+        this.valorUnitario = valorUnitario;
+    }
+
+    public double getValorUnidadeVenda() {
+        return valorUnidadeVenda;
+    }
+
+    public void setValorUnidadeVenda(double valorUnidadeVenda) {
+        this.valorUnidadeVenda = valorUnidadeVenda;
+    }
+
+    public Date getDataValidade() {
+        return dataValidade;
+    }
+
+    public void setDataValidade(Date dataValidade) {
+        this.dataValidade = dataValidade;
+    }
+
+    public List getMovimentacoes() {
+        return movimentacoes;
+    }
+
+    public void setMovimentacoes(List movimentacoes) {
+        this.movimentacoes = movimentacoes;
+    }
 
 }
