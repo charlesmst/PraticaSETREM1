@@ -1,6 +1,7 @@
 package model.aula;
 
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -21,6 +22,9 @@ public class Produto {
     private String descricao;
     @ManyToOne
     private Marca marca;
+    
+    @OneToMany(mappedBy = "produto",orphanRemoval = true,cascade = CascadeType.ALL)
+    private List<EspecificacaoProduto> especificacoes;
 //
 //    private List<Preco> precos;
 //
@@ -83,5 +87,13 @@ public class Produto {
 //    public void setPromocoes(List<Promocao> promocoes) {
 //        this.promocoes = promocoes;
 //    }
+
+    public List<EspecificacaoProduto> getEspecificacoes() {
+        return especificacoes;
+    }
+
+    public void setEspecificacoes(List<EspecificacaoProduto> especificacoes) {
+        this.especificacoes = especificacoes;
+    }
 
 }

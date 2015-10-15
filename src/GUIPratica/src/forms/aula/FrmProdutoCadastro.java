@@ -40,7 +40,6 @@ public class FrmProdutoCadastro extends JDialogController {
 
     private int id;
     private final ProdutoService service = new ProdutoService();
-    protected List<EspecificacaoProduto> especificacoes;
 
     protected JTableDataBinder<EspecificacaoProduto> table;
     protected final JValidadorDeCampos validadorEspecificacao = new JValidadorDeCampos();
@@ -115,25 +114,28 @@ public class FrmProdutoCadastro extends JDialogController {
     }
 
     private void load() {
-        Produto m = service.findById(id);
-        txtCodigo.setText(String.valueOf(m.getId()));
-        txtDescricao.setText(m.getDescricao());
-        txtMarca.setText(m.getMarca().getId() + "");
-        txtSegmento.setText(m.getSegmento().getId() + "");
+        Utils.safeCode(() -> {
+            Produto m = service.findProduto(id);
+            txtCodigo.setText(String.valueOf(m.getId()));
+            txtDescricao.setText(m.getDescricao());
+            txtMarca.setText(m.getMarca().getId() + "");
+            txtSegmento.setText(m.getSegmento().getId() + "");
 
-        table.setListener(new JTableDataBinderListener<EspecificacaoProduto>() {
+            table.setListener(new JTableDataBinderListener<EspecificacaoProduto>() {
 
-            @Override
-            public Collection<EspecificacaoProduto> lista(String busca) throws ServiceException {
-                return service.getEspecificacoes(m);
-            }
+                @Override
+                public Collection<EspecificacaoProduto> lista(String busca) throws ServiceException {
+                    return m.getEspecificacoes();
+                }
 
-            @Override
-            public Object[] addRow(EspecificacaoProduto dado) {
-                return new String[]{dado.getEspecificacao().getId() + "", dado.getEspecificacao().getTitulo(), dado.getDescricao()};
-            }
+                @Override
+                public Object[] addRow(EspecificacaoProduto dado) {
+                    return new String[]{dado.getEspecificacao().getId() + "", dado.getEspecificacao().getTitulo(), dado.getDescricao()};
+                }
+            });
+            table.atualizar();
         });
-        table.atualizar();
+
 //        especificacoes = m.get
     }
 
@@ -141,30 +143,38 @@ public class FrmProdutoCadastro extends JDialogController {
         if (!validator.isValido()) {
             return;
         }
-        Produto m;
-        if (id > 0) {
-            m = service.findById(id);
-        } else {
-            m = new Produto();
-        }
-        m.setDescricao(txtDescricao.getText());
 
-        m.setMarca(new Marca(Integer.valueOf(txtMarca.getText())));
-
-        m.setSegmento(new Segmento(Integer.valueOf(txtSegmento.getText())));
-
-        List<EspecificacaoProduto> especificacoes = new ArrayList<>();
-        for (int i = 0; i < table.getDefaultTableModel().getRowCount(); i++) {
-            Especificacao e = new Especificacao();
-            e.setId(Integer.valueOf(table.getDefaultTableModel().getValueAt(i, 0).toString()));
-            EspecificacaoProduto esp = new EspecificacaoProduto();
-            esp.setProduto(m);
-            esp.setEspecificacao(e);
-            esp.setDescricao(table.getDefaultTableModel().getValueAt(i, 2).toString());
-            especificacoes.add(esp);
-        }
         Utils.safeCode(() -> {
-            service.insertOrUpdateProduto(m, especificacoes);
+            Produto m;
+            if (id > 0) {
+                m = service.findProduto(id);
+            } else {
+                m = new Produto();
+            }
+            m.setDescricao(txtDescricao.getText());
+
+            m.setMarca(new Marca(Integer.valueOf(txtMarca.getText())));
+
+            m.setSegmento(new Segmento(Integer.valueOf(txtSegmento.getText())));
+
+            List<EspecificacaoProduto> especificacoes = new ArrayList<>();
+            for (int i = 0; i < table.getDefaultTableModel().getRowCount(); i++) {
+                Especificacao e = new Especificacao();
+                e.setId(Integer.valueOf(table.getDefaultTableModel().getValueAt(i, 0).toString()));
+                EspecificacaoProduto esp = new EspecificacaoProduto();
+                esp.setProduto(m);
+                esp.setEspecificacao(e);
+                esp.setDescricao(table.getDefaultTableModel().getValueAt(i, 2).toString());
+                especificacoes.add(esp);
+            }
+
+            m.setEspecificacoes(especificacoes);
+
+            if (id == 0) {
+                service.insert(m);
+            } else {
+                service.update(m);
+            }
             utils.Forms.mensagem(utils.Mensagens.registroSalvo, AlertaTipos.sucesso);
 
             dispose();

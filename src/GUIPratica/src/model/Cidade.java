@@ -1,23 +1,43 @@
 package model;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "sh_cidade")
 public class Cidade {
 
-	private int cep;
+    @Id
+    private int cep;
 
-	private String nome;
+    private String nome;
 
-	private char uf;
+    private char uf;
 
-	public void insert() {
+    public int getCep() {
+        return cep;
+    }
 
-	}
+    public void setCep(int cep) {
+        this.cep = cep;
+    }
 
-	public void update() {
+    public String getNome() {
+        return nome;
+    }
 
-	}
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
 
-	public void delete() {
+    public char getUf() {
+        return uf;
+    }
 
-	}
+    public void setUf(char uf) {
+        this.uf = uf;
+    }
+
 
 }

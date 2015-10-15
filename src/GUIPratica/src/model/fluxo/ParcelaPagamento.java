@@ -7,6 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -27,7 +29,9 @@ public class ParcelaPagamento implements Serializable {
     @Column(nullable = false)
     private Date data;
 
-    @Column(name = "conta_bancaria_id",nullable = false)
+    
+    @ManyToOne
+    @JoinColumn(name="conta_bancaria_id",nullable = false)
     private ContaBancaria contaBancaria;
     
     @Column(name = "conta_categoria_id",nullable = false)

@@ -32,9 +32,9 @@ import utils.HibernateUtil;
  */
 public abstract class Service<T> {
 
-    private final Class<T> classRef;
+    protected final Class<T> classRef;
 
-    private final org.apache.log4j.Logger logger;
+    protected final org.apache.log4j.Logger logger;
 
     protected boolean autoClose = true;
 

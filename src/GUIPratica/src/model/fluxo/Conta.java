@@ -8,6 +8,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
@@ -31,10 +33,13 @@ public class Conta implements Serializable {
     @Column(nullable = false,name = "pessoa_id")
     private Pessoa pessoa;
 
-    @Column(name = "forma_pagamento_id",nullable = false)
+    
+    @ManyToOne
+    @JoinColumn(name="forma_pagamento_id",nullable = false)
     private FormaPagamento formaPagamento;
 
-    @Column(name = "conta_categoria_id",nullable = false)
+    @ManyToOne
+    @JoinColumn(name="conta_categoria_id",nullable = false)
     private ContaCategoria categoria;
 
     @OneToMany
