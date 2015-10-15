@@ -1,33 +1,99 @@
 package model.fluxo;
 
+import java.io.Serializable;
 import model.Pessoa;
 import java.util.List;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
 
-public class Conta {
+@Entity
+@Table(name = "fc_conta")
+@SequenceGenerator(name = "seq_fc_conta", sequenceName = "seq_fc_conta", initialValue = 1, allocationSize = 1)
 
-	private int id;
+public class Conta implements Serializable {
 
-	private String notaFiscal;
+    @Id
+    @GeneratedValue(generator = "seq_fc_conta", strategy = GenerationType.SEQUENCE)
+    private int id;
 
-	private String descricao;
+    @Column(name = "nota_fiscal")
+    private String notaFiscal;
 
-	private Pessoa pessoa;
+    @Column(length = 200)
+    private String descricao;
 
-	private FormaPagamento formaPagamento;
+    @Column(nullable = false,name = "pessoa_id")
+    private Pessoa pessoa;
 
-	private ContaCategoria categoria;
+    @Column(name = "forma_pagamento_id",nullable = false)
+    private FormaPagamento formaPagamento;
 
-	private List parcelas;
+    @Column(name = "conta_categoria_id",nullable = false)
+    private ContaCategoria categoria;
 
-	private Parcela parcela;
+    @OneToMany
+    private List<Parcela> parcelas;
 
+    public int getId() {
+        return id;
+    }
 
-	public void insert() {
+    public void setId(int id) {
+        this.id = id;
+    }
 
-	}
+    public String getNotaFiscal() {
+        return notaFiscal;
+    }
 
-	public void update() {
+    public void setNotaFiscal(String notaFiscal) {
+        this.notaFiscal = notaFiscal;
+    }
 
-	}
+    public String getDescricao() {
+        return descricao;
+    }
+
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
+    }
+
+    public Pessoa getPessoa() {
+        return pessoa;
+    }
+
+    public void setPessoa(Pessoa pessoa) {
+        this.pessoa = pessoa;
+    }
+
+    public FormaPagamento getFormaPagamento() {
+        return formaPagamento;
+    }
+
+    public void setFormaPagamento(FormaPagamento formaPagamento) {
+        this.formaPagamento = formaPagamento;
+    }
+
+    public ContaCategoria getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(ContaCategoria categoria) {
+        this.categoria = categoria;
+    }
+
+    public List<Parcela> getParcelas() {
+        return parcelas;
+    }
+
+    public void setParcelas(List<Parcela> parcelas) {
+        this.parcelas = parcelas;
+    }
 
 }
