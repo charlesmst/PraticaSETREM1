@@ -37,26 +37,29 @@ public class FrmContaBancaria extends JPanelControleButtons {
 
         service = new ContaBancariaService();
 
-        new JCampoBusca(txtBuscar, () -> table.atualizar());
-
         table.setListener(new JTableDataBinderListener<ContaBancaria>() {
 
             @Override
-            public Collection<ContaBancaria> lista(String busca) throws ServiceException{
-                
-                    return service.findByMultipleColumns(busca, "id", "id", "nome");
-              
+            public Collection<ContaBancaria> lista(String busca) throws ServiceException {
+
+                return service.findByMultipleColumns(busca, "id", "id", "nome");
+
             }
 
             @Override
             public Object[] addRow(ContaBancaria dado) {
-                return new Object[]{dado.getId(), dado.getNome(), dado.getTipo().toString().toUpperCase(),"R$0.00", dado.isAtivo()?Globals.iconeSuccess:Globals.iconeError};
-              
+                ImageIcon i;
+                if (dado.isAtivo()) {
+                    i = Globals.iconeSuccess;
+                } else {
+                    i = Globals.iconeError;
+                }
+                return new Object[]{dado.getId(), dado.getNome(), dado.getTipo().toString().toUpperCase(), "R$0.00", i};
+
             }
         });
 
-        
-        table.setBusca(txtBuscar);
+        table.setBusca(txtBuscar, true);
         table.atualizar();
     }
 

@@ -11,7 +11,6 @@ import components.JPanelControleButtons;
 
 import components.JTableDataBinder;
 import components.JTableDataBinderListener;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Collection;
 import javax.swing.JDialog;
@@ -41,12 +40,9 @@ public class FrmMarca extends JPanelControleButtons {
         new JCampoBusca(txtBuscar, () -> table.atualizar());
 
         table.setListener(new JTableDataBinderListener<Marca>() {
-
             @Override
-            public Collection<Marca> lista(String busca) throws ServiceException{
-                
-                    return service.findByMultipleColumns(busca, "id", "id", "nome");
-              
+            public Collection<Marca> lista(String busca) throws ServiceException {
+                return service.findByMultipleColumns(busca, "id", "id", "nome");
             }
 
             @Override
@@ -56,7 +52,7 @@ public class FrmMarca extends JPanelControleButtons {
             }
         });
 
-        
+
         table.setBusca(txtBuscar);
         table.atualizar();
     }
@@ -116,9 +112,7 @@ public class FrmMarca extends JPanelControleButtons {
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(txtBuscar, javax.swing.GroupLayout.DEFAULT_SIZE, 334, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(5, 5, 5)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -129,7 +123,8 @@ public class FrmMarca extends JPanelControleButtons {
                     .addComponent(jLabel2)
                     .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 275, Short.MAX_VALUE))
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 247, Short.MAX_VALUE)
+                .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -160,7 +155,9 @@ public class FrmMarca extends JPanelControleButtons {
 
     @Override
     public void btnExcluirActionPerformed(ActionEvent evt) {
-        defaultDeleteOperation(table, (i) -> service.delete(i));
+        defaultDeleteOperation(table, (i) -> {
+            service.delete(i);
+        });
     }
 
     @Override
