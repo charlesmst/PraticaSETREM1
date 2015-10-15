@@ -1,5 +1,6 @@
 package model.fluxo;
 
+import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -13,7 +14,7 @@ import javax.persistence.Table;
 @Table(name = "fc_conta_categoria")
 @SequenceGenerator(name = "seq_fc_conta_categoria",sequenceName = "seq_fc_conta_categoria", initialValue = 1,allocationSize = 1)
 
-public class ContaCategoria {
+public class ContaCategoria implements Serializable {
 
     @Id    
     @GeneratedValue(generator = "seq_fc_conta_categoria", strategy = GenerationType.SEQUENCE)
