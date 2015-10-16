@@ -1,21 +1,50 @@
 package model.estoque;
 
-public class ItemTipo {
+import java.io.Serializable;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
 
-	private int id;
+@Entity
+@Table(name = "es_item_tipo")
+@SequenceGenerator(name = "seq_item_tipo", sequenceName = "seq_item_tipo", initialValue = 1, allocationSize = 1)
+public class ItemTipo implements Serializable {
 
-	private String nome;
+    @Id
+    @GeneratedValue(generator = "seq_item_tipo", strategy = GenerationType.SEQUENCE)
+    private int id;
 
-	private boolean ativo;
+    @Column(length = 100)
+    private String nome;
 
-	private Item item;
+    private boolean ativo;
 
-	public void insert() {
+    public int getId() {
+        return id;
+    }
 
-	}
+    public void setId(int id) {
+        this.id = id;
+    }
 
-	public void update() {
+    public String getNome() {
+        return nome;
+    }
 
-	}
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public boolean isAtivo() {
+        return ativo;
+    }
+
+    public void setAtivo(boolean ativo) {
+        this.ativo = ativo;
+    }
 
 }

@@ -1,23 +1,66 @@
 package model.estoque;
 
-public class MovimentacaoTipo {
+import java.io.Serializable;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
 
-	private int id;
+@Entity
+@Table(name = "es_movimentacao_tipo")
+@SequenceGenerator(name = "seq_movimentacao_tipo", allocationSize = 1, sequenceName = "seq_movimentacao_tipo")
+public class MovimentacaoTipo implements Serializable {
 
-	private String descricao;
+    @Id
+    @GeneratedValue(generator = "seq_movimentacao_tipo", strategy = GenerationType.SEQUENCE)
+    private int id;
 
-	private boolean ativo;
+    @Column(length = 100)
+    private String descricao;
 
-	private int tipo;
+    private boolean ativo;
 
-	private EstoqueMovimentacao estoqueMovimentacao;
+    @Enumerated(EnumType.ORDINAL)
+    private TipoMovimentacao tipo;
 
-	public void insert() {
+    public int getId() {
+        return id;
+    }
 
-	}
+    public void setId(int id) {
+        this.id = id;
+    }
 
-	public void update() {
+    public String getDescricao() {
+        return descricao;
+    }
 
-	}
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
+    }
 
+    public boolean isAtivo() {
+        return ativo;
+    }
+
+    public void setAtivo(boolean ativo) {
+        this.ativo = ativo;
+    }
+
+    public TipoMovimentacao getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(TipoMovimentacao tipo) {
+        this.tipo = tipo;
+    }
+
+    public enum TipoMovimentacao {
+
+    }
 }
