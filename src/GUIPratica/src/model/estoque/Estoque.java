@@ -2,35 +2,109 @@ package model.estoque;
 
 import java.util.Date;
 import java.util.List;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 
+@Entity
+@SequenceGenerator(name = "seq_estoque", allocationSize = 1, sequenceName = "seq_estoque")
 public class Estoque {
 
-	private int id;
+    @Id
+    @GeneratedValue(generator = "seq_estoque", strategy = GenerationType.SEQUENCE)
+    private int id;
+    private EstoqueEntrada entrada;
+    private String lote;
+    private Item item;
+    private int quantidadeCompra;
+    private int quantidadeDisponivel;
+    private double valorUnitario;
+    private double valorUnidadeVenda;
+    private Date dataValidade;
+    @OneToMany(mappedBy = "estoque")
+    private List<EstoqueMovimentacao> movimentacoes;
 
-	private EstoqueEntrada entrada;
+    public int getId() {
+        return id;
+    }
 
-	private int lote;
+    public void setId(int id) {
+        this.id = id;
+    }
 
-	private Item item;
+    public EstoqueEntrada getEntrada() {
+        return entrada;
+    }
 
-	private int quantidadeCompra;
+    public void setEntrada(EstoqueEntrada entrada) {
+        this.entrada = entrada;
+    }
 
-	private int quantidadeDisponivel;
+    public String getLote() {
+        return lote;
+    }
 
-	private double valorUnitario;
+    public void setLote(String lote) {
+        this.lote = lote;
+    }
 
-	private double valorUnidadeVenda;
+    public Item getItem() {
+        return item;
+    }
 
-	private Date dataValidade;
+    public void setItem(Item item) {
+        this.item = item;
+    }
 
-	private List movimentacoes;
+    public int getQuantidadeCompra() {
+        return quantidadeCompra;
+    }
 
-	public void insert() {
+    public void setQuantidadeCompra(int quantidadeCompra) {
+        this.quantidadeCompra = quantidadeCompra;
+    }
 
-	}
+    public int getQuantidadeDisponivel() {
+        return quantidadeDisponivel;
+    }
 
-	public void update() {
+    public void setQuantidadeDisponivel(int quantidadeDisponivel) {
+        this.quantidadeDisponivel = quantidadeDisponivel;
+    }
 
-	}
+    public double getValorUnitario() {
+        return valorUnitario;
+    }
+
+    public void setValorUnitario(double valorUnitario) {
+        this.valorUnitario = valorUnitario;
+    }
+
+    public double getValorUnidadeVenda() {
+        return valorUnidadeVenda;
+    }
+
+    public void setValorUnidadeVenda(double valorUnidadeVenda) {
+        this.valorUnidadeVenda = valorUnidadeVenda;
+    }
+
+    public Date getDataValidade() {
+        return dataValidade;
+    }
+
+    public void setDataValidade(Date dataValidade) {
+        this.dataValidade = dataValidade;
+    }
+
+    public List<EstoqueMovimentacao> getMovimentacoes() {
+        return movimentacoes;
+    }
+
+    public void setMovimentacoes(List<EstoqueMovimentacao> movimentacoes) {
+        this.movimentacoes = movimentacoes;
+    }
 
 }

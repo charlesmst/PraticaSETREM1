@@ -1,23 +1,33 @@
 package model.estoque;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
+
+@Entity
+@SequenceGenerator(name = "seq_prateleira", allocationSize = 1, sequenceName = "seq_prateleira")
 public class Prateleira {
 
-	private int id;
+    @Id
+    @GeneratedValue(generator = "seq_prateleira", strategy = GenerationType.SEQUENCE)
+    private int id;
+    private String descricao;
 
-	private String descricao;
+    public int getId() {
+        return id;
+    }
 
-	private Item item;
+    public void setId(int id) {
+        this.id = id;
+    }
 
-	public void insert() {
+    public String getDescricao() {
+        return descricao;
+    }
 
-	}
-
-	public void update() {
-
-	}
-
-	public void delete() {
-
-	}
-
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
+    }
 }
