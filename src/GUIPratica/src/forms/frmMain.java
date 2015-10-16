@@ -192,6 +192,8 @@ public class frmMain extends javax.swing.JFrame {
 
         
         DefaultMutableTreeNode caixa = new DefaultMutableTreeNode("Fluxo de Caixa");
+        
+        caixa.add(new TreeNodeMenu("Contas a pagar e receber", "forms.fluxo.FrmConta"));
         caixa.add(new TreeNodeMenu("Contas Bancárias", "forms.fluxo.FrmContaBancaria"));
         
         caixa.add(new TreeNodeMenu("Categorias de Conta", "forms.fluxo.FrmContaCategoria"));

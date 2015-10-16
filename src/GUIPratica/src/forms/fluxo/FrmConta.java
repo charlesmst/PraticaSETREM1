@@ -14,9 +14,9 @@ import java.util.Collection;
 import javax.swing.ImageIcon;
 import javax.swing.JCheckBox;
 import javax.swing.JDialog;
-import model.fluxo.ContaBancaria;
+import model.fluxo.Conta;
 import services.ServiceException;
-import services.fluxo.ContaBancariaService;
+import services.fluxo.ContaService;
 import utils.Globals;
 
 /**
@@ -25,7 +25,7 @@ import utils.Globals;
  */
 public class FrmConta extends JPanelControleButtons {
 
-    private final ContaBancariaService service;
+    private final ContaService service;
 //    JTableDataBinder table;
 
     public FrmConta() {
@@ -35,26 +35,26 @@ public class FrmConta extends JPanelControleButtons {
         setBtnExcluirEnable(true);
         setBtnAtualizarEnable(true);
 
-        service = new ContaBancariaService();
+        service = new ContaService();
 
-        table.setListener(new JTableDataBinderListener<ContaBancaria>() {
+        table.setListener(new JTableDataBinderListener<Conta>() {
 
             @Override
-            public Collection<ContaBancaria> lista(String busca) throws ServiceException {
+            public Collection<Conta> lista(String busca) throws ServiceException {
 
                 return service.findByMultipleColumns(busca, "id", "id", "nome");
 
             }
 
             @Override
-            public Object[] addRow(ContaBancaria dado) {
-                ImageIcon i;
-                if (dado.isAtivo()) {
-                    i = Globals.iconeSuccess;
-                } else {
-                    i = Globals.iconeError;
-                }
-                return new Object[]{dado.getId(), dado.getNome(), dado.getTipo().toString().toUpperCase(), "R$0.00", i};
+            public Object[] addRow(Conta dado) {
+//                ImageIcon i;
+//                if (dado.isAtivo()) {
+//                    i = Globals.iconeSuccess;
+//                } else {
+//                    i = Globals.iconeError;
+//                }
+                return new Object[]{dado.getId(), dado.getDescricao()};//, dado.getTipo().toString().toUpperCase(), "R$0.00", i};
 
             }
         });
@@ -76,23 +76,25 @@ public class FrmConta extends JPanelControleButtons {
         table = new components.JTableDataBinder();
         txtBuscar = new components.JTextFieldUpper(true);
         jLabel2 = new javax.swing.JLabel();
+        jcbContasAPagar = new javax.swing.JCheckBox();
+        jcbContasAReceber = new javax.swing.JCheckBox();
 
         table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "Código", "Nome", "Tipo", "Saldo", "Status"
+                "Código", "Descrição", "Pessoa Relacionada", "Tipo", "Valor", "Saldo", "Categoria", "Status"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class
+                java.lang.String.class, java.lang.String.class, java.lang.Object.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
+                false, false, true, false, false, true, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -109,11 +111,15 @@ public class FrmConta extends JPanelControleButtons {
             table.getColumnModel().getColumn(0).setMinWidth(10);
             table.getColumnModel().getColumn(0).setPreferredWidth(60);
             table.getColumnModel().getColumn(0).setMaxWidth(100);
-            table.getColumnModel().getColumn(4).setPreferredWidth(30);
-            table.getColumnModel().getColumn(4).setMaxWidth(30);
+            table.getColumnModel().getColumn(7).setPreferredWidth(30);
+            table.getColumnModel().getColumn(7).setMaxWidth(30);
         }
 
         jLabel2.setText("Buscar:");
+
+        jcbContasAPagar.setText("A Pagar");
+
+        jcbContasAReceber.setText("A Receber");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -123,21 +129,27 @@ public class FrmConta extends JPanelControleButtons {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(5, 5, 5)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 385, Short.MAX_VALUE))
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 713, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtBuscar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addComponent(txtBuscar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jcbContasAPagar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jcbContasAReceber)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(13, 13, 13)
+                .addGap(12, 12, 12)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2))
+                    .addComponent(jLabel2)
+                    .addComponent(jcbContasAPagar)
+                    .addComponent(jcbContasAReceber))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 278, Short.MAX_VALUE))
         );
@@ -147,6 +159,8 @@ public class FrmConta extends JPanelControleButtons {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JCheckBox jcbContasAPagar;
+    private javax.swing.JCheckBox jcbContasAReceber;
     private components.JTableDataBinder table;
     private components.JTextFieldUpper txtBuscar;
     // End of variables declaration//GEN-END:variables
@@ -154,7 +168,7 @@ public class FrmConta extends JPanelControleButtons {
     @Override
     public void btnAddActionPerformed(ActionEvent evt) {
 //        model.createNew();
-        JDialog dialog = new FrmContaBancariaCadastro();
+        JDialog dialog = new FrmContaCadastro();
         dialog.setVisible(true);
         table.atualizar();
     }
@@ -162,7 +176,7 @@ public class FrmConta extends JPanelControleButtons {
     @Override
     public void btnAlterarActionPerformed(ActionEvent evt) {
         defaultUpdateOperation(table, (i) -> {
-            JDialog dialog = new FrmContaBancariaCadastro(i);
+            JDialog dialog = new FrmContaCadastro(i);
             dialog.setVisible(true);
         });
 

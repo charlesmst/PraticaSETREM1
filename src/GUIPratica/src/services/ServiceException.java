@@ -13,7 +13,7 @@ import utils.HibernateUtil;
  *
  * @author Charles
  */
-public class ServiceException extends Exception{
+public class ServiceException extends RuntimeException{
     public ServiceException(String mensagem, Exception ex){
         super(mensagem);
         if(ex != null){

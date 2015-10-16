@@ -52,9 +52,9 @@ public abstract class Service<T> {
     private Session session;
 
     public Session getSession() {
-//        if (session == null || !session.isOpen()) {
-        session = HibernateUtil.getSessionFactory().openSession();
-//        }
+        if (session == null || !session.isConnected()) {
+            session = HibernateUtil.getSessionFactory().openSession();
+        }
         return session;
     }
 
@@ -62,43 +62,52 @@ public abstract class Service<T> {
         return findById(id, false);
     }
 //
+
     protected Object selectOnSession(Function<Session, Object> f) throws ServiceException {
         Session s = getSession();
-        try {
-            return f.apply(s);
+        synchronized (s) {
+            try {
+                return f.apply(s);
 //            return r;
-        } catch (Exception e) {
-            throw new ServiceException(e.getMessage(), e);
+            } catch (Exception e) {
+                throw new ServiceException(e.getMessage(), e);
 
-        } finally {
-            s.close();
+            } finally {
+                s.close();
+            }
         }
     }
 
     protected void executeOnSession(Consumer<Session> f) throws ServiceException {
         Session s = getSession();
-        try {
-            f.accept(s);
-        } catch (Exception e) {
-            throw new ServiceException(e.getMessage(), e);
+        synchronized (s) {
+            try {
+                f.accept(s);
+            } catch (Exception e) {
+                throw new ServiceException(e.getMessage(), e);
 
-        } finally {
-            s.close();
+            } finally {
+                s.close();
+            }
         }
     }
 
     protected void executeOnTransaction(BiConsumer<Session, Transaction> f) throws ServiceException {
         Session s = getSession();
-        Transaction t = s.beginTransaction();
-        try {
-            f.accept(s, t);
+        synchronized (s) {
+            Transaction t = s.beginTransaction();
+            synchronized (t) {
+                try {
+                    f.accept(s, t);
 
-        } catch (Exception e) {
-            t.rollback();
-            throw new ServiceException(e.getMessage(), e);
+                } catch (Exception e) {
+                    t.rollback();
+                    throw new ServiceException(e.getMessage(), e);
 
-        } finally {
-            s.close();
+                } finally {
+                    s.close();
+                }
+            }
         }
     }
 //
@@ -149,6 +158,25 @@ public abstract class Service<T> {
             } catch (ConstraintViolationException e) {
                 t.rollback();
                 throw new ServiceException("Erro ao inserir " + classRef.getSimpleName(), e, logger);
+            } finally {
+                autoClose(s);
+
+            }
+        }
+//        s.close();
+    }
+
+    public void saveOrUpdate(T obj) throws ServiceException {
+        Session s = getSession();
+        synchronized (s) {
+            Transaction t = s.beginTransaction();
+
+            try {
+                s.saveOrUpdate(obj);
+                t.commit();
+            } catch (ConstraintViolationException e) {
+                t.rollback();
+                throw new ServiceException("Erro ao alterar " + classRef.getSimpleName(), e, logger);
             } finally {
                 autoClose(s);
 

@@ -40,11 +40,19 @@ public class Utils {
         }
     }
 
+    public static void safeCode(ThrowingCommand command, boolean block) {
+
+        if (block) {
+            command.action();
+        } else {
+            SwingWorker worker;
+            worker = new CommandWorker(command);
+            worker.execute();
+        }
+    }
+
     public static void safeCode(ThrowingCommand command) {
-        
-        SwingWorker worker;
-        worker = new CommandWorker(command);
-        worker.execute();
+        safeCode(command, false);
     }
 
     private static class CommandWorker extends SwingWorker {

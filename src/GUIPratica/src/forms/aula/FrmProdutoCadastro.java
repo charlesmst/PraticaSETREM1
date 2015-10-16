@@ -23,6 +23,8 @@ import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
 import model.aula.Especificacao;
@@ -38,7 +40,7 @@ import services.aul.EspecificacaoService;
  */
 public class FrmProdutoCadastro extends JDialogController {
 
-    private int id;
+    private final int id;
     private final ProdutoService service = new ProdutoService();
 
     protected JTableDataBinder<EspecificacaoProduto> table;
@@ -143,38 +145,35 @@ public class FrmProdutoCadastro extends JDialogController {
         if (!validator.isValido()) {
             return;
         }
+        Produto m;
+        if (id > 0) {
+            m = service.findProduto(id);
 
+        } else {
+            m = new Produto();
+        }
+        m.setDescricao(txtDescricao.getText());
+
+        m.setMarca(new Marca(Integer.valueOf(txtMarca.getText())));
+
+        m.setSegmento(new Segmento(Integer.valueOf(txtSegmento.getText())));
+
+        List<EspecificacaoProduto> especificacoes = new ArrayList<>();
+        for (int i = 0; i < table.getDefaultTableModel().getRowCount(); i++) {
+            Especificacao e = new Especificacao();
+            e.setId(Integer.valueOf(table.getDefaultTableModel().getValueAt(i, 0).toString()));
+            EspecificacaoProduto esp = new EspecificacaoProduto();
+            esp.setProduto(m);
+            esp.setEspecificacao(e);
+            esp.setDescricao(table.getDefaultTableModel().getValueAt(i, 2).toString());
+            especificacoes.add(esp);
+        }
+
+        m.setEspecificacoes(especificacoes);
         Utils.safeCode(() -> {
-            Produto m;
-            if (id > 0) {
-                m = service.findProduto(id);
-            } else {
-                m = new Produto();
-            }
-            m.setDescricao(txtDescricao.getText());
 
-            m.setMarca(new Marca(Integer.valueOf(txtMarca.getText())));
+            service.saveOrUpdate(m);
 
-            m.setSegmento(new Segmento(Integer.valueOf(txtSegmento.getText())));
-
-            List<EspecificacaoProduto> especificacoes = new ArrayList<>();
-            for (int i = 0; i < table.getDefaultTableModel().getRowCount(); i++) {
-                Especificacao e = new Especificacao();
-                e.setId(Integer.valueOf(table.getDefaultTableModel().getValueAt(i, 0).toString()));
-                EspecificacaoProduto esp = new EspecificacaoProduto();
-                esp.setProduto(m);
-                esp.setEspecificacao(e);
-                esp.setDescricao(table.getDefaultTableModel().getValueAt(i, 2).toString());
-                especificacoes.add(esp);
-            }
-
-            m.setEspecificacoes(especificacoes);
-
-            if (id == 0) {
-                service.insert(m);
-            } else {
-                service.update(m);
-            }
             utils.Forms.mensagem(utils.Mensagens.registroSalvo, AlertaTipos.sucesso);
 
             dispose();
