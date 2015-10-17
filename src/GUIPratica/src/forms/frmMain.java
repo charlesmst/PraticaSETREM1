@@ -374,7 +374,8 @@ public class frmMain extends javax.swing.JFrame {
         jToolBar1.setRollover(false);
         jToolBar1.setFloatable(false);
 
-        btnAdd.setText("Novo");
+        btnAdd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/new.png"))); // NOI18N
+        btnAdd.setToolTipText("Novo(INSERT)");
         btnAdd.setFocusable(false);
         btnAdd.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnAdd.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -385,7 +386,8 @@ public class frmMain extends javax.swing.JFrame {
         });
         jToolBar1.add(btnAdd);
 
-        btnAlterar.setText("Alterar");
+        btnAlterar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/edit.png"))); // NOI18N
+        btnAlterar.setToolTipText("Alterar(F3)");
         btnAlterar.setFocusable(false);
         btnAlterar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnAlterar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -397,7 +399,7 @@ public class frmMain extends javax.swing.JFrame {
         jToolBar1.add(btnAlterar);
 
         btnExcluir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/delete.png"))); // NOI18N
-        btnExcluir.setToolTipText("Excluir");
+        btnExcluir.setToolTipText("Excluir(DELETE)");
         btnExcluir.setFocusable(false);
         btnExcluir.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnExcluir.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -408,7 +410,8 @@ public class frmMain extends javax.swing.JFrame {
         });
         jToolBar1.add(btnExcluir);
 
-        btnAtualizar.setText("Atualizar");
+        btnAtualizar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/refresh.png"))); // NOI18N
+        btnAtualizar.setToolTipText("Atualizar(F5)");
         btnAtualizar.setFocusable(false);
         btnAtualizar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnAtualizar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
