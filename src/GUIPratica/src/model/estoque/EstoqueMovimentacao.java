@@ -57,6 +57,6 @@ public class EstoqueMovimentacao implements Serializable {
     @JoinColumn(name = "pessoa_id", nullable = false)
     private Pessoa pessoa;
 
-    @ManyToMany
+    @ManyToMany(mappedBy = "sh_ordem_peca")
     private List<Ordem> ordem;
 }
