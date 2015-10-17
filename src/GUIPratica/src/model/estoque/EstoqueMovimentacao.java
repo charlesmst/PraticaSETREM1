@@ -28,7 +28,8 @@ public class EstoqueMovimentacao implements Serializable{
         @Column(name = "data_lancamento")
 	private Date dataLancamento;
 
-        
+        @ManyToOne
+        @JoinColumn(name = "estoque_id")
 	private Estoque estoque;
         
         @Column(length = 200)
@@ -50,7 +51,8 @@ public class EstoqueMovimentacao implements Serializable{
 
         @Column(name = "nota_fiscal")
 	private String notaFiscal;
-
+        
+        @JoinColumn(name = "pessoa_id", nullable = false)
 	private Pessoa pessoa;
 
 }
