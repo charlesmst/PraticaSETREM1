@@ -8,7 +8,7 @@ package BLL;
 import services.Service;
 import java.io.Serializable;
 import java.util.Collection;
-import model.aula.Marca;
+import model.aula.MarcaR;
 import org.hibernate.Session;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -49,7 +49,7 @@ public class RepositoryTest {
     public void testInsert() {
         System.out.println("insert");
         
-        Marca m = new Marca();
+        MarcaR m = new MarcaR();
         m.setNome("Teste");
         Service instance = new RepositoryImpl();
 //        instance.insert(m);
@@ -75,7 +75,7 @@ public class RepositoryTest {
     public void testUpdate() throws ServiceException{
         System.out.println("update");
         RepositoryImpl instance = new RepositoryImpl();
-                Marca obj = instance.findById(1);
+                MarcaR obj = instance.findById(1);
                 obj.setNome("Teste2");
 
         instance.update(obj);
@@ -107,10 +107,10 @@ public class RepositoryTest {
 
     
 
-    public class RepositoryImpl extends Service<Marca> {
+    public class RepositoryImpl extends Service<MarcaR> {
 
         public RepositoryImpl() {
-            super(Marca.class);
+            super(MarcaR.class);
         }
     }
     
