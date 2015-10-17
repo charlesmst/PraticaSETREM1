@@ -1,21 +1,39 @@
 package model.ordem;
 
-public class Marca {
+import java.io.Serializable;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
 
-	private int id;
+@Entity
+@Table(name = "sh_marca")
+@SequenceGenerator(name = "seq_marca", sequenceName = "seq_marca", initialValue = 1, allocationSize = 1)
+public class Marca implements Serializable {
 
-	private String nome;
+    @Id
+    @GeneratedValue(generator = "seq_marca", strategy = GenerationType.SEQUENCE)
+    private int id;
 
-	public void insert() {
+    @Column(length = 100)
+    private String nome;
 
-	}
+    public int getId() {
+        return id;
+    }
 
-	public void update() {
+    public void setId(int id) {
+        this.id = id;
+    }
 
-	}
+    public String getNome() {
+        return nome;
+    }
 
-	public void delete() {
-
-	}
-
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
 }

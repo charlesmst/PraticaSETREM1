@@ -1,27 +1,79 @@
 package model.ordem;
 
-public class Veiculo  {
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
 
-	private int placa;
+@Entity
+@Table(name = "sh_veiculo")
+@SequenceGenerator(name = "seq_veiculo", sequenceName = "seq_veiculo", initialValue = 1, allocationSize = 1)
+public class Veiculo {
 
-	private Modelo modelo;
+    @Id
+    @GeneratedValue(generator = "seq_veiculo", strategy = GenerationType.SEQUENCE)
+    private int id;
 
-	private String cor;
+    private int placa;
 
-	private int ano;
+    private Modelo modelo;
 
-	private int chassi;
+    @Column(length = 30)
+    private String cor;
 
-	public void insert() {
+    private int ano;
 
-	}
+    @Column(length = 50)
+    private String chassi;
 
-	public void update() {
+    public int getId() {
+        return id;
+    }
 
-	}
+    public void setId(int id) {
+        this.id = id;
+    }
 
-	public void delete() {
+    public int getPlaca() {
+        return placa;
+    }
 
-	}
+    public void setPlaca(int placa) {
+        this.placa = placa;
+    }
 
+    public Modelo getModelo() {
+        return modelo;
+    }
+
+    public void setModelo(Modelo modelo) {
+        this.modelo = modelo;
+    }
+
+    public String getCor() {
+        return cor;
+    }
+
+    public void setCor(String cor) {
+        this.cor = cor;
+    }
+
+    public int getAno() {
+        return ano;
+    }
+
+    public void setAno(int ano) {
+        this.ano = ano;
+    }
+
+    public String getChassi() {
+        return chassi;
+    }
+
+    public void setChassi(String chassi) {
+        this.chassi = chassi;
+    }
 }

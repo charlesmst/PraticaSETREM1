@@ -1,25 +1,28 @@
 package model.ordem;
 
-public class OrdemTipoServico {
+import java.io.Serializable;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
 
-	private int id;
+@Entity
+@Table(name = "sh_ordem_tipo_servico")
+@SequenceGenerator(name = "seq_ordem_tipo_servico", sequenceName = "seq_ordem_tipo_servico", initialValue = 1, allocationSize = 1)
+public class OrdemTipoServico implements Serializable {
 
-	private String nome;
+    @Id
+    @GeneratedValue(generator = "seq_ordem_tipo_servico", strategy = GenerationType.SEQUENCE)
+    private int id;
 
-	private boolean ativo;
+    @Column(length = 100)
+    private String nome;
 
-	private double valorEntrada;
+    private boolean ativo;
 
-	public void insert() {
-
-	}
-
-	public void delete() {
-
-	}
-
-	public void update() {
-
-	}
-
+    @Column(name = "valor_entrada")
+    private double valorEntrada;
 }
