@@ -38,9 +38,6 @@ public class EstoqueMovimentacao implements Serializable{
         @Column(name = "valor_unitario")
 	private double valorUnitario;
 
-        @Column(length = 2)
-	private String situacao;
-
         @ManyToOne
         @JoinColumn(name = "movimentacao_tipo_id", nullable = false)
 	private MovimentacaoTipo movimentacaoTipo;
