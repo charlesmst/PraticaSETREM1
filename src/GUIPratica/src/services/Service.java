@@ -10,6 +10,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
 import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 import java.util.function.Consumer;
@@ -224,7 +225,7 @@ public abstract class Service<T> {
 
     }
 
-    public Collection<T> findAll(String order) {
+    public List<T> findAll(String order) {
         Session s = getSession();
         synchronized (s) {
             try {
@@ -235,7 +236,7 @@ public abstract class Service<T> {
         }
     }
 
-    public Collection<T> findAll() {
+    public List<T> findAll() {
         Session s = getSession();
         synchronized (s) {
             try {
@@ -247,7 +248,7 @@ public abstract class Service<T> {
 
     }
 
-    protected Collection<T> findFilter(Criterion[] no) throws ServiceException {
+    protected List<T> findFilter(Criterion[] no) throws ServiceException {
         Session s = getSession();
         synchronized (s) {
             try {
@@ -269,11 +270,11 @@ public abstract class Service<T> {
 //        return getSession().createQuery("from " + classRef.getSimpleName()).iterate();
 //    }
 
-    public Collection<T> findBy(String column, Serializable value) {
+    public List<T> findBy(String column, Serializable value) {
         return findBy(column, value, "=");
     }
 
-    public Collection<T> findBy(String column, Serializable value, String operador) {
+    public List<T> findBy(String column, Serializable value, String operador) {
         Session s = getSession();
         synchronized (s) {
             try {
@@ -285,7 +286,7 @@ public abstract class Service<T> {
 //        return getSession();
     }
 
-    public Collection<T> findByMultipleColumns(String valor, String order, String... colunas) throws ServiceException {
+    public List<T> findByMultipleColumns(String valor, String order, String... colunas) throws ServiceException {
         Session s = getSession();
         synchronized (s) {
             try {
@@ -336,7 +337,7 @@ public abstract class Service<T> {
                     c.addOrder(Order.asc(order));
                 }
 
-                Collection<T> r = c.list();
+                List<T> r = c.list();
                 return r;
             } catch (HibernateException e) {
                 throw new ServiceException("Erro ao selecionar dados", e, logger);

@@ -16,6 +16,11 @@ import javax.persistence.Table;
 
 public class ContaCategoria implements Serializable {
 
+    @Override
+    public String toString() {
+        return "ContaCategoria{" + "nome=" + nome + '}';
+    }
+
     @Id    
     @GeneratedValue(generator = "seq_fc_conta_categoria", strategy = GenerationType.SEQUENCE)
     private int id;
