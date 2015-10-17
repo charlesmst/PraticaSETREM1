@@ -21,7 +21,7 @@ public class Produto {
     private int id;
     private String descricao;
     @ManyToOne
-    private Marca marca;
+    private MarcaR marca;
     
     @OneToMany(mappedBy = "produto",orphanRemoval = true,cascade = CascadeType.ALL)
     private List<EspecificacaoProduto> especificacoes;
@@ -56,11 +56,11 @@ public class Produto {
         this.descricao = descricao;
     }
 
-    public Marca getMarca() {
+    public MarcaR getMarca() {
         return marca;
     }
 
-    public void setMarca(Marca marca) {
+    public void setMarca(MarcaR marca) {
         this.marca = marca;
     }
 

@@ -10,19 +10,19 @@ import java.util.Collection;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import model.aula.Marca;
+import model.aula.MarcaR;
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.service.spi.ServiceException;
 import services.Service;
 
 
-public class MarcaService extends Service<Marca> {
+public class MarcaService extends Service<MarcaR> {
 
 
     
     public MarcaService() {
-        super(Marca.class);
+        super(MarcaR.class);
     }
 //    public Collection<Marca> marcasAtivas() {
 //        

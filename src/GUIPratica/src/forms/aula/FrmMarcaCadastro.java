@@ -10,7 +10,7 @@ import components.JValidadorDeCampos;
 import forms.frmMain;
 import javax.swing.JRootPane;
 import javax.swing.SwingUtilities;
-import model.aula.Marca;
+import model.aula.MarcaR;
 import services.aul.MarcaService;
 import utils.AlertaTipos;
 import utils.Utils;
@@ -52,7 +52,7 @@ public class FrmMarcaCadastro extends JDialogController {
     }
 
     private void load() {
-        Marca m = service.findById(id);
+        MarcaR m = service.findById(id);
         txtCodigo.setText(String.valueOf(m.getId()));
         txtNome.setText(m.getNome());
     }
@@ -61,11 +61,11 @@ public class FrmMarcaCadastro extends JDialogController {
         if (!validator.isValido()) {
             return;
         }
-        Marca m;
+        MarcaR m;
         if (id > 0) {
             m = service.findById(id);
         } else {
-            m = new Marca();
+            m = new MarcaR();
         }
         m.setNome(txtNome.getText());
 

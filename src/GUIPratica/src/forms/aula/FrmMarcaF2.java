@@ -9,7 +9,7 @@ import components.JTableDataBinderListener;
 import forms.frmF2;
 import forms.frmMain;
 import java.util.Collection;
-import model.aula.Marca;
+import model.aula.MarcaR;
 import services.ServiceException;
 import services.aul.MarcaService;
 
@@ -32,17 +32,17 @@ public class FrmMarcaF2 extends frmF2 {
 
     @Override
     protected JTableDataBinderListener getListener() {
-        return new JTableDataBinderListener<Marca>() {
+        return new JTableDataBinderListener<MarcaR>() {
 
             @Override
-            public Collection<Marca> lista(String busca) throws ServiceException {
+            public Collection<MarcaR> lista(String busca) throws ServiceException {
 
                 return service.findByMultipleColumns(busca, "id", "id", "nome");
 
             }
 
             @Override
-            public Object[] addRow(Marca dado) {
+            public Object[] addRow(MarcaR dado) {
                 return new Object[]{dado.getId(), dado.getNome()};
 
             }

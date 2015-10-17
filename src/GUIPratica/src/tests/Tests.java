@@ -9,7 +9,7 @@ import java.util.Iterator;
 import services.aul.MarcaService;
 import services.Service;
 import java.util.List;
-import model.aula.Marca;
+import model.aula.MarcaR;
 import model.Usuario;
 import model.aula.Produto;
 import model.aula.Segmento;

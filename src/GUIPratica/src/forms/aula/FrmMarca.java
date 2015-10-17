@@ -14,7 +14,7 @@ import components.JTableDataBinderListener;
 import java.util.ArrayList;
 import java.util.Collection;
 import javax.swing.JDialog;
-import model.aula.Marca;
+import model.aula.MarcaR;
 import services.ServiceException;
 import services.aul.MarcaService;
 import utils.AlertaTipos;
@@ -39,14 +39,14 @@ public class FrmMarca extends JPanelControleButtons {
 
         new JCampoBusca(txtBuscar, () -> table.atualizar());
 
-        table.setListener(new JTableDataBinderListener<Marca>() {
+        table.setListener(new JTableDataBinderListener<MarcaR>() {
             @Override
-            public Collection<Marca> lista(String busca) throws ServiceException {
+            public Collection<MarcaR> lista(String busca) throws ServiceException {
                 return service.findByMultipleColumns(busca, "id", "id", "nome");
             }
 
             @Override
-            public Object[] addRow(Marca dado) {
+            public Object[] addRow(MarcaR dado) {
                 return new Object[]{dado.getId(), dado.getNome()};
 
             }

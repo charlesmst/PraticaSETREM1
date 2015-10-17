@@ -396,7 +396,8 @@ public class frmMain extends javax.swing.JFrame {
         });
         jToolBar1.add(btnAlterar);
 
-        btnExcluir.setText("Excluir");
+        btnExcluir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/delete.png"))); // NOI18N
+        btnExcluir.setToolTipText("Excluir");
         btnExcluir.setFocusable(false);
         btnExcluir.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnExcluir.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);

@@ -29,7 +29,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
 import model.aula.Especificacao;
 import model.aula.EspecificacaoProduto;
-import model.aula.Marca;
+import model.aula.MarcaR;
 import model.aula.Segmento;
 import services.ServiceException;
 import services.aul.EspecificacaoService;
@@ -154,7 +154,7 @@ public class FrmProdutoCadastro extends JDialogController {
         }
         m.setDescricao(txtDescricao.getText());
 
-        m.setMarca(new Marca(Integer.valueOf(txtMarca.getText())));
+        m.setMarca(new MarcaR(Integer.valueOf(txtMarca.getText())));
 
         m.setSegmento(new Segmento(Integer.valueOf(txtSegmento.getText())));
 

@@ -21,17 +21,17 @@ import javax.persistence.SequenceGenerator;
 
 @Entity
 @SequenceGenerator(name = "seq_marca",allocationSize = 1,sequenceName = "seq_marca")
-public class Marca {
+public class MarcaR {
     @Id
     @GeneratedValue(generator = "seq_marca",strategy = GenerationType.SEQUENCE)
     private int id;
     private String nome;
     @OneToMany(mappedBy = "marca")
     private List<Produto> produtos;
-    public Marca(int id){
+    public MarcaR(int id){
         this.setId(id);
     }
-    public Marca(){}
+    public MarcaR(){}
     /**
      * Get the value of id
      *
