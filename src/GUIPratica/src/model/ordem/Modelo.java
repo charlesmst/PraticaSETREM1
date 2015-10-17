@@ -20,11 +20,11 @@ public class Modelo implements Serializable {
     @GeneratedValue(generator = "seq_modelo", strategy = GenerationType.SEQUENCE)
     private int id;
 
-    @Column(length = 100)
+    @Column(length = 100, nullable = false)
     private String nome;
 
     @OneToMany
-    @JoinColumn(name = "marca_id")
+    @JoinColumn(name = "marca_id", nullable = false)
     private Marca marca;
 
     public int getId() {

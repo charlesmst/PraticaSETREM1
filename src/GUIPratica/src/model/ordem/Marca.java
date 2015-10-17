@@ -18,7 +18,7 @@ public class Marca implements Serializable {
     @GeneratedValue(generator = "seq_marca", strategy = GenerationType.SEQUENCE)
     private int id;
 
-    @Column(length = 100)
+    @Column(length = 100, nullable = false)
     private String nome;
 
     public int getId() {

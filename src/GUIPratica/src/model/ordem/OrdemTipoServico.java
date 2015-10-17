@@ -18,9 +18,10 @@ public class OrdemTipoServico implements Serializable {
     @GeneratedValue(generator = "seq_ordem_tipo_servico", strategy = GenerationType.SEQUENCE)
     private int id;
 
-    @Column(length = 100)
+    @Column(length = 100, nullable = false)
     private String nome;
 
+    @Column(nullable = false)
     private boolean ativo;
 
     @Column(name = "valor_entrada")

@@ -30,16 +30,16 @@ public class Estoque implements Serializable {
     @JoinColumn(name = "item_id", nullable = false)
     private Item item;
     
-    @Column(name = "quantidade_compra")
+    @Column(name = "quantidade_compra", nullable = false)
     private int quantidadeCompra;
     
-    @Column(name = "quandidade_disponivel")
+    @Column(name = "quandidade_disponivel", nullable = false)
     private int quantidadeDisponivel;
     
-    @Column(name = "valor_unidade")
+    @Column(name = "valor_unidade", nullable = false)
     private double valorUnitario;
     
-    @Column(name = "valor_unidade_venda")
+    @Column(name = "valor_unidade_venda", nullable = false)
     private double valorUnidadeVenda;
     
     @Column(name = "data_validade")

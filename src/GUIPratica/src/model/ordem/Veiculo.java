@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -17,8 +18,9 @@ public class Veiculo {
     @GeneratedValue(generator = "seq_veiculo", strategy = GenerationType.SEQUENCE)
     private int id;
 
-    private int placa;
+    private String placa;
 
+    @JoinColumn(name = "modelo_id")
     private Modelo modelo;
 
     @Column(length = 30)
@@ -37,11 +39,11 @@ public class Veiculo {
         this.id = id;
     }
 
-    public int getPlaca() {
+    public String getPlaca() {
         return placa;
     }
 
-    public void setPlaca(int placa) {
+    public void setPlaca(String placa) {
         this.placa = placa;
     }
 

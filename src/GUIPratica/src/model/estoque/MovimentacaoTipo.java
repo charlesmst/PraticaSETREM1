@@ -20,12 +20,14 @@ public class MovimentacaoTipo implements Serializable {
     @GeneratedValue(generator = "seq_movimentacao_tipo", strategy = GenerationType.SEQUENCE)
     private int id;
 
-    @Column(length = 100)
+    @Column(length = 100, nullable = false)
     private String descricao;
 
+    @Column(nullable = false)
     private boolean ativo;
 
     @Enumerated(EnumType.ORDINAL)
+    @Column(nullable = false)
     private TipoMovimentacao tipo;
 
     public int getId() {
@@ -61,6 +63,7 @@ public class MovimentacaoTipo implements Serializable {
     }
 
     public enum TipoMovimentacao {
-
+        entrada,
+        saida
     }
 }

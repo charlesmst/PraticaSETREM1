@@ -21,14 +21,15 @@ public class Item implements Serializable {
     private int id;
 
     @ManyToOne
+    @Column(length = 100)
     @JoinColumn(name = "prateleira_id", nullable = false)
     private Prateleira prateleira;
 
     @ManyToOne
-    @JoinColumn(name = "item_tipo_id")
+    @JoinColumn(name = "item_tipo_id", nullable = false)
     private ItemTipo itemTipo;
 
-    @Column(length = 100)
+    @Column(length = 100, nullable = false)
     private String nome;
 
     public int getId() {

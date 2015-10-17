@@ -18,11 +18,45 @@ public class OrdemStatus implements Serializable {
     @GeneratedValue(generator = "seq_ordem_status", strategy = GenerationType.SEQUENCE)
     private int id;
 
-    @Column(length = 100)
+    @Column(length = 100, nullable = false)
     private String nome;
 
+    @Column(nullable = false)
     private boolean ativo;
 
+    @Column(nullable = false)
     private boolean finaliza;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public boolean isAtivo() {
+        return ativo;
+    }
+
+    public void setAtivo(boolean ativo) {
+        this.ativo = ativo;
+    }
+
+    public boolean isFinaliza() {
+        return finaliza;
+    }
+
+    public void setFinaliza(boolean finaliza) {
+        this.finaliza = finaliza;
+    }
 
 }
