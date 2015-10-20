@@ -11,7 +11,12 @@ import java.text.DateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import javax.swing.JComboBox;
+import javax.swing.JComponent;
 import javax.swing.SwingWorker;
+import javax.swing.text.JTextComponent;
+import org.jdesktop.beansbinding.AutoBinding;
+import org.jdesktop.beansbinding.BeanProperty;
 
 /**
  *
@@ -55,6 +60,25 @@ public class Utils {
         safeCode(command, false);
     }
 
+    public static AutoBinding createBind(Object o, String campo, JComponent componenete) {
+        return createBind(o, campo, componenete, true);
+    }
+
+    public static AutoBinding createBind(Object o, String campo, JComponent componenete, boolean autoBind) {
+        AutoBinding a = null;
+        if (componenete instanceof JTextComponent) {
+            a = org.jdesktop.beansbinding.Bindings.createAutoBinding(AutoBinding.UpdateStrategy.READ_WRITE, o, BeanProperty.create(campo), componenete, BeanProperty.create("text"));
+        } else if (componenete instanceof JComboBox) {
+            a = org.jdesktop.beansbinding.Bindings.createAutoBinding(AutoBinding.UpdateStrategy.READ_WRITE, o, BeanProperty.create(campo), componenete, BeanProperty.create("selectedItem"));
+        }
+        if (autoBind) {
+            a.bind();
+
+        }
+        return a;
+
+    }
+
     private static class CommandWorker extends SwingWorker {
 
         private final ThrowingCommand command;
@@ -65,6 +89,7 @@ public class Utils {
 
         @Override
         protected Object doInBackground() throws Exception {
+
             Forms.iniciaProgress();
             command.action();
             Forms.paraProgress();

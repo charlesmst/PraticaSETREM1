@@ -1,64 +1,66 @@
 package model.fluxo;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name = "fc_conta_parcela")
 @SequenceGenerator(name = "seq_fc_conta_parcela", sequenceName = "seq_fc_conta_parcela", initialValue = 1, allocationSize = 1)
+public class Parcela implements Serializable {
 
-public class Parcela {
+    @Transient
+    private PropertyChangeSupport changeSupport = new PropertyChangeSupport(this);
 
-    public enum SituacaoParcela {
-
-        previsto,
-        realizado
-    }
     @Id
     @GeneratedValue(generator = "seq_fc_conta_parcela", strategy = GenerationType.SEQUENCE)
 
     private int id;
 
-    @Column(nullable = false, name = "conta_id")
+    @ManyToOne
+    @JoinColumn(nullable = false, name = "conta_id")
     private Conta conta;
 
     @Column(nullable = false)
     private int parcela;
 
-    @Column(nullable = false,name = "data_lancamento")
+    @Column(nullable = false, name = "data_lancamento")
     private Date dataLancamento;
 
     @Column(nullable = false)
     private double valor;
 
-    @Column(nullable = false)
-    @Enumerated(EnumType.ORDINAL)
-    private SituacaoParcela situacao;
-
-
     private String boleto;
 
-    @OneToMany
+    @OneToMany(mappedBy = "parcela", orphanRemoval = true, cascade = CascadeType.REMOVE,fetch = FetchType.EAGER)
     private List<ParcelaPagamento> pagamentos;
-
 
     public int getId() {
         return id;
     }
 
     public void setId(int id) {
+        int oldId = this.id;
         this.id = id;
+        changeSupport.firePropertyChange("id", oldId, id);
     }
 
     public Conta getConta() {
@@ -66,7 +68,9 @@ public class Parcela {
     }
 
     public void setConta(Conta conta) {
+        Conta oldConta = this.conta;
         this.conta = conta;
+        changeSupport.firePropertyChange("conta", oldConta, conta);
     }
 
     public int getParcela() {
@@ -74,7 +78,9 @@ public class Parcela {
     }
 
     public void setParcela(int parcela) {
+        int oldParcela = this.parcela;
         this.parcela = parcela;
+        changeSupport.firePropertyChange("parcela", oldParcela, parcela);
     }
 
     public Date getDataLancamento() {
@@ -82,7 +88,9 @@ public class Parcela {
     }
 
     public void setDataLancamento(Date dataLancamento) {
+        Date oldDataLancamento = this.dataLancamento;
         this.dataLancamento = dataLancamento;
+        changeSupport.firePropertyChange("dataLancamento", oldDataLancamento, dataLancamento);
     }
 
     public double getValor() {
@@ -90,15 +98,9 @@ public class Parcela {
     }
 
     public void setValor(double valor) {
+        double oldValor = this.valor;
         this.valor = valor;
-    }
-
-    public SituacaoParcela getSituacao() {
-        return situacao;
-    }
-
-    public void setSituacao(SituacaoParcela situacao) {
-        this.situacao = situacao;
+        changeSupport.firePropertyChange("valor", oldValor, valor);
     }
 
     public String getBoleto() {
@@ -106,10 +108,15 @@ public class Parcela {
     }
 
     public void setBoleto(String boleto) {
+        String oldBoleto = this.boleto;
         this.boleto = boleto;
+        changeSupport.firePropertyChange("boleto", oldBoleto, boleto);
     }
 
     public List<ParcelaPagamento> getPagamentos() {
+        if (pagamentos == null) {
+            pagamentos = new ArrayList<>();
+        }
         return pagamentos;
     }
 
@@ -117,6 +124,12 @@ public class Parcela {
         this.pagamentos = pagamentos;
     }
 
+    public void addPropertyChangeListener(PropertyChangeListener listener) {
+        changeSupport.addPropertyChangeListener(listener);
+    }
 
+    public void removePropertyChangeListener(PropertyChangeListener listener) {
+        changeSupport.removePropertyChangeListener(listener);
+    }
 
 }

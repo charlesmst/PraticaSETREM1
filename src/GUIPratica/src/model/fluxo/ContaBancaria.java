@@ -1,5 +1,6 @@
 package model.fluxo;
 
+import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -13,7 +14,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "fc_conta_bancaria")
 @SequenceGenerator(name = "seq_fc_conta_bancaria",sequenceName = "seq_fc_conta_bancaria", initialValue = 1,allocationSize = 1)
-public class ContaBancaria {
+public class ContaBancaria implements Serializable {
 
     public enum TipoContaBancaria{
         caixa,

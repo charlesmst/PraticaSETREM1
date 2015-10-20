@@ -20,6 +20,8 @@ import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingWorker;
 import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
 import utils.AlertaTipos;
 import utils.Forms;
@@ -115,6 +117,12 @@ public class JTableDataBinder<T> extends JTable {
         scrollTo(getSelectedRow());
     }
 
+    TableModelListener modelListener = (e) -> setValueListener(e);
+
+    private void setValueListener(TableModelEvent e) {
+        listener.setValueAt(e.getFirstRow(), e.getColumn(), getValueAt(e.getFirstRow(), e.getColumn()));
+    }
+
     public void atualizar(boolean keepSelected) {
         String textobusca = null;
         if (this.busca != null) {
@@ -123,10 +131,11 @@ public class JTableDataBinder<T> extends JTable {
         columnClasses = new ArrayList<>(getColumnCount());
 
         DefaultTableModel model = ((DefaultTableModel) this.getModel());
+        model.removeTableModelListener(modelListener);
         if (worker != null) {
             worker.cancel(true);
         }
-        worker = new RefreshWorker<>(listener, model, textobusca, this, columnClasses);
+        worker = new RefreshWorker<>(listener, model, textobusca, this, columnClasses,modelListener);
         final RefreshWorker<T> workerN = worker;
         EventQueue.invokeLater(() -> {
             workerN.runStart();
@@ -198,7 +207,7 @@ class RefreshWorker<T> extends SwingWorker<DefaultTableModel, Object[]> {
             table.setRowSelectionInterval(wasSelected - 1, wasSelected - 1);
 
         }
-
+        model.addTableModelListener(modelListener);
         table.scrollToSelected();
     }
     private JTableDataBinderListener listener;
@@ -208,7 +217,8 @@ class RefreshWorker<T> extends SwingWorker<DefaultTableModel, Object[]> {
     private JTableDataBinder<T> table;
     private List<Class> columnClasses;
 
-    public RefreshWorker(JTableDataBinderListener listener, DefaultTableModel model, String textoBusca, JTableDataBinder<T> table, List<Class> columnClasses) {
+    private TableModelListener modelListener;
+    public RefreshWorker(JTableDataBinderListener listener, DefaultTableModel model, String textoBusca, JTableDataBinder<T> table, List<Class> columnClasses,TableModelListener modelListener) {
         this.listener = listener;
         this.model = model;
         this.textoBusca = textoBusca;
@@ -216,6 +226,7 @@ class RefreshWorker<T> extends SwingWorker<DefaultTableModel, Object[]> {
         model.setRowCount(0);
         this.table = table;
         this.columnClasses = columnClasses;
+        this.modelListener = modelListener;
     }
 
     public void runStart() {
@@ -244,7 +255,7 @@ class RefreshWorker<T> extends SwingWorker<DefaultTableModel, Object[]> {
             for (T linha : c) {
 
                 Object[] o = listener.addRow(linha);
-                if (columnClasses.size() == 0) {
+                if (columnClasses.isEmpty()) {
                     for (int i = 0; i < o.length; i++) {
                         columnClasses.add(o[i] != null ? o[i].getClass() : Object.class);
                     }

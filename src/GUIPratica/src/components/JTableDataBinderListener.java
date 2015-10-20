@@ -13,6 +13,13 @@ import services.ServiceException;
  * @author Charles
  */
 public interface JTableDataBinderListener<T> {
+
     Collection<T> lista(String busca) throws ServiceException;
-    Object[] addRow(T dado );
+
+    Object[] addRow(T dado);
+
+
+    default void setValueAt(int row, int column, Object value) {
+        
+    }
 }

@@ -18,7 +18,7 @@ public class ContaCategoria implements Serializable {
 
     @Override
     public String toString() {
-        return "ContaCategoria{" + "nome=" + nome + '}';
+        return  nome;
     }
 
     @Id    

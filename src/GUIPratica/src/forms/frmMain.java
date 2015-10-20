@@ -164,6 +164,7 @@ public class frmMain extends javax.swing.JFrame {
         root.setUserObject("JContabil");
 
         jTreeMenu.setModel(model);
+        
 //        jTreeMenu.setRootVisible(false);
         jTreeMenu.setShowsRootHandles(true);
 

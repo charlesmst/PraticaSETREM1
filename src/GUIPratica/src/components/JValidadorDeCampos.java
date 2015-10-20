@@ -296,7 +296,7 @@ class ValidacaoCampos {
         } else if (control instanceof JTextField) {
             return ((JTextField) control).getText();
         } else if (control instanceof JComboBox) {
-            return ((JComboBox) control).getSelectedItem().toString();
+            return ((JComboBox) control).getSelectedItem() + "";
         } else {
 //            utils.Forms.mensagem("Campo " + control.getName() + " não é reconhecido na validação", AlertaTipos.erro);
             return "";

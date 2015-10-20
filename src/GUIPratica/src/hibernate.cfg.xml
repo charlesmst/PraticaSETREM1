@@ -10,16 +10,26 @@
         <property name="hibernate.hbm2ddl.auto">update</property>
         <property name="hibernate.show_sql">true</property>
         <property name="hibernate.format_sql">true</property>
-        <mapping class="model.aula.Marca"/>
+        <mapping class="model.aula.MarcaR"/>
         <mapping class="model.aula.Produto"/>
         <mapping class="model.aula.Segmento"/>       
         <mapping class="model.aula.Especificacao"/>
         <mapping class="model.aula.EspecificacaoProduto"/>
 
+        
+        <mapping class="model.Pessoa"/>
+        <mapping class="model.Cidade"/>
+
+        
         <!-- Fluxo de caixa -->        
         <mapping class="model.fluxo.ContaBancaria"/>
         <mapping class="model.fluxo.ContaCategoria"/>
         <mapping class="model.fluxo.FormaPagamento"/>
+        <mapping class="model.fluxo.Parcela"/>
+        <mapping class="model.fluxo.Conta"/>        
+        <mapping class="model.fluxo.ParcelaPagamento"/>
+
+
 
         <!-- /Fluxo de caixa -->
 

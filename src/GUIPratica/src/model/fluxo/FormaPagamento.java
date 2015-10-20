@@ -1,5 +1,6 @@
 package model.fluxo;
 
+import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -11,7 +12,34 @@ import javax.persistence.Table;
 @Table(name = "fc_forma_pagamento")
 @SequenceGenerator(name = "seq_fc_forma_pagamento", sequenceName = "seq_fc_forma_pagamento", initialValue = 1, allocationSize = 1)
 
-public class FormaPagamento {
+public class FormaPagamento implements Serializable {
+
+    @Override
+    public String toString() {
+        return nome;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 83 * hash + this.id;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final FormaPagamento other = (FormaPagamento) obj;
+        if (this.id != other.id) {
+            return false;
+        }
+        return true;
+    }
 
     @Id
     @GeneratedValue(generator = "seq_fc_forma_pagamento", strategy = GenerationType.SEQUENCE)

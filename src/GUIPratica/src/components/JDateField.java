@@ -42,7 +42,7 @@ public class JDateField extends JSpinner {
     }
     
     public void setDate(Date d){
-        setValue(ui);
+        setValue(d);
     }
     
     public Date getDate(){

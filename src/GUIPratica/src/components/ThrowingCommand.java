@@ -20,6 +20,7 @@ public interface ThrowingCommand {
             actionThrows();
         } catch (final Exception e) {
             utils.Forms.mensagem(e.getMessage(), AlertaTipos.erro);
+            e.printStackTrace();
         }
     }
 

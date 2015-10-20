@@ -5,14 +5,27 @@
  */
 package forms.fluxo;
 
+import components.BeanTableModel;
 import components.JDialogController;
+import components.ValidacoesTipos;
 import forms.frmMain;
+import java.awt.event.KeyEvent;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
-import javax.swing.ButtonGroup;
+import java.util.Vector;
+import javax.swing.DefaultComboBoxModel;
+import model.Pessoa;
 import model.fluxo.Conta;
 import model.fluxo.ContaCategoria;
+import model.fluxo.FormaPagamento;
+import model.fluxo.Parcela;
+import forms.FrmPessoaF2;
+import services.PessoaService;
+import org.jdesktop.beansbinding.Converter;
 import services.fluxo.ContaCategoriaService;
 import services.fluxo.ContaService;
+import services.fluxo.FormaPagamentoService;
 import utils.AlertaTipos;
 import utils.Utils;
 
@@ -24,6 +37,11 @@ public class FrmContaCadastro extends JDialogController {
 
     private int id;
     private final ContaService service = new ContaService();
+
+    private DefaultComboBoxModel<ContaCategoria> modelCategoria;
+    private DefaultComboBoxModel<FormaPagamento> modelFormaPagamento;
+
+    private Conta conta;
 
     /**
      * Creates new form frmCadastroConta
@@ -37,7 +55,7 @@ public class FrmContaCadastro extends JDialogController {
         initComponents();
         this.id = id;
         setupForm();
-        jffValor.setValue(100);
+//        jffValor.setValue(100);
     }
 
     private void setupForm() {
@@ -45,48 +63,115 @@ public class FrmContaCadastro extends JDialogController {
         setLocationRelativeTo(null);
         setDefaultButton(btnSalvar);
 
-        ajustaPagarReceber();
-        jcbFrequencia.setSelectedIndex(3);
+//        jcbFrequencia.setSelectedIndex(3);
+        bgPagarReceber.add(jrbAPagar);
+        bgPagarReceber.add(jrbAReceber);
+
+        validator.validarObrigatorio(jcbCategoria);
+        validator.validarObrigatorio(jcbFormaPagamento);
+        validator.validarObrigatorio(jtbPessoa);
+
+        validator.validarDeBanco(jtbPessoa, new PessoaService());
+
+        conta = new Conta();
+//        conta.setDescricao("cascasd");
         if (id > 0) {
             load();
         }
+        ajustaPagarReceber();
+
+//        initBindings();
+    }
+
+    private boolean binded = false;
+
+    private void initBindings() {
+        if (!binded) {
+            binded = true;
+            Utils.createBind(conta, "descricao", jtaDescricao);
+            Utils.createBind(conta, "formaPagamento", jcbFormaPagamento);
+            Utils.createBind(conta, "categoria", jcbCategoria);
+
+        }
+
+//        Utils.createBind(conta, "pessoa", jtbPessoa, false).setConverter(new Converter<Pessoa, Integer>() {
+//
+//            @Override
+//            public Pessoa convertReverse(Integer value) {
+//                Pessoa p = new Pessoa();
+//                p.setId(id);
+//                return p;
+//            }
+//
+//            @Override
+//            public Integer convertForward(Pessoa value) {
+//                if (value != null) {
+//                    return value.getId();
+//                }
+//                return 0;
+//            }
+//        });
+        if (conta.getPessoa() != null) {
+            jtbPessoa.setText(conta.getPessoa().getId() + "");
+        }
+//        if (conta.getParcelas() == null) {
+//            conta.setParcelas(new ArrayList<>());
+//        }
+
+//        panelParcelas1.setParcelas(conta.getParcelas());
+//        org.jdesktop.beansbinding.Bindings.createAutoBinding(AutoBinding.UpdateStrategy.READ, service, rootPane, null)
     }
 
     private void ajustaPagarReceber() {
         Utils.safeCode(() -> {
 
             ContaCategoriaService serviceCategoria = new ContaCategoriaService();
+            FormaPagamentoService serviceFormaPagamento = new FormaPagamentoService();
+
             List<ContaCategoria> categorias;
+            List<FormaPagamento> formas = serviceFormaPagamento.findBy("ativo", true);
+
             if (jrbAPagar.isSelected()) {
-                categorias = serviceCategoria.findBy("ContaCategoria.tipo", ContaCategoria.TipoCategoria.saida);
+                categorias = serviceCategoria.findBy("tipo", ContaCategoria.TipoCategoria.saida);
             } else {
-                
+                categorias = serviceCategoria.findBy("tipo", ContaCategoria.TipoCategoria.entrada);
             }
+            modelFormaPagamento = new DefaultComboBoxModel<>(new Vector<>(formas));
+            jcbFormaPagamento.setModel(modelFormaPagamento);
+
+            modelCategoria = new DefaultComboBoxModel<>(new Vector<>(categorias));
+            jcbCategoria.setModel(modelCategoria);
+
+            initBindings();
+            panelParcelas1.setConta(conta);
+
         });
 
     }
 
     private void load() {
-        Conta m = service.findById(id);
-
+        conta = service.findConta(id);
+        jrbAPagar.setEnabled(false);
+        jrbAReceber.setEnabled(false);
     }
 
     private void save() {
         if (!validator.isValido()) {
             return;
         }
-        Conta m;
-        if (id > 0) {
-            m = service.findById(id);
-        } else {
-            m = new Conta();
+        Pessoa p = new Pessoa();
+        p.setId(jtbPessoa.getValueSelected());
+        conta.setPessoa(p);
+
+        for (Parcela parcela : conta.getParcelas()) {
+            parcela.setConta(conta);
         }
 
         Utils.safeCode(() -> {
             if (id == 0) {
-                service.insert(m);
+                service.insert(conta);
             } else {
-                service.update(m);
+                service.update(conta);
             }
             utils.Forms.mensagem(utils.Mensagens.registroSalvo, AlertaTipos.sucesso);
 
@@ -107,29 +192,21 @@ public class FrmContaCadastro extends JDialogController {
         btnSalvar = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
         jrbAPagar = new javax.swing.JRadioButton();
-        jcbAReceber = new javax.swing.JRadioButton();
+        jrbAReceber = new javax.swing.JRadioButton();
         jLabel1 = new javax.swing.JLabel();
         jcbCategoria = new javax.swing.JComboBox();
         jcbFormaPagamento = new javax.swing.JComboBox();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        f21 = new components.F2();
+        jtbPessoa = new components.F2(FrmPessoaF2.class,(id)->new PessoaService().findById(id).getNome());
         jLabel4 = new javax.swing.JLabel();
         jtfNotaFiscal = new components.JTextFieldUpper();
         jLabel5 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jtaDescricao = new javax.swing.JTextArea();
-        jLabel6 = new javax.swing.JLabel();
-        jffValor = new components.JTextFieldMoney();
-        jLabel7 = new javax.swing.JLabel();
-        jLabel8 = new javax.swing.JLabel();
-        jcbFrequencia = new javax.swing.JComboBox();
-        jSpinner1 = new javax.swing.JSpinner();
-        jDateField1 = new components.JDateField();
-        jLabel9 = new javax.swing.JLabel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        table = new components.JTableDataBinder();
-        jLabel10 = new javax.swing.JLabel();
+        jTabbedPane1 = new javax.swing.JTabbedPane();
+        panelParcelas1 = new forms.fluxo.PanelParcelas();
+        panelPagamentos1 = new forms.fluxo.PanelPagamentos();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -151,12 +228,23 @@ public class FrmContaCadastro extends JDialogController {
 
         jrbAPagar.setSelected(true);
         jrbAPagar.setText("A Pagar");
+        jrbAPagar.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jrbAPagarItemStateChanged(evt);
+            }
+        });
 
-        jcbAReceber.setText("A Receber");
+        jrbAReceber.setText("A Receber");
+        jrbAReceber.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jrbAReceberItemStateChanged(evt);
+            }
+        });
 
         jLabel1.setText("Categoria");
 
         jcbCategoria.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Carregando..." }));
+        jcbCategoria.setMinimumSize(new java.awt.Dimension(94, 30));
 
         jcbFormaPagamento.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Carregando..." }));
 
@@ -166,115 +254,62 @@ public class FrmContaCadastro extends JDialogController {
 
         jLabel4.setText("Nota Fiscal");
 
+        jtfNotaFiscal.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jtfNotaFiscalMouseClicked(evt);
+            }
+        });
+
         jLabel5.setText("Descrição");
 
         jtaDescricao.setColumns(20);
         jtaDescricao.setRows(5);
-        jScrollPane1.setViewportView(jtaDescricao);
-
-        jLabel6.setText("Valor");
-
-        jLabel7.setText("Frequência");
-
-        jLabel8.setText("Parcelas");
-
-        jcbFrequencia.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Anual", "Semestral", "Trimestral", "Mensal", "Semanal", "Diário" }));
-
-        jLabel9.setText("Data Primeiro Pagamento");
-
-        table.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "Parcela", "Data", "Valor", "Status", "Saldo"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class
-            };
-            boolean[] canEdit = new boolean [] {
-                false, true, true, false, false
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
+        jtaDescricao.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jtaDescricaoKeyPressed(evt);
             }
         });
-        jScrollPane2.setViewportView(table);
-        if (table.getColumnModel().getColumnCount() > 0) {
-            table.getColumnModel().getColumn(0).setMaxWidth(50);
-        }
+        jScrollPane1.setViewportView(jtaDescricao);
 
-        jLabel10.setText("Parcelas");
+        jTabbedPane1.addTab("Parcelas", panelParcelas1);
+        jTabbedPane1.addTab("Pagamentos", panelPagamentos1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel4)
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel5))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jrbAPagar)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jrbAReceber))
+                            .addComponent(jLabel1))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(btnSalvar)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnCancelar))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jrbAPagar)
-                                    .addComponent(jLabel1))
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(jcbAReceber))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(43, 43, 43)
-                                        .addComponent(jcbCategoria, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel2)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jcbFormaPagamento, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel3)
-                                    .addComponent(jLabel4))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jtfNotaFiscal, javax.swing.GroupLayout.DEFAULT_SIZE, 250, Short.MAX_VALUE)
-                                    .addComponent(f21, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel5)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 254, Short.MAX_VALUE)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel9)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jDateField1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel6)
-                                .addGap(18, 18, 18)
-                                .addComponent(jffValor, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel8, javax.swing.GroupLayout.Alignment.TRAILING))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jcbFrequencia, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel10)
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addGap(30, 30, 30))
+                                .addComponent(btnCancelar)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addComponent(jtbPessoa, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jtfNotaFiscal, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jcbCategoria, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jcbFormaPagamento, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(22, 22, 22))))
+            .addComponent(jTabbedPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 768, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -282,50 +317,37 @@ public class FrmContaCadastro extends JDialogController {
                 .addGap(13, 13, 13)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jrbAPagar)
-                    .addComponent(jcbAReceber))
-                .addGap(18, 18, 18)
+                    .addComponent(jrbAReceber))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jcbCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jcbFormaPagamento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(5, 5, 5)
+                .addComponent(jLabel3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jtbPessoa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(8, 8, 8)
+                .addComponent(jLabel4)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jtfNotaFiscal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(8, 8, 8)
                 .addComponent(jLabel5)
-                .addGap(1, 1, 1)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel1)
-                            .addComponent(jcbCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel2)
-                            .addComponent(jcbFormaPagamento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel3)
-                            .addComponent(f21, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel4)
-                            .addComponent(jtfNotaFiscal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(28, 28, 28)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel6)
-                    .addComponent(jffValor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel7)
-                    .addComponent(jcbFrequencia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel8)
-                    .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jDateField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel9))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel10)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 265, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnSalvar)
                     .addComponent(btnCancelar))
-                .addGap(40, 40, 40))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
+
+        jTabbedPane1.getAccessibleContext().setAccessibleName("Parcelas");
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -335,37 +357,51 @@ public class FrmContaCadastro extends JDialogController {
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
+
         save();
     }//GEN-LAST:event_btnSalvarActionPerformed
+
+    private void jrbAReceberItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jrbAReceberItemStateChanged
+        ajustaPagarReceber();
+    }//GEN-LAST:event_jrbAReceberItemStateChanged
+
+    private void jrbAPagarItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jrbAPagarItemStateChanged
+        ajustaPagarReceber();
+    }//GEN-LAST:event_jrbAPagarItemStateChanged
+
+    private void jtaDescricaoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtaDescricaoKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_TAB) {
+            jTabbedPane1.requestFocus();
+        }
+    }//GEN-LAST:event_jtaDescricaoKeyPressed
+
+    private void jtfNotaFiscalMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtfNotaFiscalMouseClicked
+        System.out.println(conta.getDescricao());
+        System.out.println(conta.getCategoria());
+        System.out.println(conta.getFormaPagamento());
+
+    }//GEN-LAST:event_jtfNotaFiscalMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup bgPagarReceber;
     private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnSalvar;
-    private components.F2 f21;
-    private components.JDateField jDateField1;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JSpinner jSpinner1;
-    private javax.swing.JRadioButton jcbAReceber;
+    private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JComboBox jcbCategoria;
     private javax.swing.JComboBox jcbFormaPagamento;
-    private javax.swing.JComboBox jcbFrequencia;
-    private components.JTextFieldMoney jffValor;
     private javax.swing.JRadioButton jrbAPagar;
+    private javax.swing.JRadioButton jrbAReceber;
     private javax.swing.JTextArea jtaDescricao;
+    private components.F2 jtbPessoa;
     private components.JTextFieldUpper jtfNotaFiscal;
-    private components.JTableDataBinder table;
+    private forms.fluxo.PanelPagamentos panelPagamentos1;
+    private forms.fluxo.PanelParcelas panelParcelas1;
     // End of variables declaration//GEN-END:variables
 }

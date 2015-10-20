@@ -278,7 +278,26 @@ public abstract class Service<T> {
         Session s = getSession();
         synchronized (s) {
             try {
-                return s.createQuery("from " + classRef.getSimpleName() + " where " + column + " = ").list();
+
+                Criteria c = s.createCriteria(classRef);
+
+                for (int i = 0; i < operador.length(); i++) {
+                    char operador1 = operador.charAt(i);
+
+                    switch (operador1) {
+                        case '=':
+                            c.add(Restrictions.eq(column, value));
+                            break;
+                        case '>':
+                            c.add(Restrictions.gt(column, value));
+                            break;
+                        case '<':
+                            c.add(Restrictions.lt(column, value));
+                            break;
+                    }
+                }
+                return c.list();
+//                return s.createQuery("from " + classRef.getSimpleName() + " where " + column + " = ").list();
             } finally {
                 autoClose(s);
             }

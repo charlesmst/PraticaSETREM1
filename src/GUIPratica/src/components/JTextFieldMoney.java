@@ -62,7 +62,7 @@ public class JTextFieldMoney extends JTextField {
 
     public double getValue() {
         String text = getText();
-        return Double.parseDouble(text.substring(2));
+        return Double.parseDouble(text.substring(2).replace(".", "").replace(",", "."));
     }
 
     @Override
