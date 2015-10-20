@@ -50,7 +50,7 @@ public class Parcela implements Serializable {
 
     private String boleto;
 
-    @OneToMany(mappedBy = "parcela", orphanRemoval = true, cascade = CascadeType.REMOVE,fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "parcela", orphanRemoval = true, cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     private List<ParcelaPagamento> pagamentos;
 
     public int getId() {

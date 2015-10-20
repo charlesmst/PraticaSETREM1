@@ -33,27 +33,31 @@ public class ContaService extends Service<Conta> {
             obj.setDescricao(obj.getDescricao().toUpperCase());
         }
         executeOnTransaction((s, t) -> {
+            
+            for (Parcela parcela : obj.getParcelas()) {
+                parcela.setConta(obj);
+                for (ParcelaPagamento pagamento : parcela.getPagamentos()) {
+                    pagamento.setParcela(parcela);
+                }
+        }
             if (obj.getId() > 0) {
                 s.merge(obj);
             } else {
                 s.save(obj);
             }
 //
-            for (Parcela parcela : obj.getParcelas()) {
-                if (parcela.getId() == 0) {
-                    s.save(parcela);
-                }else{
-                    s.merge(parcela);
-                }
-                for (ParcelaPagamento pagamento : parcela.getPagamentos()) {
-                    if(pagamento.getId() == 0)
-                    {
-                        s.save(pagamento);
-                    }else
-                        s.merge(pagamento);
+//            for (Parcela parcela : obj.getParcelas()) {
+//                parcela.setConta(obj);
+//
+//                    s.saveOrUpdate(parcela);
+//
+//                for (ParcelaPagamento pagamento : parcela.getPagamentos()) {
+//                    pagamento.setParcela(parcela);
+//                    
+//                    
 //                    s.saveOrUpdate(pagamento);
-                }
-            }
+//                }
+//            }
             t.commit();
         });
 

@@ -163,9 +163,6 @@ public class FrmContaCadastro extends JDialogController {
         p.setId(jtbPessoa.getValueSelected());
         conta.setPessoa(p);
 
-        for (Parcela parcela : conta.getParcelas()) {
-            parcela.setConta(conta);
-        }
 
         Utils.safeCode(() -> {
             if (id == 0) {

@@ -41,6 +41,14 @@ public class ParcelaPagamento implements Serializable {
     @ManyToOne
     @JoinColumn(name = "parcela_id", nullable = false)
     private Parcela parcela;
+
+    public Parcela getParcela() {
+        return parcela;
+    }
+
+    public void setParcela(Parcela parcela) {
+        this.parcela = parcela;
+    }
     public int getId() {
         return id;
     }

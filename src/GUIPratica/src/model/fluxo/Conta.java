@@ -51,7 +51,7 @@ public class Conta implements Serializable {
     @JoinColumn(name = "conta_categoria_id", nullable = false)
     private ContaCategoria categoria;
 
-    @OneToMany(mappedBy = "conta", orphanRemoval = true, cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "conta", orphanRemoval = true, cascade = CascadeType.ALL)
 //    @Column(name = "conta_id")
     private List<Parcela> parcelas = new ArrayList<>();
 
