@@ -3,11 +3,11 @@ package forms.estoque;
 import forms.fluxo.*;
 import components.JDialogController;
 import forms.frmMain;
-import model.fluxo.ContaCategoria;
-import services.fluxo.ContaCategoriaService;
+import java.util.function.Function;
+import model.estoque.Prateleira;
+import services.estoque.PrateleiraService;
 import utils.AlertaTipos;
 import utils.Utils;
-
 
 /**
  *
@@ -16,10 +16,10 @@ import utils.Utils;
 public class FrmPrateleiraCadastro extends JDialogController {
 
     private int id;
-    private final ContaCategoriaService service = new ContaCategoriaService();
+    private final PrateleiraService service = new PrateleiraService();
 
     /**
-     * Creates new form frmCadastroContaCategoria
+     * Creates new form frmCadastroPrateleira
      */
     public FrmPrateleiraCadastro() {
         this(0);
@@ -37,59 +37,45 @@ public class FrmPrateleiraCadastro extends JDialogController {
         setLocationRelativeTo(null);
         setDefaultButton(btnSalvar);
         txtCodigo.setEnabled(false);
-
-        validator.validarObrigatorio(txtNome);
-
-        validator.validarCustom(jrbSaida, (v)->{
-            return jrbSaida.isSelected() || jrbEntrada.isSelected();
-        }, "Preencha um dos checkboxes");
-        
-//        ButtonGroup b
-        buttonGroup1.add(jrbEntrada);
-        buttonGroup1.add(jrbSaida);
-        
-        jrbEntrada.setSelected(true);
+        validator.validarObrigatorio(txtDescricao);
+        validator.validarCustom(txtDescricao,
+//                new Function<String, Boolean>() {
+//
+//                    @Override
+//                    public Boolean apply(String valor) {
+//                        return service.findBy("descricao", valor.toUpperCase())== null;
+//                    }
+//                }
+                (valor) -> service.findBy("descricao", valor.toUpperCase())== null
+                , "Descrição já existe");
         if (id > 0) {
             load();
         }
     }
 
     private void load() {
-        ContaCategoria m = service.findById(id);
-        txtCodigo.setText(String.valueOf(m.getId()));
-        txtNome.setText(m.getNome());
-        jcbAtivo.setSelected(m.isAtivo());
-        
-        if(m.getTipo() == ContaCategoria.TipoCategoria.saida)
-            jrbSaida.setSelected(true);
-        else
-            jrbEntrada.setSelected(true);
+        Prateleira p = service.findById(id);
+        txtCodigo.setText(String.valueOf(p.getId()));
+        txtDescricao.setText(p.getDescricao());
     }
 
     private void save() {
         if (!validator.isValido()) {
             return;
         }
-        ContaCategoria m;
+        Prateleira p;
         if (id > 0) {
-            m = service.findById(id);
+            p = service.findById(id);
         } else {
-            m = new ContaCategoria();
+            p = new Prateleira();
         }
-        m.setNome(txtNome.getText());
+        p.setDescricao(txtDescricao.getText());
 
-        if (jrbEntrada.isSelected()) {
-            m.setTipo(ContaCategoria.TipoCategoria.entrada);
-        } else {
-            m.setTipo(ContaCategoria.TipoCategoria.saida);
-
-        }
-        m.setAtivo(jcbAtivo.isSelected());
         Utils.safeCode(() -> {
             if (id == 0) {
-                service.insert(m);
+                service.insert(p);
             } else {
-                service.update(m);
+                service.update(p);
             }
             utils.Forms.mensagem(utils.Mensagens.registroSalvo, AlertaTipos.sucesso);
 
@@ -112,16 +98,13 @@ public class FrmPrateleiraCadastro extends JDialogController {
         jLabel2 = new javax.swing.JLabel();
         btnSalvar = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
-        jrbEntrada = new javax.swing.JRadioButton();
-        jrbSaida = new javax.swing.JRadioButton();
-        txtNome = new components.JTextFieldUpper();
-        jcbAtivo = new javax.swing.JCheckBox();
+        txtDescricao = new components.JTextFieldUpper();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jLabel1.setText("Código");
 
-        jLabel2.setText("Nome");
+        jLabel2.setText("Descricao");
 
         btnSalvar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/save.png"))); // NOI18N
         btnSalvar.setText("Salvar");
@@ -139,13 +122,6 @@ public class FrmPrateleiraCadastro extends JDialogController {
             }
         });
 
-        jrbEntrada.setText("ENTRADA");
-
-        jrbSaida.setText("SAIDA");
-
-        jcbAtivo.setSelected(true);
-        jcbAtivo.setText("Ativo");
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -155,25 +131,18 @@ public class FrmPrateleiraCadastro extends JDialogController {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(txtNome, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(txtDescricao, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(txtCodigo, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 621, Short.MAX_VALUE)
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING))
-                                .addGap(0, 588, Short.MAX_VALUE)))
+                                .addGap(0, 575, Short.MAX_VALUE)))
                         .addGap(26, 26, 26))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(btnSalvar)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnCancelar))
-                            .addComponent(jcbAtivo)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jrbEntrada)
-                                .addGap(18, 18, 18)
-                                .addComponent(jrbSaida)))
+                        .addComponent(btnSalvar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnCancelar)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
@@ -186,14 +155,8 @@ public class FrmPrateleiraCadastro extends JDialogController {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jrbEntrada)
-                    .addComponent(jrbSaida))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jcbAtivo)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtDescricao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(20, 20, 20)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnCancelar)
                     .addComponent(btnSalvar))
@@ -218,10 +181,7 @@ public class FrmPrateleiraCadastro extends JDialogController {
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JCheckBox jcbAtivo;
-    private javax.swing.JRadioButton jrbEntrada;
-    private javax.swing.JRadioButton jrbSaida;
     private javax.swing.JTextField txtCodigo;
-    private components.JTextFieldUpper txtNome;
+    private components.JTextFieldUpper txtDescricao;
     // End of variables declaration//GEN-END:variables
 }

@@ -20,18 +20,22 @@ import services.Service;
 
 public class PrateleiraService extends Service<Prateleira> {
 
+    @Override
+    public void update(Prateleira obj) throws services.ServiceException {
+        obj.setDescricao(obj.getDescricao().toUpperCase());
+        super.update(obj); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void insert(Prateleira obj) throws services.ServiceException {
+        obj.setDescricao(obj.getDescricao().toUpperCase());
+        super.insert(obj); //To change body of generated methods, choose Tools | Templates.
+    }
+
 
     
     public PrateleiraService() {
         super(Prateleira.class);
     }
-//    public Collection<Prateleira> marcasAtivas() {
-//        
-//        try {
-//            return findFilter(Restrictions.eq("ativo", true));
-//        } catch (services.ServiceException ex) {
-//            Logger.getLogger(PrateleiraService.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//        return null;
-//    }
+//   
 }
