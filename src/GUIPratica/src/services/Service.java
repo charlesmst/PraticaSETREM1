@@ -248,7 +248,7 @@ public abstract class Service<T> {
 
     }
 
-    protected List<T> findFilter(Criterion[] no) throws ServiceException {
+    protected List<T> findFilter(Criterion... no) throws ServiceException {
         Session s = getSession();
         synchronized (s) {
             try {
