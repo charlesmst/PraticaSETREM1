@@ -5,6 +5,16 @@
  */
 package forms.fluxo;
 
+import components.JTableDataBinderListener;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import model.fluxo.Conta;
+import model.fluxo.Parcela;
+import model.fluxo.ParcelaPagamento;
+import services.ServiceException;
+import utils.Utils;
+
 /**
  *
  * @author Charles
@@ -16,6 +26,50 @@ public class PanelPagamentos extends javax.swing.JPanel {
      */
     public PanelPagamentos() {
         initComponents();
+        table.setListener(new JTableDataBinderListener<ParcelaPagamento>() {
+
+            @Override
+            public Collection<ParcelaPagamento> lista(String busca) throws ServiceException {
+                if (pagamentos != null) {
+                    return pagamentos;
+                } else {
+                    return new ArrayList<>();
+                }
+            }
+
+            @Override
+            public Object[] addRow(ParcelaPagamento dado) {
+                Object[] obj = new Object[]{
+                    dado.getParcela().getParcela(),
+                    dado.getData(),
+                    dado.getContaCategoria().getNome(),
+                    Utils.formataDinheiro(dado.getValor()),
+                    conta.toString()
+                };
+                return obj;
+            }
+        });
+    }
+
+    private List<ParcelaPagamento> pagamentos;
+    private Parcela parcela;
+    private Conta conta;
+
+    public Conta getConta() {
+        return conta;
+    }
+
+    public void setConta(Conta conta) {
+        this.conta = conta;
+    }
+    public void atualiza(Parcela parcela) {
+        this.parcela = parcela;
+        pagamentos = parcela.getPagamentos();
+        setupPagamentos();
+    }
+
+    private void setupPagamentos() {
+        table.atualizar();
     }
 
     /**
@@ -28,11 +82,11 @@ public class PanelPagamentos extends javax.swing.JPanel {
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTableDataBinder1 = new components.JTableDataBinder();
+        table = new components.JTableDataBinder();
         btnNovo = new javax.swing.JButton();
         btnExcluir = new javax.swing.JButton();
 
-        jTableDataBinder1.setModel(new javax.swing.table.DefaultTableModel(
+        table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null},
                 {null, null, null, null, null},
@@ -51,7 +105,7 @@ public class PanelPagamentos extends javax.swing.JPanel {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(jTableDataBinder1);
+        jScrollPane1.setViewportView(table);
 
         btnNovo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/new.png"))); // NOI18N
         btnNovo.setText("Novo");
@@ -88,12 +142,12 @@ public class PanelPagamentos extends javax.swing.JPanel {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnNovo)
                     .addComponent(btnExcluir))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 251, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 251, Short.MAX_VALUE)
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -111,6 +165,6 @@ public class PanelPagamentos extends javax.swing.JPanel {
     private javax.swing.JButton btnExcluir;
     private javax.swing.JButton btnNovo;
     private javax.swing.JScrollPane jScrollPane1;
-    private components.JTableDataBinder jTableDataBinder1;
+    private components.JTableDataBinder table;
     // End of variables declaration//GEN-END:variables
 }

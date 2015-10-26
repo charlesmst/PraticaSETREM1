@@ -49,6 +49,9 @@ public class ParcelaService extends Service<Parcela> {
         if (conta == null) {
             throw new IllegalArgumentException("conta");
         }
+        if (conta.getFormaPagamento() == null) {
+            throw new IllegalArgumentException("forma de pagamento");
+        }
         double soma = 0;
         if (conta.getParcelas() != null) {
             for (Parcela parcela : conta.getParcelas()) {
@@ -63,6 +66,7 @@ public class ParcelaService extends Service<Parcela> {
             throw new IllegalArgumentException("Conta não deve possuir pagamentos");
         }
         Calendar c = Calendar.getInstance();
+        c.setTime(dataPrimeiroPagamento);
         List<Parcela> l = new ArrayList<>();
         if (parcelas == 0) {
             conta.setParcelas(l);

@@ -20,12 +20,30 @@ import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import services.PessoaService;
 
 @Entity
 @Table(name = "fc_conta")
 @SequenceGenerator(name = "seq_fc_conta", sequenceName = "seq_fc_conta", initialValue = 1, allocationSize = 1)
 
 public class Conta implements Serializable {
+
+    @Override
+    public String toString() {
+        String descConta = getId() + "";
+        if (getDescricao() != null && !getDescricao().equals("")) {
+            descConta += " - " + (getDescricao() + "").trim();
+        }
+
+        if (getPessoa() != null) {
+            if (getPessoa().getNome() == null) {
+                getPessoa().setNome(new PessoaService().findById(getPessoa().getId()).getNome());
+            }
+            descConta += " - " + getPessoa().getNome();
+
+        }
+        return descConta;
+    }
 
     @Transient
     private PropertyChangeSupport changeSupport = new PropertyChangeSupport(this);

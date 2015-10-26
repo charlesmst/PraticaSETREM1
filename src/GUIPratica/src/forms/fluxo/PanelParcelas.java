@@ -9,6 +9,7 @@ import components.BeanTableModel;
 import components.JTableDataBinderListener;
 import components.RowTableModel;
 import components.ThrowingCommand;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -22,6 +23,8 @@ import model.fluxo.ParcelaPagamento;
 import org.apache.log4j.LogManager;
 import services.ServiceException;
 import services.fluxo.ParcelaService;
+import utils.AlertaTipos;
+import utils.Forms;
 import utils.Globals;
 import utils.Utils;
 
@@ -38,8 +41,9 @@ public class PanelParcelas extends javax.swing.JPanel {
     public Conta getConta() {
         return conta;
     }
-    public List<Parcela> getParcelas(){
-        ArrayList<Parcela> l =  new ArrayList<Parcela>();
+
+    public List<Parcela> getParcelas() {
+        ArrayList<Parcela> l = new ArrayList<Parcela>();
         l.addAll(conta.getParcelas());
         return l;
     }
@@ -50,6 +54,7 @@ public class PanelParcelas extends javax.swing.JPanel {
 
             @Override
             public Collection<Parcela> lista(String busca) throws ServiceException {
+                getParcelas().sort((p1,p2)->Integer.compare(p1.getParcela(), p2.getParcela()));
                 return getParcelas();
             }
 
@@ -153,8 +158,13 @@ public class PanelParcelas extends javax.swing.JPanel {
                 break;
         }
         Utils.safeCode(() -> {
-            service.gerarParcelas(conta, (Integer) jtbParcelas.getValue(), jffValor.getValue(), jdfData.getDate(), fieldIncrementar, quantidade);
-            table.atualizar();
+            try {
+                service.gerarParcelas(conta, (Integer) jtbParcelas.getValue(), jffValor.getValue(), jdfData.getDate(), fieldIncrementar, quantidade);
+                table.atualizar();
+
+            } catch (IllegalArgumentException e) {
+                Forms.mensagem("Informe a "+e.getMessage(), AlertaTipos.erro);
+            }
         });
     }
 
@@ -214,6 +224,11 @@ public class PanelParcelas extends javax.swing.JPanel {
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
+            }
+        });
+        table.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tableMouseClicked(evt);
             }
         });
         jScrollPane2.setViewportView(table);
@@ -297,6 +312,15 @@ public class PanelParcelas extends javax.swing.JPanel {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         gerarParcelas();
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void tableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableMouseClicked
+        if(evt.getClickCount() == 2){
+            int id = table.getSelectedId();
+            Parcela parc = conta.getParcelas().stream().filter((p)->p.getParcela()== id).findFirst().get();
+            new FrmParcelaCadastro(conta,parc).setVisible(true);
+            table.atualizar();
+        }
+    }//GEN-LAST:event_tableMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

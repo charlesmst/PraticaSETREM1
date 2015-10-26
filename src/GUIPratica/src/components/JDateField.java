@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package components;
 
 import java.awt.EventQueue;
@@ -12,11 +7,9 @@ import javax.swing.SpinnerDateModel;
 import javax.swing.SpinnerModel;
 import javax.swing.text.AbstractDocument;
 
-/**
- *
- * @author Charles
- */
 public class JDateField extends JSpinner {
+
+    SpinnerDateModel model;
 
     @Override
     public void setModel(SpinnerModel model) {
@@ -27,28 +20,24 @@ public class JDateField extends JSpinner {
 
     public JDateField() {
         super(new SpinnerDateModel());
+        model = (SpinnerDateModel) getModel();
         setFormatter();
+        model.setValue(new Date());
 
-//        AbstractDocument doc = (AbstractDocument) getDocument();
-//        doc.setDocumentFilter(new JTextFieldNumber.NumberFilter());
-    
     }
 
     private void setFormatter() {
         JSpinner.DateEditor timeEditor = new JSpinner.DateEditor(this, "d/M/y");
-        
+//        
         setEditor(timeEditor);
-        setValue(new Date());
     }
-    
-    public void setDate(Date d){
-        setValue(d);
+
+    public void setDate(Date d) {
+        model.setValue(d);
     }
-    
-    public Date getDate(){
-        return (Date)getValue();
+
+    public Date getDate() {
+        return (Date) getModel().getValue();
     }
-    
-    
 
 }

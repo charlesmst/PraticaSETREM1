@@ -8,11 +8,13 @@ package components;
 import java.awt.Toolkit;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.beans.PropertyChangeSupport;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.ParsePosition;
 import java.util.Locale;
+import javax.persistence.Transient;
 import javax.swing.JFormattedTextField;
 import javax.swing.JTextField;
 import javax.swing.text.AbstractDocument;
@@ -34,6 +36,9 @@ public class JTextFieldMoney extends JTextField {
     private DecimalFormat format;
     private String decimal;
 
+    
+    @Transient
+    private PropertyChangeSupport changeSupport = new PropertyChangeSupport(this);
     public JTextFieldMoney() {
 
         this.format = new DecimalFormat("'R$'###,##0.00");
@@ -51,24 +56,37 @@ public class JTextFieldMoney extends JTextField {
     }
 
     public void setValue(double valor) {
-
+        double valueWas = getValue();
         
         AbstractDocument doc = (AbstractDocument) getDocument();
         doc.setDocumentFilter(null);
         setText(format.format(valor));
-        ;
+        
         doc.setDocumentFilter(new ABMFilter());
+        changeSupport.firePropertyChange("value",valueWas,valor);
     }
 
     public double getValue() {
-        String text = getText();
+        try {
+            String text = getText();
         return Double.parseDouble(text.substring(2).replace(".", "").replace(",", "."));
+        } catch (Exception e) {
+            return 0;
+        }
+        
+    }
+
+    public String getFormatted(double d) {
+        return format.format(d);
     }
 
     @Override
     public void setText(String text) {
+        double valueWas = getValue();
         Number number = format.parse(text, new ParsePosition(0));
 
+        
+        changeSupport.firePropertyChange("value",valueWas,getValue());
         if (number != null) {
             super.setText(text);
         }

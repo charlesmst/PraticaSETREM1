@@ -5,14 +5,17 @@
  */
 package utils;
 
+import components.JTextFieldMoney;
 import components.ThrowingCommand;
 import java.lang.reflect.Method;
 import java.text.DateFormat;
+import java.text.DecimalFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
+import javax.swing.JSpinner;
 import javax.swing.SwingWorker;
 import javax.swing.text.JTextComponent;
 import org.jdesktop.beansbinding.AutoBinding;
@@ -66,7 +69,9 @@ public class Utils {
 
     public static AutoBinding createBind(Object o, String campo, JComponent componenete, boolean autoBind) {
         AutoBinding a = null;
-        if (componenete instanceof JTextComponent) {
+        if (componenete instanceof JSpinner || componenete instanceof JTextFieldMoney) {
+            a = org.jdesktop.beansbinding.Bindings.createAutoBinding(AutoBinding.UpdateStrategy.READ_WRITE, o, BeanProperty.create(campo), componenete, BeanProperty.create("value"));
+        } else if (componenete instanceof JTextComponent) {
             a = org.jdesktop.beansbinding.Bindings.createAutoBinding(AutoBinding.UpdateStrategy.READ_WRITE, o, BeanProperty.create(campo), componenete, BeanProperty.create("text"));
         } else if (componenete instanceof JComboBox) {
             a = org.jdesktop.beansbinding.Bindings.createAutoBinding(AutoBinding.UpdateStrategy.READ_WRITE, o, BeanProperty.create(campo), componenete, BeanProperty.create("selectedItem"));
@@ -95,5 +100,16 @@ public class Utils {
             Forms.paraProgress();
             return null;
         }
+    }
+    private static DecimalFormat format;
+
+    static {
+
+        format = new DecimalFormat("'R$'###,##0.00");
+    }
+
+    public static String formataDinheiro(double d) {
+
+        return format.format(d);
     }
 }

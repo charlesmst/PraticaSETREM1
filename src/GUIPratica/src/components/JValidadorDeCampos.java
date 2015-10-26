@@ -55,7 +55,7 @@ public class JValidadorDeCampos {
     private void addListener(final JComponent contro) {
 
         if (contro instanceof JTextComponent) {
-            
+
             ((JTextComponent) contro).addKeyListener(new KeyAdapter() {
                 @Override
                 public void keyReleased(KeyEvent e) {
@@ -291,7 +291,9 @@ class ValidacaoCampos {
     }
 
     private String getValorControl() {
-        if (control instanceof JTextArea) {
+        if (control instanceof JDateField) {
+            return ((JDateField) control).getDate()+"";
+        } else if (control instanceof JTextArea) {
             return ((JTextArea) control).getText();
         } else if (control instanceof JTextField) {
             return ((JTextField) control).getText();

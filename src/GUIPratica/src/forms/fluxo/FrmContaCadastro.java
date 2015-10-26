@@ -21,6 +21,7 @@ import model.fluxo.ContaCategoria;
 import model.fluxo.FormaPagamento;
 import model.fluxo.Parcela;
 import forms.FrmPessoaF2;
+import org.jdesktop.beansbinding.AutoBinding;
 import services.PessoaService;
 import org.jdesktop.beansbinding.Converter;
 import services.fluxo.ContaCategoriaService;
@@ -94,26 +95,32 @@ public class FrmContaCadastro extends JDialogController {
 
         }
 
-//        Utils.createBind(conta, "pessoa", jtbPessoa, false).setConverter(new Converter<Pessoa, Integer>() {
-//
-//            @Override
-//            public Pessoa convertReverse(Integer value) {
-//                Pessoa p = new Pessoa();
-//                p.setId(id);
-//                return p;
-//            }
-//
-//            @Override
-//            public Integer convertForward(Pessoa value) {
-//                if (value != null) {
-//                    return value.getId();
-//                }
-//                return 0;
-//            }
-//        });
-        if (conta.getPessoa() != null) {
-            jtbPessoa.setText(conta.getPessoa().getId() + "");
-        }
+        AutoBinding a = Utils.createBind(conta, "pessoa", jtbPessoa, false);
+        a.setConverter(new Converter<Pessoa, String>() {
+
+            @Override
+            public Pessoa convertReverse(String value) {
+                try {
+                    Pessoa p = new Pessoa();
+                    p.setId(Integer.valueOf(value));
+                    return p;
+                } catch (Exception e) {
+                    return null;
+                }
+            }
+
+            @Override
+            public String convertForward(Pessoa value) {
+                if (value != null) {
+                    return value.getId() + "";
+                }
+                return "";
+            }
+        });
+        a.bind();
+//        if (conta.getPessoa() != null) {
+//            jtbPessoa.setText(conta.getPessoa().getId() + "");
+//        }
 //        if (conta.getParcelas() == null) {
 //            conta.setParcelas(new ArrayList<>());
 //        }
@@ -159,10 +166,9 @@ public class FrmContaCadastro extends JDialogController {
         if (!validator.isValido()) {
             return;
         }
-        Pessoa p = new Pessoa();
-        p.setId(jtbPessoa.getValueSelected());
-        conta.setPessoa(p);
-
+//        Pessoa p = new Pessoa();
+//        p.setId(jtbPessoa.getValueSelected());
+//        conta.setPessoa(p);
 
         Utils.safeCode(() -> {
             if (id == 0) {
