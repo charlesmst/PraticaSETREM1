@@ -35,7 +35,7 @@ public class EstoqueMovimentacao implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "estoque_id", nullable = false)
-    private Estoque estoque;
+    private EstoquePreco estoque;
 
     @Column(length = 200)
     private String descricao;

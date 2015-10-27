@@ -46,5 +46,4 @@ public class ItemTipo implements Serializable {
     public void setAtivo(boolean ativo) {
         this.ativo = ativo;
     }
-
 }

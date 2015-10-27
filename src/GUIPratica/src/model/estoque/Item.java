@@ -30,7 +30,13 @@ public class Item implements Serializable {
     private ItemTipo itemTipo;
 
     @Column(length = 100, nullable = false)
-    private String nome;
+    private String descricao;
+
+    @Column(name = "estoque_minimo", nullable = false)
+    private int estoqueMinimo;
+
+    @Column(name = "ultimo_valor_venda", nullable = false)
+    private double ultimoValorVenda;
 
     public int getId() {
         return id;
@@ -57,10 +63,10 @@ public class Item implements Serializable {
     }
 
     public String getNome() {
-        return nome;
+        return descricao;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
+    public void setNome(String descricao) {
+        this.descricao = descricao;
     }
 }

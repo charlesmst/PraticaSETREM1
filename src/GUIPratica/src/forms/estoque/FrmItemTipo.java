@@ -1,62 +1,54 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package forms.estoque;
 
 import forms.fluxo.*;
 import components.JCampoBusca;
 import java.awt.event.ActionEvent;
 import components.JPanelControleButtons;
-
 import components.JTableDataBinderListener;
 import java.util.Collection;
 import javax.swing.ImageIcon;
 import javax.swing.JCheckBox;
 import javax.swing.JDialog;
-import model.estoque.Prateleira;
+import model.estoque.ItemTipo;
 import services.ServiceException;
-import services.estoque.PrateleiraService;
+import services.estoque.ItemTipoService;
 import utils.Globals;
 
-/**
- *
- * @author Charles
- */
-public class FrmPrateleira extends JPanelControleButtons {
+public class FrmItemTipo extends JPanelControleButtons {
 
-    private final PrateleiraService service;
-//    JTableDataBinder table;
+    private final ItemTipoService service;
 
-    public FrmPrateleira() {
+    public FrmItemTipo() {
         initComponents();
         setBtnAddEnable(true);
         setBtnAlterarEnable(true);
         setBtnExcluirEnable(true);
         setBtnAtualizarEnable(true);
 
-        service = new PrateleiraService();
+        service = new ItemTipoService();
 
-
-        table.setListener(new JTableDataBinderListener<Prateleira>() {
+        table.setListener(new JTableDataBinderListener<ItemTipo>() {
 
             @Override
-            public Collection<Prateleira> lista(String busca) throws ServiceException{
-                
-                    return service.findByMultipleColumns(busca, "id", "id", "nome");
-              
+            public Collection<ItemTipo> lista(String busca) throws ServiceException {
+
+                return service.findByMultipleColumns(busca, "id", "id", "nome");
+
             }
 
             @Override
-            public Object[] addRow(Prateleira dado) {
-                return new Object[]{dado.getId(), dado.getDescricao()};
-              
+            public Object[] addRow(ItemTipo dado) {
+                ImageIcon i;
+                if (dado.isAtivo()) {
+                    i = Globals.iconeSuccess;
+                } else {
+                    i = Globals.iconeError;
+                }
+                return new Object[]{dado.getId(), dado.getNome(), i};
             }
         });
 
-        
-        table.setBusca(txtBuscar,true);
+        table.setBusca(txtBuscar, true);
         table.atualizar();
     }
 
@@ -76,20 +68,20 @@ public class FrmPrateleira extends JPanelControleButtons {
 
         table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null}
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
             },
             new String [] {
-                "Código", "Nome"
+                "Código", "Nome", "Status"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class
+                java.lang.String.class, java.lang.String.class, java.lang.Object.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false
+                false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -106,6 +98,8 @@ public class FrmPrateleira extends JPanelControleButtons {
             table.getColumnModel().getColumn(0).setMinWidth(10);
             table.getColumnModel().getColumn(0).setPreferredWidth(60);
             table.getColumnModel().getColumn(0).setMaxWidth(100);
+            table.getColumnModel().getColumn(2).setPreferredWidth(30);
+            table.getColumnModel().getColumn(2).setMaxWidth(30);
         }
 
         jLabel2.setText(" Buscar:");
@@ -148,7 +142,7 @@ public class FrmPrateleira extends JPanelControleButtons {
     @Override
     public void btnAddActionPerformed(ActionEvent evt) {
 //        model.createNew();
-        JDialog dialog = new FrmPrateleiraCadastro();
+        JDialog dialog = new FrmItemTipoCadastro();
         dialog.setVisible(true);
         table.atualizar();
     }
@@ -156,7 +150,7 @@ public class FrmPrateleira extends JPanelControleButtons {
     @Override
     public void btnAlterarActionPerformed(ActionEvent evt) {
         defaultUpdateOperation(table, (i) -> {
-            JDialog dialog = new FrmPrateleiraCadastro(i);
+            JDialog dialog = new FrmItemTipoCadastro(i);
             dialog.setVisible(true);
         });
 

@@ -17,7 +17,6 @@ import org.hibernate.criterion.Restrictions;
 import org.hibernate.service.spi.ServiceException;
 import services.Service;
 
-
 public class PrateleiraService extends Service<Prateleira> {
 
     @Override
@@ -32,8 +31,10 @@ public class PrateleiraService extends Service<Prateleira> {
         super.insert(obj); //To change body of generated methods, choose Tools | Templates.
     }
 
+    public boolean unico(int id, String descricao) throws ServiceException {
+        return findFilter(Restrictions.ne("id", id), Restrictions.eq("descricao", descricao)).isEmpty();
+    }
 
-    
     public PrateleiraService() {
         super(Prateleira.class);
     }

@@ -164,7 +164,7 @@ public class frmMain extends javax.swing.JFrame {
         root.setUserObject("JContabil");
 
         jTreeMenu.setModel(model);
-        
+
 //        jTreeMenu.setRootVisible(false);
         jTreeMenu.setShowsRootHandles(true);
 
@@ -190,33 +190,36 @@ public class frmMain extends javax.swing.JFrame {
 
         gerenciamento.add(new TreeNodeMenu("Usuários", "forms.frmUsuarios"));
         root.add(gerenciamento);
+
+//----------------------------- Estoque -----------------------------//   
         
         DefaultMutableTreeNode estoque = new DefaultMutableTreeNode("Estoque");
+       
         estoque.add(new TreeNodeMenu(("Prateleira"), "forms.estoque.FrmPrateleira"));
+        estoque.add(new TreeNodeMenu(("Tipo de Item"), "forms.estoque.FrmItemTipo"));
+        
         root.add(estoque);
+
+//-------------------------------------------------------------------//    
         
         DefaultMutableTreeNode caixa = new DefaultMutableTreeNode("Fluxo de Caixa");
-        
         caixa.add(new TreeNodeMenu("Contas a pagar e receber", "forms.fluxo.FrmConta"));
         caixa.add(new TreeNodeMenu("Contas Bancárias", "forms.fluxo.FrmContaBancaria"));
-        
-        caixa.add(new TreeNodeMenu("Categorias de Conta", "forms.fluxo.FrmContaCategoria"));
-                caixa.add(new TreeNodeMenu("Formas de Pagamento", "forms.fluxo.FrmFormaPagamento"));
 
+        caixa.add(new TreeNodeMenu("Categorias de Conta", "forms.fluxo.FrmContaCategoria"));
+        caixa.add(new TreeNodeMenu("Formas de Pagamento", "forms.fluxo.FrmFormaPagamento"));
 
 //        caixa.add(new TreeNodeMenu("Usuários", "forms.frmUsuarios"));
         root.add(caixa);
 
-        
         DefaultMutableTreeNode aula = new DefaultMutableTreeNode("Aula");
         aula.add(new TreeNodeMenu("Produtos", "forms.aula.FrmProduto"));
 
         aula.add(new TreeNodeMenu("Marcas", "forms.aula.FrmMarca"));
-        aula.add(new TreeNodeMenu("Segmentos", "forms.aula.FrmSegmento"));       
+        aula.add(new TreeNodeMenu("Segmentos", "forms.aula.FrmSegmento"));
         aula.add(new TreeNodeMenu("Especificações", "forms.aula.FrmEspecificacao"));
 
 //        gerenciamento.add(new TreeNodeMenu("Ordem de Serviço", "forms.ordem.frmOrdemServico"));
-
         root.add(aula);
 
         model.nodeChanged(root);
@@ -238,7 +241,7 @@ public class frmMain extends javax.swing.JFrame {
         }
         if (current instanceof TreeNodeMenu) {
             TreeNodeMenu m = (TreeNodeMenu) current;
-            if (m.instantiated() &&  m.getPanel() == finding) {
+            if (m.instantiated() && m.getPanel() == finding) {
                 return m;
             }
         }
