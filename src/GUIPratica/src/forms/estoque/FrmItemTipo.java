@@ -1,5 +1,6 @@
 package forms.estoque;
 
+import components.CellRenderer;
 import forms.fluxo.*;
 import components.JCampoBusca;
 import java.awt.event.ActionEvent;
@@ -20,6 +21,7 @@ public class FrmItemTipo extends JPanelControleButtons {
 
     public FrmItemTipo() {
         initComponents();
+        table.setDefaultRenderer(Object.class, new CellRenderer());
         setBtnAddEnable(true);
         setBtnAlterarEnable(true);
         setBtnExcluirEnable(true);

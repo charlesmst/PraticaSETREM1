@@ -21,7 +21,6 @@ public class Item implements Serializable {
     private int id;
 
     @ManyToOne
-    @Column(length = 100)
     @JoinColumn(name = "prateleira_id", nullable = false)
     private Prateleira prateleira;
 
@@ -68,5 +67,29 @@ public class Item implements Serializable {
 
     public void setNome(String descricao) {
         this.descricao = descricao;
+    }
+
+    public String getDescricao() {
+        return descricao;
+    }
+
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
+    }
+
+    public int getEstoqueMinimo() {
+        return estoqueMinimo;
+    }
+
+    public void setEstoqueMinimo(int estoqueMinimo) {
+        this.estoqueMinimo = estoqueMinimo;
+    }
+
+    public double getUltimoValorVenda() {
+        return ultimoValorVenda;
+    }
+
+    public void setUltimoValorVenda(double ultimoValorVenda) {
+        this.ultimoValorVenda = ultimoValorVenda;
     }
 }

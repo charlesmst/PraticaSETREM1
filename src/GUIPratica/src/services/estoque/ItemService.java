@@ -5,39 +5,30 @@
  */
 package services.estoque;
 
-import services.aul.*;
-import java.io.Serializable;
-import java.util.Collection;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import model.estoque.Prateleira;
-import org.hibernate.Criteria;
+import model.estoque.Item;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.service.spi.ServiceException;
 import services.Service;
 
-public class PrateleiraService extends Service<Prateleira> {
+public class ItemService extends Service<Item> {
 
     @Override
-    public void update(Prateleira obj) throws services.ServiceException {
+    public void update(Item obj) throws services.ServiceException {
         obj.setDescricao(obj.getDescricao().toUpperCase());
-        super.update(obj); //To change body of generated methods, choose Tools | Templates.
+        super.update(obj); 
     }
 
     @Override
-    public void insert(Prateleira obj) throws services.ServiceException {
+    public void insert(Item obj) throws services.ServiceException {
         obj.setDescricao(obj.getDescricao().toUpperCase());
-        super.insert(obj); //To change body of generated methods, choose Tools | Templates.
+        super.insert(obj);
     }
 
     public boolean unico(int id, String descricao) throws ServiceException {
         return findFilter(Restrictions.ne("id", id), Restrictions.eq("descricao", descricao)).isEmpty();
     }
 
-    public PrateleiraService() {
-        super(Prateleira.class);
+    public ItemService() {
+        super(Item.class);
     }
-
-
 }

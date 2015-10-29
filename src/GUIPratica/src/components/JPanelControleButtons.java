@@ -108,7 +108,7 @@ public abstract class JPanelControleButtons extends JPanel {
                 return;
             }
             try {
-                callback.accept(table.getSelectedId());
+                callback.acceptThrows(table.getSelectedId());
                 utils.Forms.mensagem(Mensagens.excluidoSucesso, AlertaTipos.sucesso);
 
                 table.atualizar();

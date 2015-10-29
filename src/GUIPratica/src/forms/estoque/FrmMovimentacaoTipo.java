@@ -6,31 +6,26 @@
 package forms.estoque;
 
 import components.CellRenderer;
-import forms.fluxo.*;
-import components.JCampoBusca;
 import java.awt.event.ActionEvent;
 import components.JPanelControleButtons;
-
 import components.JTableDataBinderListener;
 import java.util.Collection;
-import javax.swing.ImageIcon;
-import javax.swing.JCheckBox;
 import javax.swing.JDialog;
-import model.estoque.Prateleira;
+import model.estoque.MovimentacaoTipo;
 import services.ServiceException;
-import services.estoque.PrateleiraService;
+import services.estoque.MovimentacaoTipoService;
 import utils.Globals;
 
 /**
  *
- * @author Charles
+ * @author Gustavo
  */
-public class FrmPrateleira extends JPanelControleButtons {
+public class FrmMovimentacaoTipo extends JPanelControleButtons {
 
-    private final PrateleiraService service;
+    private final MovimentacaoTipoService service;
 //    JTableDataBinder table;
 
-    public FrmPrateleira() {
+    public FrmMovimentacaoTipo() {
         initComponents();
         table.setDefaultRenderer(Object.class, new CellRenderer());
         setBtnAddEnable(true);
@@ -38,20 +33,20 @@ public class FrmPrateleira extends JPanelControleButtons {
         setBtnExcluirEnable(true);
         setBtnAtualizarEnable(true);
 
-        service = new PrateleiraService();
+        service = new MovimentacaoTipoService();
 
-        table.setListener(new JTableDataBinderListener<Prateleira>() {
+        table.setListener(new JTableDataBinderListener<MovimentacaoTipo>() {
 
             @Override
-            public Collection<Prateleira> lista(String busca) throws ServiceException {
+            public Collection<MovimentacaoTipo> lista(String busca) throws ServiceException {
 
-                return service.findByMultipleColumns(busca, "id", "id", "nome");
+                return service.findByMultipleColumns(busca, "id", "id", "descricao");
 
             }
 
             @Override
-            public Object[] addRow(Prateleira dado) {
-                return new Object[]{dado.getId(), dado.getDescricao()};
+            public Object[] addRow(MovimentacaoTipo dado) {
+                return new Object[]{dado.getId(), dado.getDescricao(), dado.getTipo().toString().toUpperCase(), dado.isAtivo() ? Globals.iconeSuccess : Globals.iconeError};
 
             }
         });
@@ -76,20 +71,20 @@ public class FrmPrateleira extends JPanelControleButtons {
 
         table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null}
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
             },
             new String [] {
-                "Código", "Conteúdo"
+                "Código", "Nome", "Tipo", "Status"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false
+                false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -106,34 +101,37 @@ public class FrmPrateleira extends JPanelControleButtons {
             table.getColumnModel().getColumn(0).setMinWidth(10);
             table.getColumnModel().getColumn(0).setPreferredWidth(60);
             table.getColumnModel().getColumn(0).setMaxWidth(100);
+            table.getColumnModel().getColumn(3).setPreferredWidth(30);
+            table.getColumnModel().getColumn(3).setMaxWidth(30);
         }
 
-        jLabel2.setText(" Buscar:");
+        jLabel2.setText("Buscar:");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
+                        .addGap(5, 5, 5)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 385, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtBuscar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 399, Short.MAX_VALUE))
+                        .addComponent(txtBuscar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(13, 13, 13)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 253, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 278, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -147,8 +145,7 @@ public class FrmPrateleira extends JPanelControleButtons {
 
     @Override
     public void btnAddActionPerformed(ActionEvent evt) {
-//        model.createNew();
-        JDialog dialog = new FrmPrateleiraCadastro();
+        JDialog dialog = new FrmMovimentacaoTipoCadastro();
         dialog.setVisible(true);
         table.atualizar();
     }
@@ -156,7 +153,7 @@ public class FrmPrateleira extends JPanelControleButtons {
     @Override
     public void btnAlterarActionPerformed(ActionEvent evt) {
         defaultUpdateOperation(table, (i) -> {
-            JDialog dialog = new FrmPrateleiraCadastro(i);
+            JDialog dialog = new FrmMovimentacaoTipoCadastro(i);
             dialog.setVisible(true);
         });
 
