@@ -6,6 +6,8 @@
 package services.fluxo;
 
 import java.io.Serializable;
+import java.util.List;
+import model.fluxo.ContaBancaria;
 import model.fluxo.ContaCategoria;
 import services.Service;
 import services.ServiceException;
@@ -25,6 +27,9 @@ public class ContaCategoriaService extends Service<ContaCategoria> {
         update(c); //To change body of generated methods, choose Tools | Templates.
     }
 
+    public List<ContaCategoria> findAtivos(){
+        return findBy("ativo", true);
+    }
     public ContaCategoriaService() {
         super(ContaCategoria.class);
     }

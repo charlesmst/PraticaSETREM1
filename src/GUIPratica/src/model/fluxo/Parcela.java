@@ -48,6 +48,7 @@ public class Parcela implements Serializable {
     @Column(nullable = false)
     private double valor;
 
+    private boolean fechado;
     private String boleto;
 
     //Não tem orphanRemoval por causa que as parcelas ja finalizadas nao carregam a parcela
@@ -142,6 +143,14 @@ public class Parcela implements Serializable {
 
     public void removePropertyChangeListener(PropertyChangeListener listener) {
         changeSupport.removePropertyChangeListener(listener);
+    }
+
+    public boolean isFechado() {
+        return fechado;
+    }
+
+    public void setFechado(boolean fechado) {
+        this.fechado = fechado;
     }
 
 }

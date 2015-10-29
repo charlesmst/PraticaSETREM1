@@ -208,7 +208,7 @@ public class FrmParcelaCadastro extends JDialogController {
 
         jLabel4.setText("Valor da parcela");
 
-        jLabel5.setText("Data pagamento");
+        jLabel5.setText("Data de Vencimento");
 
         jtbConta.setEditable(false);
 

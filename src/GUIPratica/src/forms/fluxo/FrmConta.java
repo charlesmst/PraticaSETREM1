@@ -11,13 +11,17 @@ import components.JPanelControleButtons;
 
 import components.JTableDataBinderListener;
 import java.util.Collection;
+import javassist.bytecode.analysis.Util;
 import javax.swing.ImageIcon;
 import javax.swing.JCheckBox;
 import javax.swing.JDialog;
 import model.fluxo.Conta;
+import model.fluxo.ContaCategoria;
+import model.fluxo.Parcela;
 import services.ServiceException;
 import services.fluxo.ContaService;
 import utils.Globals;
+import utils.Utils;
 
 /**
  *
@@ -42,19 +46,32 @@ public class FrmConta extends JPanelControleButtons {
             @Override
             public Collection<Conta> lista(String busca) throws ServiceException {
 
-                return service.findByMultipleColumns(busca, "id", "id", "nome");
+                return service.findContas(busca);
 
             }
 
             @Override
             public Object[] addRow(Conta dado) {
-//                ImageIcon i;
-//                if (dado.isAtivo()) {
-//                    i = Globals.iconeSuccess;
-//                } else {
-//                    i = Globals.iconeError;
-//                }
-                return new Object[]{dado.getId(), dado.getDescricao()};//, dado.getTipo().toString().toUpperCase(), "R$0.00", i};
+                ImageIcon i = null;
+                for (Parcela parcela : dado.getParcelas()) {
+                    if (!parcela.isFechado()) {
+                        i = Globals.iconeError;
+                        break;
+                    }
+
+                }
+                if(i == null)
+                    i = Globals.iconeSuccess;
+                Object[] obj = new Object[8];
+                obj[0]= dado.getId();
+                obj[1] = dado.getDescricao();
+                obj[2] = dado.getPessoa().getNome();
+                obj[3] =dado.getCategoria().getTipo() == ContaCategoria.TipoCategoria.entrada?"A Receber":"A Pagar";
+                obj[4] = Utils.formataDinheiro(ContaService.valorConta(dado));
+                obj[5] = dado.getCategoria().toString();
+                obj[6] = i;
+                
+                return obj;
 
             }
         });
@@ -78,23 +95,25 @@ public class FrmConta extends JPanelControleButtons {
         jLabel2 = new javax.swing.JLabel();
         jcbContasAPagar = new javax.swing.JCheckBox();
         jcbContasAReceber = new javax.swing.JCheckBox();
+        btnPagamento = new javax.swing.JButton();
+        btnParcelas = new javax.swing.JButton();
 
         table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null}
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null}
             },
             new String [] {
-                "Código", "Descrição", "Pessoa Relacionada", "Tipo", "Valor", "Saldo", "Categoria", "Status"
+                "Código", "Descrição", "Pessoa Relacionada", "Tipo", "Valor", "Categoria", "Status"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.Object.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class
+                java.lang.String.class, java.lang.String.class, java.lang.Object.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class, java.lang.Object.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, true, false, false, true, false, false
+                false, false, true, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -111,8 +130,8 @@ public class FrmConta extends JPanelControleButtons {
             table.getColumnModel().getColumn(0).setMinWidth(10);
             table.getColumnModel().getColumn(0).setPreferredWidth(60);
             table.getColumnModel().getColumn(0).setMaxWidth(100);
-            table.getColumnModel().getColumn(7).setPreferredWidth(30);
-            table.getColumnModel().getColumn(7).setMaxWidth(30);
+            table.getColumnModel().getColumn(6).setPreferredWidth(30);
+            table.getColumnModel().getColumn(6).setMaxWidth(30);
         }
 
         jLabel2.setText("Buscar:");
@@ -120,6 +139,10 @@ public class FrmConta extends JPanelControleButtons {
         jcbContasAPagar.setText("A Pagar");
 
         jcbContasAReceber.setText("A Receber");
+
+        btnPagamento.setText("Pagamento");
+
+        btnParcelas.setText("Parcelas");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -129,16 +152,20 @@ public class FrmConta extends JPanelControleButtons {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(5, 5, 5)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 713, Short.MAX_VALUE))
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 823, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtBuscar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jcbContasAPagar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jcbContasAReceber)))
+                        .addComponent(jcbContasAReceber)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnPagamento)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnParcelas)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -149,14 +176,18 @@ public class FrmConta extends JPanelControleButtons {
                     .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2)
                     .addComponent(jcbContasAPagar)
-                    .addComponent(jcbContasAReceber))
+                    .addComponent(jcbContasAReceber)
+                    .addComponent(btnPagamento)
+                    .addComponent(btnParcelas))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 278, Short.MAX_VALUE))
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 276, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnPagamento;
+    private javax.swing.JButton btnParcelas;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JCheckBox jcbContasAPagar;

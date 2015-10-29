@@ -20,17 +20,21 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
                       <EmptySpace min="-2" pref="5" max="-2" attributes="0"/>
-                      <Component id="jScrollPane2" pref="713" max="32767" attributes="0"/>
+                      <Component id="jScrollPane2" pref="823" max="32767" attributes="0"/>
                   </Group>
                   <Group type="102" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="txtBuscar" max="32767" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="txtBuscar" min="-2" pref="420" max="-2" attributes="0"/>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Component id="jcbContasAPagar" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Component id="jcbContasAReceber" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
+                      <Component id="btnPagamento" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="btnParcelas" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace min="-2" max="-2" attributes="0"/>
@@ -46,9 +50,11 @@
                   <Component id="jLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="jcbContasAPagar" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="jcbContasAReceber" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="btnPagamento" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="btnParcelas" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace min="-2" max="-2" attributes="0"/>
-              <Component id="jScrollPane2" pref="278" max="32767" attributes="0"/>
+              <Component id="jScrollPane2" pref="276" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -64,13 +70,12 @@
         <Component class="components.JTableDataBinder" name="table">
           <Properties>
             <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-              <Table columnCount="8" rowCount="4">
+              <Table columnCount="7" rowCount="4">
                 <Column editable="false" title="C&#xf3;digo" type="java.lang.String"/>
                 <Column editable="false" title="Descri&#xe7;&#xe3;o" type="java.lang.String"/>
                 <Column editable="true" title="Pessoa Relacionada" type="java.lang.Object"/>
                 <Column editable="false" title="Tipo" type="java.lang.String"/>
                 <Column editable="false" title="Valor" type="java.lang.String"/>
-                <Column editable="true" title="Saldo" type="java.lang.Object"/>
                 <Column editable="false" title="Categoria" type="java.lang.Object"/>
                 <Column editable="false" title="Status" type="java.lang.Object"/>
               </Table>
@@ -81,11 +86,6 @@
             <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
               <TableColumnModel selectionModel="0">
                 <Column maxWidth="100" minWidth="10" prefWidth="60" resizable="true">
-                  <Title/>
-                  <Editor/>
-                  <Renderer/>
-                </Column>
-                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
                   <Title/>
                   <Editor/>
                   <Renderer/>
@@ -147,6 +147,16 @@
     <Component class="javax.swing.JCheckBox" name="jcbContasAReceber">
       <Properties>
         <Property name="text" type="java.lang.String" value="A Receber"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JButton" name="btnPagamento">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Pagamento"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JButton" name="btnParcelas">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Parcelas"/>
       </Properties>
     </Component>
   </SubComponents>

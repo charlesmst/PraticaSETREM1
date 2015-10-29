@@ -33,9 +33,16 @@ public class ParcelaService extends Service<Parcela> {
         super(Parcela.class);
     }
 
+    public static double valorTotalParcela(Parcela parcela) {
+        double valorPago = 0;
+        return parcela.getPagamentos().stream()
+                .map((pagamento) -> pagamento.getValor())
+                .reduce(valorPago, (accumulator, _item) -> accumulator + _item);
+    }
+
     /**
      *
-     * @param conta
+     * @param conta 
      * @param parcelas
      * @param valor
      * @param dataPrimeiroPagamento
@@ -106,13 +113,12 @@ public class ParcelaService extends Service<Parcela> {
         //Muda outro
         int index = rollTo.indexOf(fieldIncrementar);
 
-        while (was.get((int)rollTo.get(index)) >= c.get((int)rollTo.get(index))) {
-
+        while (was.get((int) rollTo.get(index)) >= c.get((int) rollTo.get(index))) {
 
             if (index < rollTo.size() - 1) {
                 c.roll((Integer) rollTo.get(index + 1), 1);
             }
-            index +=1;
+            index += 1;
         }
     }
 

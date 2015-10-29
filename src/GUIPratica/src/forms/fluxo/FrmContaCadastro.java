@@ -92,7 +92,13 @@ public class FrmContaCadastro extends JDialogController {
             Utils.createBind(conta, "descricao", jtaDescricao);
             Utils.createBind(conta, "formaPagamento", jcbFormaPagamento);
             Utils.createBind(conta, "categoria", jcbCategoria);
-
+            
+            if(jcbCategoria.getSelectedIndex() == -1 && jcbCategoria.getItemCount() > 0)
+                jcbCategoria.setSelectedIndex(0);
+            
+            
+            if(jcbFormaPagamento.getSelectedIndex() == -1 && jcbFormaPagamento.getItemCount() > 0)
+                jcbFormaPagamento.setSelectedIndex(0);
         }
 
         AutoBinding a = Utils.createBind(conta, "pessoa", jtbPessoa, false);

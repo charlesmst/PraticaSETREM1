@@ -26,6 +26,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JSpinner;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -292,13 +293,15 @@ class ValidacaoCampos {
 
     private String getValorControl() {
         if (control instanceof JDateField) {
-            return ((JDateField) control).getDate()+"";
+            return ((JDateField) control).getDate() + "";
         } else if (control instanceof JTextArea) {
             return ((JTextArea) control).getText();
         } else if (control instanceof JTextField) {
             return ((JTextField) control).getText();
         } else if (control instanceof JComboBox) {
             return ((JComboBox) control).getSelectedItem() + "";
+        } else if (control instanceof JSpinner) {
+            return ((JSpinner) control).getValue() + "";
         } else {
 //            utils.Forms.mensagem("Campo " + control.getName() + " não é reconhecido na validação", AlertaTipos.erro);
             return "";

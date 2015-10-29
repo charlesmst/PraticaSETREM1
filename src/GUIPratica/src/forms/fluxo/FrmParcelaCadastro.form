@@ -180,7 +180,7 @@
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel5">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Data pagamento"/>
+        <Property name="text" type="java.lang.String" value="Data de Vencimento"/>
       </Properties>
     </Component>
     <Component class="forms.fluxo.PanelPagamentos" name="panelPagamentos1">

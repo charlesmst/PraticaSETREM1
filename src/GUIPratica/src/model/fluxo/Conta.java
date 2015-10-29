@@ -30,7 +30,7 @@ public class Conta implements Serializable {
 
     @Override
     public String toString() {
-        String descConta = getId() + "";
+        String descConta = (getId()>0?getId():"") + "";
         if (getDescricao() != null && !getDescricao().equals("")) {
             descConta += " - " + (getDescricao() + "").trim();
         }

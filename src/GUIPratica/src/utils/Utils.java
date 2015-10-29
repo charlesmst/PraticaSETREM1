@@ -112,4 +112,9 @@ public class Utils {
 
         return format.format(d);
     }
+    
+    public static double parseDinheiro(String d) {
+
+            return Math.round(Double.parseDouble(d.substring(2).replace(".", "").replace(",", ".")) * 100d) / 100d;
+    }
 }

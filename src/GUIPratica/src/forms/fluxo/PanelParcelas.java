@@ -9,6 +9,7 @@ import components.BeanTableModel;
 import components.JTableDataBinderListener;
 import components.RowTableModel;
 import components.ThrowingCommand;
+import java.awt.EventQueue;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -54,7 +55,27 @@ public class PanelParcelas extends javax.swing.JPanel {
 
             @Override
             public Collection<Parcela> lista(String busca) throws ServiceException {
-                getParcelas().sort((p1,p2)->Integer.compare(p1.getParcela(), p2.getParcela()));
+                getParcelas().sort((p1, p2) -> Integer.compare(p1.getParcela(), p2.getParcela()));
+                EventQueue.invokeLater(() -> {
+                    double valorTotal = 0d;
+                    double valorPago = 0d;
+                    for (Parcela parcela : getParcelas()) {
+                        valorTotal += parcela.getValor();
+                        if (parcela.isFechado()) {
+                            valorPago += parcela.getValor();
+                        } else {
+                            for (ParcelaPagamento pagamento : parcela.getPagamentos()) {
+
+                                valorPago += pagamento.getValor();
+                            }
+                        }
+                    }
+                    int max = (int) Math.round(valorTotal * 100);
+                    int maxPago = (int) Math.round(valorPago * 100);
+                    jProgressBar1.setMaximum(max);
+                    jProgressBar1.setValue(maxPago);
+                    jProgressBar1.setString("Pago " + Utils.formataDinheiro(valorPago) + "/" + Utils.formataDinheiro(valorTotal));
+                });
                 return getParcelas();
             }
 
@@ -63,7 +84,7 @@ public class PanelParcelas extends javax.swing.JPanel {
                 Object[] o = new Object[5];
                 o[0] = dado.getParcela();
                 o[1] = dado.getDataLancamento();
-                o[2] = dado.getValor();
+                o[2] = Utils.formataDinheiro(dado.getValor());
 
                 double somaPagamento = 0D;
                 if (dado.getPagamentos() != null) {
@@ -82,7 +103,7 @@ public class PanelParcelas extends javax.swing.JPanel {
                     status = Globals.iconeWarning;
                 }
                 o[3] = status;
-                o[4] = saldo;
+                o[4] = Utils.formataDinheiro(saldo);
 
                 return o;
             }
@@ -95,8 +116,8 @@ public class PanelParcelas extends javax.swing.JPanel {
                         p.setDataLancamento((Date) value);
                         break;
                     case 2:
-                        double v = Math.round(((Double) value) * 100D) / 100D;
-                        p.setValor(v);
+                        
+                        p.setValor(Utils.parseDinheiro(value+""));
                         table.atualizar();
                         break;
 
@@ -163,7 +184,7 @@ public class PanelParcelas extends javax.swing.JPanel {
                 table.atualizar();
 
             } catch (IllegalArgumentException e) {
-                Forms.mensagem("Informe a "+e.getMessage(), AlertaTipos.erro);
+                Forms.mensagem("Informe a " + e.getMessage(), AlertaTipos.erro);
             }
         });
     }
@@ -198,6 +219,7 @@ public class PanelParcelas extends javax.swing.JPanel {
         jLabel8 = new javax.swing.JLabel();
 
         jcbFrequencia.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Anual", "Semestral", "Trimestral", "Mensal", "Semanal", "Diário" }));
+        jcbFrequencia.setSelectedItem("Mensal");
 
         jtbParcelas.setModel(new javax.swing.SpinnerNumberModel(Integer.valueOf(1), Integer.valueOf(0), null, Integer.valueOf(1)));
 
@@ -240,9 +262,9 @@ public class PanelParcelas extends javax.swing.JPanel {
             }
         });
 
+        jProgressBar1.setMaximum(0);
         jProgressBar1.setToolTipText("Valor pago");
-        jProgressBar1.setValue(30);
-        jProgressBar1.setString("Pago R$3500,00/R$5000,00");
+        jProgressBar1.setString("");
         jProgressBar1.setStringPainted(true);
 
         jLabel6.setText("Valor");
@@ -310,14 +332,16 @@ public class PanelParcelas extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        if(jffValor.getValue() <= 0)
+            return;
         gerarParcelas();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void tableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableMouseClicked
-        if(evt.getClickCount() == 2){
+        if (evt.getClickCount() == 2) {
             int id = table.getSelectedId();
-            Parcela parc = conta.getParcelas().stream().filter((p)->p.getParcela()== id).findFirst().get();
-            new FrmParcelaCadastro(conta,parc).setVisible(true);
+            Parcela parc = conta.getParcelas().stream().filter((p) -> p.getParcela() == id).findFirst().get();
+            new FrmParcelaCadastro(conta, parc).setVisible(true);
             table.atualizar();
         }
     }//GEN-LAST:event_tableMouseClicked

@@ -6,6 +6,7 @@
 package services.fluxo;
 
 import java.io.Serializable;
+import java.util.List;
 import model.fluxo.ContaBancaria;
 import services.Service;
 import services.ServiceException;
@@ -41,4 +42,7 @@ public class ContaBancariaService extends Service<ContaBancaria> {
         super.insert(obj); //To change body of generated methods, choose Tools | Templates.
     }
 
+    public List<ContaBancaria> findAtivos(){
+        return findBy("ativo", true);
+    }
 }

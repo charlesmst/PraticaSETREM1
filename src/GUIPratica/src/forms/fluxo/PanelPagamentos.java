@@ -13,6 +13,7 @@ import model.fluxo.Conta;
 import model.fluxo.Parcela;
 import model.fluxo.ParcelaPagamento;
 import services.ServiceException;
+import utils.Forms;
 import utils.Utils;
 
 /**
@@ -108,7 +109,7 @@ public class PanelPagamentos extends javax.swing.JPanel {
         jScrollPane1.setViewportView(table);
 
         btnNovo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/new.png"))); // NOI18N
-        btnNovo.setText("Novo");
+        btnNovo.setText("Pagamento");
         btnNovo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnNovoActionPerformed(evt);
@@ -153,11 +154,23 @@ public class PanelPagamentos extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnNovoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNovoActionPerformed
-//        save();
+        new FrmParcelaPagamentoCadastro(conta,parcela).setVisible(true);
+        atualiza(parcela);
     }//GEN-LAST:event_btnNovoActionPerformed
 
     private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed
 //        dispose();
+        if(table.getSelectedId() > 0 && Forms.dialogDelete())
+        {
+            for (ParcelaPagamento pagamento : pagamentos) {
+                if(pagamento.getParcela().getParcela() == table.getSelectedId())
+                {
+                    parcela.getPagamentos().remove(pagamento);
+                    break;
+                }
+            }
+            atualiza(parcela);
+        }
     }//GEN-LAST:event_btnExcluirActionPerformed
 
 

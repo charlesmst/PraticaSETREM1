@@ -16,6 +16,11 @@ import javax.persistence.Table;
 @SequenceGenerator(name = "seq_fc_conta_bancaria",sequenceName = "seq_fc_conta_bancaria", initialValue = 1,allocationSize = 1)
 public class ContaBancaria implements Serializable {
 
+    @Override
+    public String toString() {
+        return id + " - " + nome;
+    }
+
     public enum TipoContaBancaria{
         caixa,
         banco
