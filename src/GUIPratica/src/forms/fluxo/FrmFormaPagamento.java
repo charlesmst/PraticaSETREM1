@@ -18,6 +18,7 @@ import model.fluxo.FormaPagamento;
 import services.ServiceException;
 import services.fluxo.FormaPagamentoService;
 import utils.Globals;
+import utils.Utils;
 
 /**
  *
@@ -49,7 +50,7 @@ public class FrmFormaPagamento extends JPanelControleButtons {
 
             @Override
             public Object[] addRow(FormaPagamento dado) {
-                return new Object[]{dado.getId(), dado.getNome(), dado.getAcrescimo(), dado.isAtivo()?Globals.iconeSuccess:Globals.iconeError};
+                return new Object[]{dado.getId(), dado.getNome(), Utils.formataDinheiro(dado.getAcrescimo()), dado.isAtivo()?Globals.iconeSuccess:Globals.iconeError};
               
             }
         });

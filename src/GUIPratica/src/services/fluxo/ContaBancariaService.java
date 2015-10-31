@@ -16,6 +16,8 @@ import model.fluxo.ContaCategoria;
 import model.fluxo.FormaPagamento;
 import model.fluxo.Parcela;
 import model.fluxo.ParcelaPagamento;
+import org.hibernate.Criteria;
+import org.hibernate.Query;
 import services.Service;
 import services.ServiceException;
 import utils.Globals;
@@ -56,7 +58,47 @@ public class ContaBancariaService extends Service<ContaBancaria> {
         return findBy("ativo", true);
     }
 
-    public void movimentacao(ContaBancaria contaOrigem, ContaBancaria contaDestino, double valor) {
+    /**
+     * Retorna o saldo da conta bancária
+     *
+     * @param c
+     * @return
+     */
+    public double saldoCaixa(ContaBancaria c) {
+        return (Double) selectOnSession((s) -> {
+//            Query q = s.createQuery("SELECT "
+//                    + "CASE WHEN c.categoria.tipo = :entrada"
+//                    + " THEN SUM(c.valorTotal) - SUM(c.valorPago) "
+//                    + "ELSE ((SUM(c.valorTotal) - SUM(c.valorPago))) END"
+//                    + " FROM Contas c where c.id = :id");
+            Query q = s.createQuery("SELECT SUM("
+                    + "CASE WHEN categoria.tipo = :entrada THEN "
+                    +   "valorPago "
+                    + "ELSE valorPago END"
+                    + ")"
+                    + " FROM Conta c where c.id = :id");
+            q.setInteger("id", c.getId());
+            q.setParameter("entrada", ContaCategoria.TipoCategoria.entrada);
+            List l = q.list();
+            return Double.parseDouble(l.get(0).toString());
+        });
+    }
+
+    /**
+     * Faz movimentação de uma conta para outra de certo valor
+     *
+     * @param contaOrigem
+     * @param contaDestino
+     * @param valor
+     * @throws ServiceException Se não existir no mínimo o saldo na contaorigem
+     * igual ao valor que deseja passar, acontece um erro
+     */
+    public void movimentacao(ContaBancaria contaOrigem, ContaBancaria contaDestino, double valor) throws ServiceException {
+
+        double saldoOrigem = saldoCaixa(contaOrigem);
+        if (saldoOrigem < valor) {
+            throw new ServiceException("Saldo insuficiente", null);
+        }
         int categoria_entrada = Integer.parseInt(Parametros.getInstance().getValue("categoria_movimento_entrada"));
         int categoria_saida = Integer.parseInt(Parametros.getInstance().getValue("categoria_movimento_saida"));
         int pagamentoC = Integer.parseInt(Parametros.getInstance().getValue("forma_pagamento_a_vista"));

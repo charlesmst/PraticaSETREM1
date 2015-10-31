@@ -53,7 +53,7 @@ public class FrmFormaPagamentoCadastro extends JDialogController {
         txtCodigo.setText(String.valueOf(m.getId()));
         txtNome.setText(m.getNome());
         jcbAtivo.setSelected(m.isAtivo());
-
+        jTextFieldMoney1.setValue(m.getAcrescimo());
     }
 
     private void save() {
@@ -68,11 +68,7 @@ public class FrmFormaPagamentoCadastro extends JDialogController {
         }
         m.setNome(txtNome.getText());
 
-        if (!txtAcrescimo.getText().equals("")) {
-            m.setAcrescimo(Double.valueOf(txtAcrescimo.getText()));
-        } else {
-            m.setAcrescimo(0D);
-        }
+        m.setAcrescimo(jTextFieldMoney1.getValue());
         m.setAtivo(jcbAtivo.isSelected());
         Utils.safeCode(() -> {
             if (id == 0) {
@@ -104,7 +100,7 @@ public class FrmFormaPagamentoCadastro extends JDialogController {
         txtNome = new components.JTextFieldUpper();
         jcbAtivo = new javax.swing.JCheckBox();
         jLabel3 = new javax.swing.JLabel();
-        txtAcrescimo = new javax.swing.JFormattedTextField();
+        jTextFieldMoney1 = new components.JTextFieldMoney();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -150,7 +146,7 @@ public class FrmFormaPagamentoCadastro extends JDialogController {
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(txtAcrescimo, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jTextFieldMoney1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(txtNome, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(txtCodigo, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 627, Short.MAX_VALUE)
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
@@ -175,7 +171,7 @@ public class FrmFormaPagamentoCadastro extends JDialogController {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtAcrescimo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jTextFieldMoney1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 14, Short.MAX_VALUE)
                 .addComponent(jcbAtivo)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -204,8 +200,8 @@ public class FrmFormaPagamentoCadastro extends JDialogController {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private components.JTextFieldMoney jTextFieldMoney1;
     private javax.swing.JCheckBox jcbAtivo;
-    private javax.swing.JFormattedTextField txtAcrescimo;
     private javax.swing.JTextField txtCodigo;
     private components.JTextFieldUpper txtNome;
     // End of variables declaration//GEN-END:variables

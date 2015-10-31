@@ -79,13 +79,16 @@ public class ContaService extends Service<Conta> {
                 //calcula saldo
                 obj.setValorPago(calculaValorPago(obj));
 
+                double valorTotal = 0d;
                 for (Parcela parcela : obj.getParcelas()) {
+                    valorTotal += parcela.getValor();
                     parcela.setConta(obj);
                     for (ParcelaPagamento pagamento : parcela.getPagamentos()) {
                         pagamento.setParcela(parcela);
                     }
                     parcela.setFechado(ParcelaService.valorTotalParcela(parcela) >= parcela.getValor());
                 }
+                obj.setValorTotal(valorTotal);
                 if (obj.getId() > 0) {
                     s.merge(obj);
                 } else {

@@ -44,9 +44,8 @@ public class PanelParcelas extends javax.swing.JPanel {
     }
 
     public List<Parcela> getParcelas() {
-        ArrayList<Parcela> l = new ArrayList<Parcela>();
-        l.addAll(conta.getParcelas());
-        return l;
+        return conta.getParcelas();
+        
     }
 
     public void setConta(Conta conta) {

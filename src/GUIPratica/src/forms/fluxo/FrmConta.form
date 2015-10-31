@@ -73,7 +73,7 @@
               <Table columnCount="7" rowCount="4">
                 <Column editable="false" title="C&#xf3;digo" type="java.lang.String"/>
                 <Column editable="false" title="Descri&#xe7;&#xe3;o" type="java.lang.String"/>
-                <Column editable="true" title="Pessoa Relacionada" type="java.lang.Object"/>
+                <Column editable="false" title="Pessoa Relacionada" type="java.lang.Object"/>
                 <Column editable="false" title="Tipo" type="java.lang.String"/>
                 <Column editable="false" title="Valor" type="java.lang.String"/>
                 <Column editable="false" title="Categoria" type="java.lang.Object"/>

@@ -62,7 +62,7 @@ public class Conta implements Serializable {
     @Column(name = "nota_fiscal")
     private String notaFiscal;
 
-    @Column(length = 200)
+//    @Column(length = 200)
     private String descricao;
 
     @ManyToOne
@@ -84,6 +84,15 @@ public class Conta implements Serializable {
 
     private double valorPago;
 
+    private double valorTotal;
+
+    public double getValorTotal() {
+        return valorTotal;
+    }
+
+    public void setValorTotal(double valorTotal) {
+        this.valorTotal = valorTotal;
+    }
     @Enumerated(EnumType.ORDINAL)
     private ContaTipo tipo = ContaTipo.conta;
 
