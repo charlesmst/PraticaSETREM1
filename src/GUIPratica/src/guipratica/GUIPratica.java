@@ -6,10 +6,13 @@
 package guipratica;
 
 import com.alee.laf.WebLookAndFeel;
+import forms.fluxo.FrmLoading;
 import forms.frmLogin;
 import forms.frmMain;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.JOptionPane;
+import org.hibernate.JDBCException;
 
 /**
  *
@@ -18,24 +21,38 @@ import java.awt.event.ActionListener;
 public class GUIPratica {
 
     public GUIPratica() {
-        LoginListener evento = new LoginListener();
-        frmLogin login = new frmLogin(null, true);
-        login.setAutenticadoListener(evento);
-        login.setVisible(true);
+        FrmLoading loading = new FrmLoading();
+        loading.setAoFinalizar((e) -> {
+            LoginListener evento = new LoginListener();
+            frmLogin login = new frmLogin(null, true);
+            login.setAutenticadoListener(evento);
+            login.setVisible(true);
 
-        if (evento.isAutenticou()) {
-            frmMain frm;
-            frm = new frmMain();
-            frm.setVisible(true);
-        }
+            if (evento.isAutenticou()) {
+                frmMain frm;
+                frm = new frmMain();
+                frm.setVisible(true);
+            }
+
+        });
+        loading.setListener((e) -> {
+            try {
+                Initialize.init();
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(null, "Erro ao abrir o sistema: " + ex.getMessage());
+                System.exit(1);
+            }
+
+        });
+        loading.setVisible(true);
+
     }
-   
 
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        
+
         try {
             WebLookAndFeel.install();
 

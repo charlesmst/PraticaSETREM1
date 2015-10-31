@@ -16,6 +16,12 @@ import javax.persistence.Table;
 
 public class ContaCategoria implements Serializable {
 
+    public ContaCategoria(int id){
+        setId(id);
+    }
+    public ContaCategoria(){
+        this(0);
+    }
     @Override
     public String toString() {
         return  nome;

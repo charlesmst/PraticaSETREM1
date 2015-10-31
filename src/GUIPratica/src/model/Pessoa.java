@@ -19,6 +19,12 @@ import javax.persistence.Table;
 @Table(name = "sh_pessoa")
 public class Pessoa implements Serializable {
 
+    public Pessoa(){
+        this(0);
+    }
+    public Pessoa(int id){
+        setId(id);
+    }
     public enum TipoPessoa{
         fisica,
         juridica

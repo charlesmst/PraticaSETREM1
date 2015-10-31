@@ -14,11 +14,11 @@ import model.Usuario;
  */
 public class Globals {
 
+    public static int idUsuarioOn = 1;
     public static Usuario.Tipo nivel = Usuario.Tipo.gestor;
     public static ImageIcon iconeSuccess;
     public static ImageIcon iconeError;
-        public static ImageIcon iconeWarning;
-
+    public static ImageIcon iconeWarning;
 
     static {
         iconeSuccess = new ImageIcon(Globals.class.getClassLoader().getResource("resources/success.png"));

@@ -11,6 +11,7 @@ import forms.frmMain;
 import java.util.Date;
 import java.util.List;
 import java.util.Vector;
+import java.util.function.Consumer;
 import javax.swing.DefaultComboBoxModel;
 import model.fluxo.Conta;
 import model.fluxo.ContaBancaria;
@@ -33,6 +34,7 @@ public class FrmParcelaPagamentoCadastro extends JDialogController {
     private int id;
     private final ParcelaPagamentoService service = new ParcelaPagamentoService();
 
+    private Consumer<Conta> listener;
     private Conta conta;
     private Parcela parcela;
 
@@ -117,7 +119,7 @@ public class FrmParcelaPagamentoCadastro extends JDialogController {
         txtConta.setText(conta.toString());
         jtbParcela.setValue(parcela.getParcela());
         double valorPago = ParcelaService.valorTotalParcela(parcela);
-        
+
         lblParcela.setText(Utils.formataDinheiro(parcela.getValor()));
         if (parcela.getValor() - valorPago > 0) {
             jffValor.setValue(parcela.getValor() - valorPago);
@@ -168,7 +170,12 @@ public class FrmParcelaPagamentoCadastro extends JDialogController {
 
         p.setValor(valorParcela);
 
-        parcela.getPagamentos().add(p);
+        if (p.getValor() > 0d) {
+            parcela.getPagamentos().add(p);
+        }
+        if (listener != null) {
+            listener.accept(conta);
+        }
         dispose();
 //        ParcelaPagamento m;
 //        if (id > 0) {
@@ -579,4 +586,12 @@ public class FrmParcelaPagamentoCadastro extends JDialogController {
     private javax.swing.JLabel lblParcela;
     private javax.swing.JTextField txtConta;
     // End of variables declaration//GEN-END:variables
+
+    public Consumer<Conta> getListener() {
+        return listener;
+    }
+
+    public void setListener(Consumer<Conta> listener) {
+        this.listener = listener;
+    }
 }

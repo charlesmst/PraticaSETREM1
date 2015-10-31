@@ -14,6 +14,12 @@ import javax.persistence.Table;
 
 public class FormaPagamento implements Serializable {
 
+    public FormaPagamento(){
+        this(0);
+    }
+    public FormaPagamento(int id){
+        setId(id);
+    }
     @Override
     public String toString() {
         return nome;

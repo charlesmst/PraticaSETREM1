@@ -46,7 +46,7 @@ public class FrmConta extends JPanelControleButtons {
             @Override
             public Collection<Conta> lista(String busca) throws ServiceException {
 
-                return service.findContas(busca);
+                return service.findContas(busca, jcbContasAPagar.isSelected(),jcbContasAReceber.isSelected());
 
             }
 
@@ -60,17 +60,18 @@ public class FrmConta extends JPanelControleButtons {
                     }
 
                 }
-                if(i == null)
+                if (i == null) {
                     i = Globals.iconeSuccess;
+                }
                 Object[] obj = new Object[8];
-                obj[0]= dado.getId();
+                obj[0] = dado.getId();
                 obj[1] = dado.getDescricao();
                 obj[2] = dado.getPessoa().getNome();
-                obj[3] =dado.getCategoria().getTipo() == ContaCategoria.TipoCategoria.entrada?"A Receber":"A Pagar";
+                obj[3] = dado.getCategoria().getTipo() == ContaCategoria.TipoCategoria.entrada ? "A Receber" : "A Pagar";
                 obj[4] = Utils.formataDinheiro(ContaService.valorConta(dado));
                 obj[5] = dado.getCategoria().toString();
                 obj[6] = i;
-                
+
                 return obj;
 
             }
@@ -136,13 +137,35 @@ public class FrmConta extends JPanelControleButtons {
 
         jLabel2.setText("Buscar:");
 
+        jcbContasAPagar.setSelected(true);
         jcbContasAPagar.setText("A Pagar");
+        jcbContasAPagar.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                jcbContasAPagarStateChanged(evt);
+            }
+        });
 
+        jcbContasAReceber.setSelected(true);
         jcbContasAReceber.setText("A Receber");
+        jcbContasAReceber.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                jcbContasAReceberStateChanged(evt);
+            }
+        });
 
         btnPagamento.setText("Pagamento");
+        btnPagamento.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPagamentoActionPerformed(evt);
+            }
+        });
 
         btnParcelas.setText("Parcelas");
+        btnParcelas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnParcelasActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -183,6 +206,42 @@ public class FrmConta extends JPanelControleButtons {
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 276, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnPagamentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPagamentoActionPerformed
+        defaultUpdateOperation(table, (id) -> {
+            
+            Conta c = service.findConta(id);
+            FrmParcelaPagamentoCadastro frm = new FrmParcelaPagamentoCadastro(c);
+            frm.setListener((conta)->{
+                service.update(c);
+                table.atualizar();
+            });
+            frm.setVisible(true);
+        });
+
+    }//GEN-LAST:event_btnPagamentoActionPerformed
+
+    private void btnParcelasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnParcelasActionPerformed
+         defaultUpdateOperation(table, (id) -> {
+            
+            Conta c = service.findConta(id);
+            FrmParcelaCadastro frm = new FrmParcelaCadastro(c, c.getParcelas().get(0));
+            frm.setListener((conta)->{
+                service.update(c);
+                table.atualizar();
+            });
+            frm.setVisible(true);
+        });
+
+    }//GEN-LAST:event_btnParcelasActionPerformed
+
+    private void jcbContasAReceberStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jcbContasAReceberStateChanged
+        table.atualizar();
+    }//GEN-LAST:event_jcbContasAReceberStateChanged
+
+    private void jcbContasAPagarStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jcbContasAPagarStateChanged
+        table.atualizar();
+    }//GEN-LAST:event_jcbContasAPagarStateChanged
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

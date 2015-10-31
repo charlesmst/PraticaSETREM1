@@ -11,6 +11,8 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -28,6 +30,11 @@ import services.PessoaService;
 
 public class Conta implements Serializable {
 
+    public enum ContaTipo {
+        conta,
+        movimentacao,
+        estoque
+    }
     @Override
     public String toString() {
         String descConta = (getId()>0?getId():"") + "";
@@ -58,7 +65,8 @@ public class Conta implements Serializable {
     @Column(length = 200)
     private String descricao;
 
-    @Column(nullable = false, name = "pessoa_id")
+    @ManyToOne
+    @JoinColumn(nullable = false, name = "pessoa_id")
     private Pessoa pessoa;
 
     @ManyToOne
@@ -70,9 +78,30 @@ public class Conta implements Serializable {
     private ContaCategoria categoria;
 
     @OneToMany(mappedBy = "conta", orphanRemoval = true, cascade = CascadeType.ALL)
+
 //    @Column(name = "conta_id")
     private List<Parcela> parcelas = new ArrayList<>();
 
+    private double valorPago;
+
+    @Enumerated(EnumType.ORDINAL)
+    private ContaTipo tipo = ContaTipo.conta;
+
+    public ContaTipo getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(ContaTipo tipo) {
+        this.tipo = tipo;
+    }
+    
+    public double getValorPago() {
+        return valorPago;
+    }
+
+    public void setValorPago(double valorPago) {
+        this.valorPago = valorPago;
+    }
     public List<Parcela> getParcelas() {
         return parcelas;
     }

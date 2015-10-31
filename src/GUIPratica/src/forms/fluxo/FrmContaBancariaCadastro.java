@@ -232,12 +232,12 @@ public class FrmContaBancariaCadastro extends JDialogController {
                 .addComponent(jcbAtivo)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnMovimentar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnMovimentar)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(btnSalvar)
                         .addComponent(btnCancelar)
                         .addComponent(btnVisualizarMovimentacoes)))
-                .addContainerGap())
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -252,7 +252,8 @@ public class FrmContaBancariaCadastro extends JDialogController {
     }//GEN-LAST:event_btnSalvarActionPerformed
 
     private void btnMovimentarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMovimentarActionPerformed
-        // TODO add your handling code here:
+        new FrmMovimentacaoCadastro().setVisible(true);
+        load();
     }//GEN-LAST:event_btnMovimentarActionPerformed
 
     private void btnVisualizarMovimentacoesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVisualizarMovimentacoesActionPerformed

@@ -10,6 +10,7 @@ import components.JDialogController;
 import forms.frmMain;
 import java.util.Date;
 import java.util.Optional;
+import java.util.function.Consumer;
 import model.fluxo.Conta;
 import model.fluxo.Parcela;
 import model.fluxo.ParcelaPagamento;
@@ -28,6 +29,15 @@ public class FrmParcelaCadastro extends JDialogController {
 
     private Parcela parcela;
 
+    private Consumer<Conta> listener;
+
+    public Consumer<Conta> getListener() {
+        return listener;
+    }
+
+    public void setListener(Consumer<Conta> listener) {
+        this.listener = listener;
+    }
     private Date quitado;
     private Conta conta;
 
@@ -74,7 +84,7 @@ public class FrmParcelaCadastro extends JDialogController {
             jtbParcela.setValue(parcela.getParcela());
         }
         quitado = parcela.getDataQuitado();
-        
+
         jtbConta.setText(conta.toString());
         if (!binded) {
             binded = true;
@@ -154,6 +164,9 @@ public class FrmParcelaCadastro extends JDialogController {
         atualizaValor();
         parcela.setBoleto(jcbBoleto.getText());
         parcela.setDataLancamento(jdfData.getDate());
+        if (listener != null) {
+            listener.accept(conta);
+        }
         dispose();
     }
 

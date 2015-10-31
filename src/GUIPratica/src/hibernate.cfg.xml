@@ -20,6 +20,8 @@
         <mapping class="model.Pessoa"/>
         <mapping class="model.Cidade"/>
 
+        <mapping class="model.Parametro"/>
+
         
         <!-- Fluxo de caixa -->        
         <mapping class="model.fluxo.ContaBancaria"/>
