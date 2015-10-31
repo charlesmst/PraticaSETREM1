@@ -18,6 +18,7 @@ import model.fluxo.ContaBancaria;
 import services.ServiceException;
 import services.fluxo.ContaBancariaService;
 import utils.Globals;
+import utils.Utils;
 
 /**
  *
@@ -54,7 +55,8 @@ public class FrmContaBancaria extends JPanelControleButtons {
                 } else {
                     i = Globals.iconeError;
                 }
-                return new Object[]{dado.getId(), dado.getNome(), dado.getTipo().toString().toUpperCase(), "R$0.00", i};
+                double valorSaldo = service.saldoCaixa(dado);
+                return new Object[]{dado.getId(), dado.getNome(), dado.getTipo().toString().toUpperCase(), Utils.formataDinheiro(valorSaldo), i};
 
             }
         });

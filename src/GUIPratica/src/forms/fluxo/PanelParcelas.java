@@ -10,6 +10,7 @@ import components.JTableDataBinderListener;
 import components.RowTableModel;
 import components.ThrowingCommand;
 import java.awt.EventQueue;
+import java.awt.event.KeyEvent;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -45,7 +46,7 @@ public class PanelParcelas extends javax.swing.JPanel {
 
     public List<Parcela> getParcelas() {
         return conta.getParcelas();
-        
+
     }
 
     public void setConta(Conta conta) {
@@ -115,8 +116,8 @@ public class PanelParcelas extends javax.swing.JPanel {
                         p.setDataLancamento((Date) value);
                         break;
                     case 2:
-                        
-                        p.setValor(Utils.parseDinheiro(value+""));
+
+                        p.setValor(Utils.parseDinheiro(value + ""));
                         table.atualizar();
                         break;
 
@@ -195,6 +196,14 @@ public class PanelParcelas extends javax.swing.JPanel {
         initComponents();
     }
 
+    private void editarParcelas() {
+
+        int id = table.getSelectedId();
+        Parcela parc = conta.getParcelas().stream().filter((p) -> p.getParcela() == id).findFirst().get();
+        new FrmParcelaCadastro(conta, parc).setVisible(true);
+        table.atualizar();
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -250,6 +259,11 @@ public class PanelParcelas extends javax.swing.JPanel {
         table.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tableMouseClicked(evt);
+            }
+        });
+        table.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                tableKeyReleased(evt);
             }
         });
         jScrollPane2.setViewportView(table);
@@ -331,19 +345,23 @@ public class PanelParcelas extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        if(jffValor.getValue() <= 0)
+        if (jffValor.getValue() <= 0) {
             return;
+        }
         gerarParcelas();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void tableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableMouseClicked
         if (evt.getClickCount() == 2) {
-            int id = table.getSelectedId();
-            Parcela parc = conta.getParcelas().stream().filter((p) -> p.getParcela() == id).findFirst().get();
-            new FrmParcelaCadastro(conta, parc).setVisible(true);
-            table.atualizar();
+            editarParcelas();
         }
     }//GEN-LAST:event_tableMouseClicked
+
+    private void tableKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tableKeyReleased
+        if (evt.getKeyCode() == KeyEvent.VK_F3) {
+            editarParcelas();
+        }
+    }//GEN-LAST:event_tableKeyReleased
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

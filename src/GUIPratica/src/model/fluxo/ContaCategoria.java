@@ -16,6 +16,28 @@ import javax.persistence.Table;
 
 public class ContaCategoria implements Serializable {
 
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        hash = 59 * hash + this.id;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final ContaCategoria other = (ContaCategoria) obj;
+        if (this.id != other.id) {
+            return false;
+        }
+        return true;
+    }
+
     public ContaCategoria(int id){
         setId(id);
     }

@@ -7,6 +7,7 @@ package components;
 
 import java.awt.EventQueue;
 import java.awt.Rectangle;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
@@ -31,6 +32,7 @@ public class JTableDataBinder<T> extends JTable {
     private JTextField busca;
     private RefreshWorker<T> worker;
 
+    private ActionListener listenerFinalizacao;
     public JTableDataBinder() {
         super();
         setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -135,7 +137,7 @@ public class JTableDataBinder<T> extends JTable {
         if (worker != null) {
             worker.cancel(true);
         }
-        worker = new RefreshWorker<>(listener, model, textobusca, this, columnClasses,modelListener);
+        worker = new RefreshWorker<>(listener, model, textobusca, this, columnClasses,modelListener, listenerFinalizacao);
         final RefreshWorker<T> workerN = worker;
         EventQueue.invokeLater(() -> {
             workerN.runStart();
@@ -191,6 +193,14 @@ public class JTableDataBinder<T> extends JTable {
 //
 //        ed.shouldSelectCell(new ListSelectionEvent(this, row, row, true));
     }
+
+    public ActionListener getListenerFinalizacao() {
+        return listenerFinalizacao;
+    }
+
+    public void setListenerFinalizacao(ActionListener listenerFinalizacao) {
+        this.listenerFinalizacao = listenerFinalizacao;
+    }
 }
 
 class RefreshWorker<T> extends SwingWorker<DefaultTableModel, Object[]> {
@@ -209,6 +219,10 @@ class RefreshWorker<T> extends SwingWorker<DefaultTableModel, Object[]> {
         }
         model.addTableModelListener(modelListener);
         table.scrollToSelected();
+        
+        if (listenerFinalizacao != null) {
+            listenerFinalizacao.actionPerformed(null);
+        }
     }
     private JTableDataBinderListener listener;
     private DefaultTableModel model;
@@ -217,8 +231,10 @@ class RefreshWorker<T> extends SwingWorker<DefaultTableModel, Object[]> {
     private JTableDataBinder<T> table;
     private List<Class> columnClasses;
 
+    private ActionListener listenerFinalizacao;
     private TableModelListener modelListener;
-    public RefreshWorker(JTableDataBinderListener listener, DefaultTableModel model, String textoBusca, JTableDataBinder<T> table, List<Class> columnClasses,TableModelListener modelListener) {
+    public RefreshWorker(JTableDataBinderListener listener, DefaultTableModel model, String textoBusca, JTableDataBinder<T> table, List<Class> columnClasses,TableModelListener modelListener,ActionListener listenerFinalizacao) {
+        this.listenerFinalizacao = listenerFinalizacao;
         this.listener = listener;
         this.model = model;
         this.textoBusca = textoBusca;
@@ -299,4 +315,5 @@ class RefreshWorker<T> extends SwingWorker<DefaultTableModel, Object[]> {
             });
         }
     }
+    
 }

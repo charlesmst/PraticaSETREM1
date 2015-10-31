@@ -72,11 +72,11 @@ public class ContaBancariaService extends Service<ContaBancaria> {
 //                    + "ELSE ((SUM(c.valorTotal) - SUM(c.valorPago))) END"
 //                    + " FROM Contas c where c.id = :id");
             Query q = s.createQuery("SELECT SUM("
-                    + "CASE WHEN categoria.tipo = :entrada THEN "
-                    +   "valorPago "
-                    + "ELSE valorPago END"
+                    + "CASE WHEN contaCategoria.tipo = :entrada THEN "
+                    + "valor "
+                    + "ELSE (valor * -1.0) END"
                     + ")"
-                    + " FROM Conta c where c.id = :id");
+                    + " FROM ParcelaPagamento c where c.contaBancaria.id = :id");
             q.setInteger("id", c.getId());
             q.setParameter("entrada", ContaCategoria.TipoCategoria.entrada);
             List l = q.list();

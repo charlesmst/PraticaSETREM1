@@ -7,6 +7,8 @@ package services.fluxo;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import model.fluxo.Conta;
 import model.fluxo.ContaCategoria;
@@ -139,6 +141,7 @@ public class ContaService extends Service<Conta> {
                 w.add(" p.id = :n");
             }
             w.add("p.descricao like :d");
+            w.add("p.pessoa.nome like :d");
             if (w.size() > 0) {
                 hql += " where (" + String.join(" OR ", w) + ") and p.categoria.tipo" + (in.size() > 0 ? " in (:t)" : "");
             }
@@ -157,4 +160,21 @@ public class ContaService extends Service<Conta> {
         });
     }
 
+    public String statusParcela(Conta conta) {
+        Date agora = new Date();
+        Calendar c = Calendar.getInstance();
+        c.add(Calendar.DATE, +7);
+        Date venceEssaSemana = c.getTime();
+        for (Parcela parcela : conta.getParcelas()) {
+            if (!parcela.isFechado() && parcela.getDataLancamento().before(agora)) {
+                return "PARCELA ATRASADA";
+            } else if (!parcela.isFechado() && parcela.getDataLancamento().before(venceEssaSemana)) {
+                return "VENCE ESTÁ SEMANA";
+            } else if (!parcela.isFechado()) {
+                return "EM DIA";
+            }
+
+        }
+        return "FINALIZADA";
+    }
 }

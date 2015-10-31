@@ -126,6 +126,7 @@ public class FrmParcelaPagamentoCadastro extends JDialogController {
         } else {
             jffValor.setValue(0);
         }
+        jcbCategoria.setSelectedItem(conta.getCategoria());
         ajustaValores();
     }
 

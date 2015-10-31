@@ -10,11 +10,17 @@ import java.awt.event.ActionEvent;
 import components.JPanelControleButtons;
 
 import components.JTableDataBinderListener;
+import java.awt.EventQueue;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
+import java.util.Vector;
 import javassist.bytecode.analysis.Util;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JCheckBox;
 import javax.swing.JDialog;
+import javax.swing.table.DefaultTableModel;
 import model.fluxo.Conta;
 import model.fluxo.ContaCategoria;
 import model.fluxo.Parcela;
@@ -46,37 +52,73 @@ public class FrmConta extends JPanelControleButtons {
             @Override
             public Collection<Conta> lista(String busca) throws ServiceException {
 
-                return service.findContas(busca, jcbContasAPagar.isSelected(),jcbContasAReceber.isSelected());
-
+                List<Conta> l = service.findContas(busca, jcbContasAPagar.isSelected(), jcbContasAReceber.isSelected());
+                for (int i = (l.size() - 1); i >= 0; i--) {
+                    if (!jcbStatus.getSelectedItem().toString().equals("TODOS") && !service.statusParcela(l.get(i)).equals(jcbStatus.getSelectedItem().toString())) {
+                        l.remove(i);
+                    }
+                }
+                return l;
             }
 
             @Override
             public Object[] addRow(Conta dado) {
                 ImageIcon i = null;
-                for (Parcela parcela : dado.getParcelas()) {
-                    if (!parcela.isFechado()) {
-                        i = Globals.iconeError;
-                        break;
-                    }
-
-                }
-                if (i == null) {
+                String status = service.statusParcela(dado);
+                if (status.contains("ATRASADA")) {
+                    i = Globals.iconeError;
+                } else if (status.equals("FINALIZADA") || status.equals("EM DIA")) {
                     i = Globals.iconeSuccess;
+                } else {
+                    i = Globals.iconeWarning;
                 }
-                Object[] obj = new Object[8];
+                int pagas = 0;
+                int total = 0;
+                for (Parcela parcela : dado.getParcelas()) {
+                    total++;
+                    if (parcela.isFechado()) {
+                        pagas++;
+                    }
+                }
+                Object[] obj = new Object[10];
                 obj[0] = dado.getId();
                 obj[1] = dado.getDescricao();
                 obj[2] = dado.getPessoa().getNome();
                 obj[3] = dado.getCategoria().getTipo() == ContaCategoria.TipoCategoria.entrada ? "A Receber" : "A Pagar";
                 obj[4] = Utils.formataDinheiro(ContaService.valorConta(dado));
                 obj[5] = dado.getCategoria().toString();
-                obj[6] = i;
+                obj[6] = Utils.formataDinheiro(dado.getValorPago() - dado.getValorTotal());
+                obj[7] = pagas + "/" + total;
+                obj[8] = status;
+                obj[9] = i;
 
                 return obj;
 
             }
         });
+        //Ao finalizar faz filtros
+        table.setListenerFinalizacao((e) -> {
+            String selected = jcbStatus.getSelectedItem().toString();
+            if (selected.equals("TODOS")) {
+                ArrayList<String> list = new ArrayList<>();
+                list.add("TODOS");
+                for (int i = (table.getDefaultTableModel().getRowCount() - 1); i >= 0; i--) {
 
+                    String stAtual = table.getDefaultTableModel().getValueAt(i, 8).toString();
+                    if (!list.contains(stAtual)) {
+                        list.add(stAtual);
+                    }
+                }
+                DefaultComboBoxModel model = new DefaultComboBoxModel(new Vector(list));
+                jcbStatus.setModel(model);
+
+                if (list.contains(selected)) {
+                    model.setSelectedItem(selected);
+                } else {
+                    model.setSelectedItem("TODOS");
+                }
+            }
+        });
         table.setBusca(txtBuscar, true);
         table.atualizar();
     }
@@ -98,23 +140,24 @@ public class FrmConta extends JPanelControleButtons {
         jcbContasAReceber = new javax.swing.JCheckBox();
         btnPagamento = new javax.swing.JButton();
         btnParcelas = new javax.swing.JButton();
+        jcbStatus = new javax.swing.JComboBox();
 
         table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null}
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "Código", "Descrição", "Pessoa Relacionada", "Tipo", "Valor", "Categoria", "Status"
+                "Código", "Descrição", "Pessoa Relacionada", "Tipo", "Valor", "Categoria", "Saldo", "Pagas", "Parcelas", "Status"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.Object.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class, java.lang.Object.class
+                java.lang.String.class, java.lang.String.class, java.lang.Object.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false
+                false, false, false, false, false, false, false, true, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -131,8 +174,10 @@ public class FrmConta extends JPanelControleButtons {
             table.getColumnModel().getColumn(0).setMinWidth(10);
             table.getColumnModel().getColumn(0).setPreferredWidth(60);
             table.getColumnModel().getColumn(0).setMaxWidth(100);
-            table.getColumnModel().getColumn(6).setPreferredWidth(30);
-            table.getColumnModel().getColumn(6).setMaxWidth(30);
+            table.getColumnModel().getColumn(3).setMaxWidth(70);
+            table.getColumnModel().getColumn(7).setMaxWidth(50);
+            table.getColumnModel().getColumn(9).setPreferredWidth(30);
+            table.getColumnModel().getColumn(9).setMaxWidth(30);
         }
 
         jLabel2.setText("Buscar:");
@@ -144,12 +189,22 @@ public class FrmConta extends JPanelControleButtons {
                 jcbContasAPagarStateChanged(evt);
             }
         });
+        jcbContasAPagar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jcbContasAPagarActionPerformed(evt);
+            }
+        });
 
         jcbContasAReceber.setSelected(true);
         jcbContasAReceber.setText("A Receber");
         jcbContasAReceber.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
                 jcbContasAReceberStateChanged(evt);
+            }
+        });
+        jcbContasAReceber.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jcbContasAReceberActionPerformed(evt);
             }
         });
 
@@ -167,6 +222,13 @@ public class FrmConta extends JPanelControleButtons {
             }
         });
 
+        jcbStatus.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "TODOS" }));
+        jcbStatus.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jcbStatusActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -175,17 +237,19 @@ public class FrmConta extends JPanelControleButtons {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(5, 5, 5)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 823, Short.MAX_VALUE))
+                        .addComponent(jScrollPane2))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(txtBuscar, javax.swing.GroupLayout.DEFAULT_SIZE, 324, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jcbStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jcbContasAPagar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jcbContasAReceber)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnPagamento)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnParcelas)))
@@ -201,18 +265,20 @@ public class FrmConta extends JPanelControleButtons {
                     .addComponent(jcbContasAPagar)
                     .addComponent(jcbContasAReceber)
                     .addComponent(btnPagamento)
-                    .addComponent(btnParcelas))
+                    .addComponent(btnParcelas)
+                    .addComponent(jcbStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 276, Short.MAX_VALUE))
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 402, Short.MAX_VALUE)
+                .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnPagamentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPagamentoActionPerformed
         defaultUpdateOperation(table, (id) -> {
-            
+
             Conta c = service.findConta(id);
             FrmParcelaPagamentoCadastro frm = new FrmParcelaPagamentoCadastro(c);
-            frm.setListener((conta)->{
+            frm.setListener((conta) -> {
                 service.update(c);
                 table.atualizar();
             });
@@ -222,11 +288,11 @@ public class FrmConta extends JPanelControleButtons {
     }//GEN-LAST:event_btnPagamentoActionPerformed
 
     private void btnParcelasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnParcelasActionPerformed
-         defaultUpdateOperation(table, (id) -> {
-            
+        defaultUpdateOperation(table, (id) -> {
+
             Conta c = service.findConta(id);
             FrmParcelaCadastro frm = new FrmParcelaCadastro(c, c.getParcelas().get(0));
-            frm.setListener((conta)->{
+            frm.setListener((conta) -> {
                 service.update(c);
                 table.atualizar();
             });
@@ -236,12 +302,25 @@ public class FrmConta extends JPanelControleButtons {
     }//GEN-LAST:event_btnParcelasActionPerformed
 
     private void jcbContasAReceberStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jcbContasAReceberStateChanged
-        table.atualizar();
     }//GEN-LAST:event_jcbContasAReceberStateChanged
 
     private void jcbContasAPagarStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jcbContasAPagarStateChanged
-        table.atualizar();
+
     }//GEN-LAST:event_jcbContasAPagarStateChanged
+
+    private void jcbContasAReceberActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcbContasAReceberActionPerformed
+        table.atualizar();
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jcbContasAReceberActionPerformed
+
+    private void jcbContasAPagarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcbContasAPagarActionPerformed
+        table.atualizar();
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jcbContasAPagarActionPerformed
+
+    private void jcbStatusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcbStatusActionPerformed
+        table.atualizar();
+    }//GEN-LAST:event_jcbStatusActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -251,6 +330,7 @@ public class FrmConta extends JPanelControleButtons {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JCheckBox jcbContasAPagar;
     private javax.swing.JCheckBox jcbContasAReceber;
+    private javax.swing.JComboBox jcbStatus;
     private components.JTableDataBinder table;
     private components.JTextFieldUpper txtBuscar;
     // End of variables declaration//GEN-END:variables
