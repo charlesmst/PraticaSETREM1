@@ -3,12 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package forms.fluxo;
+package forms.ordem;
 
 import components.JDialogController;
 import forms.frmMain;
-import model.fluxo.FormaPagamento;
-import services.fluxo.FormaPagamentoService;
+import model.ordem.OrdemTipoServico;
+import services.ordem.OrdemTipoServicoService;
 import utils.AlertaTipos;
 import utils.Utils;
 
@@ -16,20 +16,20 @@ import utils.Utils;
  *
  * @author Charles
  */
-public class FrmFormaPagamentoCadastro extends JDialogController {
+public class FrmOrdemTipoServicoCadastro extends JDialogController {
 
     private int id;
-    private final FormaPagamentoService service = new FormaPagamentoService();
+    private final OrdemTipoServicoService service = new OrdemTipoServicoService();
 
     /**
-     * Creates new form frmCadastroFormaPagamento
+     * Creates new form frmCadastroOrdemTipoServico
      */
-    public FrmFormaPagamentoCadastro() {
+    public FrmOrdemTipoServicoCadastro() {
         this(0);
     }
 
-    public FrmFormaPagamentoCadastro(int id) {
-        super(frmMain.getInstance(), "Manutenção de Formas de Pagamento");
+    public FrmOrdemTipoServicoCadastro(int id) {
+        super(frmMain.getInstance(), "Manutenção de Tipos de Serviços");
         initComponents();
         this.id = id;
         setupForm();
@@ -49,26 +49,26 @@ public class FrmFormaPagamentoCadastro extends JDialogController {
     }
 
     private void load() {
-        FormaPagamento m = service.findById(id);
+        OrdemTipoServico m = service.findById(id);
         txtCodigo.setText(String.valueOf(m.getId()));
         txtNome.setText(m.getNome());
         jcbAtivo.setSelected(m.isAtivo());
-        jTextFieldMoney1.setValue(m.getAcrescimo());
+        jTextFieldMoney1.setValue(m.getValorEntrada());
     }
 
     private void save() {
         if (!validator.isValido()) {
             return;
         }
-        FormaPagamento m;
+        OrdemTipoServico m;
         if (id > 0) {
             m = service.findById(id);
         } else {
-            m = new FormaPagamento();
+            m = new OrdemTipoServico();
         }
         m.setNome(txtNome.getText());
 
-        m.setAcrescimo(jTextFieldMoney1.getValue());
+        m.setValorEntrada(jTextFieldMoney1.getValue());
         m.setAtivo(jcbAtivo.isSelected());
         Utils.safeCode(() -> {
             if (id == 0) {
@@ -127,7 +127,7 @@ public class FrmFormaPagamentoCadastro extends JDialogController {
         jcbAtivo.setSelected(true);
         jcbAtivo.setText("Ativo");
 
-        jLabel3.setText("Valor de acréscimo por parcela");
+        jLabel3.setText("Valor padrão da unidade do serviço");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);

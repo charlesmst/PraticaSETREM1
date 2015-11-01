@@ -22,7 +22,17 @@
 
         <mapping class="model.Parametro"/>
 
-        
+        <!-- Ordem de Serviço -->
+        <mapping class="model.ordem.OrdemTipoServico"/>
+        <mapping class="model.ordem.OrdemStatus"/>
+        <mapping class="model.ordem.Marca"/>
+        <mapping class="model.ordem.Modelo"/>
+        <mapping class="model.ordem.Veiculo"/>
+        <mapping class="model.ordem.Cor"/>
+
+
+        <!-- /Ordem de Serviço -->
+
         <!-- Fluxo de caixa -->        
         <mapping class="model.fluxo.ContaBancaria"/>
         <mapping class="model.fluxo.ContaCategoria"/>

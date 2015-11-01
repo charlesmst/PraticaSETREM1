@@ -1,33 +1,48 @@
 package model.ordem;
 
+import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "sh_veiculo")
 @SequenceGenerator(name = "seq_veiculo", sequenceName = "seq_veiculo", initialValue = 1, allocationSize = 1)
-public class Veiculo {
+public class Veiculo implements Serializable {
 
     @Id
     @GeneratedValue(generator = "seq_veiculo", strategy = GenerationType.SEQUENCE)
     private int id;
 
+    @Column(length = 7)
     private String placa;
 
-    @JoinColumn(name = "modelo_id")
+    @ManyToOne
+    @JoinColumn(name = "modelo_id", nullable = false)
     private Modelo modelo;
 
-    @Column(length = 30)
-    private String cor;
+    @ManyToOne
+
+    @JoinColumn(name = "cor_id", nullable = false)
+    private Cor cor;
 
     private int ano;
 
+    private String observacao;
+
+    public String getObservacao() {
+        return observacao;
+    }
+
+    public void setObservacao(String observacao) {
+        this.observacao = observacao;
+    }
     @Column(length = 50)
     private String chassi;
 
@@ -55,14 +70,15 @@ public class Veiculo {
         this.modelo = modelo;
     }
 
-    public String getCor() {
+    public Cor getCor() {
         return cor;
     }
 
-    public void setCor(String cor) {
+    public void setCor(Cor cor) {
         this.cor = cor;
     }
 
+   
     public int getAno() {
         return ano;
     }

@@ -63,6 +63,7 @@ public class FrmContaBancariaCadastro extends JDialogController {
         txtCodigo.setText(String.valueOf(m.getId()));
         txtNome.setText(m.getNome());
         jcbAtivo.setSelected(m.isAtivo());
+        jtbSaldoAtual.setText(Utils.formataDinheiro(service.saldoCaixa(m)));
         
         if(m.getTipo() == ContaBancaria.TipoContaBancaria.banco)
             jrbContaBancaria.setSelected(true);
