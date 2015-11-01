@@ -192,18 +192,31 @@ public class frmMain extends javax.swing.JFrame {
         root.add(gerenciamento);
 
 //----------------------------- Estoque -----------------------------//   
-        
         DefaultMutableTreeNode estoque = new DefaultMutableTreeNode("Estoque");
-       
+
         estoque.add(new TreeNodeMenu(("Prateleira"), "forms.estoque.FrmPrateleira"));
         estoque.add(new TreeNodeMenu(("Tipo de Item"), "forms.estoque.FrmItemTipo"));
+
         estoque.add(new TreeNodeMenu(("Item"), "forms.estoque.FrmItem"));
         estoque.add(new TreeNodeMenu(("Tipo de Movimentação"), "forms.estoque.FrmMovimentacaoTipo"));
         
         root.add(estoque);
 
 //-------------------------------------------------------------------//    
-        
+        DefaultMutableTreeNode ordem = new DefaultMutableTreeNode("Ordem de Serviço");
+
+        ordem.add(new TreeNodeMenu("Tipos de Serviço", "forms.ordem.FrmOrdemTipoServico"));
+        ordem.add(new TreeNodeMenu("Status de Serviço", "forms.ordem.FrmOrdemStatus"));
+        ordem.add(new TreeNodeMenu("Veiculos", "forms.ordem.FrmVeiculo"));
+
+        ordem.add(new TreeNodeMenu("Marcas", "forms.ordem.FrmMarca"));
+        ordem.add(new TreeNodeMenu("Cores", "forms.ordem.FrmCor"));
+
+        ordem.add(new TreeNodeMenu("Modelos", "forms.ordem.FrmModelo"));
+
+        root.add(ordem);
+
+//-------------------------------------------------------------------//    
         DefaultMutableTreeNode caixa = new DefaultMutableTreeNode("Fluxo de Caixa");
         caixa.add(new TreeNodeMenu("Contas a pagar e receber", "forms.fluxo.FrmConta"));
         caixa.add(new TreeNodeMenu("Contas Bancárias", "forms.fluxo.FrmContaBancaria"));
