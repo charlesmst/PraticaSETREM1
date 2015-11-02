@@ -7,8 +7,10 @@ package guipratica;
 
 import model.fluxo.ContaCategoria;
 import model.fluxo.FormaPagamento;
+import model.ordem.OrdemStatus;
 import services.fluxo.ContaCategoriaService;
 import services.fluxo.FormaPagamentoService;
+import services.ordem.OrdemStatusService;
 import utils.Parametros;
 
 /**
@@ -57,6 +59,33 @@ public class Initialize {
             cat.setNome("À VISTA");
             cat.setAtivo(true);
             serviceFormaPagamento.insert(cat);
+            return cat.getId() + "";
+        });
+        
+        
+        //Status de finalizado
+        OrdemStatusService serviceStatus = new OrdemStatusService();
+        Parametros.getInstance().validaParametro("status_finalizador", (value) -> {
+            OrdemStatus c = serviceStatus.findById(Integer.parseInt(value));
+            return c != null && c.isFinaliza();
+        }, (value) -> {
+            OrdemStatus cat = new OrdemStatus();
+            cat.setNome("FINALIZADO");
+            cat.setAtivo(true);
+            cat.setFinaliza(true);
+            serviceStatus.insert(cat);
+            return cat.getId() + "";
+        });
+        //Status aberto
+        Parametros.getInstance().validaParametro("status_aberto", (value) -> {
+            OrdemStatus c = serviceStatus.findById(Integer.parseInt(value));
+            return c != null && !c.isFinaliza();
+        }, (value) -> {
+            OrdemStatus cat = new OrdemStatus();
+            cat.setNome("ABERTO");
+            cat.setAtivo(true);
+            cat.setFinaliza(false);
+            serviceStatus.insert(cat);
             return cat.getId() + "";
         });
     }

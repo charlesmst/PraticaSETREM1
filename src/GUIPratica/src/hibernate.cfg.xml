@@ -29,9 +29,13 @@
         <mapping class="model.ordem.Modelo"/>
         <mapping class="model.ordem.Veiculo"/>
         <mapping class="model.ordem.Cor"/>
+        <mapping class="model.ordem.Ordem"/>
+        <mapping class="model.ordem.OrdemServico"/>
+        
 
 
         <!-- /Ordem de Serviço -->
+
 
         <!-- Fluxo de caixa -->        
         <mapping class="model.fluxo.ContaBancaria"/>
@@ -44,6 +48,20 @@
 
 
         <!-- /Fluxo de caixa -->
+
+        <!-- Estoque -->        
+        <mapping class="model.estoque.EstoqueMovimentacao"/>
+        <!--<mapping class="model.estoque.EstoquePreco"/>-->
+        <mapping class="model.estoque.Item"/>
+                <mapping class="model.estoque.Estoque"/>
+
+        <mapping class="model.estoque.ItemTipo"/>
+        <mapping class="model.estoque.MovimentacaoTipo"/>
+        <mapping class="model.estoque.Prateleira"/>
+        
+
+
+        <!-- /Estoque -->
 
         <mapping class="model.Usuario"/>
 

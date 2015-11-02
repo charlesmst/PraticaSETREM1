@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import model.fluxo.Conta;
@@ -17,6 +18,7 @@ import model.fluxo.Conta;
 @Entity
 @Table(name = "sh_ordem_servico")
 @SequenceGenerator(name = "seq_ordem_servico", sequenceName = "seq_ordem_servico", initialValue = 1, allocationSize = 1)
+
 public class OrdemServico implements Serializable {
 
     @Id
@@ -26,8 +28,9 @@ public class OrdemServico implements Serializable {
     @JoinColumn(name = "tipo_servico_id")
     private OrdemTipoServico tipoServico;
 
-    @OneToMany
-    @JoinColumn(name = "ordem_id")
+    
+    @OneToOne
+    @JoinColumn(nullable = false, name = "ordem_id")
     private Ordem ordem;
 
     @Column(name = "valor_entrada")

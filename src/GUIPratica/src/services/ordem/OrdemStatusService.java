@@ -6,6 +6,7 @@
 package services.ordem;
 
 import java.io.Serializable;
+import java.util.List;
 import model.ordem.OrdemStatus;
 import services.Service;
 import services.ServiceException;
@@ -20,6 +21,9 @@ public class OrdemStatusService extends Service<OrdemStatus> {
         super(OrdemStatus.class);
     }
 
+    public List<OrdemStatus> findAtivos(){
+        return findBy("ativo", true);
+    }
     @Override
     public void update(OrdemStatus obj) throws ServiceException {
         obj.setNome(obj.getNome().toUpperCase());

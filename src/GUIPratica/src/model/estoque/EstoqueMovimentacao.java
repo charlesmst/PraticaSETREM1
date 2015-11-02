@@ -3,6 +3,7 @@ package model.estoque;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
@@ -40,6 +42,11 @@ public class EstoqueMovimentacao implements Serializable {
     @Column(length = 200)
     private String descricao;
 
+    
+    @ManyToMany
+
+    private List<Ordem> ordens;
+
     @Column(name = "valor_unitario", nullable = false)
     private double valorUnitario;
 
@@ -57,6 +64,4 @@ public class EstoqueMovimentacao implements Serializable {
     @JoinColumn(name = "pessoa_id", nullable = false)
     private Pessoa pessoa;
 
-    @ManyToMany(mappedBy = "sh_ordem_peca")
-    private List<Ordem> ordem;
 }

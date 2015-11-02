@@ -53,6 +53,7 @@ public class FrmOrdemStatusCadastro extends JDialogController {
         txtCodigo.setText(String.valueOf(m.getId()));
         txtNome.setText(m.getNome());
         jcbAtivo.setSelected(m.isAtivo());
+        jcbFinaliza.setSelected(m.isFinaliza());
     }
 
     private void save() {
@@ -68,6 +69,7 @@ public class FrmOrdemStatusCadastro extends JDialogController {
         m.setNome(txtNome.getText());
 
         m.setAtivo(jcbAtivo.isSelected());
+        m.setFinaliza(jcbFinaliza.isSelected());
         Utils.safeCode(() -> {
             if (id == 0) {
                 service.insert(m);
@@ -97,6 +99,7 @@ public class FrmOrdemStatusCadastro extends JDialogController {
         btnCancelar = new javax.swing.JButton();
         txtNome = new components.JTextFieldUpper();
         jcbAtivo = new javax.swing.JCheckBox();
+        jcbFinaliza = new javax.swing.JCheckBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -123,6 +126,8 @@ public class FrmOrdemStatusCadastro extends JDialogController {
         jcbAtivo.setSelected(true);
         jcbAtivo.setText("Ativo");
 
+        jcbFinaliza.setText("Finaliza a ordem de serviço");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -136,7 +141,10 @@ public class FrmOrdemStatusCadastro extends JDialogController {
                                 .addComponent(btnSalvar)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(btnCancelar))
-                            .addComponent(jcbAtivo))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jcbAtivo)
+                                .addGap(18, 18, 18)
+                                .addComponent(jcbFinaliza)))
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -161,7 +169,9 @@ public class FrmOrdemStatusCadastro extends JDialogController {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jcbAtivo)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jcbAtivo)
+                    .addComponent(jcbFinaliza))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 6, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnCancelar)
@@ -188,6 +198,7 @@ public class FrmOrdemStatusCadastro extends JDialogController {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JCheckBox jcbAtivo;
+    private javax.swing.JCheckBox jcbFinaliza;
     private javax.swing.JTextField txtCodigo;
     private components.JTextFieldUpper txtNome;
     // End of variables declaration//GEN-END:variables
