@@ -108,7 +108,10 @@ public class frmUsuarios extends JPanelControleButtons {
         });
         jScrollPane1.setViewportView(jtbDados);
 
+        jLabel2.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jLabel2.setText("Buscar:");
+
+        txtBuscar.setMargin(new java.awt.Insets(2, 8, 2, 2));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);

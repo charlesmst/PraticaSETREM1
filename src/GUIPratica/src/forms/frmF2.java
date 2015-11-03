@@ -98,14 +98,17 @@ public class frmF2 extends JDialogController {
             }
         });
 
+        txtBuscar.setMargin(new java.awt.Insets(2, 8, 2, 2));
         txtBuscar.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 txtBuscarKeyReleased(evt);
             }
         });
 
+        jLabel2.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jLabel2.setText("Buscar:");
 
+        btnSelecionar.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         btnSelecionar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/success.png"))); // NOI18N
         btnSelecionar.setText("Selecionar");
         btnSelecionar.addActionListener(new java.awt.event.ActionListener() {
@@ -114,6 +117,7 @@ public class frmF2 extends JDialogController {
             }
         });
 
+        jButton2.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/cancel.png"))); // NOI18N
         jButton2.setText("Cancelar");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
@@ -122,6 +126,7 @@ public class frmF2 extends JDialogController {
             }
         });
 
+        btnNovo.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         btnNovo.setText("Novo");
         btnNovo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -155,6 +160,7 @@ public class frmF2 extends JDialogController {
                 return canEdit [columnIndex];
             }
         });
+        table.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         table.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tableMouseClicked(evt);
@@ -177,7 +183,7 @@ public class frmF2 extends JDialogController {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(txtBuscar, javax.swing.GroupLayout.DEFAULT_SIZE, 334, Short.MAX_VALUE))
+                        .addComponent(txtBuscar, javax.swing.GroupLayout.DEFAULT_SIZE, 331, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(btnSelecionar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -200,12 +206,12 @@ public class frmF2 extends JDialogController {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(btnSelecionar)
+                        .addComponent(btnSelecionar, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(7, 7, 7))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jButton2)
-                            .addComponent(btnNovo))
+                            .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnNovo, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addContainerGap())))
         );
 
