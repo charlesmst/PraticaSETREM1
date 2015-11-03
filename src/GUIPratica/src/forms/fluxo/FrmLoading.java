@@ -5,6 +5,7 @@
  */
 package forms.fluxo;
 
+import java.awt.Color;
 import java.awt.event.ActionListener;
 import net.sf.ehcache.transaction.xa.commands.Command;
 import utils.Forms;
@@ -43,6 +44,7 @@ public class FrmLoading extends javax.swing.JFrame {
 
         initComponents();
         setLocationRelativeTo(null);
+        this.getContentPane().setBackground(Color.black);      
         jProgressBar1.setIndeterminate(true);
     }
 
@@ -60,7 +62,7 @@ public class FrmLoading extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setBackground(new java.awt.Color(153, 153, 255));
+        setBackground(new java.awt.Color(0, 0, 0));
         setResizable(false);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowOpened(java.awt.event.WindowEvent evt) {
@@ -69,6 +71,7 @@ public class FrmLoading extends javax.swing.JFrame {
         });
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Os módulos estão sendo carregados...");
 
