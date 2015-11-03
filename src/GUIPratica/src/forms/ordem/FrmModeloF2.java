@@ -43,7 +43,7 @@ public class FrmModeloF2 extends frmF2 {
 
             @Override
             public Object[] addRow(Modelo dado) {
-                return new Object[]{dado.getId(), dado.getMarca().getNome()+" - "+dado.getNome()};
+                return new Object[]{dado.getId(), dado.getMarca().toString()+" - "+dado.getNome()};
 
             }
         };

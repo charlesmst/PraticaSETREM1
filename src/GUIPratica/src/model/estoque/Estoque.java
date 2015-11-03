@@ -1,6 +1,7 @@
 package model.estoque;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Column;
@@ -19,32 +20,56 @@ import javax.persistence.Table;
 @SequenceGenerator(name = "seq_estoque", allocationSize = 1, sequenceName = "seq_estoque")
 public class Estoque implements Serializable {
 
+    @Override
+    public String toString() {
+        return lote;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 83 * hash + this.id;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Estoque other = (Estoque) obj;
+        if (this.id != other.id) {
+            return false;
+        }
+        return true;
+    }
+
     @Id
     @GeneratedValue(generator = "seq_estoque", strategy = GenerationType.SEQUENCE)
     private int id;
-    
+
     @Column(length = 100)
     private String lote;
-    
+
     @ManyToOne
     @JoinColumn(name = "item_id", nullable = false)
     private Item item;
-    
-    @Column(name = "quantidade_compra", nullable = false)
-    private int quantidadeCompra;
-    
+
+    @Column(name = "data_compra", nullable = false)
+    private Date dataCompra;
+
     @Column(name = "quandidade_disponivel", nullable = false)
     private int quantidadeDisponivel;
-    
+
     @Column(name = "valor_unidade", nullable = false)
     private double valorUnitario;
-    
-    @Column(name = "valor_unidade_venda", nullable = false)
-    private double valorUnidadeVenda;
-    
+
     @Column(name = "data_validade")
     private Date dataValidade;
-    
+
     @OneToMany(mappedBy = "estoque")
     private List<EstoqueMovimentacao> movimentacoes;
 
@@ -72,14 +97,6 @@ public class Estoque implements Serializable {
         this.item = item;
     }
 
-    public int getQuantidadeCompra() {
-        return quantidadeCompra;
-    }
-
-    public void setQuantidadeCompra(int quantidadeCompra) {
-        this.quantidadeCompra = quantidadeCompra;
-    }
-
     public int getQuantidadeDisponivel() {
         return quantidadeDisponivel;
     }
@@ -94,14 +111,6 @@ public class Estoque implements Serializable {
 
     public void setValorUnitario(double valorUnitario) {
         this.valorUnitario = valorUnitario;
-    }
-
-    public double getValorUnidadeVenda() {
-        return valorUnidadeVenda;
-    }
-
-    public void setValorUnidadeVenda(double valorUnidadeVenda) {
-        this.valorUnidadeVenda = valorUnidadeVenda;
     }
 
     public Date getDataValidade() {
@@ -119,5 +128,16 @@ public class Estoque implements Serializable {
     public void setMovimentacoes(List<EstoqueMovimentacao> movimentacoes) {
         this.movimentacoes = movimentacoes;
     }
+    
+    public void addMovimentacoes(EstoqueMovimentacao estMov) {
+        this.movimentacoes.add(estMov);
+    }
 
+    public Date getDataCompra() {
+        return dataCompra;
+    }
+
+    public void setDataCompra(Date dataCompra) {
+        this.dataCompra = dataCompra;
+    }
 }

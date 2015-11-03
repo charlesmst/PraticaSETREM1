@@ -199,7 +199,8 @@ public class frmMain extends javax.swing.JFrame {
 
         estoque.add(new TreeNodeMenu(("Item"), "forms.estoque.FrmItem"));
         estoque.add(new TreeNodeMenu(("Tipo de Movimentação"), "forms.estoque.FrmMovimentacaoTipo"));
-
+        estoque.add(new TreeNodeMenu(("Estoque"), "forms.estoque.FrmEstoque"));
+        
         root.add(estoque);
 
 //-------------------------------------------------------------------//    

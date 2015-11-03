@@ -61,14 +61,6 @@ public class Item implements Serializable {
         this.itemTipo = itemTipo;
     }
 
-    public String getNome() {
-        return descricao;
-    }
-
-    public void setNome(String descricao) {
-        this.descricao = descricao;
-    }
-
     public String getDescricao() {
         return descricao;
     }

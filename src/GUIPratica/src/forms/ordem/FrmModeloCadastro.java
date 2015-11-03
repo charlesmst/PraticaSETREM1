@@ -7,6 +7,7 @@ package forms.ordem;
 
 import components.JDialogController;
 import forms.frmMain;
+import java.util.List;
 import model.ordem.Marca;
 import model.ordem.Modelo;
 import services.ordem.ModeloService;
@@ -56,7 +57,7 @@ public class FrmModeloCadastro extends JDialogController {
         Modelo m = service.findById(id);
         txtCodigo.setText(String.valueOf(m.getId()));
         txtNome.setText(m.getNome());
-        txtMarca.setText(m.getMarca().getId()+"");
+        txtMarca.setText(m.getId()+"");
     }
 
     private void save() {
@@ -70,7 +71,7 @@ public class FrmModeloCadastro extends JDialogController {
             m = new Modelo();
         }
         m.setNome(txtNome.getText());
-        m.setMarca(new Marca(txtMarca.getValueSelected()));
+        m.setMarca((List<Marca>) new Marca(txtMarca.getValueSelected()));
         Utils.safeCode(() -> {
             if (id == 0) {
                 service.insert(m);

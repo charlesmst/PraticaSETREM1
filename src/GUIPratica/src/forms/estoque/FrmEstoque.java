@@ -1,4 +1,3 @@
-
 package forms.estoque;
 
 import components.CellRenderer;
@@ -7,20 +6,19 @@ import components.JPanelControleButtons;
 import components.JTableDataBinderListener;
 import java.util.Collection;
 import javax.swing.JDialog;
-import model.estoque.Item;
+import model.estoque.Estoque;
 import services.ServiceException;
-import services.estoque.ItemService;
+import services.estoque.EstoqueService;
 
 /**
  *
  * @author Gustavo
  */
-public class FrmItem extends JPanelControleButtons {
+public class FrmEstoque extends JPanelControleButtons {
 
-    private final ItemService service;
-//    JTableDataBinder table;
+    private final EstoqueService service;
 
-    public FrmItem() {
+    public FrmEstoque() {
         initComponents();
         table.setDefaultRenderer(Object.class, new CellRenderer());
         setBtnAddEnable(true);
@@ -28,25 +26,25 @@ public class FrmItem extends JPanelControleButtons {
         setBtnExcluirEnable(true);
         setBtnAtualizarEnable(true);
 
-        service = new ItemService();
+        service = new EstoqueService();
 
-        table.setListener(new JTableDataBinderListener<Item>() {
+        table.setListener(new JTableDataBinderListener<Estoque>() {
 
             @Override
-            public Collection<Item> lista(String busca) throws ServiceException {
+            public Collection<Estoque> lista(String busca) throws ServiceException {
 
-                return service.findByMultipleColumns(busca, "id", "id", "descricao", "itemTipo.nome", "prateleira.descricao");
-
+                return service.findByMultipleColumns(busca, "id", "id", "item.descricao", "lote");
             }
 
             @Override
-            public Object[] addRow(Item dado) {
+            public Object[] addRow(Estoque dado) {
                 return new Object[]{dado.getId(),
-                    dado.getItemTipo().getNome(),
-                    dado.getDescricao(),
-                    dado.getEstoqueMinimo(),
-                    dado.getPrateleira().getDescricao(),
-                    dado.getUltimoValorVenda()
+                    dado.getItem().getDescricao(),
+                    dado.getDataCompra(),
+                    dado.getLote(),
+                    dado.getQuantidadeDisponivel(),
+                    dado.getValorUnitario(),
+                    dado.getDataValidade()
                 };
 
             }
@@ -64,24 +62,23 @@ public class FrmItem extends JPanelControleButtons {
         table = new components.JTableDataBinder();
         txtBuscar = new components.JTextFieldUpper(true);
         jLabel2 = new javax.swing.JLabel();
-        btnEntrada = new javax.swing.JButton();
 
         table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null}
             },
             new String [] {
-                "Código", "Tipo de Item", "Descrição", "Limite Mínimo", "Prateleira", "Último Valor de Venda"
+                "Código", "Item", "Data de Compra", "Lote", "Quantidade Disponível", "Valor Unitário", "Data de Validade"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.Object.class, java.lang.Double.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false
+                false, false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -96,21 +93,15 @@ public class FrmItem extends JPanelControleButtons {
         jScrollPane2.setViewportView(table);
         if (table.getColumnModel().getColumnCount() > 0) {
             table.getColumnModel().getColumn(0).setPreferredWidth(60);
-            table.getColumnModel().getColumn(1).setPreferredWidth(150);
-            table.getColumnModel().getColumn(2).setPreferredWidth(460);
-            table.getColumnModel().getColumn(3).setPreferredWidth(100);
+            table.getColumnModel().getColumn(1).setPreferredWidth(450);
+            table.getColumnModel().getColumn(2).setPreferredWidth(150);
+            table.getColumnModel().getColumn(3).setPreferredWidth(150);
             table.getColumnModel().getColumn(4).setPreferredWidth(150);
             table.getColumnModel().getColumn(5).setPreferredWidth(150);
+            table.getColumnModel().getColumn(6).setPreferredWidth(150);
         }
 
         jLabel2.setText(" Buscar:");
-
-        btnEntrada.setText("Entrada de Estoque");
-        btnEntrada.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnEntradaActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -122,10 +113,8 @@ public class FrmItem extends JPanelControleButtons {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtBuscar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnEntrada))
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 668, Short.MAX_VALUE))
+                        .addComponent(txtBuscar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 399, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -134,22 +123,15 @@ public class FrmItem extends JPanelControleButtons {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2)
-                    .addComponent(btnEntrada))
+                    .addComponent(jLabel2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 385, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 253, Short.MAX_VALUE)
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnEntradaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEntradaActionPerformed
-       JDialog dialog = new FrmEstoqueCadastro();
-       dialog.setVisible(true);
-    }//GEN-LAST:event_btnEntradaActionPerformed
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnEntrada;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane2;
     private components.JTableDataBinder table;
@@ -158,7 +140,7 @@ public class FrmItem extends JPanelControleButtons {
 
     @Override
     public void btnAddActionPerformed(ActionEvent evt) {
-        JDialog dialog = new FrmItemCadastro();
+        JDialog dialog = new FrmEstoqueCadastro();
         dialog.setVisible(true);
         table.atualizar();
     }
@@ -166,7 +148,7 @@ public class FrmItem extends JPanelControleButtons {
     @Override
     public void btnAlterarActionPerformed(ActionEvent evt) {
         defaultUpdateOperation(table, (i) -> {
-            JDialog dialog = new FrmItemCadastro(i);
+            JDialog dialog = new FrmEstoqueCadastro(i);
             dialog.setVisible(true);
         });
 

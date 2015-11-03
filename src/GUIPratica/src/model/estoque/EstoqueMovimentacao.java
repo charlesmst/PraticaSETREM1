@@ -25,6 +25,33 @@ import model.ordem.Ordem;
 @SequenceGenerator(name = "seq_estoque_movimentacao", sequenceName = "seq_estoque_movimentacao", initialValue = 1, allocationSize = 1)
 public class EstoqueMovimentacao implements Serializable {
 
+    @Override
+    public String toString() {
+        return descricao;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 83 * hash + this.id;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final EstoqueMovimentacao other = (EstoqueMovimentacao) obj;
+        if (this.id != other.id) {
+            return false;
+        }
+        return true;
+    }
+
     @Id
     @GeneratedValue(generator = "seq_estoque_movimentacao", strategy = GenerationType.SEQUENCE)
     private int id;
@@ -63,5 +90,96 @@ public class EstoqueMovimentacao implements Serializable {
 
     @JoinColumn(name = "pessoa_id", nullable = false)
     private Pessoa pessoa;
+
+    @ManyToMany
+    private List<Ordem> ordem;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getQuantidade() {
+        return quantidade;
+    }
+
+    public void setQuantidade(int quantidade) {
+        this.quantidade = quantidade;
+    }
+
+    public Date getDataLancamento() {
+        return dataLancamento;
+    }
+
+    public void setDataLancamento(Date dataLancamento) {
+        this.dataLancamento = dataLancamento;
+    }
+
+    public Estoque getEstoque() {
+        return estoque;
+    }
+
+    public void setEstoque(Estoque estoque) {
+        this.estoque = estoque;
+    }
+
+    public String getDescricao() {
+        return descricao;
+    }
+
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
+    }
+
+    public double getValorUnitario() {
+        return valorUnitario;
+    }
+
+    public void setValorUnitario(double valorUnitario) {
+        this.valorUnitario = valorUnitario;
+    }
+
+    public MovimentacaoTipo getMovimentacaoTipo() {
+        return movimentacaoTipo;
+    }
+
+    public void setMovimentacaoTipo(MovimentacaoTipo movimentacaoTipo) {
+        this.movimentacaoTipo = movimentacaoTipo;
+    }
+
+    public Conta getConta() {
+        return conta;
+    }
+
+    public void setConta(Conta conta) {
+        this.conta = conta;
+    }
+
+    public String getNotaFiscal() {
+        return notaFiscal;
+    }
+
+    public void setNotaFiscal(String notaFiscal) {
+        this.notaFiscal = notaFiscal;
+    }
+
+    public Pessoa getPessoa() {
+        return pessoa;
+    }
+
+    public void setPessoa(Pessoa pessoa) {
+        this.pessoa = pessoa;
+    }
+
+    public List<Ordem> getOrdem() {
+        return ordem;
+    }
+
+    public void setOrdem(List<Ordem> ordem) {
+        this.ordem = ordem;
+    }
 
 }

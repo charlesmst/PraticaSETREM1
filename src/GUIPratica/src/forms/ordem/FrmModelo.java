@@ -40,13 +40,13 @@ public class FrmModelo extends JPanelControleButtons {
             @Override
             public Collection<Modelo> lista(String busca) throws ServiceException {
 
-                return service.findByMultipleColumns(busca, "id", "id", "nome","marca.nome");
+                return service.findByMultipleColumns(busca, "id", "id", "nome", "marca.nome");
 
             }
 
             @Override
             public Object[] addRow(Modelo dado) {
-                return new Object[]{dado.getId(), dado.getNome(),dado.getMarca().getNome()};
+                return new Object[]{dado.getId(), dado.getNome(), dado.getMarca().toString()};
 
             }
         });

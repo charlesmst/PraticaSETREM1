@@ -1,6 +1,7 @@
 package model.ordem;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -36,9 +37,9 @@ public class Modelo implements Serializable {
     @Column(length = 100, nullable = false)
     private String nome;
 
-    @ManyToOne
+    @OneToMany
     @JoinColumn(name = "marca_id", nullable = false)
-    private Marca marca;
+    private List<Marca> marca;
 
     public int getId() {
         return id;
@@ -56,11 +57,11 @@ public class Modelo implements Serializable {
         this.nome = nome;
     }
 
-    public Marca getMarca() {
+    public List<Marca> getMarca() {
         return marca;
     }
 
-    public void setMarca(Marca marca) {
+    public void setMarca(List<Marca> marca) {
         this.marca = marca;
     }
 }
