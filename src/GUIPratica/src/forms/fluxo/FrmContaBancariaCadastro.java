@@ -128,10 +128,13 @@ public class FrmContaBancariaCadastro extends JDialogController {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        jLabel1.setText("Código");
+        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jLabel1.setText("Código:");
 
-        jLabel2.setText("Nome");
+        jLabel2.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jLabel2.setText("Nome:");
 
+        btnSalvar.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         btnSalvar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/save.png"))); // NOI18N
         btnSalvar.setText("Salvar");
         btnSalvar.addActionListener(new java.awt.event.ActionListener() {
@@ -140,6 +143,7 @@ public class FrmContaBancariaCadastro extends JDialogController {
             }
         });
 
+        btnCancelar.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         btnCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/cancel.png"))); // NOI18N
         btnCancelar.setText("Cancelar");
         btnCancelar.addActionListener(new java.awt.event.ActionListener() {
@@ -148,17 +152,22 @@ public class FrmContaBancariaCadastro extends JDialogController {
             }
         });
 
+        jrbCaixa.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jrbCaixa.setText("CAIXA");
 
+        jrbContaBancaria.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jrbContaBancaria.setText("CONTA BANCARIA");
 
-        jLabel3.setText("Saldo atual");
+        jLabel3.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jLabel3.setText("Saldo Atual:");
 
         jtbSaldoAtual.setEnabled(false);
 
+        jcbAtivo.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jcbAtivo.setSelected(true);
         jcbAtivo.setText("Ativo");
 
+        btnMovimentar.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         btnMovimentar.setText("Fazer Movimentação");
         btnMovimentar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -166,6 +175,7 @@ public class FrmContaBancariaCadastro extends JDialogController {
             }
         });
 
+        btnVisualizarMovimentacoes.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         btnVisualizarMovimentacoes.setText("Visualizar Movimentações");
         btnVisualizarMovimentacoes.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -181,34 +191,36 @@ public class FrmContaBancariaCadastro extends JDialogController {
                 .addGap(20, 20, 20)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jrbCaixa)
-                        .addGap(18, 18, 18)
-                        .addComponent(jrbContaBancaria)
+                        .addComponent(jcbAtivo)
+                        .addGap(0, 588, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel3)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jrbCaixa)
+                                .addGap(18, 18, 18)
+                                .addComponent(jrbContaBancaria)))
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(btnSalvar)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnCancelar)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnMovimentar)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnVisualizarMovimentacoes))
                             .addComponent(jtbSaldoAtual, javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txtNome, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(txtCodigo, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 627, Short.MAX_VALUE)
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                        .addComponent(btnSalvar)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(btnCancelar)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(btnMovimentar)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(btnVisualizarMovimentacoes)))
-                                .addGap(0, 0, Short.MAX_VALUE)))
-                        .addGap(20, 20, 20))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jcbAtivo)
-                            .addComponent(jLabel3))
-                        .addGap(0, 0, Short.MAX_VALUE))))
+                                    .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING))
+                                .addGap(0, 586, Short.MAX_VALUE)))
+                        .addGap(20, 20, 20))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -216,28 +228,28 @@ public class FrmContaBancariaCadastro extends JDialogController {
                 .addContainerGap()
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(7, 7, 7)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jrbCaixa)
                     .addComponent(jrbContaBancaria))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jtbSaldoAtual, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jtbSaldoAtual, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(13, 13, 13)
                 .addComponent(jcbAtivo)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnMovimentar)
+                    .addComponent(btnMovimentar, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(btnSalvar)
-                        .addComponent(btnCancelar)
-                        .addComponent(btnVisualizarMovimentacoes)))
+                        .addComponent(btnSalvar, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnVisualizarMovimentacoes, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 

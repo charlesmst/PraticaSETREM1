@@ -169,6 +169,7 @@ public class FrmConta extends JPanelControleButtons {
             }
         });
         table.setBusca(txtBuscar);
+        table.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jScrollPane2.setViewportView(table);
         if (table.getColumnModel().getColumnCount() > 0) {
             table.getColumnModel().getColumn(0).setMinWidth(10);
@@ -180,8 +181,10 @@ public class FrmConta extends JPanelControleButtons {
             table.getColumnModel().getColumn(9).setMaxWidth(30);
         }
 
+        jLabel2.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jLabel2.setText("Buscar:");
 
+        jcbContasAPagar.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jcbContasAPagar.setSelected(true);
         jcbContasAPagar.setText("A Pagar");
         jcbContasAPagar.addChangeListener(new javax.swing.event.ChangeListener() {
@@ -195,6 +198,7 @@ public class FrmConta extends JPanelControleButtons {
             }
         });
 
+        jcbContasAReceber.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jcbContasAReceber.setSelected(true);
         jcbContasAReceber.setText("A Receber");
         jcbContasAReceber.addChangeListener(new javax.swing.event.ChangeListener() {
@@ -208,6 +212,7 @@ public class FrmConta extends JPanelControleButtons {
             }
         });
 
+        btnPagamento.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         btnPagamento.setText("Pagamento");
         btnPagamento.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -215,6 +220,7 @@ public class FrmConta extends JPanelControleButtons {
             }
         });
 
+        btnParcelas.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         btnParcelas.setText("Parcelas");
         btnParcelas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -242,7 +248,7 @@ public class FrmConta extends JPanelControleButtons {
                         .addContainerGap()
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtBuscar, javax.swing.GroupLayout.DEFAULT_SIZE, 324, Short.MAX_VALUE)
+                        .addComponent(txtBuscar, javax.swing.GroupLayout.DEFAULT_SIZE, 275, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jcbStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -260,13 +266,13 @@ public class FrmConta extends JPanelControleButtons {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(12, 12, 12)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2)
                     .addComponent(jcbContasAPagar)
                     .addComponent(jcbContasAReceber)
-                    .addComponent(btnPagamento)
-                    .addComponent(btnParcelas)
-                    .addComponent(jcbStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnPagamento, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnParcelas, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jcbStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 402, Short.MAX_VALUE)
                 .addContainerGap())

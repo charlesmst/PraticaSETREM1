@@ -101,6 +101,7 @@ public class FrmFormaPagamento extends JPanelControleButtons {
             }
         });
         table.setBusca(txtBuscar);
+        table.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jScrollPane2.setViewportView(table);
         if (table.getColumnModel().getColumnCount() > 0) {
             table.getColumnModel().getColumn(0).setMinWidth(10);
@@ -110,6 +111,9 @@ public class FrmFormaPagamento extends JPanelControleButtons {
             table.getColumnModel().getColumn(3).setMaxWidth(30);
         }
 
+        txtBuscar.setMargin(new java.awt.Insets(2, 8, 2, 2));
+
+        jLabel2.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jLabel2.setText("Buscar:");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -133,7 +137,7 @@ public class FrmFormaPagamento extends JPanelControleButtons {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(13, 13, 13)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 278, Short.MAX_VALUE))

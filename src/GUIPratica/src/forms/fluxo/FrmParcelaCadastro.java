@@ -200,8 +200,10 @@ public class FrmParcelaCadastro extends JDialogController {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        jLabel2.setText("Boleto");
+        jLabel2.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jLabel2.setText("Boleto:");
 
+        btnSalvar.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         btnSalvar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/save.png"))); // NOI18N
         btnSalvar.setText("OK");
         btnSalvar.addActionListener(new java.awt.event.ActionListener() {
@@ -210,7 +212,10 @@ public class FrmParcelaCadastro extends JDialogController {
             }
         });
 
-        jLabel3.setText("Parcela");
+        jcbBoleto.setMargin(new java.awt.Insets(2, 8, 2, 2));
+
+        jLabel3.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jLabel3.setText("Parcela:");
 
         jtbParcela.setModel(new javax.swing.SpinnerNumberModel(Integer.valueOf(1), Integer.valueOf(0), null, Integer.valueOf(1)));
         jtbParcela.addChangeListener(new javax.swing.event.ChangeListener() {
@@ -219,22 +224,31 @@ public class FrmParcelaCadastro extends JDialogController {
             }
         });
 
-        jLabel4.setText("Valor da parcela");
+        jLabel4.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jLabel4.setText("Valor da parcela:");
 
-        jLabel5.setText("Data de Vencimento");
+        jffValor.setMargin(new java.awt.Insets(2, 8, 2, 2));
+
+        jdfData.setDate(new java.util.Date(1446514089000L));
+
+        jLabel5.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jLabel5.setText("Data de Vencimento:");
 
         jtbConta.setEditable(false);
 
-        jLabel6.setText("Conta");
+        jLabel6.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jLabel6.setText("Conta:");
 
         jffSaldo.setEnabled(false);
+        jffSaldo.setMargin(new java.awt.Insets(2, 8, 2, 2));
         jffSaldo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jffSaldoActionPerformed(evt);
             }
         });
 
-        jLabel7.setText("Saldo da Parcela");
+        jLabel7.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jLabel7.setText("Saldo da Parcela:");
 
         btnNovaParcela.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/new.png"))); // NOI18N
         btnNovaParcela.setToolTipText("");
@@ -273,7 +287,6 @@ public class FrmParcelaCadastro extends JDialogController {
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jffValor, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnSalvar)
                             .addComponent(jLabel4)
                             .addComponent(jLabel2))
                         .addGap(18, 18, 18)
@@ -288,6 +301,10 @@ public class FrmParcelaCadastro extends JDialogController {
                 .addGap(24, 24, 24)
                 .addComponent(jLabel1)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnSalvar)
+                .addGap(21, 21, 21))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -299,38 +316,38 @@ public class FrmParcelaCadastro extends JDialogController {
                             .addComponent(jLabel3)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jtbParcela, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jtbParcela, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(btnNovaParcela))
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                             .addComponent(jLabel5)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(jdfData, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jtbConta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(jdfData, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jtbConta, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGap(11, 11, 11)))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel6)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jcbBoleto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jcbBoleto, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
                     .addComponent(jLabel7))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jffValor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jffSaldo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jffValor, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jffSaldo, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(panelPagamentos1, javax.swing.GroupLayout.PREFERRED_SIZE, 272, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 7, Short.MAX_VALUE)
-                .addComponent(btnSalvar)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnSalvar, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 

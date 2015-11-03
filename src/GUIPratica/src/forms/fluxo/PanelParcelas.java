@@ -231,7 +231,8 @@ public class PanelParcelas extends javax.swing.JPanel {
 
         jtbParcelas.setModel(new javax.swing.SpinnerNumberModel(Integer.valueOf(1), Integer.valueOf(0), null, Integer.valueOf(1)));
 
-        jLabel9.setText("Data Primeiro Pagamento");
+        jLabel9.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jLabel9.setText("Data Primeiro Pagamento:");
 
         table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -256,6 +257,7 @@ public class PanelParcelas extends javax.swing.JPanel {
                 return canEdit [columnIndex];
             }
         });
+        table.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         table.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tableMouseClicked(evt);
@@ -268,6 +270,7 @@ public class PanelParcelas extends javax.swing.JPanel {
         });
         jScrollPane2.setViewportView(table);
 
+        jButton1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jButton1.setText("Gerar Parcelas");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -280,11 +283,14 @@ public class PanelParcelas extends javax.swing.JPanel {
         jProgressBar1.setString("");
         jProgressBar1.setStringPainted(true);
 
-        jLabel6.setText("Valor");
+        jLabel6.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jLabel6.setText("Valor:");
 
-        jLabel7.setText("Frequência");
+        jLabel7.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jLabel7.setText("Frequência:");
 
-        jLabel8.setText("Parcelas");
+        jLabel8.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jLabel8.setText("Parcelas:");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -297,7 +303,7 @@ public class PanelParcelas extends javax.swing.JPanel {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel9)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 64, Short.MAX_VALUE)
                                 .addComponent(jdfData, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel6)
@@ -308,12 +314,12 @@ public class PanelParcelas extends javax.swing.JPanel {
                             .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel8, javax.swing.GroupLayout.Alignment.TRAILING))
                         .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jtbParcelas, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jcbFrequencia, javax.swing.GroupLayout.PREFERRED_SIZE, 239, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jcbFrequencia, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(19, 19, 19))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jScrollPane2)
@@ -327,20 +333,20 @@ public class PanelParcelas extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
-                    .addComponent(jffValor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jffValor, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel7)
-                    .addComponent(jcbFrequencia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jcbFrequencia, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel8)
-                    .addComponent(jtbParcelas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jdfData, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jtbParcelas, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jdfData, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel9)
-                    .addComponent(jButton1))
+                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jProgressBar1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 217, Short.MAX_VALUE))
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 216, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 

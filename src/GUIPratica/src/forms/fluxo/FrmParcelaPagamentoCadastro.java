@@ -249,10 +249,12 @@ public class FrmParcelaPagamentoCadastro extends JDialogController {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        jLabel1.setText("Conta");
+        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jLabel1.setText("Conta:");
 
         txtConta.setFocusable(false);
 
+        btnSalvar.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         btnSalvar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/save.png"))); // NOI18N
         btnSalvar.setText("OK");
         btnSalvar.addActionListener(new java.awt.event.ActionListener() {
@@ -261,6 +263,7 @@ public class FrmParcelaPagamentoCadastro extends JDialogController {
             }
         });
 
+        btnCancelar.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         btnCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/cancel.png"))); // NOI18N
         btnCancelar.setText("Cancelar");
         btnCancelar.addActionListener(new java.awt.event.ActionListener() {
@@ -276,15 +279,16 @@ public class FrmParcelaPagamentoCadastro extends JDialogController {
             }
         });
 
-        jLabel3.setText("Parcela");
+        jLabel3.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jLabel3.setText("Parcela:");
 
         jcbCategoria.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Carregando..." }));
         jcbCategoria.setMinimumSize(new java.awt.Dimension(94, 30));
 
-        jLabel2.setText("Categoria");
+        jLabel2.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jLabel2.setText("Categoria:");
 
         jffValor.setToolTipText("");
-        jffValor.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jffValor.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
             public void propertyChange(java.beans.PropertyChangeEvent evt) {
                 jffValorPropertyChange(evt);
@@ -299,26 +303,28 @@ public class FrmParcelaPagamentoCadastro extends JDialogController {
             }
         });
 
-        jLabel4.setText("Valor Total");
+        jLabel4.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jLabel4.setText("Valor Total:");
 
-        jLabel5.setText("Imposto/Acréscimo");
-
-        jffValor1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel5.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jLabel5.setText("Imposto/Acréscimo:");
 
         jcbCategoria1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Carregando..." }));
         jcbCategoria1.setMinimumSize(new java.awt.Dimension(94, 30));
 
-        jLabel6.setText("Categoria");
+        jLabel6.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jLabel6.setText("Categoria:");
 
-        jLabel7.setText("Desconto/Perdas");
-
-        jffValor2.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel7.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jLabel7.setText("Desconto/Perdas:");
 
         jcbCategoria2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Carregando..." }));
         jcbCategoria2.setMinimumSize(new java.awt.Dimension(94, 30));
 
-        jLabel8.setText("Categoria");
+        jLabel8.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jLabel8.setText("Categoria:");
 
+        jcbDescontos.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jcbDescontos.setText("Lançar o que falta como desconto");
         jcbDescontos.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
@@ -326,6 +332,7 @@ public class FrmParcelaPagamentoCadastro extends JDialogController {
             }
         });
 
+        jcbImpostos.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jcbImpostos.setSelected(true);
         jcbImpostos.setText("Lançar excesso como acréscimo");
         jcbImpostos.addChangeListener(new javax.swing.event.ChangeListener() {
@@ -337,21 +344,25 @@ public class FrmParcelaPagamentoCadastro extends JDialogController {
         jcbContaBancaria.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Carregando..." }));
         jcbContaBancaria.setMinimumSize(new java.awt.Dimension(94, 30));
 
-        jLabel9.setText("Conta");
+        jLabel9.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jLabel9.setText("Conta:");
 
         jcbContaBancaria1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Carregando..." }));
         jcbContaBancaria1.setMinimumSize(new java.awt.Dimension(94, 30));
 
-        jLabel10.setText("Conta");
+        jLabel10.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jLabel10.setText("Conta:");
 
-        jLabel11.setText("Conta");
+        jLabel11.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jLabel11.setText("Conta:");
+        jLabel11.setToolTipText("");
 
         jcbContaBancaria2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Carregando..." }));
         jcbContaBancaria2.setMinimumSize(new java.awt.Dimension(94, 30));
 
-        jLabel12.setText("Valor Parcela");
+        jLabel12.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jLabel12.setText("Valor Parcela:");
 
-        lblParcela.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         lblParcela.setText("Label");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -388,10 +399,6 @@ public class FrmParcelaPagamentoCadastro extends JDialogController {
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel1)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(btnSalvar)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(btnCancelar))
                                     .addComponent(jffValor2, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jLabel7)
                                     .addComponent(jcbDescontos)
@@ -424,6 +431,12 @@ public class FrmParcelaPagamentoCadastro extends JDialogController {
                                 .addComponent(jcbContaBancaria, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addGap(20, 20, 20))))
                     .addComponent(txtConta)))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnSalvar, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnCancelar)
+                .addGap(20, 20, 20))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -431,31 +444,31 @@ public class FrmParcelaPagamentoCadastro extends JDialogController {
                 .addContainerGap()
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtConta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtConta, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(jLabel12))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jtbParcela, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jtbParcela, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblParcela))
-                .addGap(32, 32, 32)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                         .addGroup(layout.createSequentialGroup()
                             .addComponent(jLabel4)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(jffValor, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jffValor, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGroup(layout.createSequentialGroup()
                             .addComponent(jLabel2)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(jcbCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jcbCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel9)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jcbContaBancaria, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(16, 16, 16)
+                        .addComponent(jcbContaBancaria, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(30, 30, 30)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jcbImpostos)
@@ -465,15 +478,15 @@ public class FrmParcelaPagamentoCadastro extends JDialogController {
                         .addGroup(layout.createSequentialGroup()
                             .addComponent(jLabel5)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(jffValor1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jffValor1, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                             .addComponent(jLabel6)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(jcbCategoria1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jcbCategoria1, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel10)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jcbContaBancaria1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jcbContaBancaria1, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(6, 6, 6)
@@ -484,21 +497,21 @@ public class FrmParcelaPagamentoCadastro extends JDialogController {
                         .addGroup(layout.createSequentialGroup()
                             .addComponent(jLabel7)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(jffValor2, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jffValor2, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                             .addComponent(jLabel8)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(jcbCategoria2, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jcbCategoria2, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel11)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jcbContaBancaria2, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jcbContaBancaria2, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
                 .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 7, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnCancelar)
-                    .addComponent(btnSalvar))
+                    .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnSalvar, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
