@@ -37,7 +37,7 @@ public class FrmVeiculoF2 extends frmF2 {
             @Override
             public Collection<Veiculo> lista(String busca) throws ServiceException {
 
-                return service.findByMultipleColumns(busca.toUpperCase(), "id", "id", "nome","modelo.nome");
+                return service.findByMultipleColumns(busca.toUpperCase(), "id", "id", "placa","cor.nome","modelo.nome");
 
             }
 

@@ -199,12 +199,13 @@ public class frmMain extends javax.swing.JFrame {
 
         estoque.add(new TreeNodeMenu(("Item"), "forms.estoque.FrmItem"));
         estoque.add(new TreeNodeMenu(("Tipo de Movimentação"), "forms.estoque.FrmMovimentacaoTipo"));
-        
+
         root.add(estoque);
 
 //-------------------------------------------------------------------//    
         DefaultMutableTreeNode ordem = new DefaultMutableTreeNode("Ordem de Serviço");
 
+        ordem.add(new TreeNodeMenu("Ordens de Serviço", "forms.ordem.FrmOrdem"));
         ordem.add(new TreeNodeMenu("Tipos de Serviço", "forms.ordem.FrmOrdemTipoServico"));
         ordem.add(new TreeNodeMenu("Status de Serviço", "forms.ordem.FrmOrdemStatus"));
         ordem.add(new TreeNodeMenu("Veiculos", "forms.ordem.FrmVeiculo"));

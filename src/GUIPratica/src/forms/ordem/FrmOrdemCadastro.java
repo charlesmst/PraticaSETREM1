@@ -11,6 +11,7 @@ import java.util.Vector;
 import javax.swing.DefaultComboBoxModel;
 import model.Pessoa;
 import forms.FrmPessoaF2;
+import java.util.Date;
 import model.ordem.Ordem;
 import model.ordem.Veiculo;
 import org.jdesktop.beansbinding.AutoBinding;
@@ -61,86 +62,93 @@ public class FrmOrdemCadastro extends JDialogController {
         setDefaultButton(btnSalvar);
 
         validator.validarObrigatorio(txtCliente);
-        validator.validarObrigatorio(txtVeiculo);
+//        validator.validarObrigatorio(txtVeiculo);
         validator.validarObrigatorio(jcbStatus);
         validator.validarDeBanco(txtCliente, new PessoaService());
         validator.validarDeBanco(txtVeiculo, new VeiculoService());
 
         jcbStatus.setModel(new DefaultComboBoxModel(new Vector(new OrdemStatusService().findAtivos())));
-
+        initBinding();
     }
 
-//    private boolean binded = false;
+    private boolean binded = false;
 
-//    private void initBinding() {
+    private void initBinding() {
+        if (!binded) {
+            binded = true;
+            AutoBinding autoVehicle = Utils.createBind(ordem, "veiculo", txtVeiculo, false);
+            autoVehicle.setConverter(new Converter<Veiculo, String>() {
 
-//        if (!binded) {
-//            binded = true;
-//            AutoBinding autoVehicle = Utils.createBind(ordem, "veiculo", txtCliente, false);
-//            autoVehicle.setConverter(new Converter<Veiculo, String>() {
-//
-//                @Override
-//                public Veiculo convertReverse(String value) {
-//                    try {
-//                        Veiculo p = new Veiculo();
-//                        p.setId(Integer.valueOf(value));
-//                        return p;
-//                    } catch (Exception e) {
-//                        return null;
-//                    }
-//                }
-//
-//                @Override
-//                public String convertForward(Veiculo value) {
-//                    if (value != null) {
-//                        return value.getId() + "";
-//                    }
-//                    return "";
-//                }
-//            });
-//            autoVehicle.bind();
-//            
-//            AutoBinding a = Utils.createBind(ordem, "pessoa", txtCliente, false);
-//            a.setConverter(new Converter<Pessoa, String>() {
-//
-//                @Override
-//                public Pessoa convertReverse(String value) {
-//                    try {
-//                        Pessoa p = new Pessoa();
-//                        p.setId(Integer.valueOf(value));
-//                        return p;
-//                    } catch (Exception e) {
-//                        return null;
-//                    }
-//                }
-//
-//                @Override
-//                public String convertForward(Pessoa value) {
-//                    if (value != null) {
-//                        return value.getId() + "";
-//                    }
-//                    return "";
-//                }
-//            });
-//            a.bind();
+                @Override
+                public Veiculo convertReverse(String value) {
+                    try {
+                        Veiculo p = new Veiculo();
+                        p.setId(Integer.valueOf(value));
+                        return p;
+                    } catch (Exception e) {
+                        return null;
+                    }
+                }
 
-//        }
-//    }
+                @Override
+                public String convertForward(Veiculo value) {
+                    if (value != null) {
+                        return value.getId() + "";
+                    }
+                    return "";
+                }
+            });
+            autoVehicle.bind();
+
+            AutoBinding a = Utils.createBind(ordem, "pessoa", txtCliente, false);
+            a.setConverter(new Converter<Pessoa, String>() {
+
+                @Override
+                public Pessoa convertReverse(String value) {
+                    try {
+                        Pessoa p = new Pessoa();
+                        p.setId(Integer.valueOf(value));
+                        return p;
+                    } catch (Exception e) {
+                        return null;
+                    }
+                }
+
+                @Override
+                public String convertForward(Pessoa value) {
+                    if (value != null) {
+                        return value.getId() + "";
+                    }
+                    return "";
+                }
+            });
+            a.bind();
+
+//            AutoBinding aPrazo = Utils.createBind(ordem, "prazo", txtPrazo, false);
+//
+//            aPrazo.bind();
+            Utils.createBind(ordem, "descricao", txtPedido);
+        }
+    }
+
+    private void salvar() {
+        if (id == 0) {
+            service.insert(ordem);
+        } else {
+            service.update(ordem);
+        }
+    }
 
     private void save() {
         if (!validator.isValido()) {
             return;
         }
-   
+
         Utils.safeCode(() -> {
-//            if (id == 0) {
-//                service.insert(m);
-//            } else {
-//                service.update(m);
-//            }
-//            utils.Forms.mensagem(utils.Mensagens.registroSalvo, AlertaTipos.sucesso);
+            salvar();
+            utils.Forms.mensagem(utils.Mensagens.registroSalvo, AlertaTipos.sucesso);
 //
-//            dispose();
+            dispose();
         });
     }
 
@@ -159,12 +167,12 @@ public class FrmOrdemCadastro extends JDialogController {
         btnCancelar = new javax.swing.JButton();
         jcbStatus = new javax.swing.JComboBox();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        txtPedido = new javax.swing.JTextArea();
         jLabel3 = new javax.swing.JLabel();
         txtCliente = new components.F2(FrmPessoaF2.class,(id)->new PessoaService().findById(id).getNome());
         jLabel4 = new javax.swing.JLabel();
         txtVeiculo = new components.F2(FrmVeiculoF2.class,(id)->new PessoaService().findById(id).getNome());
-        jDateField1 = new components.JDateField();
+        txtPrazo = new components.JDateField();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
@@ -174,6 +182,9 @@ public class FrmOrdemCadastro extends JDialogController {
         jTableDataBinder1 = new components.JTableDataBinder();
         btnSalvar1 = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
+        btnAddServico = new javax.swing.JButton();
+        btnAddPeca = new javax.swing.JButton();
+        btnAddPeca1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -195,9 +206,9 @@ public class FrmOrdemCadastro extends JDialogController {
 
         jcbStatus.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Carregando..." }));
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane1.setViewportView(jTextArea1);
+        txtPedido.setColumns(20);
+        txtPedido.setRows(5);
+        jScrollPane1.setViewportView(txtPedido);
 
         jLabel3.setText("Cliente");
 
@@ -239,6 +250,30 @@ public class FrmOrdemCadastro extends JDialogController {
 
         jButton1.setText("Conta da ordem de serviço");
 
+        btnAddServico.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/new.png"))); // NOI18N
+        btnAddServico.setText("Serviço");
+        btnAddServico.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddServicoActionPerformed(evt);
+            }
+        });
+
+        btnAddPeca.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/new.png"))); // NOI18N
+        btnAddPeca.setText("Peça");
+        btnAddPeca.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddPecaActionPerformed(evt);
+            }
+        });
+
+        btnAddPeca1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/excluir.png"))); // NOI18N
+        btnAddPeca1.setText("Excluir");
+        btnAddPeca1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddPeca1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -248,40 +283,47 @@ public class FrmOrdemCadastro extends JDialogController {
                 .addGap(20, 20, 20)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
+                        .addComponent(btnAddServico)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnAddPeca)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnAddPeca1)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
                         .addComponent(btnSalvar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnCancelar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnSalvar1)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 630, Short.MAX_VALUE)
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                .addComponent(jLabel8)
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addGroup(layout.createSequentialGroup()
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 630, Short.MAX_VALUE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addComponent(jLabel3)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(txtCliente, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 388, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jcbStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                            .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel4)
                                     .addComponent(jLabel5))
-                                .addGap(8, 8, 8)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(txtVeiculo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jDateField1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(txtPrazo, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(14, 14, 14)
                                         .addComponent(jLabel6)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                         .addComponent(jLabel7)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(jButton1))))
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING))
+                                        .addComponent(jButton1))
+                                    .addComponent(txtVeiculo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel8)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addComponent(jScrollPane1))
                         .addGap(20, 20, 20))))
         );
         layout.setVerticalGroup(
@@ -298,25 +340,30 @@ public class FrmOrdemCadastro extends JDialogController {
                     .addComponent(txtVeiculo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(7, 7, 7)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jDateField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtPrazo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel5)
                     .addComponent(jLabel6)
                     .addComponent(jLabel7)
                     .addComponent(jButton1))
-                .addGap(5, 5, 5)
-                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(1, 1, 1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel8)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(2, 2, 2)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(11, 11, 11)
+                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(4, 4, 4)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnAddServico)
+                    .addComponent(btnAddPeca)
+                    .addComponent(btnAddPeca1))
+                .addGap(4, 4, 4)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 219, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 236, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnCancelar)
                     .addComponent(btnSalvar)
                     .addComponent(btnSalvar1))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         pack();
@@ -334,14 +381,28 @@ public class FrmOrdemCadastro extends JDialogController {
         // TODO add your handling code here:
     }//GEN-LAST:event_btnSalvar1ActionPerformed
 
+    private void btnAddServicoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddServicoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnAddServicoActionPerformed
+
+    private void btnAddPecaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddPecaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnAddPecaActionPerformed
+
+    private void btnAddPeca1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddPeca1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnAddPeca1ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAddPeca;
+    private javax.swing.JButton btnAddPeca1;
+    private javax.swing.JButton btnAddServico;
     private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnSalvar;
     private javax.swing.JButton btnSalvar1;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JButton jButton1;
-    private components.JDateField jDateField1;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -352,10 +413,11 @@ public class FrmOrdemCadastro extends JDialogController {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSeparator jSeparator1;
     private components.JTableDataBinder jTableDataBinder1;
-    private javax.swing.JTextArea jTextArea1;
     private javax.swing.JComboBox jcbStatus;
     private model.ordem.Ordem ordem;
     private components.F2 txtCliente;
+    private javax.swing.JTextArea txtPedido;
+    private components.JDateField txtPrazo;
     private components.F2 txtVeiculo;
     // End of variables declaration//GEN-END:variables
 }
