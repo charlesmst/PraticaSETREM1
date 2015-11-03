@@ -365,6 +365,7 @@ public class FrmEstoqueCadastro extends JDialogController {
         est.setLote(txtLote.getText());
         est.setDataValidade(txtDataValidade.getDate());
         est.setValorUnitario(txtValorCompra.getValue());
+        est.setQuantidadeDisponivel(Integer.parseInt(spinerQuantidade.getValue().toString()));
         List<EstoqueMovimentacao> movimentacoes = new ArrayList<>();
         movimentacoes.add(estMov);
         estMov.setEstoque(est);
@@ -373,6 +374,15 @@ public class FrmEstoqueCadastro extends JDialogController {
         zerarCampos();
         refreshTable();
     }//GEN-LAST:event_btnAdicionarActionPerformed
+
+    private int verificaQuantidadeDisp(Estoque est, Item i) {
+        List<Estoque> estoqueDoItem = new EstoqueService().findBy("item.id", i.getId());
+        int quantidade = 0;
+        for (Estoque e : estoqueDoItem) {
+            quantidade = quantidade + e.getQuantidadeDisponivel();
+        }
+        return quantidade;
+    }
 
     private void loadTiposMovimentação() {
         movTipo = new MovimentacaoTipoService().findAll();

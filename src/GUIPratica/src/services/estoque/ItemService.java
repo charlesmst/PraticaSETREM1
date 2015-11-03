@@ -5,6 +5,8 @@
  */
 package services.estoque;
 
+import java.util.List;
+import model.estoque.Estoque;
 import model.estoque.Item;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.service.spi.ServiceException;
@@ -15,7 +17,7 @@ public class ItemService extends Service<Item> {
     @Override
     public void update(Item obj) throws services.ServiceException {
         obj.setDescricao(obj.getDescricao().toUpperCase());
-        super.update(obj); 
+        super.update(obj);
     }
 
     @Override
@@ -30,5 +32,14 @@ public class ItemService extends Service<Item> {
 
     public ItemService() {
         super(Item.class);
+    }
+
+    public int verificaQuantidadeDisp(Item i) {
+        List<Estoque> estoqueDoItem = new EstoqueService().findBy("item.id", i.getId());
+        int quantidade = 0;
+        for (Estoque e : estoqueDoItem) {
+            quantidade = quantidade + e.getQuantidadeDisponivel();
+        }
+        return quantidade;
     }
 }

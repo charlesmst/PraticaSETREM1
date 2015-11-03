@@ -9,6 +9,7 @@ import java.util.Collection;
 import javax.swing.JDialog;
 import model.estoque.Item;
 import services.ServiceException;
+import services.estoque.EstoqueService;
 import services.estoque.ItemService;
 
 /**
@@ -46,9 +47,9 @@ public class FrmItem extends JPanelControleButtons {
                     dado.getDescricao(),
                     dado.getEstoqueMinimo(),
                     dado.getPrateleira().getDescricao(),
-                    dado.getUltimoValorVenda()
+                    dado.getUltimoValorVenda(),
+                    new ItemService().verificaQuantidadeDisp(dado)
                 };
-
             }
         });
 
@@ -68,20 +69,20 @@ public class FrmItem extends JPanelControleButtons {
 
         table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null}
             },
             new String [] {
-                "Código", "Tipo de Item", "Descrição", "Limite Mínimo", "Prateleira", "Último Valor de Venda"
+                "Código", "Tipo de Item", "Descrição", "Limite Mínimo", "Prateleira", "Último Valor de Venda", "Quantidade Disponível"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.Object.class, java.lang.Double.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.Object.class, java.lang.Double.class, java.lang.Integer.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false
+                false, false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -101,6 +102,7 @@ public class FrmItem extends JPanelControleButtons {
             table.getColumnModel().getColumn(3).setPreferredWidth(100);
             table.getColumnModel().getColumn(4).setPreferredWidth(150);
             table.getColumnModel().getColumn(5).setPreferredWidth(150);
+            table.getColumnModel().getColumn(6).setPreferredWidth(200);
         }
 
         jLabel2.setText(" Buscar:");
@@ -125,7 +127,7 @@ public class FrmItem extends JPanelControleButtons {
                         .addComponent(txtBuscar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnEntrada))
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 668, Short.MAX_VALUE))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 873, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
