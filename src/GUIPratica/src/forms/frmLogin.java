@@ -7,6 +7,7 @@ package forms;
 
 import antlr.actions.cpp.ActionLexer;
 import components.JDialogController;
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -18,6 +19,7 @@ public class frmLogin extends JDialogController {
 
     public frmLogin(java.awt.Frame parent, boolean modal) {
         super(parent, "Login");
+        this.getContentPane().setBackground(Color.black);    
         initComponents();
         setupFrame();
     }
@@ -46,6 +48,7 @@ public class frmLogin extends JDialogController {
         placeholderPasswordField1 = new components.PlaceholderPasswordField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setBackground(new java.awt.Color(0, 0, 0));
         setModal(true);
         setPreferredSize(new java.awt.Dimension(405, 318));
         setSize(new java.awt.Dimension(375, 300));
