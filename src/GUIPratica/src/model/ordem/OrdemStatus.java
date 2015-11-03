@@ -14,6 +14,11 @@ import javax.persistence.Table;
 @SequenceGenerator(name = "seq_ordem_status", sequenceName = "seq_ordem_status", initialValue = 1, allocationSize = 1)
 public class OrdemStatus implements Serializable {
 
+    @Override
+    public String toString() {
+        return  nome;
+    }
+
     @Id
     @GeneratedValue(generator = "seq_ordem_status", strategy = GenerationType.SEQUENCE)
     private int id;

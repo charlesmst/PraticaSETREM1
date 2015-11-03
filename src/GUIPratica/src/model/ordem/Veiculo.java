@@ -16,6 +16,11 @@ import javax.persistence.Table;
 @SequenceGenerator(name = "seq_veiculo", sequenceName = "seq_veiculo", initialValue = 1, allocationSize = 1)
 public class Veiculo implements Serializable {
 
+    @Override
+    public String toString() {
+        return placa+" "+ modelo.toString()+ " "+cor ;
+    }
+
     @Id
     @GeneratedValue(generator = "seq_veiculo", strategy = GenerationType.SEQUENCE)
     private int id;

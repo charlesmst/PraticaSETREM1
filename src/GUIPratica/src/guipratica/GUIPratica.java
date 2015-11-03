@@ -6,7 +6,7 @@
 package guipratica;
 
 import com.alee.laf.WebLookAndFeel;
-import forms.fluxo.FrmLoading;
+import forms.FrmLoading;
 import forms.frmLogin;
 import forms.frmMain;
 import java.awt.event.ActionEvent;

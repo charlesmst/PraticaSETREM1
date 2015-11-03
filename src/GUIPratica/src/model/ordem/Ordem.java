@@ -5,6 +5,7 @@ import java.io.Serializable;
 import model.Pessoa;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -58,11 +59,11 @@ public class Ordem implements Serializable {
     }, inverseJoinColumns = {
         @JoinColumn(name = "estoque_movimentacao_id")
     })
-    private List<EstoqueMovimentacao> estoqueMovimentacaos;
+    private Set<EstoqueMovimentacao> estoqueMovimentacaos;
 
     @OneToMany(mappedBy = "ordem", orphanRemoval = true, cascade = CascadeType.ALL)
 
-    private List<OrdemServico> ordemServicos;
+    private Set<OrdemServico> ordemServicos;
 
     public int getId() {
         return id;
@@ -148,20 +149,21 @@ public class Ordem implements Serializable {
         changeSupport.firePropertyChange("km", old, km);
     }
 
-    public List<EstoqueMovimentacao> getEstoqueMovimentacaos() {
+    public Set<EstoqueMovimentacao> getEstoqueMovimentacaos() {
         return estoqueMovimentacaos;
     }
 
-    public void setEstoqueMovimentacaos(List<EstoqueMovimentacao> estoqueMovimentacaos) {
+    public void setEstoqueMovimentacaos(Set<EstoqueMovimentacao> estoqueMovimentacaos) {
         this.estoqueMovimentacaos = estoqueMovimentacaos;
     }
 
-    public List<OrdemServico> getOrdemServicos() {
+    public Set<OrdemServico> getOrdemServicos() {
         return ordemServicos;
     }
 
-    public void setOrdemServicos(List<OrdemServico> ordemServicos) {
+    public void setOrdemServicos(Set<OrdemServico> ordemServicos) {
         this.ordemServicos = ordemServicos;
     }
+
 
 }
