@@ -76,9 +76,11 @@ public class frmLogin extends JDialogController {
 
         jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/chave.png"))); // NOI18N
 
+        txtUsuario.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         txtUsuario.setMargin(new java.awt.Insets(2, 8, 2, 2));
         txtUsuario.setPlaceholder("Usuário");
 
+        placeholderPasswordField1.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         placeholderPasswordField1.setMargin(new java.awt.Insets(2, 8, 2, 2));
         placeholderPasswordField1.setPlaceholder("Senha");
 
@@ -128,8 +130,8 @@ public class frmLogin extends JDialogController {
                         .addComponent(placeholderPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(26, 26, 26))
         );
 
