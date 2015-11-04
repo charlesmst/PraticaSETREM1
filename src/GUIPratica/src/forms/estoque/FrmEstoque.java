@@ -9,6 +9,7 @@ import javax.swing.JDialog;
 import model.estoque.Estoque;
 import services.ServiceException;
 import services.estoque.EstoqueService;
+import utils.Utils;
 
 /**
  *
@@ -43,10 +44,9 @@ public class FrmEstoque extends JPanelControleButtons {
                     dado.getDataCompra(),
                     dado.getLote(),
                     dado.getQuantidadeDisponivel(),
-                    dado.getValorUnitario(),
+                    Utils.formataDinheiro(dado.getValorUnitario()),
                     dado.getDataValidade()
                 };
-
             }
         });
 

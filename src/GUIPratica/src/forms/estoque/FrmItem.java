@@ -11,6 +11,7 @@ import model.estoque.Item;
 import services.ServiceException;
 import services.estoque.EstoqueService;
 import services.estoque.ItemService;
+import utils.Utils;
 
 /**
  *
@@ -47,7 +48,7 @@ public class FrmItem extends JPanelControleButtons {
                     dado.getDescricao(),
                     dado.getEstoqueMinimo(),
                     dado.getPrateleira().getDescricao(),
-                    dado.getUltimoValorVenda(),
+                    Utils.formataDinheiro(dado.getUltimoValorVenda()),
                     new ItemService().verificaQuantidadeDisp(dado)
                 };
             }

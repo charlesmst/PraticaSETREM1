@@ -1,10 +1,14 @@
 package forms.estoque;
 
+import components.CellRenderer;
 import components.JDialogController;
 import forms.frmMain;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Vector;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import model.estoque.Estoque;
@@ -42,6 +46,7 @@ public class FrmEstoqueCadastro extends JDialogController {
         initComponents();
         this.id = id;
         setupForm();
+        tableItem.setDefaultRenderer(Object.class, new CellRenderer());
         loadTiposMovimentação();
         zerarCampos();
     }
@@ -49,13 +54,12 @@ public class FrmEstoqueCadastro extends JDialogController {
     private void setupForm() {
         setLocationRelativeTo(null);
         setDefaultButton(btnSalvar);
-
         validator.validarObrigatorio(txtItem);
         validator.validarDeBanco(txtItem, new ItemService());
 
-        validator.validarObrigatorio(txtValorCompra);
-
-        validator.validarObrigatorio(spinerQuantidade);
+        validator.validarCustom(txtValorCompra, (valor) -> {
+            return txtValorCompra.getValue() > 0;
+        }, "Valor deve ser maior que zero");
 
         //int quantidade = spinEstoqueMin.getComponentCount();
         //validator.validarObrigatorio(spinEstoqueMin);
@@ -143,7 +147,6 @@ public class FrmEstoqueCadastro extends JDialogController {
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
-        jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tableItem = new javax.swing.JTable();
@@ -154,6 +157,7 @@ public class FrmEstoqueCadastro extends JDialogController {
         txtDataValidade = new components.JDateField();
         txtValorCompra = new components.JTextFieldMoney();
         spinerQuantidade = new javax.swing.JSpinner();
+        chkDataValidade = new javax.swing.JCheckBox();
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -200,23 +204,21 @@ public class FrmEstoqueCadastro extends JDialogController {
 
         jLabel7.setText("Valor unit. de Compra");
 
-        jLabel8.setText("Data de Validade");
-
-        jLabel9.setText("Data");
+        jLabel9.setText("Data de Compra");
 
         tableItem.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null}
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
             },
             new String [] {
-                "Item", "validade", "Movimentação", "Valor", "Quantidade", "Data", "Lote"
+                "Item", "Movimentação", "Valor", "Quantidade", "Data", "Lote"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false
+                false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -236,10 +238,22 @@ public class FrmEstoqueCadastro extends JDialogController {
         btnRemover.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/delete.png"))); // NOI18N
         btnRemover.setText("Remover");
 
-        jcbTipoMovimentação.setModel(new javax.swing.DefaultComboBoxModel(new String[] { " " }));
         jcbTipoMovimentação.setPreferredSize(new java.awt.Dimension(56, 25));
 
+        txtDataValidade.setModel(new javax.swing.SpinnerDateModel());
+        txtDataValidade.setEnabled(false);
+
         txtValorCompra.setMinimumSize(new java.awt.Dimension(6, 30));
+
+        spinerQuantidade.setModel(new javax.swing.SpinnerNumberModel(Integer.valueOf(1), Integer.valueOf(1), null, Integer.valueOf(1)));
+
+        chkDataValidade.setText("Definir Data de Validade");
+        chkDataValidade.setFocusable(false);
+        chkDataValidade.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                chkDataValidadeStateChanged(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -278,30 +292,28 @@ public class FrmEstoqueCadastro extends JDialogController {
                                                 .addComponent(jLabel9)
                                                 .addComponent(jDateCompra, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))))
                                     .addComponent(jLabel3))
-                                .addGap(47, 47, 47)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 57, Short.MAX_VALUE)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(txtLote, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addGroup(layout.createSequentialGroup()
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabel2)
                                             .addComponent(txtDataValidade, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(jLabel8)
-                                            .addComponent(jLabel2))
-                                        .addGap(48, 48, 48)
+                                            .addComponent(chkDataValidade))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 50, Short.MAX_VALUE)
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addGroup(layout.createSequentialGroup()
-                                                .addComponent(jLabel5)
-                                                .addGap(0, 0, Short.MAX_VALUE))
-                                            .addComponent(jcbTipoMovimentação, 0, 214, Short.MAX_VALUE))))))
+                                            .addComponent(jLabel5)
+                                            .addComponent(jcbTipoMovimentação, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))))))
                         .addGap(20, 20, 20))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(20, 20, 20)
+                .addGap(16, 16, 16)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(jLabel8)
-                    .addComponent(jLabel5))
+                    .addComponent(jLabel5)
+                    .addComponent(chkDataValidade))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtItem, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -352,18 +364,21 @@ public class FrmEstoqueCadastro extends JDialogController {
     private void btnAdicionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdicionarActionPerformed
         Estoque est = new Estoque();
         EstoqueMovimentacao estMov = new EstoqueMovimentacao();
+
         est.setItem(new ItemService().findById(txtItem.getValueSelected()));
-        for (int x = 0; x < movTipo.size(); x++) {
-            if (jcbTipoMovimentação.getSelectedItem().equals(movTipo.get(x).getDescricao())) {
-                estMov.setMovimentacaoTipo(movTipo.get(x));
-            }
-        }
+        estMov.setMovimentacaoTipo((MovimentacaoTipo) jcbTipoMovimentação.getModel().getSelectedItem());
         estMov.setValorUnitario(txtValorCompra.getValue());
         estMov.setQuantidade(Integer.parseInt(spinerQuantidade.getValue().toString()));
-        estMov.setDataLancamento(jDateCompra.getDate());
+        estMov.setDataLancamento(new Date());
+        estMov.setDescricao("Movimentação de " + estMov.getMovimentacaoTipo().getDescricao()
+                + " de " + estMov.getQuantidade() + " Item: " + est.getItem().getDescricao());
         est.setDataCompra(jDateCompra.getDate());
         est.setLote(txtLote.getText());
-        est.setDataValidade(txtDataValidade.getDate());
+        if (chkDataValidade.isSelected()) {
+            est.setDataValidade(txtDataValidade.getDate());
+        } else {
+            est.setDataValidade(null);
+        }
         est.setValorUnitario(txtValorCompra.getValue());
         est.setQuantidadeDisponivel(Integer.parseInt(spinerQuantidade.getValue().toString()));
         List<EstoqueMovimentacao> movimentacoes = new ArrayList<>();
@@ -375,23 +390,23 @@ public class FrmEstoqueCadastro extends JDialogController {
         refreshTable();
     }//GEN-LAST:event_btnAdicionarActionPerformed
 
-    private int verificaQuantidadeDisp(Estoque est, Item i) {
-        List<Estoque> estoqueDoItem = new EstoqueService().findBy("item.id", i.getId());
-        int quantidade = 0;
-        for (Estoque e : estoqueDoItem) {
-            quantidade = quantidade + e.getQuantidadeDisponivel();
+    private void chkDataValidadeStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_chkDataValidadeStateChanged
+        if (chkDataValidade.isSelected()) {
+            txtDataValidade.setEnabled(true);
+        } else {
+            txtDataValidade.setEnabled(false);
         }
-        return quantidade;
-    }
+    }//GEN-LAST:event_chkDataValidadeStateChanged
 
     private void loadTiposMovimentação() {
-        movTipo = new MovimentacaoTipoService().findAll();
-        for (MovimentacaoTipo m : movTipo) {
-            System.out.println(m.getTipo());
+        List<MovimentacaoTipo> movTipoTemp = new MovimentacaoTipoService().findAll();
+        movTipo = new ArrayList<>();
+        for (MovimentacaoTipo m : movTipoTemp) {
             if (m.isAtivo() && m.getTipo().equals(m.getTipo().entrada)) {
-                jcbTipoMovimentação.addItem(m.getDescricao());
+                movTipo.add(m);
             }
         }
+        jcbTipoMovimentação.setModel(new DefaultComboBoxModel(new Vector(movTipo)));
     }
 
     private void zerarCampos() {
@@ -400,7 +415,7 @@ public class FrmEstoqueCadastro extends JDialogController {
         txtItem.setText("");
         jcbTipoMovimentação.setSelectedIndex(0);
         txtValorCompra.setValue(0);
-        spinerQuantidade.setValue(0);
+        spinerQuantidade.setValue(1);
         txtLote.setText("");
     }
 
@@ -417,11 +432,10 @@ public class FrmEstoqueCadastro extends JDialogController {
                 }
                 model.addRow(new String[]{
                     "" + est.getItem().getDescricao(),
-                    "" + est.getDataValidade().getDate(),
                     "" + estMov.getMovimentacaoTipo().getDescricao(),
                     "" + est.getValorUnitario(),
                     "" + estMov.getQuantidade(),
-                    "" + est.getDataCompra(),
+                    "" + est.getDataCompra().getDate(),
                     "" + est.getLote()
                 });
             }
@@ -434,13 +448,13 @@ public class FrmEstoqueCadastro extends JDialogController {
     private javax.swing.JButton btnRemover;
     private javax.swing.JButton btnSalvar;
     private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.JCheckBox chkDataValidade;
     private components.JDateField jDateCompra;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;

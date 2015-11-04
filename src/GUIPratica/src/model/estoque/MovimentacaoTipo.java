@@ -66,4 +66,9 @@ public class MovimentacaoTipo implements Serializable {
         entrada,
         saida
     }
+
+    @Override
+    public String toString() {
+        return descricao;
+    }
 }
