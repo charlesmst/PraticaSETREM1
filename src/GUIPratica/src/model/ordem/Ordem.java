@@ -4,6 +4,7 @@ import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
 import model.Pessoa;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import javax.persistence.CascadeType;
@@ -21,6 +22,7 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import model.estoque.EstoqueMovimentacao;
+import model.fluxo.Conta;
 
 @Entity
 @Table(name = "sh_ordem")
@@ -37,12 +39,12 @@ public class Ordem implements Serializable {
     @ManyToOne
     @JoinColumn(name = "pessoa_id", nullable = false)
     private Pessoa pessoa;
-
+    @ManyToOne
     @ManyToOne
     @JoinColumn(name = "veiculo_id")
     private Veiculo veiculo;
-
-    @JoinColumn(name = "sh_ordem_status_id", nullable = false)
+    @ManyToOne
+    @JoinColumn(name = "ordem_status_id", nullable = false)
     private OrdemStatus ordemStatus;
 
     private Date prazo;
@@ -52,6 +54,16 @@ public class Ordem implements Serializable {
 
     private double valor;
 
+    private double desconto;
+
+    public double getDesconto() {
+        return desconto;
+    }
+
+    public void setDesconto(double desconto) {
+        this.desconto = desconto;
+    }
+    
     private int km;
 
     @ManyToMany
@@ -60,11 +72,23 @@ public class Ordem implements Serializable {
     }, inverseJoinColumns = {
         @JoinColumn(name = "estoque_movimentacao_id")
     })
-    private Set<EstoqueMovimentacao> estoqueMovimentacaos;
+    private Set<EstoqueMovimentacao> estoqueMovimentacaos= new HashSet<>();;
 
     @OneToMany(mappedBy = "ordem", orphanRemoval = true, cascade = CascadeType.ALL)
 
-    private Set<OrdemServico> ordemServicos;
+    private Set<OrdemServico> ordemServicos = new HashSet<>();
+
+    @ManyToOne
+    @JoinColumn(name = "conta_id")
+    private Conta conta;
+
+    public Conta getConta() {
+        return conta;
+    }
+
+    public void setConta(Conta conta) {
+        this.conta = conta;
+    }
 
     public int getId() {
         return id;
@@ -165,6 +189,5 @@ public class Ordem implements Serializable {
     public void setOrdemServicos(Set<OrdemServico> ordemServicos) {
         this.ordemServicos = ordemServicos;
     }
-
 
 }
