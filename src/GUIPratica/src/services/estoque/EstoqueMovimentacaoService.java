@@ -5,7 +5,8 @@
  */
 package services.estoque;
 
-
+import java.util.List;
+import model.estoque.Estoque;
 import model.estoque.EstoqueMovimentacao;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.service.spi.ServiceException;
@@ -28,6 +29,10 @@ public class EstoqueMovimentacaoService extends Service<EstoqueMovimentacao> {
 //    public boolean unico(int id, String descricao) throws ServiceException {
 //        return findFilter(Restrictions.ne("id", id), Restrictions.eq("descricao", descricao)).isEmpty();
 //    }
+    public List<EstoqueMovimentacao> buscaMovimentacoes(Estoque e) {
+        List<EstoqueMovimentacao> estMov = findBy("estoque.id", e.getId());
+        return estMov;
+    }
 
     public EstoqueMovimentacaoService() {
         super(EstoqueMovimentacao.class);

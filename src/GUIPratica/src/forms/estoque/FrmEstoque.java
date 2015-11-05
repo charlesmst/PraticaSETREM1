@@ -9,6 +9,7 @@ import javax.swing.JDialog;
 import model.estoque.Estoque;
 import services.ServiceException;
 import services.estoque.EstoqueService;
+import utils.AlertaTipos;
 import utils.Utils;
 
 /**
@@ -74,9 +75,16 @@ public class FrmEstoque extends JPanelControleButtons {
                 "Código", "Item", "Data de Compra", "Lote", "Quantidade Disponível", "Valor Unitário", "Data de Validade"
             }
         ) {
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class
+            };
             boolean[] canEdit = new boolean [] {
                 false, false, false, false, false, false, false
             };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
@@ -107,7 +115,7 @@ public class FrmEstoque extends JPanelControleButtons {
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(txtBuscar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 399, Short.MAX_VALUE))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 653, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -118,7 +126,7 @@ public class FrmEstoque extends JPanelControleButtons {
                     .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 253, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 418, Short.MAX_VALUE)
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -140,20 +148,23 @@ public class FrmEstoque extends JPanelControleButtons {
 
     @Override
     public void btnAlterarActionPerformed(ActionEvent evt) {
-        defaultUpdateOperation(table, (i) -> {
-            JDialog dialog = new FrmEstoqueCadastro(i);
+        try {
+            JDialog dialog = new FrmEstoqueAlteracao(table.getSelectedId());
             dialog.setVisible(true);
-        });
-
+        } catch (Exception e) {
+            utils.Forms.mensagem(e.getMessage(), AlertaTipos.erro);
+        }
     }
 
     @Override
-    public void btnExcluirActionPerformed(ActionEvent evt) {
+    public void btnExcluirActionPerformed(ActionEvent evt
+    ) {
         defaultDeleteOperation(table, (i) -> service.delete(i));
     }
 
     @Override
-    public void btnAtualizarActionPerformed(ActionEvent evt) {
+    public void btnAtualizarActionPerformed(ActionEvent evt
+    ) {
         table.atualizar();
     }
 }

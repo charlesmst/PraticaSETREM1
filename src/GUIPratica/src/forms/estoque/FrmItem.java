@@ -19,7 +19,6 @@ import utils.Utils;
 public class FrmItem extends JPanelControleButtons {
 
     private final ItemService service;
-//    JTableDataBinder table;
 
     public FrmItem() {
         initComponents();
@@ -148,7 +147,6 @@ public class FrmItem extends JPanelControleButtons {
         JDialog dialog = new FrmEstoqueCadastro();
         dialog.setVisible(true);
     }//GEN-LAST:event_btnEntradaActionPerformed
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnEntrada;

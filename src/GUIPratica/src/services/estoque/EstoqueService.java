@@ -48,10 +48,26 @@ public class EstoqueService extends Service<Estoque> {
             t.commit();
         });
     }
-        //
-    //    public boolean unico(int id, String descricao) throws ServiceException {
-    //        return findFilter(Restrictions.ne("id", id), Restrictions.eq("descricao", descricao)).isEmpty();
-    //    }
+
+    public void update(Estoque est, EstoqueMovimentacao estMov) throws services.ServiceException {
+        executeOnTransaction((s, t) -> {
+            if (est.getId() > 0) {
+                s.merge(est);
+            } else {
+                s.save(est);
+            }
+            if (estMov.getId() > 0) {
+                s.merge(estMov);
+            } else {
+                s.save(estMov);
+            }
+            t.commit();
+        });
+    }
+
+    public List<EstoqueMovimentacao> todasMovimentacaos() {
+        return new EstoqueMovimentacaoService().findAll();
+    }
 
     public EstoqueService() {
         super(Estoque.class);

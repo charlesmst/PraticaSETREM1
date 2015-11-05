@@ -63,6 +63,7 @@ public class MovimentacaoTipo implements Serializable {
     }
 
     public enum TipoMovimentacao {
+
         entrada,
         saida
     }
