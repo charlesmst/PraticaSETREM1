@@ -1,4 +1,3 @@
-
 package forms.estoque;
 
 import components.CellRenderer;
@@ -146,8 +145,8 @@ public class FrmItem extends JPanelControleButtons {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnEntradaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEntradaActionPerformed
-       JDialog dialog = new FrmEstoqueCadastro();
-       dialog.setVisible(true);
+        JDialog dialog = new FrmEstoqueCadastro();
+        dialog.setVisible(true);
     }//GEN-LAST:event_btnEntradaActionPerformed
 
 

@@ -36,6 +36,8 @@ public class FrmEstoqueCadastro extends JDialogController {
     private final EstoqueService serviceEst = new EstoqueService();
     private final EstoqueMovimentacaoService serviceEstMov = new EstoqueMovimentacaoService();
     List<MovimentacaoTipo> movTipo;
+    Estoque est;
+    EstoqueMovimentacao estMov;
 
     public FrmEstoqueCadastro() {
         this(0);
@@ -88,47 +90,13 @@ public class FrmEstoqueCadastro extends JDialogController {
     }
 
     private void save() {
-        for (int x = 0; x < estoque.size(); x++) {
-            Estoque est;
-            EstoqueMovimentacao estMov;
-//        if (id > 0) {
-//            est = serviceEst.findById(id);
-//            estMov = serviceEstMov.findById(id);
-//        } else {
-//            est = new Estoque();
-//            estMov = new EstoqueMovimentacao();
-//        }
-            est = estoque.get(x);
-            estMov = estoque.get(x).getMovimentacoes().get(0);
-            int w = 0;
-            for (EstoqueMovimentacao eM : estoque.get(x).getMovimentacoes()) {
-                estMov = estoque.get(x).getMovimentacoes().get(w);
-                w++;
-            }
-            //estMov = estoque.get(x).getMovimentacoes().get(0);
-            serviceEst.insert(est);
-            serviceEstMov.insert(estMov);
+
+        Utils.safeCode(() -> {
+            serviceEst.insert(estoque);
             utils.Forms.mensagem(utils.Mensagens.registroSalvo, AlertaTipos.sucesso);
             dispose();
-//EstoqueTipo itemTipo = new EstoqueTipoService().findById(Integer.parseInt(txtEstoqueTipo.getText()));
-//        i.setEstoqueTipo(itemTipo);
-//        i.setDescricao(txtDescricao.getText());
-//        i.setEstoqueMinimo(Integer.parseInt(spinQuantidade.getValue().toString()));
-//        Prateleira prateleira = new PrateleiraService().findById(Integer.parseInt(txtTipoMovimentacao.getText()));
-//        i.setPrateleira(prateleira);
-//            Utils.safeCode(() -> {
-//                if (id == 0) {
-//                    serviceEst.insert(est);
-//                    serviceEstMov.insert(estMov);
-//
-//                } else {
-//                    serviceEst.update(est);
-//                    serviceEstMov.update(estMov);
-//                }
-//                utils.Forms.mensagem(utils.Mensagens.registroSalvo, AlertaTipos.sucesso);
-//                dispose();
-//            });
-        }
+        });
+
     }
 
     @SuppressWarnings("unchecked")
@@ -370,8 +338,8 @@ public class FrmEstoqueCadastro extends JDialogController {
         estMov.setValorUnitario(txtValorCompra.getValue());
         estMov.setQuantidade(Integer.parseInt(spinerQuantidade.getValue().toString()));
         estMov.setDataLancamento(new Date());
-        estMov.setDescricao("Movimentação de " + estMov.getMovimentacaoTipo().getDescricao()
-                + " de " + estMov.getQuantidade() + " Item: " + est.getItem().getDescricao());
+        estMov.setDescricao(estMov.getMovimentacaoTipo().getDescricao()
+                + " DE " + estMov.getQuantidade() + " " + est.getItem().getDescricao());
         est.setDataCompra(jDateCompra.getDate());
         est.setLote(txtLote.getText());
         if (chkDataValidade.isSelected()) {
