@@ -10,6 +10,8 @@ import components.ThrowingCommand;
 import java.lang.reflect.Method;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -46,6 +48,16 @@ public class Utils {
         } catch (Exception e) {
             return false;
         }
+    }
+
+    private static SimpleDateFormat formatBra = new SimpleDateFormat("dd/MM/yyyy");
+
+    public static String formataDate(Date dtData) {
+        
+        if(dtData == null)
+            return "";
+        return (formatBra.format(dtData));
+        
     }
 
     public static void safeCode(ThrowingCommand command, boolean block) {
@@ -112,9 +124,9 @@ public class Utils {
 
         return format.format(d);
     }
-    
+
     public static double parseDinheiro(String d) {
 
-            return Math.round(Double.parseDouble(d.substring(2).replace(".", "").replace(",", ".")) * 100d) / 100d;
+        return Math.round(Double.parseDouble(d.substring(2).replace(".", "").replace(",", ".")) * 100d) / 100d;
     }
 }

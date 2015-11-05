@@ -1,6 +1,7 @@
 package model.ordem;
 
 import java.io.Serializable;
+import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -13,6 +14,30 @@ import javax.persistence.Table;
 @Table(name = "sh_ordem_status")
 @SequenceGenerator(name = "seq_ordem_status", sequenceName = "seq_ordem_status", initialValue = 1, allocationSize = 1)
 public class OrdemStatus implements Serializable {
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 31 * hash + this.id;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final OrdemStatus other = (OrdemStatus) obj;
+        if (this.id != other.id) {
+            return false;
+        }
+        return true;
+    }
+
+
 
     @Override
     public String toString() {

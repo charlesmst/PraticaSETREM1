@@ -27,7 +27,7 @@ public class Modelo implements Serializable {
 
     @Override
     public String toString() {
-        return  marca.toString() + "-"+nome;
+        return  /*marca.toString() + "-"+*/nome;
     }
 
     @Id

@@ -6,23 +6,40 @@
 package forms.ordem;
 
 import components.JDialogController;
+import components.JTableDataBinderListener;
 import forms.frmMain;
 import java.util.Vector;
 import javax.swing.DefaultComboBoxModel;
 import model.Pessoa;
 import forms.FrmPessoaF2;
+import forms.fluxo.FrmContaCadastro;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Comparator;
 import java.util.Date;
+import java.util.List;
+import javax.swing.JOptionPane;
+import model.estoque.EstoqueMovimentacao;
+import model.fluxo.Conta;
+import model.fluxo.ContaCategoria;
 import model.ordem.Ordem;
+import model.ordem.OrdemServico;
+import model.ordem.OrdemStatus;
 import model.ordem.Veiculo;
 import org.jdesktop.beansbinding.AutoBinding;
 import org.jdesktop.beansbinding.Converter;
 import services.PessoaService;
+import services.ServiceException;
+import services.fluxo.ContaService;
 import services.ordem.OrdemService;
 
 import services.ordem.MarcaService;
+import services.ordem.OrdemServicoService;
 import services.ordem.OrdemStatusService;
 import services.ordem.VeiculoService;
 import utils.AlertaTipos;
+import utils.Forms;
+import utils.Parametros;
 import utils.Utils;
 
 /**
@@ -45,6 +62,14 @@ public class FrmOrdemCadastro extends JDialogController {
         super(frmMain.getInstance(), "Manutenção de Ordem de serviço");
         this.id = id;
 
+        initComponents();
+        setupForm();
+    }
+
+    private void setupForm() {
+
+        //Esconde a coluna id
+        table.removeColumn(table.getColumn("Id"));
         if (id > 0) {
             ordem = service.findOrdem(id);
         } else {
@@ -52,11 +77,6 @@ public class FrmOrdemCadastro extends JDialogController {
             ordem.setPessoa(new Pessoa());
             ordem.setVeiculo(new Veiculo());
         }
-        initComponents();
-        setupForm();
-    }
-
-    private void setupForm() {
         // center the jframe on screen
         setLocationRelativeTo(null);
         setDefaultButton(btnSalvar);
@@ -68,7 +88,71 @@ public class FrmOrdemCadastro extends JDialogController {
         validator.validarDeBanco(txtVeiculo, new VeiculoService());
 
         jcbStatus.setModel(new DefaultComboBoxModel(new Vector(new OrdemStatusService().findAtivos())));
+
+        table.setListener(new JTableDataBinderListener() {
+
+            @Override
+            public Collection lista(String busca) throws ServiceException {
+                List lordenada = new ArrayList();
+                lordenada.addAll(ordem.getEstoqueMovimentacaos());
+                lordenada.addAll(ordem.getOrdemServicos());
+                lordenada.sort(new Comparator() {
+
+                    @Override
+                    public int compare(Object o1, Object o2) {
+                        Date d1;
+                        if (o1 instanceof OrdemServico) {
+                            d1 = ((OrdemServico) o1).getDataRealizada();
+                        } else {
+                            d1 = ((EstoqueMovimentacao) o1).getDataLancamento();
+                        }
+
+                        Date d2;
+                        if (o2 instanceof OrdemServico) {
+                            d2 = ((OrdemServico) o2).getDataRealizada();
+                        } else {
+                            d2 = ((EstoqueMovimentacao) o2).getDataLancamento();
+                        }
+                        return d1.compareTo(d2);
+                    }
+                });
+                return lordenada;
+
+            }
+
+            @Override
+            public Object[] addRow(Object dado) {
+                Object[] l = new Object[7];
+                if (dado instanceof OrdemServico) {
+                    OrdemServico s = ((OrdemServico) dado);
+                    l[0] = s.getId();
+                    l[1] = "SERVIÇO";
+                    if (s.getConta() != null) {
+                        l[1] += " DE TERCEIRO";
+                    }
+                    l[2] = Utils.formataDinheiro(s.getValorEntrada());
+                    l[3] = s.getQuantidade();
+                    l[4] = s.getTipoServico().getNome();
+                    l[5] = Utils.formataDate(s.getDataRealizada());
+                    l[6] = Utils.formataDinheiro(s.getValorEntrada() * s.getQuantidade());
+                } else {
+                    EstoqueMovimentacao m = (EstoqueMovimentacao) dado;
+                    l[0] = m.getId();
+                    l[1] = "PEÇA";
+                    l[2] = "ARRUMAR";
+                    l[3] = m.getQuantidade();
+                    l[4] = m.getEstoque().getItem().getDescricao();
+                    l[5] = Utils.formataDate(m.getDataLancamento());
+                    l[6] = "ARRUMAR";
+                }
+                return l;
+            }
+        });
         initBinding();
+    }
+
+    private void atualizaListagem() {
+        table.atualizar();
     }
 
     private boolean binded = false;
@@ -92,14 +176,26 @@ public class FrmOrdemCadastro extends JDialogController {
 
                 @Override
                 public String convertForward(Veiculo value) {
-                    if (value != null) {
+                    if (value != null || value.getId() != 0) {
                         return value.getId() + "";
                     }
                     return "";
                 }
             });
             autoVehicle.bind();
+            OrdemStatus st = ordem.getOrdemStatus();
+            DefaultComboBoxModel m = ((DefaultComboBoxModel) jcbStatus.getModel());
+            if (st != null) {
+                for (int i = 0; i < m.getSize(); i++) {
+                    OrdemStatus get = (OrdemStatus) m.getElementAt(i);
+                    if (get.getId() == st.getId()) {
+                        ordem.setOrdemStatus(get);
+                        break;
+                    }
+                }
+            }
 
+            Utils.createBind(ordem, "ordemStatus", jcbStatus);
             AutoBinding a = Utils.createBind(ordem, "pessoa", txtCliente, false);
             a.setConverter(new Converter<Pessoa, String>() {
 
@@ -116,7 +212,7 @@ public class FrmOrdemCadastro extends JDialogController {
 
                 @Override
                 public String convertForward(Pessoa value) {
-                    if (value != null) {
+                    if (value != null || value.getId() != 0) {
                         return value.getId() + "";
                     }
                     return "";
@@ -129,14 +225,16 @@ public class FrmOrdemCadastro extends JDialogController {
 //            aPrazo.bind();
             Utils.createBind(ordem, "descricao", txtPedido);
         }
+        atualizaListagem();
     }
 
     private void salvar() {
-        if (id == 0) {
+        if (ordem.getId() == 0) {
             service.insert(ordem);
         } else {
             service.update(ordem);
         }
+        id = ordem.getId();
     }
 
     private void save() {
@@ -150,6 +248,10 @@ public class FrmOrdemCadastro extends JDialogController {
 //
             dispose();
         });
+    }
+
+    private void imprimirFicha() {
+
     }
 
     /**
@@ -171,7 +273,7 @@ public class FrmOrdemCadastro extends JDialogController {
         jLabel3 = new javax.swing.JLabel();
         txtCliente = new components.F2(FrmPessoaF2.class,(id)->new PessoaService().findById(id).getNome());
         jLabel4 = new javax.swing.JLabel();
-        txtVeiculo = new components.F2(FrmVeiculoF2.class,(id)->new PessoaService().findById(id).getNome());
+        txtVeiculo = new components.F2(FrmVeiculoF2.class,(id)->new VeiculoService().findById(id,true).toString());
         txtPrazo = new components.JDateField();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
@@ -179,8 +281,8 @@ public class FrmOrdemCadastro extends JDialogController {
         jLabel8 = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTableDataBinder1 = new components.JTableDataBinder();
-        btnSalvar1 = new javax.swing.JButton();
+        table = new components.JTableDataBinder();
+        btnFinalizar = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
         btnAddServico = new javax.swing.JButton();
         btnAddPeca = new javax.swing.JButton();
@@ -222,33 +324,38 @@ public class FrmOrdemCadastro extends JDialogController {
 
         jLabel8.setText("Descrição do pedido");
 
-        jTableDataBinder1.setModel(new javax.swing.table.DefaultTableModel(
+        table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Tipo", "Valor Unitário", "Qtde.", "Descrição", "Data", "Total"
+                "Id", "Tipo", "Valor Unitário", "Qtde.", "Descrição", "Data", "Total"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false
+                false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane2.setViewportView(jTableDataBinder1);
+        jScrollPane2.setViewportView(table);
 
-        btnSalvar1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/save.png"))); // NOI18N
-        btnSalvar1.setText("Finalizar ordem");
-        btnSalvar1.addActionListener(new java.awt.event.ActionListener() {
+        btnFinalizar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/save.png"))); // NOI18N
+        btnFinalizar.setText("Finalizar ordem");
+        btnFinalizar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSalvar1ActionPerformed(evt);
+                btnFinalizarActionPerformed(evt);
             }
         });
 
         jButton1.setText("Conta da ordem de serviço");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         btnAddServico.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/new.png"))); // NOI18N
         btnAddServico.setText("Serviço");
@@ -294,7 +401,7 @@ public class FrmOrdemCadastro extends JDialogController {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnCancelar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnSalvar1)
+                        .addComponent(btnFinalizar)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -362,7 +469,7 @@ public class FrmOrdemCadastro extends JDialogController {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnCancelar)
                     .addComponent(btnSalvar)
-                    .addComponent(btnSalvar1))
+                    .addComponent(btnFinalizar))
                 .addContainerGap())
         );
 
@@ -377,12 +484,47 @@ public class FrmOrdemCadastro extends JDialogController {
         save();
     }//GEN-LAST:event_btnSalvarActionPerformed
 
-    private void btnSalvar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvar1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnSalvar1ActionPerformed
+    private void btnFinalizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFinalizarActionPerformed
+        if (!validator.isValido()) {
+            return;
+        }
+        //Cadastra conta
+        if (ordem.getConta() == null) {
+            
+            double valorTotal = service.valorTotal(ordem);
+            FrmDescontoCadastro frmDesconto = new FrmDescontoCadastro(valorTotal);
+            frmDesconto.setListener((desconto) -> {
+                //Aplicar desconto
+//                ordem.set;
+                FrmContaCadastro frmConta = new FrmContaCadastro(valorTotal - desconto, 1, "", Conta.ContaTipo.ordem, ContaCategoria.TipoCategoria.entrada);
+                frmConta.setPessoa(ordem.getPessoa().getId(),true);
+                frmConta.setDescricao("ORDEM DE SERVIÇO CÒDIGO "+ordem.getId());
+                frmConta.setListenerOnSave((c) -> {
+                    ordem.setConta(c);
+                    int codigoStatus = Integer.parseInt(Parametros.getInstance().getValue("status_finalizador"));
+                    ordem.setOrdemStatus(new OrdemStatusService().findById(codigoStatus));
+                    salvar();
+                    imprimirFicha();
+                    dispose();
+                });
+                frmConta.setVisible(true);
+            });
+            frmDesconto.setVisible(true);
+        } else {
+            imprimirFicha();
+            dispose();
+        }
+    }//GEN-LAST:event_btnFinalizarActionPerformed
 
     private void btnAddServicoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddServicoActionPerformed
-        // TODO add your handling code here:
+        if (!validator.isValido()) {
+            return;
+        }
+        salvar();
+
+        FrmOrdemServicoCadastro frm = new FrmOrdemServicoCadastro(ordem);
+        frm.setVisible(true);
+        atualizaListagem();
     }//GEN-LAST:event_btnAddServicoActionPerformed
 
     private void btnAddPecaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddPecaActionPerformed
@@ -390,8 +532,53 @@ public class FrmOrdemCadastro extends JDialogController {
     }//GEN-LAST:event_btnAddPecaActionPerformed
 
     private void btnAddPeca1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddPeca1ActionPerformed
-        // TODO add your handling code here:
+        int id = table.getSelectedId();
+        if (id > 0 && Forms.dialogDelete()) {
+            if (table.getDefaultTableModel().getValueAt(table.getSelectedRow(), 1).equals("PEÇA")) {
+                for (EstoqueMovimentacao estoqueMovimentacao : ordem.getEstoqueMovimentacaos()) {
+                    if (estoqueMovimentacao.getId() == id) {
+                        ordem.getEstoqueMovimentacaos().remove(estoqueMovimentacao);
+                        salvar();
+                        JOptionPane.showMessageDialog(null, "Implementar essa parte");
+                        break;
+                    }
+                }
+            } else {
+                for (OrdemServico ordemServico : ordem.getOrdemServicos()) {
+                    if (ordemServico.getId() == id) {
+                        boolean deleteconta = false;
+                        if (ordemServico.getConta() != null) {
+                            int sel = JOptionPane.showConfirmDialog(null, "O serviço possui uma conta a pagar relacionada, deseja excluir a conta?");
+                            if (sel == JOptionPane.YES_OPTION) {
+                                deleteconta = true;
+                            } else if (sel == JOptionPane.CANCEL_OPTION) {
+                                return;
+                            }
+                        }
+
+                        ordem.getOrdemServicos().remove(ordemServico);
+                        salvar();
+                        new OrdemServicoService().delete(ordemServico.getId());
+
+                        if (deleteconta) {
+                            new ContaService().delete(ordemServico.getConta().getId());
+                        }
+
+                        break;
+                    }
+                }
+            }
+            atualizaListagem();
+        }
     }//GEN-LAST:event_btnAddPeca1ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        if (ordem.getConta() != null) {
+            new FrmContaCadastro(ordem.getConta().getId()).setVisible(true);
+        } else {
+            Forms.mensagem("Não há conta relacionada", AlertaTipos.erro);
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -399,8 +586,8 @@ public class FrmOrdemCadastro extends JDialogController {
     private javax.swing.JButton btnAddPeca1;
     private javax.swing.JButton btnAddServico;
     private javax.swing.JButton btnCancelar;
+    private javax.swing.JButton btnFinalizar;
     private javax.swing.JButton btnSalvar;
-    private javax.swing.JButton btnSalvar1;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel3;
@@ -412,9 +599,9 @@ public class FrmOrdemCadastro extends JDialogController {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSeparator jSeparator1;
-    private components.JTableDataBinder jTableDataBinder1;
     private javax.swing.JComboBox jcbStatus;
     private model.ordem.Ordem ordem;
+    private components.JTableDataBinder table;
     private components.F2 txtCliente;
     private javax.swing.JTextArea txtPedido;
     private components.JDateField txtPrazo;

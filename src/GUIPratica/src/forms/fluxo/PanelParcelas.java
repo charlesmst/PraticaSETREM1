@@ -44,6 +44,13 @@ public class PanelParcelas extends javax.swing.JPanel {
         return conta;
     }
 
+    public void setValor(double valor){
+        jffValor.setValue(valor);
+    }
+    
+    public void setParcelas(int parcelas){
+        jtbParcelas.setValue(parcelas);
+    }
     public List<Parcela> getParcelas() {
         return conta.getParcelas();
 

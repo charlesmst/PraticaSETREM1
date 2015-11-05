@@ -14,6 +14,7 @@ import javax.persistence.Table;
 @SequenceGenerator(name = "seq_ordem_tipo_servico", sequenceName = "seq_ordem_tipo_servico", initialValue = 1, allocationSize = 1)
 public class OrdemTipoServico implements Serializable {
 
+
     @Id
     @GeneratedValue(generator = "seq_ordem_tipo_servico", strategy = GenerationType.SEQUENCE)
     private int id;
@@ -57,5 +58,10 @@ public class OrdemTipoServico implements Serializable {
 
     public void setValorEntrada(double valorEntrada) {
         this.valorEntrada = valorEntrada;
+    }
+    
+    @Override
+    public String toString() {
+        return nome;
     }
 }

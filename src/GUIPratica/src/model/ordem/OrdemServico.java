@@ -25,6 +25,7 @@ public class OrdemServico implements Serializable {
     @GeneratedValue(generator = "seq_ordem_servico", strategy = GenerationType.SEQUENCE)
     private int id;
 
+    @ManyToOne
     @JoinColumn(name = "tipo_servico_id")
     private OrdemTipoServico tipoServico;
 
@@ -41,6 +42,7 @@ public class OrdemServico implements Serializable {
     @Column(name = "data_realizada")
     private Date dataRealizada;
 
+    @ManyToOne
     @JoinColumn(name = "conta_id")
     private Conta conta;
 

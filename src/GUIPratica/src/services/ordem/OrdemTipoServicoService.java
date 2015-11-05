@@ -6,6 +6,7 @@
 package services.ordem;
 
 import java.io.Serializable;
+import java.util.List;
 import model.ordem.OrdemTipoServico;
 import services.Service;
 import services.ServiceException;
@@ -39,5 +40,8 @@ public class OrdemTipoServicoService extends Service<OrdemTipoServico> {
         c.setAtivo(false);
 
         update(c); //To change body of generated methods, choose Tools | Templates.
+    }
+    public List<OrdemTipoServico> findAtivos(){
+        return  findBy("ativo", true);
     }
 }

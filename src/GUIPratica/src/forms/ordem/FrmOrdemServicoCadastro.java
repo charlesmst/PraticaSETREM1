@@ -6,12 +6,22 @@
 package forms.ordem;
 
 import components.JDialogController;
+import components.ThrowingCommand;
+import forms.fluxo.FrmContaCadastro;
 import forms.frmMain;
+import java.util.Vector;
+import javax.swing.DefaultComboBoxModel;
+import model.fluxo.Conta;
+import model.fluxo.ContaCategoria;
 import model.ordem.Marca;
+import model.ordem.Ordem;
 import model.ordem.OrdemServico;
+import model.ordem.OrdemTipoServico;
+import services.fluxo.ContaService;
 import services.ordem.OrdemServicoService;
 
 import services.ordem.MarcaService;
+import services.ordem.OrdemTipoServicoService;
 import utils.AlertaTipos;
 import utils.Utils;
 
@@ -21,20 +31,13 @@ import utils.Utils;
  */
 public class FrmOrdemServicoCadastro extends JDialogController {
 
-    private int id;
+    private Ordem ordem;
     private final OrdemServicoService service = new OrdemServicoService();
 
-    /**
-     * Creates new form frmCadastroOrdemServico
-     */
-    public FrmOrdemServicoCadastro() {
-        this(0);
-    }
-
-    public FrmOrdemServicoCadastro(int id) {
+    public FrmOrdemServicoCadastro(Ordem ordem) {
         super(frmMain.getInstance(), "Manutenção de Serviços");
         initComponents();
-        this.id = id;
+        this.ordem = ordem;
         setupForm();
     }
 
@@ -42,21 +45,26 @@ public class FrmOrdemServicoCadastro extends JDialogController {
         // center the jframe on screen
         setLocationRelativeTo(null);
         setDefaultButton(btnSalvar);
-//        txtCodigo.setEnabled(false);
-//
-//        validator.validarObrigatorio(txtNome);
-//        validator.validarObrigatorio(txtMarca);
-//        validator.validarDeBanco(txtMarca, new MarcaService());
-        if (id > 0) {
-            load();
-        }
+        jcbTerceiro.setSelected(false);
+        jcbServico.setModel(new DefaultComboBoxModel(new Vector(new OrdemTipoServicoService().findAtivos())));
+        atualizaValor();
+
     }
 
-    private void load() {
-        OrdemServico m = service.findById(id);
-//        txtCodigo.setText(String.valueOf(m.getId()));
-//        txtNome.setText(m.getNome());
-//        txtMarca.setText(m.getMarca().getId()+"");
+    private void atualizaValor() {
+        OrdemTipoServico tipo = (OrdemTipoServico) jcbServico.getSelectedItem();
+        txtValor.setValue(tipo.getValorEntrada());
+        atualizaValorTotal();
+    }
+
+    private double getValorTotal() {
+        double v = txtValor.getValue() * ((Integer) txtQuantidade.getValue() + 0d);
+        return v;
+    }
+
+    private void atualizaValorTotal() {
+        lblValorTotal.setText(Utils.formataDinheiro(getValorTotal()));
+
     }
 
     private void save() {
@@ -64,23 +72,51 @@ public class FrmOrdemServicoCadastro extends JDialogController {
             return;
         }
         OrdemServico m;
-        if (id > 0) {
-            m = service.findById(id);
-        } else {
-            m = new OrdemServico();
-        }
-//        m.setNome(txtNome.getText());
-//        m.setMarca(new Marca(txtMarca.getValueSelected()));
-        Utils.safeCode(() -> {
-            if (id == 0) {
-                service.insert(m);
-            } else {
-                service.update(m);
-            }
-            utils.Forms.mensagem(utils.Mensagens.registroSalvo, AlertaTipos.sucesso);
-
+        m = new OrdemServico();
+        m.setValorEntrada(txtValor.getValue());
+        m.setDataRealizada(txtData.getDate());
+        m.setOrdem(ordem);
+        m.setTipoServico((OrdemTipoServico) jcbServico.getSelectedItem());
+        m.setQuantidade((Integer) txtQuantidade.getValue());
+        ordem.getOrdemServicos().add(m);
+        ThrowingCommand command = () -> {
+            service.insert(m);
             dispose();
-        });
+        };
+        if (jcbTerceiro.isSelected()) {
+            Conta c;
+            if (!txtNotaFiscal.getText().trim().equals("") && (c = new ContaService().findByNota(txtNotaFiscal.getText().trim())) != null) {
+                m.setConta(c);
+                command.action();
+            } else {
+                FrmContaCadastro frm = new FrmContaCadastro(getValorTotal(), 1, txtNotaFiscal.getText(), Conta.ContaTipo.conta, ContaCategoria.TipoCategoria.saida);
+                frm.setListenerOnSave((conta) -> {
+                    m.setConta(conta);
+                    command.action();
+                });
+                frm.setVisible(true);
+            }
+
+        } else {
+            command.action();
+        }
+//        if (id > 0) {
+//            m = service.findById(id);
+//        } else {
+//            m = new OrdemServico();
+//        }
+////        m.setNome(txtNome.getText());
+////        m.setMarca(new Marca(txtMarca.getValueSelected()));
+//        Utils.safeCode(() -> {
+//            if (id == 0) {
+//                service.insert(m);
+//            } else {
+//                service.update(m);
+//            }
+//            utils.Forms.mensagem(utils.Mensagens.registroSalvo, AlertaTipos.sucesso);
+//
+//            dispose();
+//        });
     }
 
     /**
@@ -91,6 +127,7 @@ public class FrmOrdemServicoCadastro extends JDialogController {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+        bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
         buttonGroup1 = new javax.swing.ButtonGroup();
         jLabel1 = new javax.swing.JLabel();
@@ -98,11 +135,14 @@ public class FrmOrdemServicoCadastro extends JDialogController {
         btnCancelar = new javax.swing.JButton();
         jcbServico = new javax.swing.JComboBox();
         jLabel2 = new javax.swing.JLabel();
-        jSpinner1 = new javax.swing.JSpinner();
+        txtQuantidade = new javax.swing.JSpinner();
         jLabel3 = new javax.swing.JLabel();
-        jTextFieldMoney1 = new components.JTextFieldMoney();
+        txtValor = new components.JTextFieldMoney();
         jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
+        lblValorTotal = new javax.swing.JLabel();
+        jcbTerceiro = new javax.swing.JCheckBox();
+        txtNotaFiscal = new components.PlaceholderTextField();
+        txtData = new components.JDateField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -125,14 +165,45 @@ public class FrmOrdemServicoCadastro extends JDialogController {
         });
 
         jcbServico.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Carregando..." }));
+        jcbServico.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jcbServicoActionPerformed(evt);
+            }
+        });
 
         jLabel2.setText("Quantidade");
 
+        txtQuantidade.setModel(new javax.swing.SpinnerNumberModel(Integer.valueOf(1), Integer.valueOf(1), null, Integer.valueOf(1)));
+        txtQuantidade.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                txtQuantidadeStateChanged(evt);
+            }
+        });
+
         jLabel3.setText("Valor Unitário");
+
+        txtValor.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtValorKeyReleased(evt);
+            }
+        });
 
         jLabel4.setText("Valor Total");
 
-        jLabel5.setText("R$0,00");
+        lblValorTotal.setText("R$0,00");
+
+        jcbTerceiro.setText("Serviço Terceirizado");
+
+        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, txtNotaFiscal, org.jdesktop.beansbinding.ELProperty.create("${enabled}"), jcbTerceiro, org.jdesktop.beansbinding.BeanProperty.create("selected"));
+        bindingGroup.addBinding(binding);
+
+        jcbTerceiro.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                jcbTerceiroStateChanged(evt);
+            }
+        });
+
+        txtNotaFiscal.setPlaceholder("Número da Nota");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -143,29 +214,35 @@ public class FrmOrdemServicoCadastro extends JDialogController {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jcbServico, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(btnSalvar)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(btnCancelar))
-                                    .addComponent(jLabel1))
-                                .addGap(0, 0, Short.MAX_VALUE)))
-                        .addGap(20, 20, 20))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel2)
-                            .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txtQuantidade, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(22, 22, 22)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel3)
-                            .addComponent(jTextFieldMoney1, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txtValor, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(33, 33, 33)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel5)
-                            .addComponent(jLabel4))
-                        .addContainerGap(253, Short.MAX_VALUE))))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel4)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 233, Short.MAX_VALUE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(lblValorTotal)
+                                .addGap(53, 53, 53)
+                                .addComponent(txtData, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jcbTerceiro)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(txtNotaFiscal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jcbServico, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                .addComponent(btnSalvar)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnCancelar))
+                            .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addGap(20, 20, 20))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -181,15 +258,22 @@ public class FrmOrdemServicoCadastro extends JDialogController {
                     .addComponent(jLabel4))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextFieldMoney1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel5))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 146, Short.MAX_VALUE)
+                    .addComponent(txtQuantidade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtValor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblValorTotal)
+                    .addComponent(txtData, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jcbTerceiro)
+                    .addComponent(txtNotaFiscal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 6, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnCancelar)
                     .addComponent(btnSalvar))
                 .addContainerGap())
         );
+
+        bindingGroup.bind();
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -202,6 +286,22 @@ public class FrmOrdemServicoCadastro extends JDialogController {
         save();
     }//GEN-LAST:event_btnSalvarActionPerformed
 
+    private void jcbTerceiroStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jcbTerceiroStateChanged
+//        txtNotaFiscal.setVisible(jcbTerceiro.isSelected());
+    }//GEN-LAST:event_jcbTerceiroStateChanged
+
+    private void jcbServicoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcbServicoActionPerformed
+        atualizaValor();
+    }//GEN-LAST:event_jcbServicoActionPerformed
+
+    private void txtValorKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtValorKeyReleased
+        atualizaValorTotal();
+    }//GEN-LAST:event_txtValorKeyReleased
+
+    private void txtQuantidadeStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_txtQuantidadeStateChanged
+        atualizaValorTotal();
+    }//GEN-LAST:event_txtQuantidadeStateChanged
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancelar;
@@ -211,9 +311,13 @@ public class FrmOrdemServicoCadastro extends JDialogController {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JSpinner jSpinner1;
-    private components.JTextFieldMoney jTextFieldMoney1;
     private javax.swing.JComboBox jcbServico;
+    private javax.swing.JCheckBox jcbTerceiro;
+    private javax.swing.JLabel lblValorTotal;
+    private components.JDateField txtData;
+    private components.PlaceholderTextField txtNotaFiscal;
+    private javax.swing.JSpinner txtQuantidade;
+    private components.JTextFieldMoney txtValor;
+    private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
 }

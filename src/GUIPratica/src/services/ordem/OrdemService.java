@@ -5,9 +5,11 @@
  */
 package services.ordem;
 
+import model.estoque.EstoqueMovimentacao;
 import model.fluxo.Conta;
 import model.fluxo.Parcela;
 import model.ordem.Ordem;
+import model.ordem.OrdemServico;
 import services.Service;
 import services.ServiceException;
 
@@ -16,6 +18,20 @@ import services.ServiceException;
  * @author charles
  */
 public class OrdemService extends Service<Ordem> {
+
+    @Override
+    public void update(Ordem obj) throws ServiceException {
+        insert(obj); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void insert(Ordem obj) throws ServiceException {
+        executeOnTransaction((s,t)->{
+            s.saveOrUpdate(obj);
+            t.commit();
+        });
+        
+    }
 
     public OrdemService() {
         super(Ordem.class);
@@ -34,5 +50,15 @@ public class OrdemService extends Service<Ordem> {
                     .uniqueResult();
             return c;
         });
+    }
+    public double valorTotal(Ordem obj){
+        double v = 0;
+        for (EstoqueMovimentacao estoqueMovimentacao : obj.getEstoqueMovimentacaos()) {
+            v+= 0;//@Todo Pegar valor de estoque;
+        }
+        for (OrdemServico ordemServico : obj.getOrdemServicos()) {
+            v+= ordemServico.getValorEntrada();
+        }
+        return v;
     }
 }

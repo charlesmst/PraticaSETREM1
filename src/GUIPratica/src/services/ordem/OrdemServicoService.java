@@ -20,5 +20,6 @@ public class OrdemServicoService extends Service<OrdemServico> {
     public OrdemServicoService() {
         super(OrdemServico.class);
     }
+    
 
 }

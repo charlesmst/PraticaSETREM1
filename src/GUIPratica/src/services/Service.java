@@ -7,6 +7,8 @@ package services;
 
 import components.ThrowingConsumer;
 import java.io.Serializable;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -135,7 +137,14 @@ public abstract class Service<T> {
                 if (full) {
                     //@todo implementar load full
                     obj = (T) s.load(classRef, id);
-
+                    for (Method method : obj.getClass().getMethods()) {
+                        if (method.getName().startsWith("get") && method.getParameterCount() == 0) {
+                            try {
+                                method.invoke(obj);
+                            } catch (IllegalAccessException | InvocationTargetException e) {
+                            }
+                        }
+                    }
                 } else {
                     obj = (T) s.get(classRef, id);
                 }

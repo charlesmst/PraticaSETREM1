@@ -33,7 +33,8 @@ public class Conta implements Serializable {
     public enum ContaTipo {
         conta,
         movimentacao,
-        estoque
+        estoque,
+        ordem
     }
     @Override
     public String toString() {

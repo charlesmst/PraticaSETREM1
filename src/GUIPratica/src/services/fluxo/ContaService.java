@@ -31,6 +31,16 @@ public class ContaService extends Service<Conta> {
         super(Conta.class);
     }
 
+    public Conta findByNota(String nota) throws ServiceException {
+        List<Conta> c = findBy("notaFiscal", nota);
+        
+        if (c.size() == 0 || c.get(0).getCategoria().getTipo() == ContaCategoria.TipoCategoria.saida) {
+            return null;
+        } else {
+            return c.get(0);
+        }
+    }
+
     public static double valorConta(Conta c) {
         double valor = 0d;
         valor = c.getParcelas().stream()
