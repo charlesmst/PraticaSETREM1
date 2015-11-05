@@ -40,7 +40,6 @@ public class Ordem implements Serializable {
     @JoinColumn(name = "pessoa_id", nullable = false)
     private Pessoa pessoa;
     @ManyToOne
-    @ManyToOne
     @JoinColumn(name = "veiculo_id")
     private Veiculo veiculo;
     @ManyToOne
