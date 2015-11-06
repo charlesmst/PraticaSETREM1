@@ -37,31 +37,32 @@ import utils.Utils;
  * @author Charles
  */
 public class FrmContaCadastro extends JDialogController {
-    
+
     private int id;
     private final ContaService service = new ContaService();
-    
-    
+
     private Consumer<Conta> listenerOnSave;
 
     public Consumer<Conta> getListenerOnSave() {
         return listenerOnSave;
     }
 
-    public void setDescricao(String descricao){
+    public void setDescricao(String descricao) {
         jtaDescricao.setText(descricao);
     }
-    public void setPessoa(int pessoa, boolean disable){
+
+    public void setPessoa(int pessoa, boolean disable) {
         jtbPessoa.setEditable(!disable);
-        jtbPessoa.setText(pessoa+"");
+        jtbPessoa.setText(pessoa + "");
     }
+
     public void setListenerOnSave(Consumer<Conta> listenerOnSave) {
         this.listenerOnSave = listenerOnSave;
     }
-    
+
     private DefaultComboBoxModel<ContaCategoria> modelCategoria;
     private DefaultComboBoxModel<FormaPagamento> modelFormaPagamento;
-    
+
     private Conta conta;
 
     /**
@@ -71,10 +72,10 @@ public class FrmContaCadastro extends JDialogController {
         this(0);
         conta.setTipo(Conta.ContaTipo.conta);
     }
-    
+
     public FrmContaCadastro(double valor, int parcelas, String notaFiscal, Conta.ContaTipo tipo, ContaCategoria.TipoCategoria tipoEntradaSaida) {
         this(0);
-        
+
         panelParcelas1.setValor(valor);
         panelParcelas1.setParcelas(parcelas);
         jtfNotaFiscal.setText(notaFiscal);
@@ -87,7 +88,7 @@ public class FrmContaCadastro extends JDialogController {
             jrbAPagar.setSelected(true);
         }
     }
-    
+
     public FrmContaCadastro(int id) {
         super(frmMain.getInstance(), "Manutenção de Contas");
         initComponents();
@@ -95,7 +96,7 @@ public class FrmContaCadastro extends JDialogController {
         setupForm();
 //        jffValor.setValue(100);
     }
-    
+
     private void setupForm() {
         // center the jframe on screen
         setLocationRelativeTo(null);
@@ -104,13 +105,13 @@ public class FrmContaCadastro extends JDialogController {
 //        jcbFrequencia.setSelectedIndex(3);
         bgPagarReceber.add(jrbAPagar);
         bgPagarReceber.add(jrbAReceber);
-        
+
         validator.validarObrigatorio(jcbCategoria);
         validator.validarObrigatorio(jcbFormaPagamento);
         validator.validarObrigatorio(jtbPessoa);
-        
+
         validator.validarDeBanco(jtbPessoa, new PessoaService());
-        
+
         conta = new Conta();
 //        conta.setDescricao("cascasd");
         if (id > 0) {
@@ -120,28 +121,29 @@ public class FrmContaCadastro extends JDialogController {
 
 //        initBindings();
     }
-    
+
     private boolean binded = false;
-    
+
     private void initBindings() {
         if (!binded) {
             binded = true;
             Utils.createBind(conta, "descricao", jtaDescricao);
             Utils.createBind(conta, "formaPagamento", jcbFormaPagamento);
             Utils.createBind(conta, "categoria", jcbCategoria);
-            
+
             if (jcbCategoria.getSelectedIndex() == -1 && jcbCategoria.getItemCount() > 0) {
                 jcbCategoria.setSelectedIndex(0);
             }
-            
+            panelParcelas1.bindValor();
+
             if (jcbFormaPagamento.getSelectedIndex() == -1 && jcbFormaPagamento.getItemCount() > 0) {
                 jcbFormaPagamento.setSelectedIndex(0);
             }
         }
-        
+
         AutoBinding a = Utils.createBind(conta, "pessoa", jtbPessoa, false);
         a.setConverter(new Converter<Pessoa, String>() {
-            
+
             @Override
             public Pessoa convertReverse(String value) {
                 try {
@@ -152,7 +154,7 @@ public class FrmContaCadastro extends JDialogController {
                     return null;
                 }
             }
-            
+
             @Override
             public String convertForward(Pessoa value) {
                 if (value != null) {
@@ -172,16 +174,16 @@ public class FrmContaCadastro extends JDialogController {
 //        panelParcelas1.setParcelas(conta.getParcelas());
 //        org.jdesktop.beansbinding.Bindings.createAutoBinding(AutoBinding.UpdateStrategy.READ, service, rootPane, null)
     }
-    
+
     private void ajustaPagarReceber() {
         Utils.safeCode(() -> {
-            
+
             ContaCategoriaService serviceCategoria = new ContaCategoriaService();
             FormaPagamentoService serviceFormaPagamento = new FormaPagamentoService();
-            
+
             List<ContaCategoria> categorias;
             List<FormaPagamento> formas = serviceFormaPagamento.findBy("ativo", true);
-            
+
             if (jrbAPagar.isSelected()) {
                 categorias = serviceCategoria.findBy("tipo", ContaCategoria.TipoCategoria.saida);
             } else {
@@ -189,23 +191,24 @@ public class FrmContaCadastro extends JDialogController {
             }
             modelFormaPagamento = new DefaultComboBoxModel<>(new Vector<>(formas));
             jcbFormaPagamento.setModel(modelFormaPagamento);
-            
+
             modelCategoria = new DefaultComboBoxModel<>(new Vector<>(categorias));
             jcbCategoria.setModel(modelCategoria);
             
-            initBindings();
             panelParcelas1.setConta(conta);
+            initBindings();
             
+
         });
-        
+
     }
-    
+
     private void load() {
         conta = service.findConta(id);
         jrbAPagar.setEnabled(false);
         jrbAReceber.setEnabled(false);
     }
-    
+
     private void save() {
         if (!validator.isValido()) {
             return;
@@ -421,7 +424,7 @@ public class FrmContaCadastro extends JDialogController {
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
-        
+
         save();
     }//GEN-LAST:event_btnSalvarActionPerformed
 

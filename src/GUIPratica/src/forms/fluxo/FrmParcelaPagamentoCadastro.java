@@ -46,8 +46,7 @@ public class FrmParcelaPagamentoCadastro extends JDialogController {
      * @param c
      */
     public FrmParcelaPagamentoCadastro(Conta c) {
-        this(c, c.getParcelas().stream().findFirst().get());
-
+        this(c, null);
     }
 
     public FrmParcelaPagamentoCadastro(Conta c, Parcela parcela) {
@@ -55,7 +54,20 @@ public class FrmParcelaPagamentoCadastro extends JDialogController {
         if (!c.getParcelas().stream().findFirst().isPresent()) {
             throw new IllegalArgumentException("Conta sem parcelas");
         }
-
+        if (parcela == null) {
+            c.getParcelas().sort((c1, c2)
+                    -> Integer.compare(c1.getParcela(), c2.getParcela())
+            );
+            for (Parcela parcela1 : c.getParcelas()) {
+                if (ParcelaService.valorTotalParcela(parcela1) < parcela1.getValor()) {
+                    parcela = parcela1;
+                    break;
+                }
+            }
+            if (parcela == null) {
+                parcela = c.getParcelas().get(0);
+            }
+        }
         initComponents();
         conta = c;
         this.parcela = parcela;
@@ -118,39 +130,6 @@ public class FrmParcelaPagamentoCadastro extends JDialogController {
 
     }
 
-    private void insereNasProximas(int parcelaAtual, double valor) {
-        Parcela p = null;
-        for (Parcela parcela1 : conta.getParcelas()) {
-            if (parcela1.getParcela() == parcelaAtual) {
-                p = parcela1;
-                break;
-            }
-        }
-        //Se acabaram as parcelas, jora o resto na ultima
-        if (p == null) {
-            p = conta.getParcelas().stream().max((i1, i2) -> {
-                return Integer.compare(i1.getParcela(), i2.getParcela());
-            }).get();
-            ParcelaPagamento pExtra = new ParcelaPagamento();
-            pExtra.setData(new Date());
-            pExtra.setContaBancaria((ContaBancaria) jcbContaBancaria.getSelectedItem());
-            pExtra.setParcela(p);
-            pExtra.setValor(valor);
-            pExtra.setContaCategoria((ContaCategoria) jcbCategoria.getSelectedItem());
-            p.getPagamentos().add(pExtra);
-        } else {
-//            ParcelaPagamento pExtra = new ParcelaPagamento();
-//            pExtra.setData(new Date());
-//            pExtra.setContaBancaria((ContaBancaria) jcbContaBancaria.getSelectedItem());
-//            pExtra.setParcela(p);
-//            i
-//            pExtra.setValor(valor);
-//            pExtra.setContaCategoria((ContaCategoria) jcbCategoria.getSelectedItem());
-//            p.getPagamentos().add(pExtra);
-
-        }
-    }
-
     private void load() {
         txtConta.setText(conta.toString());
         jtbParcela.setValue(parcela.getParcela());
@@ -195,13 +174,13 @@ public class FrmParcelaPagamentoCadastro extends JDialogController {
                 }
                 parcela.getPagamentos().add(pImposto);
             } else {
-                if ((conta.getValorTotal() - conta.getValorPago()) < jffValor1.getValue()) {
-                    Forms.mensagem("O Valor excede o que falta pagar nas contas", AlertaTipos.erro);
-                    return;
-                }
+//                if ((conta.getValorTotal() - conta.getValorPago()) < jffValor1.getValue()) {
+//                    Forms.mensagem("O Valor excede o que falta pagar nas contas", AlertaTipos.erro);
+//                    return;
+//                }
 
                 valorParcela -= jffValor1.getValue();
-                insereNasProximas(parcela.getParcela() + 1, jffValor1.getValue());
+                service.pagamentoProximasParcelas(parcela.getParcela(), jffValor1.getValue(), (ContaBancaria) jcbContaBancaria.getSelectedItem(), (ContaCategoria) jcbCategoria1.getSelectedItem(), conta);
             }
         }
         if (jffValor2.getValue() > 0d) {

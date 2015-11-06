@@ -47,7 +47,10 @@ public class PanelParcelas extends javax.swing.JPanel {
     public void setValor(double valor){
         jffValor.setValue(valor);
     }
-    
+
+    public void bindValor(){
+        Utils.createBind(conta, "valorTotal",jffValor);
+    }
     public void setParcelas(int parcelas){
         jtbParcelas.setValue(parcelas);
     }

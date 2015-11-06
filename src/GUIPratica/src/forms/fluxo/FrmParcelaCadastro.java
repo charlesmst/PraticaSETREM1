@@ -17,6 +17,7 @@ import model.fluxo.ParcelaPagamento;
 import org.jdesktop.beansbinding.AutoBinding;
 import org.jdesktop.beansbinding.Converter;
 import services.PessoaService;
+import services.fluxo.ContaService;
 import services.fluxo.ParcelaService;
 import utils.AlertaTipos;
 import utils.Utils;
@@ -76,6 +77,8 @@ public class FrmParcelaCadastro extends JDialogController {
     private AutoBinding adata;
     private boolean binded;
 
+    double valorOriginal;
+
     private void setupParcela() {
         if (parcela == null) {
             parcela = new Parcela();
@@ -83,6 +86,7 @@ public class FrmParcelaCadastro extends JDialogController {
         } else {
             jtbParcela.setValue(parcela.getParcela());
         }
+        valorOriginal = parcela.getValor();
         quitado = parcela.getDataQuitado();
 
         jtbConta.setText(conta.toString());
@@ -228,6 +232,11 @@ public class FrmParcelaCadastro extends JDialogController {
         jLabel4.setText("Valor da parcela:");
 
         jffValor.setMargin(new java.awt.Insets(2, 8, 2, 2));
+        jffValor.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jffValorFocusLost(evt);
+            }
+        });
 
         jdfData.setDate(new java.util.Date(1446514089000L));
 
@@ -401,6 +410,19 @@ public class FrmParcelaCadastro extends JDialogController {
         setupParcela();
         jdfData.requestFocus();
     }//GEN-LAST:event_btnNovaParcelaActionPerformed
+
+    private void jffValorFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jffValorFocusLost
+        if (parcela.getId() == 0) {
+            conta.setValorTotal(ContaService.valorConta(conta));
+        }else if(valorOriginal != jffValor.getValue()){
+            FrmConfirmarValorParcela frm = new FrmConfirmarValorParcela(conta, parcela, valorOriginal);
+            frm.setListenerOnCancelar((e)->{
+                parcela.setValor(valorOriginal);
+                jffValor.setValue(valorOriginal);
+            });
+            frm.setVisible(true);
+        }
+    }//GEN-LAST:event_jffValorFocusLost
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

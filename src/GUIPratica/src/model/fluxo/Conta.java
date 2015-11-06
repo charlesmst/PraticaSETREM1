@@ -31,14 +31,16 @@ import services.PessoaService;
 public class Conta implements Serializable {
 
     public enum ContaTipo {
+
         conta,
         movimentacao,
         estoque,
         ordem
     }
+
     @Override
     public String toString() {
-        String descConta = (getId()>0?getId():"") + "";
+        String descConta = (getId() > 0 ? getId() : "") + "";
         if (getDescricao() != null && !getDescricao().equals("")) {
             descConta += " - " + (getDescricao() + "").trim();
         }
@@ -92,7 +94,10 @@ public class Conta implements Serializable {
     }
 
     public void setValorTotal(double valorTotal) {
+        double old = this.valorTotal;
         this.valorTotal = valorTotal;
+        changeSupport.firePropertyChange("valorTotal", old, valorTotal);
+
     }
     @Enumerated(EnumType.ORDINAL)
     private ContaTipo tipo = ContaTipo.conta;
@@ -104,7 +109,7 @@ public class Conta implements Serializable {
     public void setTipo(ContaTipo tipo) {
         this.tipo = tipo;
     }
-    
+
     public double getValorPago() {
         return valorPago;
     }
@@ -112,6 +117,7 @@ public class Conta implements Serializable {
     public void setValorPago(double valorPago) {
         this.valorPago = valorPago;
     }
+
     public List<Parcela> getParcelas() {
         return parcelas;
     }

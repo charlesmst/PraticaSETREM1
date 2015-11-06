@@ -201,6 +201,9 @@
           <Insets value="[2, 8, 2, 2]"/>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="jffValorFocusLost"/>
+      </Events>
     </Component>
     <Component class="components.JDateField" name="jdfData">
       <Properties>

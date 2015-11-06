@@ -17,7 +17,10 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import model.fluxo.Conta;
+import model.fluxo.ContaBancaria;
+import model.fluxo.ContaCategoria;
 import model.fluxo.FormaPagamento;
+import model.fluxo.Parcela;
 import model.fluxo.ParcelaPagamento;
 import services.Service;
 import services.ServiceException;
@@ -28,18 +31,67 @@ import services.ServiceException;
  */
 public class ParcelaPagamentoService extends Service<ParcelaPagamento> {
 
-
     public ParcelaPagamentoService() {
         super(ParcelaPagamento.class);
     }
 
-    private void changeSituation(ParcelaPagamento p ){
-    
+    private void changeSituation(ParcelaPagamento p) {
+
     }
+
     @Override
     public void insert(ParcelaPagamento obj) throws ServiceException {
-        
+
         super.insert(obj); //To change body of generated methods, choose Tools | Templates.
     }
 
+    public void pagamentoProximasParcelas(int parcelaAtual, double valor, ContaBancaria banco, ContaCategoria categoria,Conta conta){
+        insereNasProximas(parcelaAtual+1, valor, banco, categoria, conta);
+    }
+    private void insereNasProximas(int parcelaAtual, double valor, ContaBancaria banco, ContaCategoria categoria,Conta conta) {
+        Parcela p = null;
+        for (Parcela parcela1 : conta.getParcelas()) {
+            if (parcela1.getParcela() == parcelaAtual) {
+                p = parcela1;
+                break;
+            }
+        }
+        //Se acabaram as parcelas, jora o resto na ultima
+        if (p == null) {
+            p = conta.getParcelas().stream().max((i1, i2) -> {
+                return Integer.compare(i1.getParcela(), i2.getParcela());
+            }).get();
+            ParcelaPagamento pExtra = new ParcelaPagamento();
+            pExtra.setData(new Date());
+            pExtra.setContaBancaria(banco);
+            pExtra.setParcela(p);
+            pExtra.setValor(valor);
+            pExtra.setContaCategoria(categoria);
+            p.getPagamentos().add(pExtra);
+        } else {
+            ParcelaPagamento pExtra = new ParcelaPagamento();
+            pExtra.setData(new Date());
+            pExtra.setContaBancaria(banco);
+            pExtra.setParcela(p);
+            double valorFalta = p.getValor() - new ParcelaService().valorTotalParcela(p);
+            if (valorFalta <= 0d) {
+                insereNasProximas(parcelaAtual + 1, valor, banco, categoria,conta);
+                return;
+            }
+            double vPagar = valor;
+            if (valor > valorFalta) {
+                vPagar = valorFalta;
+            }
+            double valorRestante = valor - vPagar;
+
+            pExtra.setValor(vPagar);
+
+            pExtra.setContaCategoria(categoria);
+            p.getPagamentos().add(pExtra);
+            if (valorRestante > 0d) {
+                insereNasProximas(parcelaAtual + 1, valorRestante, banco, categoria,conta);
+
+            }
+        }
+    }
 }

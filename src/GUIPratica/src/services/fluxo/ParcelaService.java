@@ -42,7 +42,7 @@ public class ParcelaService extends Service<Parcela> {
 
     /**
      *
-     * @param conta 
+     * @param conta
      * @param parcelas
      * @param valor
      * @param dataPrimeiroPagamento
@@ -119,6 +119,21 @@ public class ParcelaService extends Service<Parcela> {
                 c.roll((Integer) rollTo.get(index + 1), 1);
             }
             index += 1;
+        }
+    }
+
+    /**
+     * Disolve a diferença de valores na parcela passadas no list
+     *
+     * @param c
+     * @param parcelas
+     */
+    public static void diluir(Conta c, List<Parcela> parcelas) {
+        double valorDiferente = ContaService.valorConta(c);
+        double diferenca = c.getValorTotal() - valorDiferente;
+        double valorUnitario = diferenca / parcelas.size();
+        for (Parcela parcela : parcelas) {
+            parcela.setValor(parcela.getValor() + valorUnitario);
         }
     }
 
