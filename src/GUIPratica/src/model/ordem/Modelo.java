@@ -37,9 +37,9 @@ public class Modelo implements Serializable {
     @Column(length = 100, nullable = false)
     private String nome;
 
-    @OneToMany
+    @ManyToOne
     @JoinColumn(name = "marca_id", nullable = false)
-    private List<Marca> marca;
+    private Marca marca;
 
     public int getId() {
         return id;
@@ -57,11 +57,12 @@ public class Modelo implements Serializable {
         this.nome = nome;
     }
 
-    public List<Marca> getMarca() {
+    public Marca getMarca() {
         return marca;
     }
 
-    public void setMarca(List<Marca> marca) {
+    public void setMarca(Marca marca) {
         this.marca = marca;
     }
+
 }

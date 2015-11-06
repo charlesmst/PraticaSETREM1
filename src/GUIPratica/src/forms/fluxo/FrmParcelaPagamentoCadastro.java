@@ -23,6 +23,7 @@ import services.fluxo.ContaCategoriaService;
 import services.fluxo.ParcelaPagamentoService;
 import services.fluxo.ParcelaService;
 import utils.AlertaTipos;
+import utils.Forms;
 import utils.Utils;
 
 /**
@@ -69,7 +70,7 @@ public class FrmParcelaPagamentoCadastro extends JDialogController {
 
         double diferenca = valorPago + valorParcela - parcela.getValor();
         //Se ultrapassa, ajusta o valor
-        if (jcbImpostos.isSelected()) {
+        if (jcbImpostos.isSelected() || jcbParcelasExcesso.isSelected()) {
             if (diferenca > 0d) {
                 jffValor1.setValue(diferenca);
             } else {
@@ -92,6 +93,8 @@ public class FrmParcelaPagamentoCadastro extends JDialogController {
         setLocationRelativeTo(null);
         setDefaultButton(btnSalvar);
         txtConta.setEnabled(false);
+        buttonGroup2.add(jcbImpostos);
+        buttonGroup2.add(jcbParcelasExcesso);
 
         validator.validarObrigatorio(jtbParcela);
         validator.validarObrigatorio(jcbCategoria);
@@ -113,6 +116,39 @@ public class FrmParcelaPagamentoCadastro extends JDialogController {
         new JCampoBusca(jffValor, () -> ajustaValores());
         load();
 
+    }
+
+    private void insereNasProximas(int parcelaAtual, double valor) {
+        Parcela p = null;
+        for (Parcela parcela1 : conta.getParcelas()) {
+            if (parcela1.getParcela() == parcelaAtual) {
+                p = parcela1;
+                break;
+            }
+        }
+        //Se acabaram as parcelas, jora o resto na ultima
+        if (p == null) {
+            p = conta.getParcelas().stream().max((i1, i2) -> {
+                return Integer.compare(i1.getParcela(), i2.getParcela());
+            }).get();
+            ParcelaPagamento pExtra = new ParcelaPagamento();
+            pExtra.setData(new Date());
+            pExtra.setContaBancaria((ContaBancaria) jcbContaBancaria.getSelectedItem());
+            pExtra.setParcela(p);
+            pExtra.setValor(valor);
+            pExtra.setContaCategoria((ContaCategoria) jcbCategoria.getSelectedItem());
+            p.getPagamentos().add(pExtra);
+        } else {
+//            ParcelaPagamento pExtra = new ParcelaPagamento();
+//            pExtra.setData(new Date());
+//            pExtra.setContaBancaria((ContaBancaria) jcbContaBancaria.getSelectedItem());
+//            pExtra.setParcela(p);
+//            i
+//            pExtra.setValor(valor);
+//            pExtra.setContaCategoria((ContaCategoria) jcbCategoria.getSelectedItem());
+//            p.getPagamentos().add(pExtra);
+
+        }
     }
 
     private void load() {
@@ -146,17 +182,27 @@ public class FrmParcelaPagamentoCadastro extends JDialogController {
         p.setParcela(parcela);
         double valorParcela = jffValor.getValue();
         //Se ultrapassa, ajusta o valor
-        if (jffValor1.getValue() > 0d) {
-            ParcelaPagamento pImposto = new ParcelaPagamento();
-            pImposto.setData(new Date());
-            pImposto.setContaBancaria((ContaBancaria) jcbContaBancaria1.getSelectedItem());
-            pImposto.setParcela(parcela);
-            pImposto.setValor(jffValor1.getValue());
-            pImposto.setContaCategoria((ContaCategoria) jcbCategoria1.getSelectedItem());
-            if (jcbImpostos.isSelected() && valorParcela + valorPago > parcela.getValor()) {
+        if (jffValor1.getValue() > 0d && (jcbParcelasExcesso.isSelected() || jcbImpostos.isSelected())) {
+            if (jcbImpostos.isSelected()) {
+                ParcelaPagamento pImposto = new ParcelaPagamento();
+                pImposto.setData(new Date());
+                pImposto.setContaBancaria((ContaBancaria) jcbContaBancaria1.getSelectedItem());
+                pImposto.setParcela(parcela);
+                pImposto.setValor(jffValor1.getValue());
+                pImposto.setContaCategoria((ContaCategoria) jcbCategoria1.getSelectedItem());
+                if (jcbImpostos.isSelected() && valorParcela + valorPago > parcela.getValor()) {
+                    valorParcela -= jffValor1.getValue();
+                }
+                parcela.getPagamentos().add(pImposto);
+            } else {
+                if ((conta.getValorTotal() - conta.getValorPago()) < jffValor1.getValue()) {
+                    Forms.mensagem("O Valor excede o que falta pagar nas contas", AlertaTipos.erro);
+                    return;
+                }
+
                 valorParcela -= jffValor1.getValue();
+                insereNasProximas(parcela.getParcela() + 1, jffValor1.getValue());
             }
-            parcela.getPagamentos().add(pImposto);
         }
         if (jffValor2.getValue() > 0d) {
             ParcelaPagamento pDesconto = new ParcelaPagamento();
@@ -215,6 +261,7 @@ public class FrmParcelaPagamentoCadastro extends JDialogController {
     private void initComponents() {
 
         buttonGroup1 = new javax.swing.ButtonGroup();
+        buttonGroup2 = new javax.swing.ButtonGroup();
         jLabel1 = new javax.swing.JLabel();
         txtConta = new javax.swing.JTextField();
         btnSalvar = new javax.swing.JButton();
@@ -246,6 +293,7 @@ public class FrmParcelaPagamentoCadastro extends JDialogController {
         jcbContaBancaria2 = new javax.swing.JComboBox();
         jLabel12 = new javax.swing.JLabel();
         lblParcela = new javax.swing.JLabel();
+        jcbParcelasExcesso = new javax.swing.JCheckBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -365,6 +413,15 @@ public class FrmParcelaPagamentoCadastro extends JDialogController {
 
         lblParcela.setText("Label");
 
+        jcbParcelasExcesso.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jcbParcelasExcesso.setSelected(true);
+        jcbParcelasExcesso.setText("Lançar excesso para as próximas parcelas");
+        jcbParcelasExcesso.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                jcbParcelasExcessoStateChanged(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -402,7 +459,6 @@ public class FrmParcelaPagamentoCadastro extends JDialogController {
                                     .addComponent(jffValor2, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jLabel7)
                                     .addComponent(jcbDescontos)
-                                    .addComponent(jcbImpostos)
                                     .addComponent(jffValor1, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jLabel5)
                                     .addGroup(layout.createSequentialGroup()
@@ -412,7 +468,11 @@ public class FrmParcelaPagamentoCadastro extends JDialogController {
                                         .addGap(41, 41, 41)
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                             .addComponent(lblParcela)
-                                            .addComponent(jLabel12))))
+                                            .addComponent(jLabel12)))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jcbImpostos)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(jcbParcelasExcesso)))
                                 .addGap(0, 0, Short.MAX_VALUE)))
                         .addGap(19, 19, 19))
                     .addGroup(layout.createSequentialGroup()
@@ -471,7 +531,9 @@ public class FrmParcelaPagamentoCadastro extends JDialogController {
                 .addGap(30, 30, 30)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jcbImpostos)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jcbImpostos)
+                    .addComponent(jcbParcelasExcesso))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -565,11 +627,16 @@ public class FrmParcelaPagamentoCadastro extends JDialogController {
         ajustaValores();
     }//GEN-LAST:event_jffValorKeyPressed
 
+    private void jcbParcelasExcessoStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jcbParcelasExcessoStateChanged
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jcbParcelasExcessoStateChanged
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnSalvar;
     private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.ButtonGroup buttonGroup2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -593,6 +660,7 @@ public class FrmParcelaPagamentoCadastro extends JDialogController {
     private javax.swing.JComboBox jcbContaBancaria2;
     private javax.swing.JCheckBox jcbDescontos;
     private javax.swing.JCheckBox jcbImpostos;
+    private javax.swing.JCheckBox jcbParcelasExcesso;
     private components.JTextFieldMoney jffValor;
     private components.JTextFieldMoney jffValor1;
     private components.JTextFieldMoney jffValor2;

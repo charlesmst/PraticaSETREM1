@@ -20,12 +20,6 @@ public class Marca implements Serializable {
         return  nome;
     }
 
-    public Marca(){
-        this(0);
-    }
-    public Marca(int id ){
-        setId(id);
-    }
     @Id
     @GeneratedValue(generator = "seq_marca", strategy = GenerationType.SEQUENCE)
     private int id;

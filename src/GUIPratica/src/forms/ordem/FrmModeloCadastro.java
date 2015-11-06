@@ -71,7 +71,9 @@ public class FrmModeloCadastro extends JDialogController {
             m = new Modelo();
         }
         m.setNome(txtNome.getText());
-        m.setMarca((List<Marca>) new Marca(txtMarca.getValueSelected()));
+        Marca marca = new Marca();
+        marca.setId(txtMarca.getValueSelected());
+        m.setMarca( marca);
         Utils.safeCode(() -> {
             if (id == 0) {
                 service.insert(m);
