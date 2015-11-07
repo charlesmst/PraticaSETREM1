@@ -19,13 +19,16 @@ import javax.persistence.Table;
 @Table(name = "sh_pessoa")
 public class Pessoa implements Serializable {
 
-    public Pessoa(){
+    public Pessoa() {
         this(0);
     }
-    public Pessoa(int id){
+
+    public Pessoa(int id) {
         setId(id);
     }
-    public enum TipoPessoa{
+
+    public enum TipoPessoa {
+
         fisica,
         juridica
     }
@@ -41,13 +44,11 @@ public class Pessoa implements Serializable {
     private String telefoneSecundario;
 
     @ManyToOne
-    @JoinColumn(nullable = false,name = "cep")
     private Cidade cidade;
 
     private String email;
 
-    
-    @Column(nullable = false, name = "nascimento")
+    @Column(name = "nascimento")
     private Date dataNascimento;
 
     @Enumerated(EnumType.ORDINAL)

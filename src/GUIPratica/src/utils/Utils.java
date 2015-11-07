@@ -20,6 +20,7 @@ import javax.swing.JComponent;
 import javax.swing.JSpinner;
 import javax.swing.SwingWorker;
 import javax.swing.text.JTextComponent;
+import javax.swing.text.MaskFormatter;
 import org.jdesktop.beansbinding.AutoBinding;
 import org.jdesktop.beansbinding.BeanProperty;
 
@@ -53,11 +54,12 @@ public class Utils {
     private static SimpleDateFormat formatBra = new SimpleDateFormat("dd/MM/yyyy");
 
     public static String formataDate(Date dtData) {
-        
-        if(dtData == null)
+
+        if (dtData == null) {
             return "";
+        }
         return (formatBra.format(dtData));
-        
+
     }
 
     public static void safeCode(ThrowingCommand command, boolean block) {
@@ -128,5 +130,16 @@ public class Utils {
     public static double parseDinheiro(String d) {
 
         return Math.round(Double.parseDouble(d.substring(2).replace(".", "").replace(",", ".")) * 100d) / 100d;
+    }
+
+    public static String formatString(String value, String pattern) {
+        MaskFormatter mf;
+        try {
+            mf = new MaskFormatter(pattern);
+            mf.setValueContainsLiteralCharacters(false);
+            return mf.valueToString(value);
+        } catch (ParseException ex) {
+            return value;
+        }
     }
 }

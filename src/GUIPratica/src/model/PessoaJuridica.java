@@ -1,23 +1,59 @@
 package model;
 
-public class PessoaJuridica {
+import java.io.Serializable;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
-	private Pessoa pessoa;
+@Entity
+@Table(name = "sh_pessoa_juridica")
+public class PessoaJuridica implements Serializable {
 
-	private String nomeFantasia;
+    @Id
+    @OneToOne
+    private Pessoa pessoa;
 
-	private String razaoSocial;
+    @Column(name = "nome_fantasia")
+    private String nomeFantasia;
 
-	public void insert() {
+    @Column(name = "razao_social")
+    private String razaoSocial;
+    
+    private String Cnpj;
 
-	}
+    public Pessoa getPessoa() {
+        return pessoa;
+    }
 
-	public void update() {
+    public void setPessoa(Pessoa pessoa) {
+        this.pessoa = pessoa;
+    }
 
-	}
+    public String getNomeFantasia() {
+        return nomeFantasia;
+    }
 
-	public void delete() {
+    public void setNomeFantasia(String nomeFantasia) {
+        this.nomeFantasia = nomeFantasia;
+    }
 
-	}
+    public String getRazaoSocial() {
+        return razaoSocial;
+    }
 
+    public void setRazaoSocial(String razaoSocial) {
+        this.razaoSocial = razaoSocial;
+    }
+
+    public String getCnpj() {
+        return Cnpj;
+    }
+
+    public void setCnpj(String Cnpj) {
+        this.Cnpj = Cnpj;
+    }
+    
+    
 }

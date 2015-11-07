@@ -6,24 +6,29 @@
 package services;
 
 import model.Pessoa;
+import model.PessoaJuridica;
 
 /**
  *
- * @author Charles
+ * @author Gustavo
  */
 public class PessoaService extends Service<Pessoa> {
 
     @Override
     public void update(Pessoa obj) throws ServiceException {
         obj.setNome(obj.getNome().toUpperCase());
-
-        super.update(obj); //To change body of generated methods, choose Tools | Templates.
+        super.update(obj);
     }
 
-    @Override
-    public void insert(Pessoa obj) throws ServiceException {
-        obj.setNome(obj.getNome().toUpperCase());
-        super.insert(obj); //To change body of generated methods, choose Tools | Templates.
+    public void insert(Pessoa p) throws services.ServiceException {
+        executeOnTransaction((s, t) -> {
+            if (p.getId() > 0) {
+                s.merge(p);
+            } else {
+                s.save(p);
+            }
+            t.commit();
+        });
     }
 
     public PessoaService() {

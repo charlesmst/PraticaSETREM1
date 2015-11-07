@@ -3,14 +3,21 @@ package model;
 import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 @Entity
+@SequenceGenerator(name = "seq_sh_cidade", allocationSize = 1, sequenceName = "seq_sh_cidade")
 @Table(name = "sh_cidade")
 public class Cidade implements Serializable {
 
     @Id
+    @GeneratedValue(generator = "seq_sh_cidade", strategy = GenerationType.SEQUENCE)
+    private int id;
+
     private int cep;
 
     @Column(nullable = false)
@@ -43,4 +50,16 @@ public class Cidade implements Serializable {
         this.uf = uf;
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    @Override
+    public String toString() {
+        return nome + " -> " + uf;
+    }
 }

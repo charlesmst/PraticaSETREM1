@@ -187,7 +187,7 @@ public class frmMain extends javax.swing.JFrame {
 //        root.add(estoque);
         DefaultMutableTreeNode gerenciamento = new DefaultMutableTreeNode("Gerenciamento");
         gerenciamento.add(new TreeNodeMenu("Produtos", "forms.frmProduto"));
-
+        gerenciamento.add(new TreeNodeMenu("Pessoas", "forms.frmPessoa"));
         gerenciamento.add(new TreeNodeMenu("Usuários", "forms.frmUsuarios"));
         root.add(gerenciamento);
 
