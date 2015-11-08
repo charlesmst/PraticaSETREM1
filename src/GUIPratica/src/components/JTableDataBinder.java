@@ -217,12 +217,13 @@ class RefreshWorker<T> extends SwingWorker<DefaultTableModel, Object[]> {
             table.setRowSelectionInterval(wasSelected - 1, wasSelected - 1);
 
         }
+         if (listenerFinalizacao != null) {
+            listenerFinalizacao.actionPerformed(null);
+        }
         model.addTableModelListener(modelListener);
         table.scrollToSelected();
         
-        if (listenerFinalizacao != null) {
-            listenerFinalizacao.actionPerformed(null);
-        }
+       
     }
     private JTableDataBinderListener listener;
     private DefaultTableModel model;

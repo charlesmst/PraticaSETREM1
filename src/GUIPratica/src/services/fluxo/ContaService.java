@@ -6,19 +6,27 @@
 package services.fluxo;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 import model.fluxo.Conta;
+import model.fluxo.ContaBancaria;
 import model.fluxo.ContaCategoria;
+import model.fluxo.FormaPagamento;
 import model.fluxo.Parcela;
 import model.fluxo.ParcelaPagamento;
+import model.queryresults.ComprasVendas;
+import model.queryresults.LivroCaixa;
+import model.queryresults.SomaCategoria;
 import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import services.Service;
 import services.ServiceException;
+import utils.Parametros;
 import utils.Utils;
 
 /**
@@ -33,7 +41,7 @@ public class ContaService extends Service<Conta> {
 
     public Conta findByNota(String nota) throws ServiceException {
         List<Conta> c = findBy("notaFiscal", nota);
-        
+
         if (c.size() == 0 || c.get(0).getCategoria().getTipo() == ContaCategoria.TipoCategoria.saida) {
             return null;
         } else {
@@ -104,6 +112,7 @@ public class ContaService extends Service<Conta> {
                 if (obj.getId() > 0) {
                     s.merge(obj);
                 } else {
+                    obj.setDataLancamento(new Date());
                     s.save(obj);
                 }
 
@@ -186,5 +195,209 @@ public class ContaService extends Service<Conta> {
 
         }
         return "FINALIZADA";
+    }
+
+    /**
+     * Seleciona as compras e vendas a prazo e a vista do periodo passado
+     *
+     * @param monthFirstDate
+     * @param monthEndDate
+     * @return
+     */
+    public List<ComprasVendas> comprasMes(Date monthFirstDate, Date monthEndDate) {
+        return (List<ComprasVendas>) selectOnSession((s) -> {
+            int formaAvista = Integer.valueOf(Parametros.getInstance().getValue("forma_pagamento_a_vista"));
+            List<ComprasVendas> l = s.createQuery("select "
+                    + "new model.queryresults.ComprasVendas("
+                    + " cast(dataLancamento as date), "
+                    + "sum(case when (conta.tipo =  :contacompra and conta.formaPagamento.id <> :formaavista) then valorTotal else 0 end),"
+                    + "sum(case when (conta.tipo =  :contacompra and conta.formaPagamento.id = :formaavista) then valorTotal else 0 end),"
+                    + "sum(case when (conta.tipo =  :contavenda and conta.formaPagamento.id <> :formaavista) then valorTotal else 0 end),"
+                    + "sum(case when (conta.tipo =  :contavenda and conta.formaPagamento.id = :formaavista) then valorTotal else 0 end)"
+                    + ")"
+                    + " from Conta conta"
+                    + " where dataLancamento  between :inicio and :fim"
+                    + " group by cast(dataLancamento as date) order by cast(dataLancamento as date)")
+                    //                    .setParameter("tiposaida", ContaCategoria.TipoCategoria.saida)
+                    .setDate("inicio", monthFirstDate)
+                    .setDate("fim", monthEndDate)
+                    .setParameter("contavenda", Conta.ContaTipo.ordem)
+                    .setParameter("contacompra", Conta.ContaTipo.estoque)
+                    .setParameter("formaavista", formaAvista)
+                    .list();
+            Calendar ci = Calendar.getInstance();
+            ci.setTime(monthFirstDate);
+            //Adiciona as datas sem valores
+            SimpleDateFormat f = new SimpleDateFormat("dM");
+            for (; ci.getTime().compareTo(monthEndDate) <= 0; ci.add(Calendar.DATE, 1)) {
+                if (!l.stream().anyMatch((c) -> f.format(c.getData()).equals(f.format(ci.getTime())))) {
+                    l.add(new ComprasVendas(ci.getTime(), 0d, 0d, 0d, 0d));
+                }
+            }
+            //Reordena
+            l.sort((c1, c2) -> c1.getData().compareTo(c2.getData()));
+            return l;
+
+        });
+        /*
+         select 
+         data_lancamento, 
+         sum(case when (fc_conta_categoria.tipo = 1) then valortotal else 0 end) as compravista,
+         sum(case when (fc_conta_categoria.tipo = 0) then valortotal else 0 end) as vendavista
+         from fc_conta
+         inner join fc_conta_categoria on fc_conta.conta_categoria_id = fc_conta_categoria.id
+         group by data_lancamento
+         */
+    }
+
+    /**
+     * Consulta a categoria e valores do período
+     *
+     * @param monthFirstDate
+     * @param monthEndDate
+     * @param tipo
+     * @return
+     */
+    public List<SomaCategoria> valorCategoria(Date monthFirstDate, Date monthEndDate, ContaCategoria.TipoCategoria tipo) {
+        return (List<SomaCategoria>) selectOnSession((s) -> {
+            return s.createQuery("select "
+                    + "new model.queryresults.SomaCategoria(sum(conta.valorTotal),conta.categoria.nome) "
+                    + "from Conta conta "
+                    + " where dataLancamento  between :inicio and :fim"
+                    + " and conta.categoria.tipo = :tipo"
+                    + " group by conta.categoria.nome")
+                    .setDate("inicio", monthFirstDate)
+                    .setDate("fim", monthEndDate)
+                    .setParameter("tipo", tipo)
+                    .list();
+        });
+    }
+
+    private double valorPagamentosPeriodo(Session s, ContaCategoria.TipoCategoria tipo, Date monthFirstDate, Date monthEndDate) {
+        return (Double) s.createQuery("select "
+                + " sum(valor) "
+                + "from ParcelaPagamento parcelaPagamento "
+                + " where data  between :inicio and :fim"
+                + " and parcelaPagamento.contaCategoria.tipo = :tipo "
+        )
+                .setDate("inicio", monthFirstDate)
+                .setDate("fim", monthEndDate)
+                .setParameter("tipo", tipo)
+                .uniqueResult();
+    }
+
+    private double valorPagamentosPeriodo(Session s, ContaCategoria.TipoCategoria tipo, Date monthFirstDate, Date monthEndDate, Conta.ContaTipo tipoDeConta) {
+        return (Double) s.createQuery("select "
+                + " sum(valor) "
+                + "from ParcelaPagamento parcelaPagamento "
+                + " where data  between :inicio and :fim"
+                + " and parcelaPagamento.contaCategoria.tipo = :tipo "
+                + " and parcelaPagamento.parcela.conta.tipo = :tipoConta "
+        )
+                .setDate("inicio", monthFirstDate)
+                .setDate("fim", monthEndDate)
+                .setParameter("tipo", tipo)
+                .setParameter("tipoConta", tipoDeConta)
+                .uniqueResult();
+    }
+
+    private double valorPagamentosPeriodoAPrazo(Session s, ContaCategoria.TipoCategoria tipo, Date monthFirstDate, Date monthEndDate, Conta.ContaTipo tipoConta) {
+        return valorPagamentosPeriodoAPrazoAVista(s, tipo, monthFirstDate, monthEndDate, tipoConta, false);
+    }
+
+    private double valorPagamentosPeriodoAPrazoAVista(Session s, ContaCategoria.TipoCategoria tipo, Date monthFirstDate, Date monthEndDate, Conta.ContaTipo tipoConta, boolean avista) {
+        int formaAvista = Integer.valueOf(Parametros.getInstance().getValue("forma_pagamento_a_vista"));
+
+        Object o = s.createQuery("select "
+                + " sum(valor) "
+                + "from ParcelaPagamento parcelaPagamento "
+                + " where data  between :inicio and :fim"
+                + " and parcelaPagamento.contaCategoria.tipo = :tipo "
+                + " and parcelaPagamento.parcela.conta.formaPagamento.id " + (avista ? "=" : "<>") + " :avista "
+                + " and parcelaPagamento.parcela.conta.tipo = :tipoConta"
+        )
+                .setDate("inicio", monthFirstDate)
+                .setDate("fim", monthEndDate)
+                .setParameter("tipo", tipo)
+                .setParameter("avista", formaAvista)
+                .setParameter("tipoConta", tipoConta)
+                .uniqueResult();
+        if (o != null) {
+            return (Double) o;
+        } else {
+            return 0d;
+        }
+    }
+
+    private double valorPagamentosPeriodoAVista(Session s, ContaCategoria.TipoCategoria tipo, Date monthFirstDate, Date monthEndDate, Conta.ContaTipo tipoConta) {
+        return valorPagamentosPeriodoAPrazoAVista(s, tipo, monthFirstDate, monthEndDate, tipoConta, true);
+
+    }
+
+    /**
+     * Consulta os resultados do período, utilizados nos relatórios
+     *
+     * @param monthFirstDate
+     * @param monthEndDate
+     * @return
+     */
+    public List<SomaCategoria> resultadoPeriodo(Date monthFirstDate, Date monthEndDate) {
+        return (List<SomaCategoria>) selectOnSession((s) -> {
+            List<SomaCategoria> l = new ArrayList<>();
+
+            l.add(new SomaCategoria(valorPagamentosPeriodoAVista(s, ContaCategoria.TipoCategoria.entrada, monthFirstDate, monthEndDate, Conta.ContaTipo.ordem), "VENDAS À VISTA"));
+
+            l.add(new SomaCategoria(valorPagamentosPeriodoAPrazo(s, ContaCategoria.TipoCategoria.entrada, monthFirstDate, monthEndDate, Conta.ContaTipo.ordem), "RECEBIMENTOS DE VENDA A PRAZO"));
+
+            l.add(new SomaCategoria(valorPagamentosPeriodo(s, ContaCategoria.TipoCategoria.entrada, monthFirstDate, monthEndDate, Conta.ContaTipo.conta), "OUTRAS RECEITAS"));
+
+            l.add(new SomaCategoria(valorPagamentosPeriodo(s, ContaCategoria.TipoCategoria.entrada, monthFirstDate, monthEndDate), "TOTAL DE RECEBIMENTOS"));
+
+            //Separador
+            l.add(new SomaCategoria(0d, ""));
+
+            l.add(new SomaCategoria(valorPagamentosPeriodoAVista(s, ContaCategoria.TipoCategoria.saida, monthFirstDate, monthEndDate, Conta.ContaTipo.estoque), "TOTAL DAS COMPRAS À VISTA"));
+
+            l.add(new SomaCategoria(valorPagamentosPeriodoAPrazo(s, ContaCategoria.TipoCategoria.saida, monthFirstDate, monthEndDate, Conta.ContaTipo.estoque), "PAGAMENTO EFETUADOS A FORNECEDORES"));
+
+            l.add(new SomaCategoria(valorPagamentosPeriodo(s, ContaCategoria.TipoCategoria.saida, monthFirstDate, monthEndDate, Conta.ContaTipo.conta), "OUTRAS DESPESAS"));
+
+            l.add(new SomaCategoria(valorPagamentosPeriodo(s, ContaCategoria.TipoCategoria.saida, monthFirstDate, monthEndDate), "TOTAL DE CUSTOS/DESPESAS"));
+
+            return l;
+
+        });
+    }
+
+    public List<LivroCaixa> livroCaixa(Date start, Date end, ContaBancaria caixa) {
+
+        return (List<LivroCaixa>) selectOnSession((s) -> {
+            List<LivroCaixa> l = s.createQuery("select "
+                    + "new model.queryresults.LivroCaixa("
+                    + " data,"
+                    + " parcelaPagamento.contaCategoria.nome,"
+                    + " parcela.conta.descricao,"
+                    + " case when contaCategoria.tipo = :tipoentrada then valor else 0.0 end, "
+                    + " case when contaCategoria.tipo <> :tipoentrada then valor else 0.0 end, "
+                    + " parcela.parcela "
+                    + ") "
+                    + " from ParcelaPagamento parcelaPagamento "
+                   
+                    + " where data  between :inicio and :fim"
+                    + " and parcelaPagamento.contaBancaria.id = :contaid"
+                    + " order by data")
+                    .setDate("inicio", start)
+                    .setDate("fim", end)
+                    .setParameter("contaid", caixa.getId())
+                    .setParameter("tipoentrada", ContaCategoria.TipoCategoria.entrada)
+                    .list();
+            int i = 0;
+            for (LivroCaixa li : l) {
+                li.setNumero(++i);
+//                li.setDescricao("PARCELA " + li.getParcela() + " " + li.getDescricao());
+            }
+            return l;
+
+        });
     }
 }

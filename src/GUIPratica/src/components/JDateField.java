@@ -26,8 +26,19 @@ public class JDateField extends JSpinner {
 
     }
 
+    private String dateFormat = "d/M/y";
+
+    public String getDateFormat() {
+        return dateFormat;
+    }
+
+    public void setDateFormat(String dateFormat) {
+        this.dateFormat = dateFormat;
+        setFormatter();
+    }
+
     private void setFormatter() {
-        JSpinner.DateEditor timeEditor = new JSpinner.DateEditor(this, "d/M/y");
+        JSpinner.DateEditor timeEditor = new JSpinner.DateEditor(this, dateFormat);
 //        
         setEditor(timeEditor);
     }

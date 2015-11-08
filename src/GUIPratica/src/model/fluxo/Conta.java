@@ -4,6 +4,7 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashSet;
 import model.Pessoa;
 import java.util.List;
@@ -29,6 +30,14 @@ import services.PessoaService;
 @SequenceGenerator(name = "seq_fc_conta", sequenceName = "seq_fc_conta", initialValue = 1, allocationSize = 1)
 
 public class Conta implements Serializable {
+
+    public Date getDataLancamento() {
+        return dataLancamento;
+    }
+
+    public void setDataLancamento(Date dataLancamento) {
+        this.dataLancamento = dataLancamento;
+    }
 
     public enum ContaTipo {
 
@@ -89,6 +98,8 @@ public class Conta implements Serializable {
 
     private double valorTotal;
 
+    @Column(name = "data_lancamento")
+    private Date dataLancamento;
     public double getValorTotal() {
         return valorTotal;
     }

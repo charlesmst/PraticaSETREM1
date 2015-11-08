@@ -5,6 +5,8 @@
  */
 package tests;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Iterator;
 import services.aul.MarcaService;
 import services.Service;
@@ -20,6 +22,7 @@ import org.hibernate.criterion.Restrictions;
 import org.hibernate.type.Type;
 import services.UsuarioService;
 import services.aul.SegmentoService;
+import services.fluxo.ContaService;
 import utils.HibernateUtil;
 
 /**
@@ -96,11 +99,12 @@ public class Tests {
 //            service.insert(m);
 //        }
 //        
-        SegmentoService serviceSegmento = new SegmentoService();
-        for (int i = 0; i < 100000; i++) {
-            Segmento m = new Segmento();
-            m.setNome("Segmento "+i);
-            serviceSegmento.insert(m);
-        }
+//        SegmentoService serviceSegmento = new SegmentoService();
+//        for (int i = 0; i < 100000; i++) {
+//            Segmento m = new Segmento();
+//            m.setNome("Segmento "+i);
+//            serviceSegmento.insert(m);
+//        }
+        //new ContaService().comprasMes(Calendar.getInstance());
     }
 }

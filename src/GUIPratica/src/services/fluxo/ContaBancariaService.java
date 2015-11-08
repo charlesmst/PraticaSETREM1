@@ -64,7 +64,7 @@ public class ContaBancariaService extends Service<ContaBancaria> {
      * @param c
      * @return
      */
-    public double saldoCaixa(ContaBancaria c) {
+    public double saldoCaixa(ContaBancaria c, Date ate) {
         return (Double) selectOnSession((s) -> {
 //            Query q = s.createQuery("SELECT "
 //                    + "CASE WHEN c.categoria.tipo = :entrada"
@@ -76,14 +76,17 @@ public class ContaBancariaService extends Service<ContaBancaria> {
                     + "valor "
                     + "ELSE (valor * -1.0) END"
                     + ")"
-                    + " FROM ParcelaPagamento c where c.contaBancaria.id = :id");
+                    + " FROM ParcelaPagamento c where c.contaBancaria.id = :id and c.data <= :data");
             q.setInteger("id", c.getId());
             q.setParameter("entrada", ContaCategoria.TipoCategoria.entrada);
+            q.setDate("data", ate);
             List l = q.list();
             return Double.parseDouble(l.get(0).toString());
         });
     }
-
+    public double saldoCaixa(ContaBancaria c){
+        return  saldoCaixa(c, new Date());
+    }
     /**
      * Faz movimentação de uma conta para outra de certo valor
      *

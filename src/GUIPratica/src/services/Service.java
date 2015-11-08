@@ -55,9 +55,9 @@ public abstract class Service<T> {
     private Session session;
 
     public Session getSession() {
-        if (session == null || !session.isConnected()) {
-            session = HibernateUtil.getSessionFactory().openSession();
-        }
+//        if (session == null || !session.isConnected()) {
+        session = HibernateUtil.getSessionFactory().openSession();
+//        }
         return session;
     }
 
@@ -68,6 +68,7 @@ public abstract class Service<T> {
 
     protected Object selectOnSession(Function<Session, Object> f) throws ServiceException {
         Session s = getSession();
+
         synchronized (s) {
             try {
                 return f.apply(s);
