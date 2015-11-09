@@ -57,7 +57,7 @@ public class OrdemService extends Service<Ordem> {
             v+= 0;//@Todo Pegar valor de estoque;
         }
         for (OrdemServico ordemServico : obj.getOrdemServicos()) {
-            v+= ordemServico.getValorEntrada();
+            v+= ordemServico.getValorEntrada() * ordemServico.getQuantidade();
         }
         return v;
     }

@@ -5,6 +5,7 @@
  */
 package services.estoque;
 
+import java.util.Date;
 import java.util.List;
 import model.estoque.Estoque;
 import model.estoque.EstoqueMovimentacao;
@@ -20,30 +21,15 @@ public class EstoqueService extends Service<Estoque> {
 //        super.update(obj); 
 //    }
 //
-    public void insert(List<Estoque> estoque) throws services.ServiceException {
+    public void insert(List<Estoque> estoque, List<EstoqueMovimentacao> estoqueMovimentacoes) throws services.ServiceException {
         executeOnTransaction((s, t) -> {
-            Estoque est = new Estoque();
-            EstoqueMovimentacao estMov = new EstoqueMovimentacao();
 
-            for (int x = 0; x < estoque.size(); x++) {
-                est = estoque.get(x);
-                int w = 0;
-                List<EstoqueMovimentacao> iM = todasMovimentacaos();
-                for (int y = 0; y < iM.size(); y++) {
-                    if (iM.get(y).getEstoque().equals(est)) {
-                        estMov = iM.get(y);
-                    }
-                }
-                if (est.getId() > 0) {
-                    s.merge(est);
-                } else {
-                    s.save(est);
-                }
-                if (estMov.getId() > 0) {
-                    s.merge(estMov);
-                } else {
-                    s.save(estMov);
-                }
+            for (Estoque estoque1 : estoque) {
+                s.save(estoque1);
+            }
+            for (EstoqueMovimentacao estoqueMovimentacoe : estoqueMovimentacoes) {
+                estoqueMovimentacoe.setDataLancamento(new Date());
+                s.save(estoqueMovimentacoe);
             }
             t.commit();
         });
