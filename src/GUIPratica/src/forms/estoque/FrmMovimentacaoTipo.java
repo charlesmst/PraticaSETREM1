@@ -46,7 +46,7 @@ public class FrmMovimentacaoTipo extends JPanelControleButtons {
 
             @Override
             public Object[] addRow(MovimentacaoTipo dado) {
-                return new Object[]{dado.getId(), dado.getDescricao(), dado.getTipo().toString().toUpperCase(), dado.isAtivo() ? Globals.iconeSuccess : Globals.iconeError};
+                return new Object[]{dado.getId()+"", dado.getDescricao(), dado.getTipo().toString().toUpperCase(), dado.isAtivo() ? Globals.iconeSuccess : Globals.iconeError};
 
             }
         });

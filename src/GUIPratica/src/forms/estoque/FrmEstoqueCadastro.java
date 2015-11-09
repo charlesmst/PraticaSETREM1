@@ -2,6 +2,8 @@ package forms.estoque;
 
 import components.CellRenderer;
 import components.JDialogController;
+import forms.FrmPessoaF2;
+import forms.fluxo.FrmContaCadastro;
 import forms.frmMain;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -15,6 +17,9 @@ import model.estoque.Estoque;
 import model.estoque.EstoqueMovimentacao;
 import model.estoque.Item;
 import model.estoque.MovimentacaoTipo;
+import model.fluxo.Conta;
+import model.fluxo.ContaCategoria;
+import model.ordem.Ordem;
 import services.PessoaService;
 import services.estoque.EstoqueMovimentacaoService;
 import services.estoque.EstoqueService;
@@ -46,6 +51,7 @@ public class FrmEstoqueCadastro extends JDialogController {
     public FrmEstoqueCadastro(int id) {
         super(frmMain.getInstance(), "Manutenção de Estoque");
         initComponents();
+        chkDataValidade.setSelected(false);
         this.id = id;
         setupForm();
         tableItem.setDefaultRenderer(Object.class, new CellRenderer());
@@ -90,7 +96,6 @@ public class FrmEstoqueCadastro extends JDialogController {
     }
 
     private void save() {
-
         Utils.safeCode(() -> {
             serviceEst.insert(estoque);
             utils.Forms.mensagem(utils.Mensagens.registroSalvo, AlertaTipos.sucesso);
@@ -102,6 +107,7 @@ public class FrmEstoqueCadastro extends JDialogController {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+        bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
         buttonGroup1 = new javax.swing.ButtonGroup();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -109,23 +115,30 @@ public class FrmEstoqueCadastro extends JDialogController {
         jLabel2 = new javax.swing.JLabel();
         btnSalvar = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
-        txtLote = new components.JTextFieldUpper();
         txtItem = new components.F2(FrmItemF2.class, (id) -> new ItemService().findById(id).getDescricao());
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        tableItem = new javax.swing.JTable();
         btnAdicionar = new javax.swing.JButton();
         btnRemover = new javax.swing.JButton();
         jcbTipoMovimentação = new javax.swing.JComboBox();
-        jDateCompra = new components.JDateField();
         txtDataValidade = new components.JDateField();
         txtValorCompra = new components.JTextFieldMoney();
         spinerQuantidade = new javax.swing.JSpinner();
         chkDataValidade = new javax.swing.JCheckBox();
+        txtDataCompra = new components.JDateField();
+        jLabel1 = new javax.swing.JLabel();
+        txtNotaFiscal = new components.JTextFieldUpper();
+        txtLote = new components.JTextFieldUpper();
+        txtPessoa = new components.F2(FrmPessoaF2.class, (id)-> new PessoaService().findById(id).toString());
+        jLabel6 = new javax.swing.JLabel();
+        jSeparator1 = new javax.swing.JSeparator();
+        jTextFieldMoney1 = new components.JTextFieldMoney();
+        jLabel8 = new javax.swing.JLabel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        tableItem = new components.JTableDataBinder();
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -174,27 +187,6 @@ public class FrmEstoqueCadastro extends JDialogController {
 
         jLabel9.setText("Data de Compra");
 
-        tableItem.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
-            },
-            new String [] {
-                "Item", "Movimentação", "Valor", "Quantidade", "Data", "Lote"
-            }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false
-            };
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        jScrollPane2.setViewportView(tableItem);
-
         btnAdicionar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/new.png"))); // NOI18N
         btnAdicionar.setText("Adicionar");
         btnAdicionar.addActionListener(new java.awt.event.ActionListener() {
@@ -208,20 +200,42 @@ public class FrmEstoqueCadastro extends JDialogController {
 
         jcbTipoMovimentação.setPreferredSize(new java.awt.Dimension(56, 25));
 
-        txtDataValidade.setModel(new javax.swing.SpinnerDateModel());
-        txtDataValidade.setEnabled(false);
-
         txtValorCompra.setMinimumSize(new java.awt.Dimension(6, 30));
 
         spinerQuantidade.setModel(new javax.swing.SpinnerNumberModel(Integer.valueOf(1), Integer.valueOf(1), null, Integer.valueOf(1)));
 
         chkDataValidade.setText("Definir Data de Validade");
         chkDataValidade.setFocusable(false);
-        chkDataValidade.addChangeListener(new javax.swing.event.ChangeListener() {
-            public void stateChanged(javax.swing.event.ChangeEvent evt) {
-                chkDataValidadeStateChanged(evt);
+
+        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, txtDataValidade, org.jdesktop.beansbinding.ELProperty.create("${enabled}"), chkDataValidade, org.jdesktop.beansbinding.BeanProperty.create("selected"));
+        bindingGroup.addBinding(binding);
+
+        jLabel1.setText("Nota Fiscal");
+
+        jLabel6.setText("Fornecedor");
+
+        jLabel8.setText("Valor Total");
+
+        tableItem.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null}
+            },
+            new String [] {
+                "Fornecedor", "Nota Fiscal", "Valor Total", "Item", "Movimentação", "Valor Unit.", "Quantidade", "Data de Compra", "Lote"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
             }
         });
+        jScrollPane3.setViewportView(tableItem);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -234,59 +248,89 @@ public class FrmEstoqueCadastro extends JDialogController {
                         .addComponent(btnSalvar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnCancelar)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel6)
+                            .addComponent(txtPessoa, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1)
+                            .addComponent(txtNotaFiscal, javax.swing.GroupLayout.PREFERRED_SIZE, 307, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(41, 41, 41)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel8)
+                            .addComponent(jTextFieldMoney1, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(1, 1, 1))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jScrollPane2)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(0, 0, Short.MAX_VALUE)
-                                .addComponent(btnAdicionar)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(btnRemover))
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel3)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(txtItem, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(txtValorCompra, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGap(46, 46, 46)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jLabel4)
+                                        .addComponent(spinerQuantidade, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGap(50, 50, 50)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jLabel9)
+                                        .addComponent(txtDataCompra, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                        .addComponent(txtItem, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addGroup(layout.createSequentialGroup()
-                                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                                .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                .addComponent(txtValorCompra, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                            .addGap(46, 46, 46)
-                                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                .addComponent(jLabel4)
-                                                .addComponent(spinerQuantidade, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                            .addGap(50, 50, 50)
-                                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                .addComponent(jLabel9)
-                                                .addComponent(jDateCompra, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                                    .addComponent(jLabel3))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 57, Short.MAX_VALUE)
+                                    .addComponent(chkDataValidade)
+                                    .addComponent(txtDataValidade, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(40, 40, 40)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(txtLote, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLabel2)
-                                            .addComponent(txtDataValidade, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(chkDataValidade))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 50, Short.MAX_VALUE)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLabel5)
-                                            .addComponent(jcbTipoMovimentação, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))))))
-                        .addGap(20, 20, 20))))
+                                    .addComponent(jcbTipoMovimentação, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel5)))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabel2)
+                                .addComponent(txtLote, javax.swing.GroupLayout.PREFERRED_SIZE, 346, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(btnAdicionar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnRemover))
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addGap(20, 20, 20))
+            .addComponent(jSeparator1)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(16, 16, 16)
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel6)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtPessoa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtNotaFiscal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel8)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jTextFieldMoney1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(25, 25, 25)
+                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(jLabel5)
-                    .addComponent(chkDataValidade))
+                    .addComponent(chkDataValidade)
+                    .addComponent(jLabel5))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtItem, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jcbTipoMovimentação, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(txtDataValidade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txtItem, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jcbTipoMovimentação, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(txtDataValidade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
@@ -298,25 +342,27 @@ public class FrmEstoqueCadastro extends JDialogController {
                             .addComponent(txtValorCompra, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(spinerQuantidade, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel9))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel9)
+                            .addComponent(jLabel2))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(txtLote, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jDateCompra, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(20, 20, 20)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(btnAdicionar)
-                            .addComponent(btnRemover))))
-                .addGap(20, 20, 20)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtDataCompra, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtLote, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnAdicionar)
+                    .addComponent(btnRemover))
+                .addGap(20, 20, 20)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(20, 20, 20)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnSalvar)
                     .addComponent(btnCancelar))
                 .addGap(20, 20, 20))
         );
+
+        bindingGroup.bind();
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -330,6 +376,9 @@ public class FrmEstoqueCadastro extends JDialogController {
     }//GEN-LAST:event_btnSalvarActionPerformed
 
     private void btnAdicionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdicionarActionPerformed
+        if (!validator.isValido()) {
+            return;
+        }
         Estoque est = new Estoque();
         EstoqueMovimentacao estMov = new EstoqueMovimentacao();
 
@@ -340,31 +389,37 @@ public class FrmEstoqueCadastro extends JDialogController {
         estMov.setDataLancamento(new Date());
         estMov.setDescricao(estMov.getMovimentacaoTipo().getDescricao()
                 + " DE " + estMov.getQuantidade() + " " + est.getItem().getDescricao());
-        est.setDataCompra(jDateCompra.getDate());
+        est.setDataCompra(txtDataValidade.getDate());
         est.setLote(txtLote.getText());
         if (chkDataValidade.isSelected()) {
             est.setDataValidade(txtDataValidade.getDate());
         } else {
             est.setDataValidade(null);
         }
+        estMov.setNotaFiscal(txtNotaFiscal.getText());
+        Ordem ordem = new Ordem();
+        FrmContaCadastro frmConta = new FrmContaCadastro(est.getValorUnitario(), 1, estMov.getNotaFiscal(), Conta.ContaTipo.estoque, ContaCategoria.TipoCategoria.entrada);
+        frmConta.setPessoa(estMov.getPessoa().getId(),true);
+        frmConta.setDescricao("ENTRADA DE ESTOQUE CÓDIGO " + ordem.getId());
+        frmConta.setListenerOnSave((c) -> {
+            ordem.setConta(c);
+            //int codigoStatus = Integer.parseInt(Parametros.getInstance().getValue("status_finalizador"));
+            //ordem.setOrdemStatus(new OrdemStatusService().findById(codigoStatus));
+            //salvar();
+            //imprimirFicha();
+            //dispose();
+        });
+        estMov.setConta(ordem.getConta());
         est.setValorUnitario(txtValorCompra.getValue());
         est.setQuantidadeDisponivel(Integer.parseInt(spinerQuantidade.getValue().toString()));
-        List<EstoqueMovimentacao> movimentacoes = new ArrayList<>();
-        movimentacoes.add(estMov);
+        //List<EstoqueMovimentacao> movimentacoes = new ArrayList<>();
+        //movimentacoes.add(estMov);
         estMov.setEstoque(est);
-        est.setMovimentacoes(movimentacoes);
+        //est.setMovimentacoes(movimentacoes);
         estoque.add(est);
         zerarCampos();
         refreshTable();
     }//GEN-LAST:event_btnAdicionarActionPerformed
-
-    private void chkDataValidadeStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_chkDataValidadeStateChanged
-        if (chkDataValidade.isSelected()) {
-            txtDataValidade.setEnabled(true);
-        } else {
-            txtDataValidade.setEnabled(false);
-        }
-    }//GEN-LAST:event_chkDataValidadeStateChanged
 
     private void loadTiposMovimentação() {
         List<MovimentacaoTipo> movTipoTemp = new MovimentacaoTipoService().findAll();
@@ -390,24 +445,25 @@ public class FrmEstoqueCadastro extends JDialogController {
     private void refreshTable() {
         DefaultTableModel model = (DefaultTableModel) tableItem.getModel();
         model.setNumRows(0);
+        EstoqueMovimentacao estMov = new EstoqueMovimentacao();
         for (Estoque est : estoque) {
-            EstoqueMovimentacao estMov = new EstoqueMovimentacao();
-            for (int x = 0; x < est.getMovimentacoes().size(); x++) {
-                if (est.getMovimentacoes().get(x).getEstoque().hashCode() == est.hashCode()) {
-                    estMov = est.getMovimentacoes().get(x);
-                } else {
-                    JOptionPane.showMessageDialog(null, "Erro! Contate o administrador");
+            List<EstoqueMovimentacao> iM = serviceEst.todasMovimentacaos();
+            for (int x = 0; x < iM.size(); x++) {
+                if (iM.get(x).getEstoque().equals(est)) {
+                    estMov = iM.get(x);
                 }
                 model.addRow(new String[]{
+                    "" + estMov.getPessoa().getNome(),
+                    "" + estMov.getNotaFiscal(),
+                    "" + estMov.getConta().getValorTotal(), //Ver com o Charles
                     "" + est.getItem().getDescricao(),
                     "" + estMov.getMovimentacaoTipo().getDescricao(),
                     "" + est.getValorUnitario(),
                     "" + estMov.getQuantidade(),
-                    "" + est.getDataCompra().getDate(),
+                    "" + est.getDataCompra(),
                     "" + est.getLote()
                 });
             }
-
         }
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -417,22 +473,30 @@ public class FrmEstoqueCadastro extends JDialogController {
     private javax.swing.JButton btnSalvar;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JCheckBox chkDataValidade;
-    private components.JDateField jDateCompra;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTable jTable1;
+    private components.JTextFieldMoney jTextFieldMoney1;
     private javax.swing.JComboBox jcbTipoMovimentação;
     private javax.swing.JSpinner spinerQuantidade;
-    private javax.swing.JTable tableItem;
+    private components.JTableDataBinder tableItem;
+    private components.JDateField txtDataCompra;
     private components.JDateField txtDataValidade;
     private components.F2 txtItem;
     private components.JTextFieldUpper txtLote;
+    private components.JTextFieldUpper txtNotaFiscal;
+    private components.F2 txtPessoa;
     private components.JTextFieldMoney txtValorCompra;
+    private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
 }

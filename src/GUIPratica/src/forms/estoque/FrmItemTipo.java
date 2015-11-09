@@ -46,7 +46,7 @@ public class FrmItemTipo extends JPanelControleButtons {
                 } else {
                     i = Globals.iconeError;
                 }
-                return new Object[]{dado.getId(), dado.getNome(), i};
+                return new Object[]{dado.getId()+"", dado.getNome(), i};
             }
         });
 

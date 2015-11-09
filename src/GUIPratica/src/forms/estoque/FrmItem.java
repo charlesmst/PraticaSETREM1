@@ -41,10 +41,10 @@ public class FrmItem extends JPanelControleButtons {
 
             @Override
             public Object[] addRow(Item dado) {
-                return new Object[]{dado.getId(),
+                return new Object[]{dado.getId()+"",
                     dado.getItemTipo().getNome(),
                     dado.getDescricao(),
-                    dado.getEstoqueMinimo(),
+                    dado.getEstoqueMinimo()+"",
                     dado.getPrateleira().getDescricao(),
                     Utils.formataDinheiro(dado.getUltimoValorVenda()),
                     new ItemService().verificaQuantidadeDisp(dado)

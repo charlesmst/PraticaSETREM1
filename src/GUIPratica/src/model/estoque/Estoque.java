@@ -70,9 +70,6 @@ public class Estoque implements Serializable {
     @Column(name = "data_validade")
     private Date dataValidade;
 
-    @OneToMany(mappedBy = "estoque")
-    private List<EstoqueMovimentacao> movimentacoes;
-
     public int getId() {
         return id;
     }
@@ -119,18 +116,6 @@ public class Estoque implements Serializable {
 
     public void setDataValidade(Date dataValidade) {
         this.dataValidade = dataValidade;
-    }
-
-    public List<EstoqueMovimentacao> getMovimentacoes() {
-        return movimentacoes;
-    }
-
-    public void setMovimentacoes(List<EstoqueMovimentacao> movimentacoes) {
-        this.movimentacoes = movimentacoes;
-    }
-    
-    public void addMovimentacoes(EstoqueMovimentacao estMov) {
-        this.movimentacoes.add(estMov);
     }
 
     public Date getDataCompra() {

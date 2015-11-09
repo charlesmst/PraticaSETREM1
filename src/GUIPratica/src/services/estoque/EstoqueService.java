@@ -28,11 +28,12 @@ public class EstoqueService extends Service<Estoque> {
             for (int x = 0; x < estoque.size(); x++) {
                 est = estoque.get(x);
                 int w = 0;
-                for (EstoqueMovimentacao eM : estoque.get(x).getMovimentacoes()) {
-                    estMov = estoque.get(x).getMovimentacoes().get(w);
-                    w++;
+                List<EstoqueMovimentacao> iM = todasMovimentacaos();
+                for (int y = 0; y < iM.size(); y++) {
+                    if (iM.get(y).getEstoque().equals(est)) {
+                        estMov = iM.get(y);
+                    }
                 }
-
                 if (est.getId() > 0) {
                     s.merge(est);
                 } else {
@@ -43,7 +44,6 @@ public class EstoqueService extends Service<Estoque> {
                 } else {
                     s.save(estMov);
                 }
-
             }
             t.commit();
         });

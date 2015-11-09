@@ -40,13 +40,13 @@ public class FrmEstoque extends JPanelControleButtons {
 
             @Override
             public Object[] addRow(Estoque dado) {
-                return new Object[]{dado.getId(),
+                return new Object[]{dado.getId() + "",
                     dado.getItem().getDescricao(),
-                    dado.getDataCompra(),
+                    Utils.formataDate(dado.getDataCompra()),
                     dado.getLote(),
-                    dado.getQuantidadeDisponivel(),
+                    dado.getQuantidadeDisponivel() + "",
                     Utils.formataDinheiro(dado.getValorUnitario()),
-                    dado.getDataValidade()
+                    Utils.formataDate(dado.getDataValidade())
                 };
             }
         });
@@ -148,23 +148,19 @@ public class FrmEstoque extends JPanelControleButtons {
 
     @Override
     public void btnAlterarActionPerformed(ActionEvent evt) {
-        try {
+        defaultUpdateOperation(table, (i) -> {
             JDialog dialog = new FrmEstoqueAlteracao(table.getSelectedId());
             dialog.setVisible(true);
-        } catch (Exception e) {
-            utils.Forms.mensagem(e.getMessage(), AlertaTipos.erro);
-        }
+        });
     }
 
     @Override
-    public void btnExcluirActionPerformed(ActionEvent evt
-    ) {
+    public void btnExcluirActionPerformed(ActionEvent evt) {
         defaultDeleteOperation(table, (i) -> service.delete(i));
     }
 
     @Override
-    public void btnAtualizarActionPerformed(ActionEvent evt
-    ) {
+    public void btnAtualizarActionPerformed(ActionEvent evt) {
         table.atualizar();
     }
 }

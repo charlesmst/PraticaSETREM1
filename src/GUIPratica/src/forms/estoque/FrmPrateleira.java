@@ -51,7 +51,7 @@ public class FrmPrateleira extends JPanelControleButtons {
 
             @Override
             public Object[] addRow(Prateleira dado) {
-                return new Object[]{dado.getId(), dado.getDescricao()};
+                return new Object[]{dado.getId()+"", dado.getDescricao()};
 
             }
         });
@@ -147,7 +147,6 @@ public class FrmPrateleira extends JPanelControleButtons {
 
     @Override
     public void btnAddActionPerformed(ActionEvent evt) {
-//        model.createNew();
         JDialog dialog = new FrmPrateleiraCadastro();
         dialog.setVisible(true);
         table.atualizar();

@@ -33,7 +33,6 @@ public class Veiculo implements Serializable {
     private Modelo modelo;
 
     @ManyToOne
-
     @JoinColumn(name = "cor_id", nullable = false)
     private Cor cor;
 
@@ -99,4 +98,5 @@ public class Veiculo implements Serializable {
     public void setChassi(String chassi) {
         this.chassi = chassi;
     }
+
 }
