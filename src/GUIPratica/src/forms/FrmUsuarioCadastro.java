@@ -41,12 +41,12 @@ public class FrmUsuarioCadastro extends JDialogController {
     }
 
     private void setupForm() {
-
         setLocationRelativeTo(null);
         setDefaultButton(btnSalvar);
         txtCodigo.setEnabled(false);
         validator.validarObrigatorio(txtPessoa);
         validator.validarDeBanco(txtPessoa, new PessoaService());
+        btnAlterarSenha.setVisible(false);
         if (id > 0) {
             load();
         } else {
@@ -56,6 +56,7 @@ public class FrmUsuarioCadastro extends JDialogController {
     }
 
     private void load() {
+        btnAlterarSenha.setVisible(true);
         txtSenha.setEnabled(false);
         txtSenhaConfirmacao.setEnabled(false);
         u = service.findById(id);
