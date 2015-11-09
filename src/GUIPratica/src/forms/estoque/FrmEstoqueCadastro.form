@@ -71,7 +71,7 @@
                       <EmptySpace min="-2" pref="41" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="jLabel8" min="-2" max="-2" attributes="0"/>
-                          <Component id="jTextFieldMoney1" min="-2" pref="118" max="-2" attributes="0"/>
+                          <Component id="txtValorTotal" min="-2" pref="118" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace min="-2" pref="1" max="-2" attributes="0"/>
                   </Group>
@@ -148,7 +148,7 @@
                   <Group type="102" alignment="0" attributes="0">
                       <Component id="jLabel8" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jTextFieldMoney1" min="-2" max="-2" attributes="0"/>
+                      <Component id="txtValorTotal" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace min="-2" pref="25" max="-2" attributes="0"/>
@@ -352,7 +352,7 @@
     </Component>
     <Component class="javax.swing.JSeparator" name="jSeparator1">
     </Component>
-    <Component class="components.JTextFieldMoney" name="jTextFieldMoney1">
+    <Component class="components.JTextFieldMoney" name="txtValorTotal">
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel8">
       <Properties>
@@ -369,12 +369,8 @@
         <Component class="components.JTableDataBinder" name="tableItem">
           <Properties>
             <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-              <Table columnCount="9" rowCount="4">
-                <Column editable="false" title="Fornecedor" type="java.lang.Object"/>
-                <Column editable="false" title="Nota Fiscal" type="java.lang.Object"/>
-                <Column editable="false" title="Valor Total" type="java.lang.Object"/>
+              <Table columnCount="5" rowCount="4">
                 <Column editable="false" title="Item" type="java.lang.Object"/>
-                <Column editable="false" title="Movimenta&#xe7;&#xe3;o" type="java.lang.Object"/>
                 <Column editable="false" title="Valor Unit." type="java.lang.Object"/>
                 <Column editable="false" title="Quantidade" type="java.lang.Object"/>
                 <Column editable="false" title="Data de Compra" type="java.lang.Object"/>
@@ -383,26 +379,6 @@
             </Property>
             <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
               <TableColumnModel selectionModel="0">
-                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
-                  <Title/>
-                  <Editor/>
-                  <Renderer/>
-                </Column>
-                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
-                  <Title/>
-                  <Editor/>
-                  <Renderer/>
-                </Column>
-                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
-                  <Title/>
-                  <Editor/>
-                  <Renderer/>
-                </Column>
-                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
-                  <Title/>
-                  <Editor/>
-                  <Renderer/>
-                </Column>
                 <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
                   <Title/>
                   <Editor/>

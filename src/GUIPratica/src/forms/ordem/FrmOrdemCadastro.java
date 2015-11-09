@@ -86,7 +86,7 @@ public class FrmOrdemCadastro extends JDialogController {
         validator.validarObrigatorio(jcbStatus);
         validator.validarDeBanco(txtCliente, new PessoaService());
         validator.validarDeBanco(txtVeiculo, new VeiculoService());
-
+        validator.validarCustom(jcbStatus, (valor) -> jcbStatus.getSelectedItem() != null, "Selecione uma status");
         jcbStatus.setModel(new DefaultComboBoxModel(new Vector(new OrdemStatusService().findAtivos())));
 
         table.setListener(new JTableDataBinderListener() {
@@ -153,6 +153,9 @@ public class FrmOrdemCadastro extends JDialogController {
 
     private void atualizaListagem() {
         table.atualizar();
+
+        double valorTotal = service.valorTotal(ordem);
+        lblValor.setText(Utils.formataDinheiro(valorTotal));
     }
 
     private boolean binded = false;
@@ -176,7 +179,7 @@ public class FrmOrdemCadastro extends JDialogController {
 
                 @Override
                 public String convertForward(Veiculo value) {
-                    if (value != null || value.getId() != 0) {
+                    if (value != null && value.getId() != 0) {
                         return value.getId() + "";
                     }
                     return "";
@@ -212,7 +215,7 @@ public class FrmOrdemCadastro extends JDialogController {
 
                 @Override
                 public String convertForward(Pessoa value) {
-                    if (value != null || value.getId() != 0) {
+                    if (value != null && value.getId() != 0) {
                         return value.getId() + "";
                     }
                     return "";
@@ -277,7 +280,7 @@ public class FrmOrdemCadastro extends JDialogController {
         txtPrazo = new components.JDateField();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
+        lblValor = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -320,7 +323,7 @@ public class FrmOrdemCadastro extends JDialogController {
 
         jLabel6.setText("Valor atual");
 
-        jLabel7.setText("R$0,00");
+        lblValor.setText("R$0,00");
 
         jLabel8.setText("Descrição do pedido");
 
@@ -423,7 +426,7 @@ public class FrmOrdemCadastro extends JDialogController {
                                         .addGap(14, 14, 14)
                                         .addComponent(jLabel6)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(jLabel7)
+                                        .addComponent(lblValor)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addComponent(jButton1))
                                     .addComponent(txtVeiculo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
@@ -450,7 +453,7 @@ public class FrmOrdemCadastro extends JDialogController {
                     .addComponent(txtPrazo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel5)
                     .addComponent(jLabel6)
-                    .addComponent(jLabel7)
+                    .addComponent(lblValor)
                     .addComponent(jButton1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel8)
@@ -490,15 +493,15 @@ public class FrmOrdemCadastro extends JDialogController {
         }
         //Cadastra conta
         if (ordem.getConta() == null) {
-            
+
             double valorTotal = service.valorTotal(ordem);
             FrmDescontoCadastro frmDesconto = new FrmDescontoCadastro(valorTotal);
             frmDesconto.setListener((desconto) -> {
                 //Aplicar desconto
 //                ordem.set;
                 FrmContaCadastro frmConta = new FrmContaCadastro(valorTotal - desconto, 1, "", Conta.ContaTipo.ordem, ContaCategoria.TipoCategoria.entrada);
-                frmConta.setPessoa(ordem.getPessoa().getId(),true);
-                frmConta.setDescricao("ORDEM DE SERVIÇO CÒDIGO "+ordem.getId());
+                frmConta.setPessoa(ordem.getPessoa().getId(), true);
+                frmConta.setDescricao("ORDEM DE SERVIÇO CÒDIGO " + ordem.getId());
                 frmConta.setListenerOnSave((c) -> {
                     ordem.setConta(c);
                     int codigoStatus = Integer.parseInt(Parametros.getInstance().getValue("status_finalizador"));
@@ -520,6 +523,7 @@ public class FrmOrdemCadastro extends JDialogController {
         if (!validator.isValido()) {
             return;
         }
+
         salvar();
 
         FrmOrdemServicoCadastro frm = new FrmOrdemServicoCadastro(ordem);
@@ -594,12 +598,12 @@ public class FrmOrdemCadastro extends JDialogController {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JComboBox jcbStatus;
+    private javax.swing.JLabel lblValor;
     private model.ordem.Ordem ordem;
     private components.JTableDataBinder table;
     private components.F2 txtCliente;

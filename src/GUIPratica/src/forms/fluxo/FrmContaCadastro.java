@@ -76,6 +76,7 @@ public class FrmContaCadastro extends JDialogController {
     public FrmContaCadastro(double valor, int parcelas, String notaFiscal, Conta.ContaTipo tipo, ContaCategoria.TipoCategoria tipoEntradaSaida) {
         this(0);
 
+        conta.setValorTotal(valor);
         panelParcelas1.setValor(valor);
         panelParcelas1.setParcelas(parcelas);
         jtfNotaFiscal.setText(notaFiscal);

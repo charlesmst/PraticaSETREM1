@@ -2,17 +2,20 @@ package forms.estoque;
 
 import components.CellRenderer;
 import components.JDialogController;
+import components.JTableDataBinderListener;
 import forms.FrmPessoaF2;
 import forms.fluxo.FrmContaCadastro;
 import forms.frmMain;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.Vector;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import model.Pessoa;
 import model.estoque.Estoque;
 import model.estoque.EstoqueMovimentacao;
 import model.estoque.Item;
@@ -21,6 +24,7 @@ import model.fluxo.Conta;
 import model.fluxo.ContaCategoria;
 import model.ordem.Ordem;
 import services.PessoaService;
+import services.ServiceException;
 import services.estoque.EstoqueMovimentacaoService;
 import services.estoque.EstoqueService;
 import services.estoque.ItemService;
@@ -38,6 +42,8 @@ public class FrmEstoqueCadastro extends JDialogController {
 
     private int id;
     private List<Estoque> estoque = new ArrayList<>();
+    private List<EstoqueMovimentacao> estoqueMovimentacoes = new ArrayList<>();
+
     private final EstoqueService serviceEst = new EstoqueService();
     private final EstoqueMovimentacaoService serviceEstMov = new EstoqueMovimentacaoService();
     List<MovimentacaoTipo> movTipo;
@@ -68,38 +74,45 @@ public class FrmEstoqueCadastro extends JDialogController {
         validator.validarCustom(txtValorCompra, (valor) -> {
             return txtValorCompra.getValue() > 0;
         }, "Valor deve ser maior que zero");
+        tableItem.setListener(new JTableDataBinderListener<Estoque>() {
 
-        //int quantidade = spinEstoqueMin.getComponentCount();
-        //validator.validarObrigatorio(spinEstoqueMin);
-//        validator.validarCustom(spinEstoqueMin, (valor) -> {
-//            if (quantidade <= 1) {
-//                return true;
-//            } else {
-//                return false;
-//            }
-//        }, "Informe a quantidade mínima do estoque!");
-//        validator.validarObrigatorio(txtDescricao);
-//        validator.validarCustom(txtDescricao,
-//                (valor) -> service.unico(id, valor), "Descrição já existe");
-//        if (id > 0) {
-//            load();
-//        }
-    }
+            @Override
+            public Collection<Estoque> lista(String busca) throws ServiceException {
+                return estoque;
+            }
 
-    private void load() {
-//        Estoque i = service.findById(id);
-//        txtCodigo.setText(String.valueOf(i.getId()));
-//        txtEstoqueTipo.setText(String.valueOf(i.getEstoqueTipo().getId()));
-//        txtDescricao.setText(i.getDescricao());
-//        spinQuantidade.setValue(i.getEstoqueMinimo());
-//        txtTipoMovimentacao.setText(String.valueOf(i.getPrateleira().getId()));
+            @Override
+            public Object[] addRow(Estoque dado) {
+                return new String[]{
+                    "" + dado.getItem().getDescricao(),
+                    "" + Utils.formataDinheiro(dado.getValorUnitario()),
+                    "" + dado.getQuantidadeDisponivel(),
+                    "" + Utils.formataDate(dado.getDataCompra()),
+                    "" + dado.getLote()
+                };
+            }
+        });
     }
 
     private void save() {
+
         Utils.safeCode(() -> {
-            serviceEst.insert(estoque);
-            utils.Forms.mensagem(utils.Mensagens.registroSalvo, AlertaTipos.sucesso);
-            dispose();
+
+            for (EstoqueMovimentacao estoqueMovimentacoe : estoqueMovimentacoes) {
+                estoqueMovimentacoe.setPessoa(new Pessoa(txtPessoa.getValueSelected()));
+            }
+            FrmContaCadastro frmConta = new FrmContaCadastro(txtValorTotal.getValue(), 1, txtNotaFiscal.getText(), Conta.ContaTipo.estoque, ContaCategoria.TipoCategoria.saida);
+            frmConta.setPessoa(txtPessoa.getValueSelected(), true);
+            frmConta.setDescricao("ENTRADA DE ESTOQUE DO FORNECEDOR " + txtPessoa.getTextValue());
+            frmConta.setListenerOnSave((c) -> {
+                for (EstoqueMovimentacao estoqueMovimentacoe : estoqueMovimentacoes) {
+                    estoqueMovimentacoe.setConta(c);
+                }
+                serviceEst.insert(estoque, estoqueMovimentacoes);
+                utils.Forms.mensagem(utils.Mensagens.registroSalvo, AlertaTipos.sucesso);
+                dispose();
+            });
+            frmConta.setVisible(true);
         });
 
     }
@@ -135,7 +148,7 @@ public class FrmEstoqueCadastro extends JDialogController {
         txtPessoa = new components.F2(FrmPessoaF2.class, (id)-> new PessoaService().findById(id).toString());
         jLabel6 = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
-        jTextFieldMoney1 = new components.JTextFieldMoney();
+        txtValorTotal = new components.JTextFieldMoney();
         jLabel8 = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
         tableItem = new components.JTableDataBinder();
@@ -218,17 +231,17 @@ public class FrmEstoqueCadastro extends JDialogController {
 
         tableItem.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null}
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "Fornecedor", "Nota Fiscal", "Valor Total", "Item", "Movimentação", "Valor Unit.", "Quantidade", "Data de Compra", "Lote"
+                "Item", "Valor Unit.", "Quantidade", "Data de Compra", "Lote"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false, false
+                false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -260,7 +273,7 @@ public class FrmEstoqueCadastro extends JDialogController {
                         .addGap(41, 41, 41)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel8)
-                            .addComponent(jTextFieldMoney1, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txtValorTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(1, 1, 1))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -317,7 +330,7 @@ public class FrmEstoqueCadastro extends JDialogController {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel8)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextFieldMoney1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(txtValorTotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(25, 25, 25)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -381,7 +394,7 @@ public class FrmEstoqueCadastro extends JDialogController {
         }
         Estoque est = new Estoque();
         EstoqueMovimentacao estMov = new EstoqueMovimentacao();
-
+        estMov.setEstoque(est);
         est.setItem(new ItemService().findById(txtItem.getValueSelected()));
         estMov.setMovimentacaoTipo((MovimentacaoTipo) jcbTipoMovimentação.getModel().getSelectedItem());
         estMov.setValorUnitario(txtValorCompra.getValue());
@@ -397,19 +410,8 @@ public class FrmEstoqueCadastro extends JDialogController {
             est.setDataValidade(null);
         }
         estMov.setNotaFiscal(txtNotaFiscal.getText());
-        Ordem ordem = new Ordem();
-        FrmContaCadastro frmConta = new FrmContaCadastro(est.getValorUnitario(), 1, estMov.getNotaFiscal(), Conta.ContaTipo.estoque, ContaCategoria.TipoCategoria.entrada);
-        frmConta.setPessoa(estMov.getPessoa().getId(),true);
-        frmConta.setDescricao("ENTRADA DE ESTOQUE CÓDIGO " + ordem.getId());
-        frmConta.setListenerOnSave((c) -> {
-            ordem.setConta(c);
-            //int codigoStatus = Integer.parseInt(Parametros.getInstance().getValue("status_finalizador"));
-            //ordem.setOrdemStatus(new OrdemStatusService().findById(codigoStatus));
-            //salvar();
-            //imprimirFicha();
-            //dispose();
-        });
-        estMov.setConta(ordem.getConta());
+
+//        estMov.setConta(ordem.getConta());
         est.setValorUnitario(txtValorCompra.getValue());
         est.setQuantidadeDisponivel(Integer.parseInt(spinerQuantidade.getValue().toString()));
         //List<EstoqueMovimentacao> movimentacoes = new ArrayList<>();
@@ -417,6 +419,7 @@ public class FrmEstoqueCadastro extends JDialogController {
         estMov.setEstoque(est);
         //est.setMovimentacoes(movimentacoes);
         estoque.add(est);
+        estoqueMovimentacoes.add(estMov);
         zerarCampos();
         refreshTable();
     }//GEN-LAST:event_btnAdicionarActionPerformed
@@ -443,28 +446,7 @@ public class FrmEstoqueCadastro extends JDialogController {
     }
 
     private void refreshTable() {
-        DefaultTableModel model = (DefaultTableModel) tableItem.getModel();
-        model.setNumRows(0);
-        EstoqueMovimentacao estMov = new EstoqueMovimentacao();
-        for (Estoque est : estoque) {
-            List<EstoqueMovimentacao> iM = serviceEst.todasMovimentacaos();
-            for (int x = 0; x < iM.size(); x++) {
-                if (iM.get(x).getEstoque().equals(est)) {
-                    estMov = iM.get(x);
-                }
-                model.addRow(new String[]{
-                    "" + estMov.getPessoa().getNome(),
-                    "" + estMov.getNotaFiscal(),
-                    "" + estMov.getConta().getValorTotal(), //Ver com o Charles
-                    "" + est.getItem().getDescricao(),
-                    "" + estMov.getMovimentacaoTipo().getDescricao(),
-                    "" + est.getValorUnitario(),
-                    "" + estMov.getQuantidade(),
-                    "" + est.getDataCompra(),
-                    "" + est.getLote()
-                });
-            }
-        }
+        tableItem.atualizar();
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdicionar;
@@ -486,7 +468,6 @@ public class FrmEstoqueCadastro extends JDialogController {
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTable jTable1;
-    private components.JTextFieldMoney jTextFieldMoney1;
     private javax.swing.JComboBox jcbTipoMovimentação;
     private javax.swing.JSpinner spinerQuantidade;
     private components.JTableDataBinder tableItem;
@@ -497,6 +478,7 @@ public class FrmEstoqueCadastro extends JDialogController {
     private components.JTextFieldUpper txtNotaFiscal;
     private components.F2 txtPessoa;
     private components.JTextFieldMoney txtValorCompra;
+    private components.JTextFieldMoney txtValorTotal;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
 }
