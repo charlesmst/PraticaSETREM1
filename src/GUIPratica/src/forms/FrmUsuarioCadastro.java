@@ -1,16 +1,20 @@
 package forms;
 
 import components.JDialogController;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
+import javax.swing.SwingUtilities;
 import model.Cidade;
 import model.Usuario;
 import services.CidadeService;
@@ -205,7 +209,7 @@ public class FrmUsuarioCadastro extends JDialogController {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(txtTipoUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 132, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 199, Short.MAX_VALUE)
                                 .addComponent(txtAtivo))
                             .addComponent(txtSenha, javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txtPessoa, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -270,19 +274,30 @@ public class FrmUsuarioCadastro extends JDialogController {
     }//GEN-LAST:event_btnSalvarActionPerformed
 
     private void btnAlterarSenhaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAlterarSenhaActionPerformed
-        JPasswordField password = new JPasswordField(10);
-        password.setEchoChar('*');
-        password.grabFocus();
-
-        JLabel rotulo = new JLabel("Senha Atual:");
-
-        JPanel entUsuario = new JPanel();
-        entUsuario.add(rotulo);
-        entUsuario.add(password);
-        entUsuario.grabFocus();
-        entUsuario.setFocusable(true);
-        JOptionPane.showMessageDialog(null, entUsuario, "Autenticação!", JOptionPane.PLAIN_MESSAGE);
-        String s = Arrays.toString(password.getPassword());
+        JPasswordField jpf = new JPasswordField();
+        JOptionPane jop = new JOptionPane(jpf,
+                JOptionPane.QUESTION_MESSAGE,
+                JOptionPane.OK_CANCEL_OPTION);
+        JDialog dialog = jop.createDialog("Senha atual:");
+        dialog.addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentShown(ComponentEvent e) {
+                SwingUtilities.invokeLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        jpf.requestFocusInWindow();
+                    }
+                });
+            }
+        });
+        dialog.setVisible(true);
+        int result = (Integer) jop.getValue();
+        dialog.dispose();
+        char[] password = null;
+        if (result == JOptionPane.OK_OPTION) {
+            password = jpf.getPassword();
+        }
+        String s = Arrays.toString(password);
         try {
             if (u.autentica(s)) {
                 txtSenha.setEnabled(true);

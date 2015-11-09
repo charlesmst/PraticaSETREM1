@@ -436,8 +436,7 @@ public class FrmEstoqueCadastro extends JDialogController {
     }
 
     private void zerarCampos() {
-        DefaultTableModel table = (DefaultTableModel) tableItem.getModel();
-        table.setNumRows(0);
+        
         txtItem.setText("");
         jcbTipoMovimentação.setSelectedIndex(0);
         txtValorCompra.setValue(0);
