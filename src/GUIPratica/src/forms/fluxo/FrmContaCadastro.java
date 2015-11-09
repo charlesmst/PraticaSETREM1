@@ -53,7 +53,7 @@ public class FrmContaCadastro extends JDialogController {
 
     public void setPessoa(int pessoa, boolean disable) {
         jtbPessoa.setEditable(!disable);
-        jtbPessoa.setText(pessoa + "");
+        conta.setPessoa(new Pessoa(pessoa));
     }
 
     public void setListenerOnSave(Consumer<Conta> listenerOnSave) {
@@ -199,7 +199,7 @@ public class FrmContaCadastro extends JDialogController {
             initBindings();
             
 
-        });
+        }, false);
 
     }
 
