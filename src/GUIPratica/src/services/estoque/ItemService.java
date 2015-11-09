@@ -34,12 +34,12 @@ public class ItemService extends Service<Item> {
         super(Item.class);
     }
 
-    public int verificaQuantidadeDisp(Item i) {
+    public String verificaQuantidadeDisp(Item i) {
         List<Estoque> estoqueDoItem = new EstoqueService().findBy("item.id", i.getId());
         int quantidade = 0;
         for (Estoque e : estoqueDoItem) {
             quantidade = quantidade + e.getQuantidadeDisponivel();
         }
-        return quantidade;
+        return quantidade+"";
     }
 }

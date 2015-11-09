@@ -302,6 +302,11 @@ public class FrmContaCadastro extends JDialogController {
 
         jcbCategoria.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Carregando..." }));
         jcbCategoria.setMinimumSize(new java.awt.Dimension(94, 30));
+        jcbCategoria.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jcbCategoriaActionPerformed(evt);
+            }
+        });
 
         jcbFormaPagamento.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Carregando..." }));
 
@@ -449,6 +454,10 @@ public class FrmContaCadastro extends JDialogController {
         System.out.println(conta.getFormaPagamento());
 
     }//GEN-LAST:event_jtfNotaFiscalMouseClicked
+
+    private void jcbCategoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcbCategoriaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jcbCategoriaActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
