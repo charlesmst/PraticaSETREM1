@@ -251,7 +251,6 @@
     </Component>
     <Component class="javax.swing.JRadioButton" name="txtRadioJuridica">
       <Properties>
-        <Property name="selected" type="boolean" value="false"/>
         <Property name="text" type="java.lang.String" value="Jur&#xed;dica"/>
       </Properties>
       <BindingProperties>
@@ -416,7 +415,6 @@
     </Container>
     <Component class="javax.swing.JRadioButton" name="txtRadioFisica">
       <Properties>
-        <Property name="selected" type="boolean" value="false"/>
         <Property name="text" type="java.lang.String" value="F&#xed;sica"/>
       </Properties>
       <BindingProperties>

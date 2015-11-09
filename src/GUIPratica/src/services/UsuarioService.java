@@ -9,7 +9,7 @@ import model.Usuario;
 
 /**
  *
- * @author Charles
+ * @author Gustavo
  */
 public class UsuarioService extends Service<Usuario>{
 

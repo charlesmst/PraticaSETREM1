@@ -44,6 +44,9 @@ public class FrmPessoaCadastro extends JDialogController {
         buttonGroup1.clearSelection();
         desabilitaFisica();
         desabilitaJuridico();
+        validator.validarObrigatorio(txtNome);
+        validator.validarObrigatorio(txtCidade);
+        validator.validarDeBanco(txtCidade, new CidadeService());
 
         if (id > 0) {
             load();
@@ -117,6 +120,9 @@ public class FrmPessoaCadastro extends JDialogController {
     }
 
     private void save() {
+        if(!txtRadioFisica.isSelected() && !txtRadioJuridica.isSelected()){
+            utils.Forms.mensagem("Selecione o tipo de Pessoa", AlertaTipos.erro);
+        }
         p.setNome(txtNome.getText());
         p.setTelefone(txtTelefone.getText());
         p.setTelefoneSecundario(txtTelefone2.getText());

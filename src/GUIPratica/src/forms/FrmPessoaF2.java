@@ -28,7 +28,7 @@ public class FrmPessoaF2 extends frmF2 {
 
     @Override
     protected void requestNew() {
-//        new FrmPessoaCadastro().setVisible(true);
+        new FrmPessoaCadastro().setVisible(true);
     }
 
     @Override
