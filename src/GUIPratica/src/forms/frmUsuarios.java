@@ -43,7 +43,7 @@ public class frmUsuarios extends JPanelControleButtons {
             @Override
             public Collection<Usuario> lista(String busca) {
                 try {
-                    return service.findByMultipleColumns(busca, "id", "pessoa.nome");
+                    return service.findByMultipleColumns(busca, "id", "id", "pessoa.nome");
                 } catch (Exception e) {
                     utils.Forms.mensagem(e.getMessage(), AlertaTipos.erro);
                 }
@@ -52,7 +52,7 @@ public class frmUsuarios extends JPanelControleButtons {
 
             @Override
             public Object[] addRow(Usuario dado) {
-                return new Object[]{dado.getId()+"", dado.getPessoa().getNome(),
+                return new Object[]{dado.getId() + "", dado.getPessoa().getNome(),
                     dado.getNivel().toString().toUpperCase(),
                     dado.isAtivo() ? "SIM" : "NÃO"};
 
@@ -78,9 +78,9 @@ public class frmUsuarios extends JPanelControleButtons {
         jScrollPane2 = new javax.swing.JScrollPane();
         jTableDataBinder1 = new components.JTableDataBinder();
         jLabel2 = new javax.swing.JLabel();
-        txtBuscar = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         jtbDados = new JTableDataBinder();
+        txtBuscar = new components.JTextFieldUpper();
 
         jTableDataBinder1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -97,8 +97,6 @@ public class frmUsuarios extends JPanelControleButtons {
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jLabel2.setText("Buscar:");
-
-        txtBuscar.setMargin(new java.awt.Insets(2, 8, 2, 2));
 
         jtbDados.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -130,8 +128,8 @@ public class frmUsuarios extends JPanelControleButtons {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(txtBuscar, javax.swing.GroupLayout.DEFAULT_SIZE, 331, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtBuscar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 380, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -155,7 +153,7 @@ public class frmUsuarios extends JPanelControleButtons {
     private javax.swing.JScrollPane jScrollPane2;
     private components.JTableDataBinder jTableDataBinder1;
     private javax.swing.JTable jtbDados;
-    private javax.swing.JTextField txtBuscar;
+    private components.JTextFieldUpper txtBuscar;
     // End of variables declaration//GEN-END:variables
 
     @Override

@@ -22,7 +22,7 @@
                   <Component id="jScrollPane1" pref="380" max="32767" attributes="0"/>
                   <Group type="102" attributes="0">
                       <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
                       <Component id="txtBuscar" max="32767" attributes="0"/>
                   </Group>
               </Group>
@@ -129,12 +129,7 @@
         <Property name="text" type="java.lang.String" value="Buscar:"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="txtBuscar">
-      <Properties>
-        <Property name="margin" type="java.awt.Insets" editor="org.netbeans.beaninfo.editors.InsetsEditor">
-          <Insets value="[2, 8, 2, 2]"/>
-        </Property>
-      </Properties>
+    <Component class="components.JTextFieldUpper" name="txtBuscar">
     </Component>
   </SubComponents>
 </Form>

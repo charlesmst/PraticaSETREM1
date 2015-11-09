@@ -8,10 +8,8 @@ package forms;
 import components.JTableDataBinderListener;
 import java.util.Collection;
 import model.Cidade;
-import model.Pessoa;
 import services.CidadeService;
 import services.ServiceException;
-import services.PessoaService;
 
 /**
  *

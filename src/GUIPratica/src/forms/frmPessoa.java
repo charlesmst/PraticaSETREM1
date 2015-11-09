@@ -82,7 +82,7 @@ public class frmPessoa extends JPanelControleButtons {
         jScrollPane1 = new javax.swing.JScrollPane();
         jtbDados = new JTableDataBinder();
         jLabel2 = new javax.swing.JLabel();
-        txtBuscar = new javax.swing.JTextField();
+        txtBuscar = new components.JTextFieldUpper();
 
         jtbDados.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -113,8 +113,6 @@ public class frmPessoa extends JPanelControleButtons {
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jLabel2.setText("Buscar:");
 
-        txtBuscar.setMargin(new java.awt.Insets(2, 8, 2, 2));
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -125,8 +123,8 @@ public class frmPessoa extends JPanelControleButtons {
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 380, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(txtBuscar)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtBuscar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -147,7 +145,7 @@ public class frmPessoa extends JPanelControleButtons {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jtbDados;
-    private javax.swing.JTextField txtBuscar;
+    private components.JTextFieldUpper txtBuscar;
     // End of variables declaration//GEN-END:variables
 
     @Override

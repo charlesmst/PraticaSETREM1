@@ -78,13 +78,13 @@ public class frmF2 extends JDialogController {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        txtBuscar = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         btnSelecionar = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         btnNovo = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         table = new components.JTableDataBinder();
+        txtBuscar = new components.JTextFieldUpper();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -95,13 +95,6 @@ public class frmF2 extends JDialogController {
         addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 formKeyReleased(evt);
-            }
-        });
-
-        txtBuscar.setMargin(new java.awt.Insets(2, 8, 2, 2));
-        txtBuscar.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                txtBuscarKeyReleased(evt);
             }
         });
 
@@ -180,18 +173,18 @@ public class frmF2 extends JDialogController {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(txtBuscar, javax.swing.GroupLayout.DEFAULT_SIZE, 331, Short.MAX_VALUE))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(btnSelecionar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnNovo)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                        .addGap(0, 87, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtBuscar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -238,12 +231,6 @@ public class frmF2 extends JDialogController {
         }
     }//GEN-LAST:event_formKeyReleased
 
-    private void txtBuscarKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscarKeyReleased
-        if (evt.getKeyCode() == KeyEvent.VK_INSERT) {
-            btnNovo.doClick();
-        }
-    }//GEN-LAST:event_txtBuscarKeyReleased
-
     private void btnSelecionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSelecionarActionPerformed
         if (table.getSelectedId() > 0) {
             if (callback != null) {
@@ -280,6 +267,6 @@ public class frmF2 extends JDialogController {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane2;
     private components.JTableDataBinder table;
-    private javax.swing.JTextField txtBuscar;
+    private components.JTextFieldUpper txtBuscar;
     // End of variables declaration//GEN-END:variables
 }

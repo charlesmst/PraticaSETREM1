@@ -61,7 +61,7 @@ public class FrmUsuarioCadastro extends JDialogController {
         txtSenhaConfirmacao.setEnabled(false);
         u = service.findById(id);
         txtCodigo.setText(String.valueOf(u.getId()));
-        txtPessoa.setText(u.getPessoa().getId()+"");
+        txtPessoa.setText(u.getPessoa().getId() + "");
         if (u.getNivel().equals(Usuario.Tipo.gestor)) {
             txtTipoUsuario.setSelectedIndex(0);
         } else if (u.getNivel().equals(Usuario.Tipo.funcionario)) {
@@ -112,7 +112,6 @@ public class FrmUsuarioCadastro extends JDialogController {
             } else {
                 u.setAtivo(false);
             }
-
             Utils.safeCode(() -> {
                 if (id == 0) {
                     service.insert(u);
