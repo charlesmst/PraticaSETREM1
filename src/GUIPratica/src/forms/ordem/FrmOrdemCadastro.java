@@ -18,6 +18,7 @@ import java.util.Collection;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
+import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import model.estoque.EstoqueMovimentacao;
 import model.fluxo.Conta;
@@ -82,7 +83,7 @@ public class FrmOrdemCadastro extends JDialogController {
         setDefaultButton(btnSalvar);
 
         validator.validarObrigatorio(txtCliente);
-//        validator.validarObrigatorio(txtVeiculo);
+//      validator.validarObrigatorio(txtVeiculo);
         validator.validarObrigatorio(jcbStatus);
         validator.validarDeBanco(txtCliente, new PessoaService());
         validator.validarDeBanco(txtVeiculo, new VeiculoService());
@@ -289,7 +290,7 @@ public class FrmOrdemCadastro extends JDialogController {
         jButton1 = new javax.swing.JButton();
         btnAddServico = new javax.swing.JButton();
         btnAddPeca = new javax.swing.JButton();
-        btnAddPeca1 = new javax.swing.JButton();
+        btnExcluiPeca = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -376,11 +377,11 @@ public class FrmOrdemCadastro extends JDialogController {
             }
         });
 
-        btnAddPeca1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/excluir.png"))); // NOI18N
-        btnAddPeca1.setText("Excluir");
-        btnAddPeca1.addActionListener(new java.awt.event.ActionListener() {
+        btnExcluiPeca.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/excluir.png"))); // NOI18N
+        btnExcluiPeca.setText("Excluir");
+        btnExcluiPeca.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAddPeca1ActionPerformed(evt);
+                btnExcluiPecaActionPerformed(evt);
             }
         });
 
@@ -397,7 +398,7 @@ public class FrmOrdemCadastro extends JDialogController {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnAddPeca)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnAddPeca1)
+                        .addComponent(btnExcluiPeca)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(btnSalvar)
@@ -465,7 +466,7 @@ public class FrmOrdemCadastro extends JDialogController {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnAddServico)
                     .addComponent(btnAddPeca)
-                    .addComponent(btnAddPeca1))
+                    .addComponent(btnExcluiPeca))
                 .addGap(4, 4, 4)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 219, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -532,10 +533,16 @@ public class FrmOrdemCadastro extends JDialogController {
     }//GEN-LAST:event_btnAddServicoActionPerformed
 
     private void btnAddPecaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddPecaActionPerformed
-        // TODO add your handling code here:
+        if (!validator.isValido()) {
+            return;
+        }
+        salvar();
+        JDialog dialog = new FrmOrdemItemCadastro(ordem);
+        dialog.setVisible(true);
+        atualizaListagem();
     }//GEN-LAST:event_btnAddPecaActionPerformed
 
-    private void btnAddPeca1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddPeca1ActionPerformed
+    private void btnExcluiPecaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluiPecaActionPerformed
         int id = table.getSelectedId();
         if (id > 0 && Forms.dialogDelete()) {
             if (table.getDefaultTableModel().getValueAt(table.getSelectedRow(), 1).equals("PEÇA")) {
@@ -574,7 +581,7 @@ public class FrmOrdemCadastro extends JDialogController {
             }
             atualizaListagem();
         }
-    }//GEN-LAST:event_btnAddPeca1ActionPerformed
+    }//GEN-LAST:event_btnExcluiPecaActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         if (ordem.getConta() != null) {
@@ -587,9 +594,9 @@ public class FrmOrdemCadastro extends JDialogController {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAddPeca;
-    private javax.swing.JButton btnAddPeca1;
     private javax.swing.JButton btnAddServico;
     private javax.swing.JButton btnCancelar;
+    private javax.swing.JButton btnExcluiPeca;
     private javax.swing.JButton btnFinalizar;
     private javax.swing.JButton btnSalvar;
     private javax.swing.ButtonGroup buttonGroup1;

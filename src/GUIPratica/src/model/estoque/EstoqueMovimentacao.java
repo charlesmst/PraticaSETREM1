@@ -2,6 +2,8 @@ package model.estoque;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -77,6 +79,9 @@ public class EstoqueMovimentacao implements Serializable {
     @OneToOne
     @JoinColumn(name = "conta_id")
     private Conta conta;
+
+    @ManyToMany
+    private Set<Ordem> ordem = new HashSet<>();
 
     @Column(name = "nota_fiscal")
     private String notaFiscal;
@@ -163,5 +168,13 @@ public class EstoqueMovimentacao implements Serializable {
 
     public void setPessoa(Pessoa pessoa) {
         this.pessoa = pessoa;
+    }
+
+    public Set<Ordem> getOrdem() {
+        return ordem;
+    }
+
+    public void setOrdem(Set<Ordem> ordem) {
+        this.ordem = ordem;
     }
 }

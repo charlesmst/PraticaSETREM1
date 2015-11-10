@@ -31,8 +31,7 @@ public class FrmCidadeCadastro extends JDialogController {
         setLocationRelativeTo(null);
         setDefaultButton(btnSalvar);
         txtCodigo.setEnabled(false);
-        validator.validarCustom(txtNome,
-                (valor) -> service.unico(id, valor), "Nome já existe");
+        validator.validarObrigatorio(txtNome);
         if (id > 0) {
             load();
         }
@@ -57,7 +56,11 @@ public class FrmCidadeCadastro extends JDialogController {
             c = new Cidade();
         }
         c.setNome(txtNome.getText());
-        c.setCep(txtCep.getValue().toString());
+        if (txtCep.getValue().toString() == null || txtCep.getValue().toString().trim().isEmpty()) {
+            c.setCep(null);
+        } else {
+            c.setCep(txtCep.getValue().toString());
+        }
         c.setUf(txtUF.getSelectedItem().toString());
 
         Utils.safeCode(() -> {

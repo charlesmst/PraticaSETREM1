@@ -62,7 +62,7 @@ public class Ordem implements Serializable {
     public void setDesconto(double desconto) {
         this.desconto = desconto;
     }
-    
+
     private int km;
 
     @ManyToMany
@@ -71,10 +71,10 @@ public class Ordem implements Serializable {
     }, inverseJoinColumns = {
         @JoinColumn(name = "estoque_movimentacao_id")
     })
-    private Set<EstoqueMovimentacao> estoqueMovimentacaos= new HashSet<>();;
+    private Set<EstoqueMovimentacao> estoqueMovimentacaos = new HashSet<>();
+    ;
 
     @OneToMany(mappedBy = "ordem", orphanRemoval = true, cascade = CascadeType.ALL)
-
     private Set<OrdemServico> ordemServicos = new HashSet<>();
 
     @ManyToOne
