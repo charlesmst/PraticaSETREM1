@@ -98,10 +98,10 @@ public class FrmItemTipo extends JPanelControleButtons {
         jScrollPane2.setViewportView(table);
         if (table.getColumnModel().getColumnCount() > 0) {
             table.getColumnModel().getColumn(0).setMinWidth(10);
-            table.getColumnModel().getColumn(0).setPreferredWidth(60);
+            table.getColumnModel().getColumn(0).setPreferredWidth(150);
             table.getColumnModel().getColumn(0).setMaxWidth(100);
+            table.getColumnModel().getColumn(1).setPreferredWidth(700);
             table.getColumnModel().getColumn(2).setPreferredWidth(30);
-            table.getColumnModel().getColumn(2).setMaxWidth(30);
         }
 
         jLabel2.setText(" Buscar:");

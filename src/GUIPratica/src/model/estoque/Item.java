@@ -84,4 +84,9 @@ public class Item implements Serializable {
     public void setUltimoValorVenda(double ultimoValorVenda) {
         this.ultimoValorVenda = ultimoValorVenda;
     }
+
+    @Override
+    public String toString() {
+        return itemTipo.getNome() + " -> " + descricao;
+    }
 }

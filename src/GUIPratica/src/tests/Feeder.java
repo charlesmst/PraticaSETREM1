@@ -21,7 +21,7 @@ import services.fluxo.ContaCategoriaService;
 public class Feeder {
     public static void main(String[] args) throws ServiceException{
         Cidade cid = new Cidade();
-        cid.setCep(98910000);
+        cid.setCep("98910-000");
         cid.setNome("TRÊS DE MAIO");
         cid.setUf("RS");
         new CidadeService().saveOrUpdate(cid);

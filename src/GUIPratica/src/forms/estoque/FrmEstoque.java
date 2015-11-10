@@ -41,7 +41,7 @@ public class FrmEstoque extends JPanelControleButtons {
             @Override
             public Object[] addRow(Estoque dado) {
                 return new Object[]{dado.getId() + "",
-                    dado.getItem().getDescricao(),
+                    dado.getItem().toString(),
                     Utils.formataDate(dado.getDataCompra()),
                     dado.getLote(),
                     dado.getQuantidadeDisponivel() + "",
@@ -72,7 +72,7 @@ public class FrmEstoque extends JPanelControleButtons {
                 {null, null, null, null, null, null, null}
             },
             new String [] {
-                "Código", "Item", "Data de Compra", "Lote", "Quantidade Disponível", "Valor Unitário", "Data de Validade"
+                "Código", "Item", "Data de Compra", "Lote", "Qtd. Disponível", "Valor Unitário", "Validade"
             }
         ) {
             Class[] types = new Class [] {
@@ -93,13 +93,13 @@ public class FrmEstoque extends JPanelControleButtons {
         table.setBusca(txtBuscar);
         jScrollPane2.setViewportView(table);
         if (table.getColumnModel().getColumnCount() > 0) {
-            table.getColumnModel().getColumn(0).setPreferredWidth(60);
+            table.getColumnModel().getColumn(0).setPreferredWidth(100);
             table.getColumnModel().getColumn(1).setPreferredWidth(450);
-            table.getColumnModel().getColumn(2).setPreferredWidth(150);
-            table.getColumnModel().getColumn(3).setPreferredWidth(150);
-            table.getColumnModel().getColumn(4).setPreferredWidth(150);
-            table.getColumnModel().getColumn(5).setPreferredWidth(150);
-            table.getColumnModel().getColumn(6).setPreferredWidth(150);
+            table.getColumnModel().getColumn(2).setPreferredWidth(100);
+            table.getColumnModel().getColumn(3).setPreferredWidth(100);
+            table.getColumnModel().getColumn(4).setPreferredWidth(100);
+            table.getColumnModel().getColumn(5).setPreferredWidth(100);
+            table.getColumnModel().getColumn(6).setPreferredWidth(100);
         }
 
         jLabel2.setText(" Buscar:");

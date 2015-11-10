@@ -18,7 +18,7 @@ public class Cidade implements Serializable {
     @GeneratedValue(generator = "seq_sh_cidade", strategy = GenerationType.SEQUENCE)
     private int id;
 
-    private int cep;
+    private String cep;
 
     @Column(nullable = false)
     private String nome;
@@ -26,11 +26,11 @@ public class Cidade implements Serializable {
     @Column(nullable = false, length = 2)
     private String uf;
 
-    public int getCep() {
+    public String getCep() {
         return cep;
     }
 
-    public void setCep(int cep) {
+    public void setCep(String cep) {
         this.cep = cep;
     }
 

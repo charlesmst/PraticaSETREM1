@@ -3,6 +3,8 @@ package forms;
 import components.JDialogController;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -279,15 +281,9 @@ public class FrmUsuarioCadastro extends JDialogController {
                 JOptionPane.QUESTION_MESSAGE,
                 JOptionPane.OK_CANCEL_OPTION);
         JDialog dialog = jop.createDialog("Senha atual:");
-        dialog.addComponentListener(new ComponentAdapter() {
-            @Override
-            public void componentShown(ComponentEvent e) {
-                SwingUtilities.invokeLater(new Runnable() {
-                    @Override
-                    public void run() {
-                        jpf.requestFocusInWindow();
-                    }
-                });
+        dialog.addWindowListener(new WindowAdapter() {
+            public void windowOpened(WindowEvent e) {
+                jpf.requestFocusInWindow();
             }
         });
         dialog.setVisible(true);

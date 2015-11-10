@@ -74,7 +74,7 @@ public class FrmItem extends JPanelControleButtons {
                 {null, null, null, null, null, null, null}
             },
             new String [] {
-                "Código", "Tipo de Item", "Descrição", "Limite Mínimo", "Prateleira", "Último Valor de Venda", "Quantidade Disponível"
+                "Código", "Tipo de Item", "Descrição", "Limite Mínimo", "Prateleira", "Valor de Venda", "Qtd. Disponível"
             }
         ) {
             Class[] types = new Class [] {
@@ -95,13 +95,13 @@ public class FrmItem extends JPanelControleButtons {
         table.setBusca(txtBuscar);
         jScrollPane2.setViewportView(table);
         if (table.getColumnModel().getColumnCount() > 0) {
-            table.getColumnModel().getColumn(0).setPreferredWidth(60);
+            table.getColumnModel().getColumn(0).setPreferredWidth(100);
             table.getColumnModel().getColumn(1).setPreferredWidth(150);
             table.getColumnModel().getColumn(2).setPreferredWidth(460);
             table.getColumnModel().getColumn(3).setPreferredWidth(100);
-            table.getColumnModel().getColumn(4).setPreferredWidth(150);
-            table.getColumnModel().getColumn(5).setPreferredWidth(150);
-            table.getColumnModel().getColumn(6).setPreferredWidth(200);
+            table.getColumnModel().getColumn(4).setPreferredWidth(100);
+            table.getColumnModel().getColumn(5).setPreferredWidth(110);
+            table.getColumnModel().getColumn(6).setPreferredWidth(110);
         }
 
         jLabel2.setText(" Buscar:");

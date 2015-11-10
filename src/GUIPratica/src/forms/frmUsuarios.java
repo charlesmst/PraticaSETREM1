@@ -14,10 +14,12 @@ import components.JTableDataBinder;
 import components.JTableDataBinderListener;
 import java.util.ArrayList;
 import java.util.Collection;
+import javax.swing.ImageIcon;
 import javax.swing.JDialog;
 import model.Usuario;
 import services.UsuarioService;
 import utils.AlertaTipos;
+import utils.Globals;
 
 /**
  *
@@ -52,10 +54,16 @@ public class frmUsuarios extends JPanelControleButtons {
 
             @Override
             public Object[] addRow(Usuario dado) {
+                ImageIcon i;
+                if (dado.isAtivo()) {
+                    i = Globals.iconeSuccess;
+                } else {
+                    i = Globals.iconeError;
+                }
                 return new Object[]{dado.getId() + "", dado.getPessoa().getNome(),
                     dado.getNivel().toString().toUpperCase(),
-                    dado.isAtivo() ? "SIM" : "NÃO"};
-
+                    i
+                };
             }
         });
 

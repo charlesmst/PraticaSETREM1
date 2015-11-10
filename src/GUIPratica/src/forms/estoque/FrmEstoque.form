@@ -61,9 +61,9 @@
                 <Column editable="false" title="Item" type="java.lang.Object"/>
                 <Column editable="false" title="Data de Compra" type="java.lang.Object"/>
                 <Column editable="false" title="Lote" type="java.lang.Object"/>
-                <Column editable="false" title="Quantidade Dispon&#xed;vel" type="java.lang.Object"/>
+                <Column editable="false" title="Qtd. Dispon&#xed;vel" type="java.lang.Object"/>
                 <Column editable="false" title="Valor Unit&#xe1;rio" type="java.lang.Object"/>
-                <Column editable="false" title="Data de Validade" type="java.lang.Object"/>
+                <Column editable="false" title="Validade" type="java.lang.Object"/>
               </Table>
             </Property>
             <Property name="busca" type="javax.swing.JTextField" editor="org.netbeans.modules.form.ComponentChooserEditor">
@@ -71,7 +71,7 @@
             </Property>
             <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
               <TableColumnModel selectionModel="0">
-                <Column maxWidth="-1" minWidth="-1" prefWidth="60" resizable="true">
+                <Column maxWidth="-1" minWidth="-1" prefWidth="100" resizable="true">
                   <Title/>
                   <Editor/>
                   <Renderer/>
@@ -81,27 +81,27 @@
                   <Editor/>
                   <Renderer/>
                 </Column>
-                <Column maxWidth="-1" minWidth="-1" prefWidth="150" resizable="true">
+                <Column maxWidth="-1" minWidth="-1" prefWidth="100" resizable="true">
                   <Title/>
                   <Editor/>
                   <Renderer/>
                 </Column>
-                <Column maxWidth="-1" minWidth="-1" prefWidth="150" resizable="true">
+                <Column maxWidth="-1" minWidth="-1" prefWidth="100" resizable="true">
                   <Title/>
                   <Editor/>
                   <Renderer/>
                 </Column>
-                <Column maxWidth="-1" minWidth="-1" prefWidth="150" resizable="true">
+                <Column maxWidth="-1" minWidth="-1" prefWidth="100" resizable="true">
                   <Title/>
                   <Editor/>
                   <Renderer/>
                 </Column>
-                <Column maxWidth="-1" minWidth="-1" prefWidth="150" resizable="true">
+                <Column maxWidth="-1" minWidth="-1" prefWidth="100" resizable="true">
                   <Title/>
                   <Editor/>
                   <Renderer/>
                 </Column>
-                <Column maxWidth="-1" minWidth="-1" prefWidth="150" resizable="true">
+                <Column maxWidth="-1" minWidth="-1" prefWidth="100" resizable="true">
                   <Title/>
                   <Editor/>
                   <Renderer/>

@@ -104,7 +104,7 @@ public class FrmPrateleira extends JPanelControleButtons {
         jScrollPane2.setViewportView(table);
         if (table.getColumnModel().getColumnCount() > 0) {
             table.getColumnModel().getColumn(0).setMinWidth(10);
-            table.getColumnModel().getColumn(0).setPreferredWidth(60);
+            table.getColumnModel().getColumn(0).setPreferredWidth(100);
             table.getColumnModel().getColumn(0).setMaxWidth(100);
         }
 

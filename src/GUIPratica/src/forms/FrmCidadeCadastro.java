@@ -57,7 +57,7 @@ public class FrmCidadeCadastro extends JDialogController {
             c = new Cidade();
         }
         c.setNome(txtNome.getText());
-        c.setCep(txtCep.getValue());
+        c.setCep(txtCep.getValue().toString());
         c.setUf(txtUF.getSelectedItem().toString());
 
         Utils.safeCode(() -> {
@@ -84,9 +84,9 @@ public class FrmCidadeCadastro extends JDialogController {
         btnCancelar = new javax.swing.JButton();
         txtNome = new components.JTextFieldUpper();
         jLabel3 = new javax.swing.JLabel();
-        txtCep = new components.JTextFieldNumber();
         jLabel4 = new javax.swing.JLabel();
         txtUF = new javax.swing.JComboBox();
+        txtCep = new javax.swing.JFormattedTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -115,6 +115,12 @@ public class FrmCidadeCadastro extends JDialogController {
         jLabel4.setText("UF");
 
         txtUF.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "RS", "SC", "PR", "SP", "RJ", "MT", "MS", "MG", " " }));
+
+        try {
+            txtCep.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("#####-###")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -161,8 +167,8 @@ public class FrmCidadeCadastro extends JDialogController {
                     .addComponent(jLabel4))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtCep, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtUF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtUF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtCep, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnCancelar)
@@ -190,7 +196,7 @@ public class FrmCidadeCadastro extends JDialogController {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private components.JTextFieldNumber txtCep;
+    private javax.swing.JFormattedTextField txtCep;
     private javax.swing.JTextField txtCodigo;
     private components.JTextFieldUpper txtNome;
     private javax.swing.JComboBox txtUF;

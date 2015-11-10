@@ -98,11 +98,10 @@ public class FrmMovimentacaoTipo extends JPanelControleButtons {
         table.setBusca(txtBuscar);
         jScrollPane2.setViewportView(table);
         if (table.getColumnModel().getColumnCount() > 0) {
-            table.getColumnModel().getColumn(0).setMinWidth(10);
-            table.getColumnModel().getColumn(0).setPreferredWidth(60);
-            table.getColumnModel().getColumn(0).setMaxWidth(100);
+            table.getColumnModel().getColumn(0).setPreferredWidth(100);
+            table.getColumnModel().getColumn(1).setPreferredWidth(300);
+            table.getColumnModel().getColumn(2).setPreferredWidth(100);
             table.getColumnModel().getColumn(3).setPreferredWidth(30);
-            table.getColumnModel().getColumn(3).setMaxWidth(30);
         }
 
         jLabel2.setText("Buscar:");
