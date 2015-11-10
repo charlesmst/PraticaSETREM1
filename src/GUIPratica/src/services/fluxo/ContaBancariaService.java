@@ -159,4 +159,30 @@ public class ContaBancariaService extends Service<ContaBancaria> {
 
         new ContaService().insert(contaSaida, contaEntrada);
     }
+    
+    /**
+     * Consulta o saldo geral do sistema até período
+     * @param ate
+     * @return
+     */
+    public double saldoGeral( Date ate) {
+        return (Double) selectOnSession((s) -> {
+//            Query q = s.createQuery("SELECT "
+//                    + "CASE WHEN c.categoria.tipo = :entrada"
+//                    + " THEN SUM(c.valorTotal) - SUM(c.valorPago) "
+//                    + "ELSE ((SUM(c.valorTotal) - SUM(c.valorPago))) END"
+//                    + " FROM Contas c where c.id = :id");
+            Query q = s.createQuery("SELECT SUM("
+                    + "CASE WHEN contaCategoria.tipo = :entrada THEN "
+                    + "valor "
+                    + "ELSE (valor * -1.0) END"
+                    + ")"
+                    + " FROM ParcelaPagamento c where c.data <= :data");
+            
+            q.setParameter("entrada", ContaCategoria.TipoCategoria.entrada);
+            q.setDate("data", ate);
+            List l = q.list();
+            return Double.parseDouble(l.get(0).toString());
+        });
+    }
 }

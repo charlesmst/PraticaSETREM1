@@ -6,6 +6,8 @@
 package model.queryresults;
 
 import java.util.Date;
+import javassist.bytecode.analysis.Util;
+import utils.Utils;
 
 /**
  *
@@ -17,6 +19,12 @@ public class ComprasVendas {
     private double comprasAVista;
     private double vendasPrazo;
     private double vendasAVista;
+
+    private String dataFormatada;
+    private String comprasPrazoD;
+    private String comprasAVistaD;
+    private String vendasPrazoD;
+    private String vendasAVistaD;
 
     public Date getData() {
         return data;
@@ -32,6 +40,51 @@ public class ComprasVendas {
         this.comprasAVista = comprasAVista;
         this.vendasPrazo = vendasPrazo;
         this.vendasAVista = vendasAVista;
+        dataFormatada = Utils.formataDate(data,"dd/MM");
+        comprasPrazoD =  Utils.formataDinheiro(comprasPrazo);
+        comprasAVistaD =  Utils.formataDinheiro(comprasAVista);
+        vendasPrazoD = Utils.formataDinheiro(vendasPrazo);
+        vendasAVistaD = Utils.formataDinheiro(vendasAVista);
+    }
+
+    public String getDataFormatada() {
+        return dataFormatada;
+    }
+
+    public void setDataFormatada(String dataFormatada) {
+        this.dataFormatada = dataFormatada;
+    }
+
+    public String getComprasPrazoD() {
+        return comprasPrazoD;
+    }
+
+    public void setComprasPrazoD(String comprasPrazoD) {
+        this.comprasPrazoD = comprasPrazoD;
+    }
+
+    public String getComprasAVistaD() {
+        return comprasAVistaD;
+    }
+
+    public void setComprasAVistaD(String comprasAVistaD) {
+        this.comprasAVistaD = comprasAVistaD;
+    }
+
+    public String getVendasPrazoD() {
+        return vendasPrazoD;
+    }
+
+    public void setVendasPrazoD(String vendasPrazoD) {
+        this.vendasPrazoD = vendasPrazoD;
+    }
+
+    public String getVendasAVistaD() {
+        return vendasAVistaD;
+    }
+
+    public void setVendasAVistaD(String vendasAVistaD) {
+        this.vendasAVistaD = vendasAVistaD;
     }
 
     public double getComprasPrazo() {

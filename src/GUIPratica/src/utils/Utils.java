@@ -53,11 +53,22 @@ public class Utils {
     private static SimpleDateFormat formatBra = new SimpleDateFormat("dd/MM/yyyy");
 
     public static String formataDate(Date dtData) {
-        
-        if(dtData == null)
+
+        if (dtData == null) {
             return "";
+        }
         return (formatBra.format(dtData));
-        
+
+    }
+
+    public static String formataDate(Date dtData, String format) {
+        SimpleDateFormat formatBra = new SimpleDateFormat(format);
+
+        if (dtData == null) {
+            return "";
+        }
+        return (formatBra.format(dtData));
+
     }
 
     public static void safeCode(ThrowingCommand command, boolean block) {

@@ -33,6 +33,7 @@ import model.fluxo.ContaBancaria;
 import model.fluxo.ContaCategoria;
 import model.queryresults.ComprasVendas;
 import model.queryresults.LivroCaixa;
+import model.queryresults.MovimentoBancario;
 import model.queryresults.SomaCategoria;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperFillManager;
@@ -55,13 +56,13 @@ import utils.Utils;
  *
  * @author Charles
  */
-public class FrmRelatorioLivroCaixa extends JPanelControleButtons {
+public class FrmRelatorioMovimentoCaixa extends JPanelControleButtons {
 
     private final ContaService service;
     private final ContaBancariaService serviceBanco;
 
 //    JTableDataBinder table;
-    public FrmRelatorioLivroCaixa() {
+    public FrmRelatorioMovimentoCaixa() {
         initComponents();
         setBtnAtualizarEnable(true);
         service = new ContaService();
@@ -69,9 +70,6 @@ public class FrmRelatorioLivroCaixa extends JPanelControleButtons {
         setupForm();
 
     }
-    Collection<ComprasVendas> dados;
-
-    Collection<SomaCategoria> totalCategorias;
 
     private void setupForm() {
         txtData.setDateFormat("M/y");
@@ -79,25 +77,23 @@ public class FrmRelatorioLivroCaixa extends JPanelControleButtons {
         tableResumos.setTableHeader(null);
         SimpleDateFormat format = new SimpleDateFormat("d/M");
 
-        jcbCaixa.setModel(new DefaultComboBoxModel(new Vector(new ContaBancariaService().findAtivos())));
-        table.setListener(new JTableDataBinderListener<LivroCaixa>() {
+        table.setListener(new JTableDataBinderListener<MovimentoBancario>() {
 
             @Override
-            public Collection<LivroCaixa> lista(String busca) throws ServiceException {
-                return getLivroCaixa();
+            public Collection<MovimentoBancario> lista(String busca) throws ServiceException {
+                return getMovimentacoesBancarias();
             }
 
             @Override
-            public Object[] addRow(LivroCaixa dado) {
-                Object[] r = new Object[7];
-                r[0] = dado.getNumero();
-                r[1] = dado.getData();
-                r[2] = dado.getCategoria();
-                r[3] = dado.getParcela();
-                r[4] = dado.getDescricao();
-                r[5] = dado.getEntrada() == 0d ? "" : Utils.formataDinheiro(dado.getEntrada());
-                r[6] = dado.getSaida() == 0d ? "" : Utils.formataDinheiro(dado.getSaida());
-                return r;
+            public Object[] addRow(MovimentoBancario dado) {
+                Object[] o = new Object[6];
+                o[0] = dado.getNumero();
+                o[1] = format.format(dado.getData());
+                o[2] = dado.getConta();
+                o[3] = dado.getEntrada() > 0 ? Utils.formataDinheiro(dado.getEntrada()) : "";
+                o[4] = dado.getSaida() > 0 ? Utils.formataDinheiro(dado.getSaida()) : "";
+                o[5] = dado.getDescricao();
+                return o;
             }
         });
         tableResumos.setListener(new JTableDataBinderListener<String[]>() {
@@ -105,8 +101,8 @@ public class FrmRelatorioLivroCaixa extends JPanelControleButtons {
             @Override
             public Collection<String[]> lista(String busca) throws ServiceException {
                 List<String[]> l = new ArrayList<>();
-                l.add(new String[]{"SALDO ANTERIOR", Utils.formataDinheiro(getValorAnterior((ContaBancaria) jcbCaixa.getSelectedItem()))});
-                l.add(new String[]{"SALDO PERÍODO", Utils.formataDinheiro(getValorPeriodo((ContaBancaria) jcbCaixa.getSelectedItem()))});
+                l.add(new String[]{"SALDO ANTERIOR", Utils.formataDinheiro(getValorAnterior())});
+                l.add(new String[]{"SALDO PERÍODO", Utils.formataDinheiro(getValorPeriodo())});
                 return l;
             }
 
@@ -119,7 +115,7 @@ public class FrmRelatorioLivroCaixa extends JPanelControleButtons {
 
     }
 
-    private List<LivroCaixa> getLivroCaixa() {
+    private List<MovimentoBancario> getMovimentacoesBancarias() {
         Calendar aCalendar = Calendar.getInstance();
         aCalendar.setTime(txtData.getDate());
         aCalendar.set(Calendar.DATE, 1);
@@ -128,7 +124,7 @@ public class FrmRelatorioLivroCaixa extends JPanelControleButtons {
 
         aCalendar.set(Calendar.DATE, aCalendar.getActualMaximum(Calendar.DAY_OF_MONTH));
         Date end = aCalendar.getTime();
-        return service.livroCaixa(start, end, (ContaBancaria) jcbCaixa.getSelectedItem());
+        return service.movimentosBancarios(start, end);
     }
 
     private void atualizar() {
@@ -136,22 +132,22 @@ public class FrmRelatorioLivroCaixa extends JPanelControleButtons {
         tableResumos.atualizar();
     }
 
-    private double getValorAnterior(ContaBancaria conta) {
+    private double getValorAnterior() {
         Calendar aCalendar = Calendar.getInstance();
         aCalendar.setTime(txtData.getDate());
         aCalendar.set(Calendar.DATE, 1);
 
         Date start = aCalendar.getTime();
 
-        return serviceBanco.saldoCaixa(conta, start);
+        return serviceBanco.saldoGeral(start);
     }
 
-    private double getValorPeriodo(ContaBancaria conta) {
+    private double getValorPeriodo() {
         Calendar aCalendar = Calendar.getInstance();
         aCalendar.setTime(txtData.getDate());
         aCalendar.set(Calendar.DATE, aCalendar.getActualMaximum(Calendar.DAY_OF_MONTH));
         Date end = aCalendar.getTime();
-        return serviceBanco.saldoCaixa(conta, end);
+        return serviceBanco.saldoGeral(end);
 
     }
 
@@ -171,8 +167,6 @@ public class FrmRelatorioLivroCaixa extends JPanelControleButtons {
         btnBuscar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         table = new components.JTableDataBinder();
-        jLabel2 = new javax.swing.JLabel();
-        jcbCaixa = new javax.swing.JComboBox();
         jScrollPane3 = new javax.swing.JScrollPane();
         tableResumos = new components.JTableDataBinder();
         btnImprimir = new javax.swing.JButton();
@@ -204,11 +198,11 @@ public class FrmRelatorioLivroCaixa extends JPanelControleButtons {
 
             },
             new String [] {
-                "Nº Ordem", "Data", "Categoria", "Parcela", "Descrição", "Entrada", "Saída"
+                "Nº Ordem", "Data", "Conta", "Entrada", "Saída", "Descrição"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false
+                false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -220,16 +214,12 @@ public class FrmRelatorioLivroCaixa extends JPanelControleButtons {
             table.getColumnModel().getColumn(0).setMaxWidth(100);
             table.getColumnModel().getColumn(1).setMinWidth(150);
             table.getColumnModel().getColumn(1).setMaxWidth(200);
-            table.getColumnModel().getColumn(3).setMaxWidth(50);
-            table.getColumnModel().getColumn(5).setMinWidth(150);
-            table.getColumnModel().getColumn(5).setMaxWidth(200);
-            table.getColumnModel().getColumn(6).setMinWidth(150);
-            table.getColumnModel().getColumn(6).setMaxWidth(200);
+            table.getColumnModel().getColumn(2).setMaxWidth(100);
+            table.getColumnModel().getColumn(3).setMinWidth(150);
+            table.getColumnModel().getColumn(3).setMaxWidth(200);
+            table.getColumnModel().getColumn(4).setMinWidth(150);
+            table.getColumnModel().getColumn(4).setMaxWidth(200);
         }
-
-        jLabel2.setText("Conta");
-
-        jcbCaixa.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Carregando..." }));
 
         tableResumos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -255,20 +245,16 @@ public class FrmRelatorioLivroCaixa extends JPanelControleButtons {
             .addGroup(layout.createSequentialGroup()
                 .addGap(20, 20, 20)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1029, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(txtData, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jcbCaixa, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnBuscar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnImprimir)
-                        .addGap(0, 540, Short.MAX_VALUE))
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addComponent(jScrollPane3))
                 .addContainerGap())
         );
@@ -280,11 +266,9 @@ public class FrmRelatorioLivroCaixa extends JPanelControleButtons {
                     .addComponent(txtData, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1)
                     .addComponent(btnBuscar)
-                    .addComponent(jLabel2)
-                    .addComponent(jcbCaixa, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnImprimir))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 338, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 348, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -296,13 +280,10 @@ public class FrmRelatorioLivroCaixa extends JPanelControleButtons {
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void btnImprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImprimirActionPerformed
-        
-        JRBeanCollectionDataSource jrs = new JRBeanCollectionDataSource(getLivroCaixa());
+
+        JRBeanCollectionDataSource jrs = new JRBeanCollectionDataSource(getMovimentacoesBancarias());
         JRProperties.setProperty("net.sf.jasperreports.awt.ignore.missing.font", "true");
         Map parametros = new HashMap();
-        parametros.put("saldoAnterior", Utils.formataDinheiro(getValorAnterior((ContaBancaria)jcbCaixa.getSelectedItem())));
-        
-        parametros.put("saldoPeriodo", Utils.formataDinheiro(getValorPeriodo((ContaBancaria)jcbCaixa.getSelectedItem())));
         try {
             JasperPrint jpr = JasperFillManager
                     .fillReport("src/relatorios/livro_caixa.jasper",
@@ -320,12 +301,10 @@ public class FrmRelatorioLivroCaixa extends JPanelControleButtons {
     private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnImprimir;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private components.JTableDataBinder jTableDataBinder1;
-    private javax.swing.JComboBox jcbCaixa;
     private components.JTableDataBinder table;
     private components.JTableDataBinder tableResumos;
     private components.JDateField txtData;

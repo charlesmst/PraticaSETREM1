@@ -7,14 +7,22 @@ package tests;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Iterator;
 import services.aul.MarcaService;
 import services.Service;
 import java.util.List;
+import java.util.Map;
+import java.util.logging.Logger;
 import model.aula.MarcaR;
 import model.Usuario;
 import model.aula.Produto;
 import model.aula.Segmento;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import net.sf.jasperreports.view.JasperViewer;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -106,5 +114,8 @@ public class Tests {
 //            serviceSegmento.insert(m);
 //        }
         //new ContaService().comprasMes(Calendar.getInstance());
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        List<Produto> listProdutos = session.createQuery("from Produto").list();
+
     }
 }

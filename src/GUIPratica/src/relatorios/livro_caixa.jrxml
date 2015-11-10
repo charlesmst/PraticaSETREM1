@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.1.1.final using JasperReports Library version 6.1.1  -->
-<!-- 2015-11-09T23:47:45 -->
+<!-- 2015-11-10T00:01:14 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="registro_de_operacoes" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="89626380-39e7-4940-9905-d6118daeb63b">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
 	<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.VerticalRowLayout"/>
@@ -31,6 +31,8 @@
 			<rightPen lineWidth="0.5" lineColor="#000000"/>
 		</box>
 	</style>
+	<parameter name="saldoAnterior" class="java.lang.String"/>
+	<parameter name="saldoPeriodo" class="java.lang.String"/>
 	<queryString>
 		<![CDATA[]]>
 	</queryString>
@@ -52,11 +54,11 @@
 				</reportElement>
 			</rectangle>
 			<staticText>
-				<reportElement x="178" y="26" width="622" height="30" uuid="911ecc8e-95a3-4173-abdf-1e7f169d6a93"/>
+				<reportElement x="1" y="26" width="799" height="30" uuid="911ecc8e-95a3-4173-abdf-1e7f169d6a93"/>
 				<textElement textAlignment="Center">
 					<font fontName="Arial" size="18" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Relatório de Registro de Operações]]></text>
+				<text><![CDATA[Livro Caixa]]></text>
 			</staticText>
 			<textField pattern="dd/MM/yyyy">
 				<reportElement x="700" y="20" width="100" height="30" uuid="bd0a9a45-9161-4399-92b5-54b1d939fcf7"/>
@@ -70,31 +72,52 @@
 	<columnHeader>
 		<band height="29" splitType="Stretch">
 			<staticText>
-				<reportElement x="1" y="5" width="82" height="19" uuid="094d76e7-2de7-4df8-9cf1-4b2b60b42710"/>
+				<reportElement x="1" y="3" width="82" height="19" uuid="094d76e7-2de7-4df8-9cf1-4b2b60b42710"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
 				<text><![CDATA[Nº Ordem]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="83" y="5" width="82" height="19" uuid="c512f245-73a1-4096-aff8-9224208ac7f6"/>
+				<reportElement x="83" y="3" width="82" height="19" uuid="c512f245-73a1-4096-aff8-9224208ac7f6"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
 				<text><![CDATA[Data]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="163" y="5" width="82" height="19" uuid="87307b40-e892-4188-8a93-d6cebcc979b1"/>
+				<reportElement x="163" y="3" width="82" height="19" uuid="87307b40-e892-4188-8a93-d6cebcc979b1"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
 				<text><![CDATA[Categoria]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="270" y="4" width="48" height="20" uuid="d2eaefce-7a04-4df6-82ac-9c11beac6918"/>
+				<reportElement x="270" y="2" width="48" height="20" uuid="d2eaefce-7a04-4df6-82ac-9c11beac6918"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
 				<text><![CDATA[Parcela]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="330" y="5" width="260" height="19" uuid="e4686331-ba2b-4ae6-83b8-ca8d9edd9c0e"/>
+				<reportElement x="330" y="2" width="260" height="19" uuid="e4686331-ba2b-4ae6-83b8-ca8d9edd9c0e"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
 				<text><![CDATA[Descrição]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="590" y="5" width="100" height="19" uuid="d32ae7f5-add0-4442-b64e-9d695b46fafe"/>
+				<reportElement x="590" y="2" width="100" height="19" uuid="d32ae7f5-add0-4442-b64e-9d695b46fafe"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
 				<text><![CDATA[Entrada]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="700" y="5" width="100" height="19" uuid="b052f08d-77a4-4a43-bb9e-2660cc2b2cf6"/>
+				<reportElement x="700" y="2" width="100" height="19" uuid="b052f08d-77a4-4a43-bb9e-2660cc2b2cf6"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
 				<text><![CDATA[Saída]]></text>
 			</staticText>
 		</band>
@@ -106,7 +129,7 @@
 				<textFieldExpression><![CDATA[$F{numero}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="163" y="7" width="107" height="14" uuid="84b5a00d-3fb2-42a3-8f21-6c4d628c6d68"/>
+				<reportElement x="163" y="5" width="107" height="14" uuid="84b5a00d-3fb2-42a3-8f21-6c4d628c6d68"/>
 				<textFieldExpression><![CDATA[$F{categoria}]]></textFieldExpression>
 			</textField>
 			<textField>
@@ -114,15 +137,15 @@
 				<textFieldExpression><![CDATA[$F{parcela}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="330" y="7" width="260" height="14" uuid="be3fe14b-7aba-43c4-aaec-f2fef35680d9"/>
+				<reportElement x="330" y="5" width="260" height="14" uuid="be3fe14b-7aba-43c4-aaec-f2fef35680d9"/>
 				<textFieldExpression><![CDATA[$F{descricao}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="590" y="7" width="100" height="15" uuid="6b6cc403-2597-4af4-bc91-d32dce35d89a"/>
+				<reportElement x="590" y="5" width="100" height="15" uuid="6b6cc403-2597-4af4-bc91-d32dce35d89a"/>
 				<textFieldExpression><![CDATA[$F{entradaDescricao}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="700" y="6" width="100" height="16" uuid="9c0b5f26-172f-4a45-bd4f-6ef86924ddd9"/>
+				<reportElement x="700" y="4" width="100" height="16" uuid="9c0b5f26-172f-4a45-bd4f-6ef86924ddd9"/>
 				<textFieldExpression><![CDATA[$F{saidaDescricao}]]></textFieldExpression>
 			</textField>
 			<textField>
@@ -150,4 +173,30 @@
 			</textField>
 		</band>
 	</pageFooter>
+	<lastPageFooter>
+		<band height="51">
+			<staticText>
+				<reportElement x="0" y="3" width="100" height="19" uuid="880537ab-781d-40b6-b3ec-7e109a881047"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[SALDO ANTERIOR:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="26" width="100" height="19" uuid="b67be748-bb8a-4a5d-8ab9-36a28d94d05e"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[SALDO PERÍODO:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="104" y="3" width="100" height="15" uuid="4c6e5a29-0e4a-450e-bb68-795143f2f998"/>
+				<textFieldExpression><![CDATA[$P{saldoAnterior}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="105" y="26" width="100" height="19" uuid="6373584c-4e7e-4fda-a8e4-43f5045a00d6"/>
+				<textFieldExpression><![CDATA[$P{saldoPeriodo}]]></textFieldExpression>
+			</textField>
+		</band>
+	</lastPageFooter>
 </jasperReport>

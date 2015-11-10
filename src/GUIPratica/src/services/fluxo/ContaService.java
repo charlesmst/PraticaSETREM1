@@ -20,6 +20,7 @@ import model.fluxo.Parcela;
 import model.fluxo.ParcelaPagamento;
 import model.queryresults.ComprasVendas;
 import model.queryresults.LivroCaixa;
+import model.queryresults.MovimentoBancario;
 import model.queryresults.SomaCategoria;
 import org.hibernate.Criteria;
 import org.hibernate.Query;
@@ -382,7 +383,6 @@ public class ContaService extends Service<Conta> {
                     + " parcela.parcela "
                     + ") "
                     + " from ParcelaPagamento parcelaPagamento "
-                   
                     + " where data  between :inicio and :fim"
                     + " and parcelaPagamento.contaBancaria.id = :contaid"
                     + " order by data")
@@ -399,5 +399,34 @@ public class ContaService extends Service<Conta> {
             return l;
 
         });
+    }
+
+    /**
+     * Selecionar movimentos de bancarios
+     * @param start
+     * @param end
+     * @return
+     */
+    public List<MovimentoBancario> movimentosBancarios(Date start, Date end) {
+        List<MovimentoBancario>  r=  (List<MovimentoBancario>) selectOnSession((s) -> {
+            Query q = s.createQuery("select "
+                    + "new model.queryresults.MovimentoBancario("
+                    + "parcelaPagamento.data,"
+                    + "parcelaPagamento.contaBancaria.nome,"
+                    + "case when parcelaPagamento.contaCategoria.tipo = :tipoentrada then valor else 0 end,"
+                    + "case when parcelaPagamento.contaCategoria.tipo <> :tipoentrada then valor else 0 end,"
+                    + "parcelaPagamento.parcela.conta.descricao"
+                    + ") from ParcelaPagamento parcelaPagamento where parcelaPagamento.data between :start and :end")
+                    .setDate("start", start)
+                    .setDate("end", end)
+                    .setParameter("tipoentrada", ContaCategoria.TipoCategoria.entrada);
+            return q.list();
+        });
+        int i = 0;
+        for (MovimentoBancario r1 : r) {
+            r1.setNumero(++i);
+        }
+        return r;
+
     }
 }

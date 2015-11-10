@@ -16,17 +16,31 @@ import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.swing.ImageIcon;
 import javax.swing.JCheckBox;
 import javax.swing.JDialog;
 import model.fluxo.Conta;
+import model.fluxo.ContaBancaria;
 import model.fluxo.ContaCategoria;
 import model.queryresults.ComprasVendas;
 import model.queryresults.SomaCategoria;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import net.sf.jasperreports.engine.util.JRProperties;
+import net.sf.jasperreports.view.JasperViewer;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Priority;
 import services.ServiceException;
 import services.fluxo.ContaService;
+import utils.AlertaTipos;
+import utils.Forms;
 import utils.Globals;
+import utils.Mensagens;
 import utils.Utils;
 
 /**
@@ -200,6 +214,7 @@ public class FrmRelatorioSumario extends JPanelControleButtons {
         jLabel2 = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
         tableResultados = new components.JTableDataBinder();
+        btnImprimir = new javax.swing.JButton();
 
         jLabel1.setText("Mês");
 
@@ -281,6 +296,13 @@ public class FrmRelatorioSumario extends JPanelControleButtons {
             tableResultados.getColumnModel().getColumn(1).setMaxWidth(200);
         }
 
+        btnImprimir.setText("Imprimir");
+        btnImprimir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnImprimirActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -294,7 +316,10 @@ public class FrmRelatorioSumario extends JPanelControleButtons {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(txtData, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnBuscar)))
+                        .addComponent(btnBuscar)
+                        .addGap(9, 9, 9)
+                        .addComponent(btnImprimir)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 502, Short.MAX_VALUE)
@@ -311,7 +336,8 @@ public class FrmRelatorioSumario extends JPanelControleButtons {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtData, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1)
-                    .addComponent(btnBuscar))
+                    .addComponent(btnBuscar)
+                    .addComponent(btnImprimir))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1)
@@ -329,9 +355,27 @@ public class FrmRelatorioSumario extends JPanelControleButtons {
         atualizar();
     }//GEN-LAST:event_btnBuscarActionPerformed
 
+    private void btnImprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImprimirActionPerformed
+        JRBeanCollectionDataSource jrs = new JRBeanCollectionDataSource(getComprasEVendas());
+
+        JRProperties.setProperty("net.sf.jasperreports.awt.ignore.missing.font", "true");
+        Map parametros = new HashMap();
+        parametros.put("comprasvendas", jrs);
+        try {
+            JasperPrint jpr = JasperFillManager
+                    .fillReport("src/relatorios/registro_de_operacoes.jasper",
+                            parametros);
+            JasperViewer.viewReport(jpr, false);
+        } catch (JRException ex) {
+            Forms.mensagem(Mensagens.erroRelatorio, AlertaTipos.erro);
+            LogManager.getLogger(getClass()).log(Priority.ERROR, ex);
+        }
+    }//GEN-LAST:event_btnImprimirActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBuscar;
+    private javax.swing.JButton btnImprimir;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
