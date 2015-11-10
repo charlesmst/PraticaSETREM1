@@ -5,6 +5,7 @@
  */
 package forms.fluxo;
 
+import com.alee.managers.log.Log;
 import components.JCampoBusca;
 import java.awt.event.ActionEvent;
 import components.JPanelControleButtons;
@@ -18,8 +19,11 @@ import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Vector;
+import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JCheckBox;
@@ -30,10 +34,21 @@ import model.fluxo.ContaCategoria;
 import model.queryresults.ComprasVendas;
 import model.queryresults.LivroCaixa;
 import model.queryresults.SomaCategoria;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import net.sf.jasperreports.engine.util.JRProperties;
+import net.sf.jasperreports.view.JasperViewer;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Priority;
 import services.ServiceException;
 import services.fluxo.ContaBancariaService;
 import services.fluxo.ContaService;
+import utils.AlertaTipos;
+import utils.Forms;
 import utils.Globals;
+import utils.Mensagens;
 import utils.Utils;
 
 /**
@@ -160,6 +175,7 @@ public class FrmRelatorioLivroCaixa extends JPanelControleButtons {
         jcbCaixa = new javax.swing.JComboBox();
         jScrollPane3 = new javax.swing.JScrollPane();
         tableResumos = new components.JTableDataBinder();
+        btnImprimir = new javax.swing.JButton();
 
         jTableDataBinder1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -225,6 +241,13 @@ public class FrmRelatorioLivroCaixa extends JPanelControleButtons {
         ));
         jScrollPane3.setViewportView(tableResumos);
 
+        btnImprimir.setText("Imprimir");
+        btnImprimir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnImprimirActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -243,7 +266,9 @@ public class FrmRelatorioLivroCaixa extends JPanelControleButtons {
                         .addComponent(jcbCaixa, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnBuscar)
-                        .addGap(0, 617, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnImprimir)
+                        .addGap(0, 540, Short.MAX_VALUE))
                     .addComponent(jScrollPane3))
                 .addContainerGap())
         );
@@ -256,7 +281,8 @@ public class FrmRelatorioLivroCaixa extends JPanelControleButtons {
                     .addComponent(jLabel1)
                     .addComponent(btnBuscar)
                     .addComponent(jLabel2)
-                    .addComponent(jcbCaixa, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jcbCaixa, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnImprimir))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 338, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -269,9 +295,27 @@ public class FrmRelatorioLivroCaixa extends JPanelControleButtons {
         atualizar();
     }//GEN-LAST:event_btnBuscarActionPerformed
 
+    private void btnImprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImprimirActionPerformed
+        
+        JRBeanCollectionDataSource jrs = new JRBeanCollectionDataSource(getLivroCaixa());
+        JRProperties.setProperty("net.sf.jasperreports.awt.ignore.missing.font", "true");
+        Map parametros = new HashMap();
+        try {
+            JasperPrint jpr = JasperFillManager
+                    .fillReport("src/relatorios/livro_caixa.jasper",
+                            parametros,
+                            jrs);
+            JasperViewer.viewReport(jpr, false);
+        } catch (JRException ex) {
+            Forms.mensagem(Mensagens.erroRelatorio, AlertaTipos.erro);
+            LogManager.getLogger(getClass()).log(Priority.ERROR, ex);
+        }
+    }//GEN-LAST:event_btnImprimirActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBuscar;
+    private javax.swing.JButton btnImprimir;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
