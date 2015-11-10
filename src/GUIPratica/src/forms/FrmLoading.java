@@ -75,7 +75,7 @@ public class FrmLoading extends javax.swing.JFrame {
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Os módulos estão sendo carregados...");
 
-        jLabel2.setIcon(new javax.swing.ImageIcon("C:\\Users\\Jenifer\\Documents\\NetBeansProjects\\trunk\\src\\GUIPratica\\src\\resources\\icon-pro-car.png")); // NOI18N
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/icon-pro-car.png"))); // NOI18N
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
