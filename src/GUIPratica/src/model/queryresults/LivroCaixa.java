@@ -18,6 +18,21 @@ public class LivroCaixa {
     private double entrada;
     private double saida;
     private int parcela;
+    private String entradaDescricao;
+    private String dataFormatada;
+    public String getEntradaDescricao() {
+        return entradaDescricao;
+    }
+
+    public String getSaidaDescricao() {
+        return saidaDescricao;
+    }
+
+    public String getDataFormatada() {
+        return dataFormatada;
+    }
+    private String saidaDescricao;
+    
 
     private int numero;
 
@@ -35,6 +50,10 @@ public class LivroCaixa {
         this.entrada = entrada;
         this.saida = saida;
         this.parcela = parcela;
+        entradaDescricao = entrada > 0d?utils.Utils.formataDinheiro(entrada):"";
+        
+        saidaDescricao = saida > 0d?utils.Utils.formataDinheiro(saida):"";
+        dataFormatada = utils.Utils.formataDate(data);
     }
 
     public Date getData() {
