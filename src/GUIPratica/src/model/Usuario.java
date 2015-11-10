@@ -36,7 +36,7 @@ public class Usuario {
 
     @OneToOne
     private Pessoa pessoa;
-
+    private String usuario;
     private String senha;
     private Tipo nivel;
     private boolean ativo;
@@ -66,6 +66,14 @@ public class Usuario {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public String getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(String usuario) {
+        this.usuario = usuario;
     }
 
     public Pessoa getPessoa() {

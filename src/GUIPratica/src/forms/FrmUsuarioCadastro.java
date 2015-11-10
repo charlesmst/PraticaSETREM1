@@ -9,6 +9,7 @@ import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JDialog;
@@ -18,6 +19,7 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.SwingUtilities;
 import model.Cidade;
+import model.Pessoa;
 import model.Usuario;
 import services.CidadeService;
 import services.PessoaService;
@@ -51,6 +53,7 @@ public class FrmUsuarioCadastro extends JDialogController {
         setDefaultButton(btnSalvar);
         txtCodigo.setEnabled(false);
         validator.validarObrigatorio(txtPessoa);
+        validator.validarObrigatorio(txtUsuario);
         validator.validarDeBanco(txtPessoa, new PessoaService());
         btnAlterarSenha.setVisible(false);
         if (id > 0) {
@@ -68,6 +71,7 @@ public class FrmUsuarioCadastro extends JDialogController {
         u = service.findById(id);
         txtCodigo.setText(String.valueOf(u.getId()));
         txtPessoa.setText(u.getPessoa().getId() + "");
+        txtUsuario.setText(u.getUsuario());
         if (u.getNivel().equals(Usuario.Tipo.gestor)) {
             txtTipoUsuario.setSelectedIndex(0);
         } else if (u.getNivel().equals(Usuario.Tipo.funcionario)) {
@@ -91,6 +95,7 @@ public class FrmUsuarioCadastro extends JDialogController {
                 u = new Usuario();
             }
             u.setPessoa(new PessoaService().findById(txtPessoa.getValueSelected()));
+            u.setUsuario(txtUsuario.getText());
             if (id == 0) {
                 try {
                     u.setSenha(converteSenha());
@@ -118,6 +123,7 @@ public class FrmUsuarioCadastro extends JDialogController {
             } else {
                 u.setAtivo(false);
             }
+
             Utils.safeCode(() -> {
                 if (id == 0) {
                     service.insert(u);
@@ -128,6 +134,7 @@ public class FrmUsuarioCadastro extends JDialogController {
 
                 dispose();
             });
+
         } else {
             utils.Forms.mensagem("As senhas não são iguais", AlertaTipos.erro);
         }
@@ -152,6 +159,8 @@ public class FrmUsuarioCadastro extends JDialogController {
         txtSenhaConfirmacao = new javax.swing.JPasswordField();
         txtAtivo = new javax.swing.JCheckBox();
         btnAlterarSenha = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
+        txtUsuario = new components.JTextFieldUpper();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -194,6 +203,8 @@ public class FrmUsuarioCadastro extends JDialogController {
             }
         });
 
+        jLabel2.setText("Usuário");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -202,25 +213,31 @@ public class FrmUsuarioCadastro extends JDialogController {
                 .addGap(20, 20, 20)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(labelSenha)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(labelSenha)
+                            .addComponent(jLabel2))
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel4)
+                        .addComponent(labelSenhaConf)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(txtTipoUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 199, Short.MAX_VALUE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel4)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 108, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(txtTipoUsuario, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(txtAtivo))
+                            .addComponent(txtSenhaConfirmacao, javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txtSenha, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtUsuario, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(txtPessoa, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(txtCodigo, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtSenhaConfirmacao, javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(labelSenhaConf, javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                                         .addComponent(btnSalvar)
@@ -228,7 +245,7 @@ public class FrmUsuarioCadastro extends JDialogController {
                                         .addComponent(btnCancelar)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(btnAlterarSenha)))
-                                .addGap(0, 0, Short.MAX_VALUE)))
+                                .addGap(0, 135, Short.MAX_VALUE)))
                         .addGap(20, 20, 20))))
         );
         layout.setVerticalGroup(
@@ -243,6 +260,10 @@ public class FrmUsuarioCadastro extends JDialogController {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtPessoa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addComponent(labelSenha)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtSenha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -256,12 +277,12 @@ public class FrmUsuarioCadastro extends JDialogController {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtTipoUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtAtivo))
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnCancelar)
                     .addComponent(btnSalvar)
                     .addComponent(btnAlterarSenha))
-                .addContainerGap(20, Short.MAX_VALUE))
+                .addGap(20, 20, 20))
         );
 
         pack();
@@ -326,6 +347,7 @@ public class FrmUsuarioCadastro extends JDialogController {
     private javax.swing.JButton btnSalvar;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel labelSenha;
@@ -336,5 +358,6 @@ public class FrmUsuarioCadastro extends JDialogController {
     private javax.swing.JPasswordField txtSenha;
     private javax.swing.JPasswordField txtSenhaConfirmacao;
     private javax.swing.JComboBox txtTipoUsuario;
+    private components.JTextFieldUpper txtUsuario;
     // End of variables declaration//GEN-END:variables
 }
