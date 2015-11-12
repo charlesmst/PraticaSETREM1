@@ -489,7 +489,10 @@ public class frmMain extends javax.swing.JFrame {
             }
         });
 
+        jMenuBar1.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+
         jMenu2.setText("Arquivo");
+        jMenu2.setFont(new java.awt.Font("Trebuchet MS", 0, 12)); // NOI18N
 
         jMenuItem1.setText("Preferências");
         jMenuItem1.addActionListener(new java.awt.event.ActionListener() {

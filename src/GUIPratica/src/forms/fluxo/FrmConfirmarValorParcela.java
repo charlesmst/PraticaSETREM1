@@ -144,10 +144,11 @@ public class FrmConfirmarValorParcela extends JDialogController {
             }
         });
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/warning.png"))); // NOI18N
         jLabel1.setText("O valor da parcela foi alterado, qual a operação que você deseja realizar?");
 
+        btnOk.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         btnOk.setText("OK");
         btnOk.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -155,6 +156,7 @@ public class FrmConfirmarValorParcela extends JDialogController {
             }
         });
 
+        btnCancelar.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         btnCancelar.setText("Cancelar");
         btnCancelar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -162,13 +164,17 @@ public class FrmConfirmarValorParcela extends JDialogController {
             }
         });
 
+        diluirProximas.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         diluirProximas.setSelected(true);
         diluirProximas.setText("Diluir nas próximas parcelas");
 
+        novaParcela.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         novaParcela.setText("Lançar uma parcela nova");
 
+        alterarValorConta.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         alterarValorConta.setText("Alterar valor da conta");
 
+        diluirTodas.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         diluirTodas.setText("Diluir em todas parcelas sem pagamento");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -184,9 +190,9 @@ public class FrmConfirmarValorParcela extends JDialogController {
                     .addComponent(diluirProximas)
                     .addComponent(jLabel1)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(btnOk)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnCancelar)))
+                        .addComponent(btnOk, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -204,8 +210,8 @@ public class FrmConfirmarValorParcela extends JDialogController {
                 .addComponent(alterarValorConta)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnOk)
-                    .addComponent(btnCancelar))
+                    .addComponent(btnOk, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
