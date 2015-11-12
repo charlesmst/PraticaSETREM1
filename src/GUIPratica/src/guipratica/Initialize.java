@@ -5,9 +5,14 @@
  */
 package guipratica;
 
+import java.util.Date;
+import model.Pessoa;
+import model.Usuario;
 import model.fluxo.ContaCategoria;
 import model.fluxo.FormaPagamento;
 import model.ordem.OrdemStatus;
+import services.PessoaService;
+import services.UsuarioService;
 import services.fluxo.ContaCategoriaService;
 import services.fluxo.FormaPagamentoService;
 import services.ordem.OrdemStatusService;
@@ -19,11 +24,11 @@ import utils.Parametros;
  */
 public class Initialize {
 
-    public static void init() throws Exception{
+    public static void init() throws Exception {
         validaParametros();
     }
 
-    private static void validaParametros() throws Exception{
+    private static void validaParametros() throws Exception {
         ContaCategoriaService serviceCategoria = new ContaCategoriaService();
         FormaPagamentoService serviceFormaPagamento = new FormaPagamentoService();
 
@@ -61,8 +66,7 @@ public class Initialize {
             serviceFormaPagamento.insert(cat);
             return cat.getId() + "";
         });
-        
-        
+
         //Status de finalizado
         OrdemStatusService serviceStatus = new OrdemStatusService();
         Parametros.getInstance().validaParametro("status_finalizador", (value) -> {
@@ -86,6 +90,26 @@ public class Initialize {
             cat.setAtivo(true);
             cat.setFinaliza(false);
             serviceStatus.insert(cat);
+            return cat.getId() + "";
+        });
+
+        Parametros.getInstance().validaParametro("usuario_admin", (value) -> {
+            Usuario c = new UsuarioService().findById(Integer.parseInt(value));
+            return c != null;
+        }, (value) -> {
+            Pessoa p = new Pessoa();
+            p.setNome("ADMIN");
+            p.setDataNascimento(new Date());
+            p.setTipo(Pessoa.TipoPessoa.fisica);
+            new PessoaService().insert(p);
+            Usuario cat = new Usuario();
+            cat.setPessoa(p);
+            cat.setAtivo(true);
+            cat.setUsuario("ADMIN");
+            cat.setAtivo(true);
+            cat.setNivel(Usuario.Tipo.gestor);
+            cat.setSenha(utils.Utils.criptografa("ADMIN"));
+            new UsuarioService().insert(cat);
             return cat.getId() + "";
         });
     }
