@@ -53,7 +53,7 @@ public class Parcela implements Serializable {
     private String boleto;
 
     //Não tem orphanRemoval por causa que as parcelas ja finalizadas nao carregam a parcela
-    @OneToMany(mappedBy = "parcela", orphanRemoval = true, cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "parcela", orphanRemoval = true, cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     private List<ParcelaPagamento> pagamentos;
 
     @Column(name = "data_quitacao")
