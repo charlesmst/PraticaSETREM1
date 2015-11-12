@@ -10,6 +10,13 @@ import components.JDialogController;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import model.Usuario;
+import services.UsuarioService;
 
 /**
  *
@@ -18,11 +25,11 @@ import java.awt.event.ActionListener;
 public class frmLogin extends JDialogController {
 
     public frmLogin(java.awt.Frame parent, boolean modal) {
-        super(parent, "Login"); 
+        super(parent, "Login");
         initComponents();
         setupFrame();
     }
-
+    UsuarioService service = new UsuarioService();
     ActionListener autenticadoEvent;
 
     public void setAutenticadoListener(ActionListener ac) {
@@ -44,7 +51,7 @@ public class frmLogin extends JDialogController {
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         txtUsuario = new components.PlaceholderTextField();
-        placeholderPasswordField1 = new components.PlaceholderPasswordField();
+        txtSenha = new components.PlaceholderPasswordField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setModal(true);
@@ -81,9 +88,9 @@ public class frmLogin extends JDialogController {
         txtUsuario.setMargin(new java.awt.Insets(2, 8, 2, 2));
         txtUsuario.setPlaceholder("Usuário");
 
-        placeholderPasswordField1.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        placeholderPasswordField1.setMargin(new java.awt.Insets(2, 8, 2, 2));
-        placeholderPasswordField1.setPlaceholder("Senha");
+        txtSenha.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        txtSenha.setMargin(new java.awt.Insets(2, 8, 2, 2));
+        txtSenha.setPlaceholder("Senha");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -99,7 +106,7 @@ public class frmLogin extends JDialogController {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txtUsuario, javax.swing.GroupLayout.DEFAULT_SIZE, 340, Short.MAX_VALUE)
-                            .addComponent(placeholderPasswordField1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addComponent(txtSenha, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(98, 98, 98)
                         .addComponent(btnLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -129,7 +136,7 @@ public class frmLogin extends JDialogController {
                         .addGap(26, 26, 26))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(placeholderPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtSenha, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -141,10 +148,21 @@ public class frmLogin extends JDialogController {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
-        if (autenticadoEvent != null) {
-            autenticadoEvent.actionPerformed(new ActionEvent(evt, 1, "autenticado", 1));
+        try {
+            if (service.autentica(txtUsuario.getText(), String.valueOf(txtSenha.getPassword()))) {
+                if (autenticadoEvent != null) {
+                    autenticadoEvent.actionPerformed(new ActionEvent(evt, 1, "autenticado", 1));
+                }
+                dispose();
+
+            } else {
+                JOptionPane.showMessageDialog(rootPane, "Usuário ou senha incorretos");
+            }
+        } catch (NoSuchAlgorithmException ex) {
+            Logger.getLogger(frmLogin.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (UnsupportedEncodingException ex) {
+            Logger.getLogger(frmLogin.class.getName()).log(Level.SEVERE, null, ex);
         }
-        dispose();
     }//GEN-LAST:event_btnLoginActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
@@ -200,7 +218,7 @@ public class frmLogin extends JDialogController {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private components.PlaceholderPasswordField placeholderPasswordField1;
+    private components.PlaceholderPasswordField txtSenha;
     private components.PlaceholderTextField txtUsuario;
     // End of variables declaration//GEN-END:variables
 

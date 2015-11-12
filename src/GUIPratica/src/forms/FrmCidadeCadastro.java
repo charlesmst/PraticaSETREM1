@@ -56,10 +56,10 @@ public class FrmCidadeCadastro extends JDialogController {
             c = new Cidade();
         }
         c.setNome(txtNome.getText());
-        if (txtCep.getValue().toString() == null || txtCep.getValue().toString().trim().isEmpty()) {
+        if (txtCep.getValue() == null || txtCep.getValue().toString().trim().isEmpty()) {
             c.setCep(null);
         } else {
-            c.setCep(txtCep.getValue().toString());
+            c.setCep(txtCep.getValue() +"");
         }
         c.setUf(txtUF.getSelectedItem().toString());
 

@@ -170,21 +170,6 @@ public class frmMain extends javax.swing.JFrame {
 
         jTreeMenu.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
 
-//        DefaultMutableTreeNode gerenciamento = new DefaultMutableTreeNode("Gerenciamento");
-//        gerenciamento.add(new DefaultMutableTreeNode("Contas a pagar"));
-//        gerenciamento.add(new DefaultMutableTreeNode("Contar a receber"));
-//        root.add(gerenciamento);
-//
-//        DefaultMutableTreeNode contas = new DefaultMutableTreeNode("Contas");
-//
-//        contas.add(new TreeNodeMenu("Contas a pagar", "forms.frmBemVindo"));
-//        contas.add(new DefaultMutableTreeNode("Contar a receber"));
-//        root.add(contas);
-//
-//        DefaultMutableTreeNode estoque = new DefaultMutableTreeNode("Estoque");
-//        estoque.add(new DefaultMutableTreeNode("Produtos"));
-//        estoque.add(new DefaultMutableTreeNode("Tipos de produtos"));
-//        root.add(estoque);
         DefaultMutableTreeNode gerenciamento = new DefaultMutableTreeNode("Gerenciamento");
         gerenciamento.add(new TreeNodeMenu("Sumário de compras e vendas", "forms.fluxo.FrmRelatorioSumario"));
         gerenciamento.add(new TreeNodeMenu("Livro Caixa", "forms.fluxo.FrmRelatorioLivroCaixa"));
@@ -234,16 +219,6 @@ public class frmMain extends javax.swing.JFrame {
 
 //        caixa.add(new TreeNodeMenu("Usuários", "forms.frmUsuarios"));
         root.add(caixa);
-
-        DefaultMutableTreeNode aula = new DefaultMutableTreeNode("Aula");
-        aula.add(new TreeNodeMenu("Produtos", "forms.aula.FrmProduto"));
-
-        aula.add(new TreeNodeMenu("Marcas", "forms.aula.FrmMarca"));
-        aula.add(new TreeNodeMenu("Segmentos", "forms.aula.FrmSegmento"));
-        aula.add(new TreeNodeMenu("Especificações", "forms.aula.FrmEspecificacao"));
-
-//        gerenciamento.add(new TreeNodeMenu("Ordem de Serviço", "forms.ordem.frmOrdemServico"));
-        root.add(aula);
 
         model.nodeChanged(root);
 

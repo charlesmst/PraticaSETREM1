@@ -57,13 +57,11 @@ public class frmPessoa extends JPanelControleButtons {
             public Object[] addRow(Pessoa dado) {
                 return new Object[]{
                     "" + dado.getId(),
-                    "" + dado.getNome(),
-                    "" + dado.getTelefone(),
-                    "" + dado.getTelefoneSecundario(),
-                    "" + dado.getEmail(),
-                    "" + dado.getEndereco(),
-                    "" + dado.getCidade().getNome(),
-                    "" + dado.getTipo().toString().toUpperCase()
+                    dado.getNome(),
+                    dado.getEmail(),
+                    dado.getEndereco(),
+                    (dado.getCidade()!= null? dado.getCidade().getNome():""),
+                     dado.getTipo().toString().toUpperCase()
                 };
             }
         });
@@ -89,11 +87,11 @@ public class frmPessoa extends JPanelControleButtons {
 
             },
             new String [] {
-                "Código", "Nome", "Telefone", "Telefone 2", "E-mail", "Endereço", "Cidade", "Tipo de Pessoa"
+                "Código", "Nome", "E-mail", "Endereço", "Cidade", "Tipo de Pessoa"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false
+                false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -104,10 +102,7 @@ public class frmPessoa extends JPanelControleButtons {
         if (jtbDados.getColumnModel().getColumnCount() > 0) {
             jtbDados.getColumnModel().getColumn(0).setPreferredWidth(20);
             jtbDados.getColumnModel().getColumn(1).setPreferredWidth(150);
-            jtbDados.getColumnModel().getColumn(2).setMinWidth(20);
-            jtbDados.getColumnModel().getColumn(2).setPreferredWidth(20);
-            jtbDados.getColumnModel().getColumn(3).setPreferredWidth(20);
-            jtbDados.getColumnModel().getColumn(7).setPreferredWidth(20);
+            jtbDados.getColumnModel().getColumn(5).setPreferredWidth(20);
         }
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N

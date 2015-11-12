@@ -92,9 +92,14 @@ public class FrmPessoaCadastro extends JDialogController {
             txtRadioFisica.setEnabled(false);
             txtRadioJuridica.setEnabled(false);
             pF = new PessoaFisicaService().findById(p.getId());
-            txtSexo.setSelectedItem(pF.getSexo().toString().toUpperCase());
-            txtRg.setText(pF.getRg());
-            txtCpf.setText(pF.getCpf());
+            if (pF != null) {
+                if (pF.getSexo() != null) {
+                    txtSexo.setSelectedItem(pF.getSexo().toString().toUpperCase());
+                }
+                txtRg.setText(pF.getRg());
+                txtCpf.setText(pF.getCpf());
+            }
+
         } else if (p.getTipo().equals(Pessoa.TipoPessoa.juridica)) {
             desabilitaFisica();
             habilitaJuridico();
@@ -120,7 +125,7 @@ public class FrmPessoaCadastro extends JDialogController {
     }
 
     private void save() {
-        if(!txtRadioFisica.isSelected() && !txtRadioJuridica.isSelected()){
+        if (!txtRadioFisica.isSelected() && !txtRadioJuridica.isSelected()) {
             utils.Forms.mensagem("Selecione o tipo de Pessoa", AlertaTipos.erro);
         }
         p.setNome(txtNome.getText());

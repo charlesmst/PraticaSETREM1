@@ -332,7 +332,7 @@ public class FrmUsuarioCadastro extends JDialogController {
         }
         String s = Arrays.toString(password);
         try {
-            if (u.autentica(s)) {
+            if (service.autentica(u.getUsuario(),s)) {
                 txtSenha.setEnabled(true);
                 txtSenhaConfirmacao.setEnabled(true);
             } else {
