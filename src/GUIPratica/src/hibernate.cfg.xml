@@ -11,14 +11,11 @@
         <property name="hibernate.show_sql">true</property>
         <property name="hibernate.format_sql">true</property>
         
-        <mapping class="model.aula.MarcaR"/>
-        <mapping class="model.aula.Produto"/>
-        <mapping class="model.aula.Segmento"/>       
-        <mapping class="model.aula.Especificacao"/>
-        <mapping class="model.aula.EspecificacaoProduto"/>
-
         
         <mapping class="model.Pessoa"/>
+        <mapping class="model.PessoaFisica"/>
+        <mapping class="model.PessoaJuridica"/>
+
         <mapping class="model.Cidade"/>
 
         <mapping class="model.Parametro"/>
@@ -54,7 +51,7 @@
         <mapping class="model.estoque.EstoqueMovimentacao"/>
         <!--<mapping class="model.estoque.EstoquePreco"/>-->
         <mapping class="model.estoque.Item"/>
-                <mapping class="model.estoque.Estoque"/>
+        <mapping class="model.estoque.Estoque"/>
 
         <mapping class="model.estoque.ItemTipo"/>
         <mapping class="model.estoque.MovimentacaoTipo"/>
