@@ -5,6 +5,8 @@
  */
 package services.estoque;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import model.estoque.Estoque;
 import model.estoque.Item;
@@ -34,12 +36,22 @@ public class ItemService extends Service<Item> {
         super(Item.class);
     }
 
-    public String verificaQuantidadeDisp(Item i) {
+    public int verificaQuantidadeDisp(Item i) {
         List<Estoque> estoqueDoItem = new EstoqueService().findBy("item.id", i.getId());
         int quantidade = 0;
         for (Estoque e : estoqueDoItem) {
             quantidade = quantidade + e.getQuantidadeDisponivel();
         }
-        return quantidade+"";
+        return quantidade;
+    }
+
+    public Collection<Item> findAllWithDisp() {
+        Collection<Item> lista = this.findAll();
+        Collection<Item> lista2 = new ArrayList<>();
+        for (Item i : lista) {
+            i.setQtdDisponivel(this.verificaQuantidadeDisp(i));
+            lista2.add(i);
+        }
+        return lista2;
     }
 }

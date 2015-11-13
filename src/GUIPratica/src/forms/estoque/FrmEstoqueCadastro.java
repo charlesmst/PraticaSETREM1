@@ -70,7 +70,6 @@ public class FrmEstoqueCadastro extends JDialogController {
         setDefaultButton(btnSalvar);
         validator.validarObrigatorio(txtItem);
         validator.validarDeBanco(txtItem, new ItemService());
-
         validator.validarCustom(txtValorCompra, (valor) -> {
             return txtValorCompra.getValue() > 0;
         }, "Valor deve ser maior que zero");
@@ -398,7 +397,7 @@ public class FrmEstoqueCadastro extends JDialogController {
         estMov.setDataLancamento(new Date());
         estMov.setDescricao(estMov.getMovimentacaoTipo().getDescricao()
                 + " DE " + estMov.getQuantidade() + " " + est.getItem().getDescricao());
-        est.setDataCompra(txtDataValidade.getDate());
+        est.setDataCompra(txtDataCompra.getDate());
         est.setLote(txtLote.getText());
         if (chkDataValidade.isSelected()) {
             est.setDataValidade(txtDataValidade.getDate());
@@ -406,14 +405,9 @@ public class FrmEstoqueCadastro extends JDialogController {
             est.setDataValidade(null);
         }
         estMov.setNotaFiscal(txtNotaFiscal.getText());
-
-//        estMov.setConta(ordem.getConta());
         est.setValorUnitario(txtValorCompra.getValue());
         est.setQuantidadeDisponivel(Integer.parseInt(spinerQuantidade.getValue().toString()));
-        //List<EstoqueMovimentacao> movimentacoes = new ArrayList<>();
-        //movimentacoes.add(estMov);
         estMov.setEstoque(est);
-        //est.setMovimentacoes(movimentacoes);
         estoque.add(est);
         estoqueMovimentacoes.add(estMov);
         zerarCampos();

@@ -1,4 +1,3 @@
-
 package forms.ordem;
 
 import components.JDialogController;
@@ -6,7 +5,9 @@ import forms.estoque.FrmItemF2;
 import forms.frmMain;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.Vector;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
@@ -19,6 +20,7 @@ import services.estoque.EstoqueMovimentacaoService;
 import services.estoque.EstoqueService;
 import services.estoque.ItemService;
 import services.estoque.MovimentacaoTipoService;
+import utils.AlertaTipos;
 import utils.Utils;
 
 /**
@@ -47,13 +49,12 @@ public class FrmOrdemItemCadastro extends JDialogController {
         loadTiposMovimentação();
         validator.validarObrigatorio(txtItem);
         validator.validarDeBanco(txtItem, new ItemService());
-        
         //atualizaValor();
     }
 
     private void atualizaValor() {
         item = new ItemService().findById(txtItem.getValueSelected());
-        if(item.getUltimoValorVenda() > 0){
+        if (item.getUltimoValorVenda() > 0) {
             txtValor.setValue(item.getUltimoValorVenda());
         } else {
             txtValor.setValue(0);
@@ -72,41 +73,33 @@ public class FrmOrdemItemCadastro extends JDialogController {
     }
 
     private void save() {
-        atualizaValor();
+        item = new ItemService().findById(txtItem.getValueSelected());
         if (!validator.isValido()) {
             return;
         }
-        int qtd = Integer.parseInt(new ItemService().verificaQuantidadeDisp(item));
-        if (qtd > 0) {
-            Estoque est = new EstoqueService().verificaMaisAntigo(item);
-            List<EstoqueMovimentacao> lista = new EstoqueMovimentacaoService().buscaMovimentacoes(est);
-            EstoqueMovimentacao estMov = new EstoqueMovimentacao();
-            int cont = 0;
-            for (EstoqueMovimentacao eM : lista) {
-                if (cont > 0) {
-                    JOptionPane.showMessageDialog(null, "Possui mais de uma movimentação-estoque relacionada ao Estoque");
-                } else {
-                    estMov = eM;
-                }
-                cont++;
+        int qtd = new ItemService().verificaQuantidadeDisp(item);
+        if (qtd >= (Integer) txtQuantidade.getValue()) {
+            try {
+                EstoqueMovimentacao estMov = new EstoqueMovimentacao();
+                estMov.setPessoa(ordem.getPessoa());
+                estMov.setMovimentacaoTipo((MovimentacaoTipo) txtOrigem.getModel().getSelectedItem());
+                estMov.setQuantidade((int) txtQuantidade.getValue());
+                estMov.setValorUnitarioVenda(txtValor.getValue());
+                Set<Ordem> or = new HashSet<>();
+                or.add(ordem);
+                estMov.setOrdem(or);
+                item.setUltimoValorVenda(txtValor.getValue());
+                new EstoqueMovimentacaoService().descontaEstoque(estMov, item, ordem);
+            } catch (Exception e) {
+                utils.Forms.mensagem(e.getMessage(), AlertaTipos.erro);
             }
-            estMov.setDataLancamento(new Date());
-            estMov.setPessoa(ordem.getPessoa());
-            estMov.setDescricao("SAIDA DE -> " + txtQuantidade.getValue() + " -> " + item.toString());
-            estMov.setMovimentacaoTipo((MovimentacaoTipo) txtOrigem.getModel().getSelectedItem());
-            estMov.setQuantidade(qtd * -1);
-            est.getItem().setUltimoValorVenda(getValorTotal());
-            est.setQuantidadeDisponivel(est.getQuantidadeDisponivel() + estMov.getQuantidade());
-            estMov.setEstoque(est);
-            estMov.setValorUnitario(txtValor.getValue());
-            estMov.getOrdem().add(ordem);
-            ordem.getEstoqueMovimentacaos().add(estMov);
-            eM = estMov;
 
-            Utils.safeCode(() -> {
-                service.insertPersonalizado(eM, eM.getEstoque(), eM.getEstoque().getItem());
-                dispose();
-            });
+//            Utils.safeCode(() -> {
+//                service.insertPersonalizado(eM,item);
+//                dispose();
+//            });
+        } else {
+            utils.Forms.mensagem("Estoque atual insuficiente: " + qtd, AlertaTipos.erro);
         }
     }
 
@@ -196,14 +189,13 @@ public class FrmOrdemItemCadastro extends JDialogController {
                             .addComponent(jLabel4))
                         .addGap(37, 37, 37)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel6)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addComponent(txtData, javax.swing.GroupLayout.DEFAULT_SIZE, 190, Short.MAX_VALUE)
+                            .addComponent(txtOrigem, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel5)
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addComponent(txtOrigem, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel6)
+                                    .addComponent(jLabel5))
+                                .addGap(0, 0, Short.MAX_VALUE))))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()

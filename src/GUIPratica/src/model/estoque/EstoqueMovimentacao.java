@@ -72,6 +72,9 @@ public class EstoqueMovimentacao implements Serializable {
     @Column(name = "valor_unitario", nullable = false)
     private double valorUnitario;
 
+    @Column(name = "valor_unitario_venda", nullable = false)
+    private double valorUnitarioVenda;
+
     @ManyToOne
     @JoinColumn(name = "movimentacao_tipo_id", nullable = false)
     private MovimentacaoTipo movimentacaoTipo;
@@ -170,11 +173,20 @@ public class EstoqueMovimentacao implements Serializable {
         this.pessoa = pessoa;
     }
 
-    public Set<Ordem> getOrdem() {
-        return ordem;
-    }
-
     public void setOrdem(Set<Ordem> ordem) {
         this.ordem = ordem;
     }
+
+    public double getValorUnitarioVenda() {
+        return valorUnitarioVenda;
+    }
+
+    public void setValorUnitarioVenda(double valorUnitarioVenda) {
+        this.valorUnitarioVenda = valorUnitarioVenda;
+    }
+
+    public Set<Ordem> getOrdem() {
+        return ordem;
+    }
+    
 }

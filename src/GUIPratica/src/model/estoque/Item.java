@@ -10,6 +10,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name = "es_item")
@@ -36,6 +37,17 @@ public class Item implements Serializable {
 
     @Column(name = "ultimo_valor_venda", nullable = false)
     private double ultimoValorVenda;
+    
+    @Transient
+    private int qtdDisponivel;
+
+    public int getQtdDisponivel() {
+        return qtdDisponivel;
+    }
+
+    public void setQtdDisponivel(int qtdDisponivel) {
+        this.qtdDisponivel = qtdDisponivel;
+    }
 
     public int getId() {
         return id;

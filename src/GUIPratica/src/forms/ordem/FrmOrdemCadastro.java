@@ -140,11 +140,11 @@ public class FrmOrdemCadastro extends JDialogController {
                     EstoqueMovimentacao m = (EstoqueMovimentacao) dado;
                     l[0] = m.getId();
                     l[1] = "PEÇA";
-                    l[2] = "ARRUMAR";
+                    l[2] = Utils.formataDinheiro(m.getValorUnitarioVenda());
                     l[3] = m.getQuantidade();
                     l[4] = m.getEstoque().getItem().getDescricao();
                     l[5] = Utils.formataDate(m.getDataLancamento());
-                    l[6] = "ARRUMAR";
+                    l[6] = Utils.formataDinheiro(m.getValorUnitarioVenda()*m.getQuantidade());
                 }
                 return l;
             }

@@ -5,11 +5,20 @@ import java.awt.event.ActionEvent;
 import components.JPanelControleButtons;
 import components.JTableDataBinderListener;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 import javax.swing.JDialog;
 import model.estoque.Item;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperExportManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import net.sf.jasperreports.view.JasperViewer;
 import services.ServiceException;
 import services.estoque.EstoqueService;
 import services.estoque.ItemService;
+import utils.AlertaTipos;
 import utils.Utils;
 
 /**
@@ -41,10 +50,10 @@ public class FrmItem extends JPanelControleButtons {
 
             @Override
             public Object[] addRow(Item dado) {
-                return new Object[]{dado.getId()+"",
+                return new Object[]{dado.getId() + "",
                     dado.getItemTipo().getNome(),
                     dado.getDescricao(),
-                    dado.getEstoqueMinimo()+"",
+                    dado.getEstoqueMinimo() + "",
                     dado.getPrateleira().getDescricao(),
                     Utils.formataDinheiro(dado.getUltimoValorVenda()),
                     new ItemService().verificaQuantidadeDisp(dado)
@@ -65,6 +74,7 @@ public class FrmItem extends JPanelControleButtons {
         txtBuscar = new components.JTextFieldUpper(true);
         jLabel2 = new javax.swing.JLabel();
         btnEntrada = new javax.swing.JButton();
+        btnRelatorio = new javax.swing.JButton();
 
         table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -113,6 +123,13 @@ public class FrmItem extends JPanelControleButtons {
             }
         });
 
+        btnRelatorio.setText("Relatório");
+        btnRelatorio.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRelatorioActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -124,8 +141,10 @@ public class FrmItem extends JPanelControleButtons {
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(txtBuscar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnEntrada))
+                        .addGap(18, 18, 18)
+                        .addComponent(btnEntrada)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnRelatorio))
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 873, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -136,7 +155,8 @@ public class FrmItem extends JPanelControleButtons {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2)
-                    .addComponent(btnEntrada))
+                    .addComponent(btnEntrada)
+                    .addComponent(btnRelatorio))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 385, Short.MAX_VALUE)
                 .addContainerGap())
@@ -148,8 +168,21 @@ public class FrmItem extends JPanelControleButtons {
         dialog.setVisible(true);
     }//GEN-LAST:event_btnEntradaActionPerformed
 
+    private void btnRelatorioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRelatorioActionPerformed
+        JRBeanCollectionDataSource jrs = new JRBeanCollectionDataSource(service.findAllWithDisp());
+        Map parametros = new HashMap();
+         try {
+             JasperPrint jpr = JasperFillManager.fillReport("C:\\Users\\gusta\\Documents\\NetBeansProjects\\trunk\\src\\GUIPratica\\src\\relatorios\\relatorio_item.jasper", parametros, jrs);
+             JasperViewer.viewReport(jpr, false);
+             JasperExportManager.exportReportToPdfFile(jpr, "relatorios/relatorio_item.pdf");
+         } catch(JRException ex){
+             utils.Forms.mensagem(ex.getMessage(), AlertaTipos.erro);
+         }
+    }//GEN-LAST:event_btnRelatorioActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnEntrada;
+    private javax.swing.JButton btnRelatorio;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane2;
     private components.JTableDataBinder table;
@@ -157,14 +190,14 @@ public class FrmItem extends JPanelControleButtons {
     // End of variables declaration//GEN-END:variables
 
     @Override
-    public void btnAddActionPerformed(ActionEvent evt) {
+        public void btnAddActionPerformed(ActionEvent evt) {
         JDialog dialog = new FrmItemCadastro();
         dialog.setVisible(true);
         table.atualizar();
     }
 
     @Override
-    public void btnAlterarActionPerformed(ActionEvent evt) {
+        public void btnAlterarActionPerformed(ActionEvent evt) {
         defaultUpdateOperation(table, (i) -> {
             JDialog dialog = new FrmItemCadastro(i);
             dialog.setVisible(true);
@@ -173,12 +206,12 @@ public class FrmItem extends JPanelControleButtons {
     }
 
     @Override
-    public void btnExcluirActionPerformed(ActionEvent evt) {
+        public void btnExcluirActionPerformed(ActionEvent evt) {
         defaultDeleteOperation(table, (i) -> service.delete(i));
     }
 
     @Override
-    public void btnAtualizarActionPerformed(ActionEvent evt) {
+        public void btnAtualizarActionPerformed(ActionEvent evt) {
         table.atualizar();
     }
 }

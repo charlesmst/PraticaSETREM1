@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.1.1.final using JasperReports Library version 6.1.1  -->
+<!-- 2015-11-12T21:01:36 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="relatorio_produtos_simples" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="333e9e1b-dc59-4b74-80a3-ec309fa5fa66">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="id" class="java.lang.Integer"/>
+	<field name="descricao" class="java.lang.String"/>
+	<field name="dataCompra" class="java.util.Date"/>
+	<field name="lote" class="java.lang.String"/>
+	<field name="quantidadeDisponivel" class="java.lang.Integer"/>
+	<field name="valorUnitario" class="java.lang.Double"/>
+	<field name="verificaQuantidadeDisp" class="java.lang.String"/>
+	<sortField name="id"/>
+	<sortField name="descricao"/>
+	<sortField name="dataCompra"/>
+	<sortField name="lote"/>
+	<sortField name="quantidadeDisponivel"/>
+	<sortField name="valorUnitario"/>
+	<sortField name="verificaQuantidadeDisp"/>
+	<variable name="Soma" class="java.lang.String"/>
+	<group name="porItem">
+		<groupExpression><![CDATA[$F{item.descricao}]]></groupExpression>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="81" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="555" height="81" uuid="238c3b99-78b2-48b0-9e51-f0f6a86f3ef2"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="20"/>
+				</textElement>
+				<text><![CDATA[Relatório de Estoque por Item]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="47" splitType="Stretch">
+			<textField pattern="MMMMM dd, yyyy">
+				<reportElement x="10" y="8" width="100" height="30" uuid="1483de0b-0d98-48d4-ba72-e3e3fa367f42"/>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="460" y="0" width="100" height="30" uuid="5c4647c9-5ea8-4156-87e9-7948cbc5c484"/>
+				<textElement textAlignment="Right">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" of " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="40" splitType="Stretch">
+			<rectangle>
+				<reportElement x="0" y="0" width="555" height="40" backcolor="#CAE5E6" uuid="40ef4248-3877-4cc1-b839-f485f4c74563"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="0" y="10" width="80" height="30" uuid="ddfcc054-bb77-4b4c-9552-2a339da6cdb5"/>
+				<text><![CDATA[id]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="180" y="10" width="100" height="30" uuid="439fbdab-2a31-49a3-83c6-393a278df60e"/>
+				<text><![CDATA[dataCompra]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="280" y="10" width="120" height="30" uuid="16b99157-748e-4c7c-b775-7c42329b944f"/>
+				<text><![CDATA[lote]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="455" y="10" width="100" height="30" uuid="57ad1b52-7201-4de6-9571-7f0bfbe00757"/>
+				<text><![CDATA[quantidadeDisponivel]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="80" y="10" width="100" height="30" uuid="86957396-016a-468d-ad95-698a3a2a7029"/>
+				<text><![CDATA[descricao]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="79" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="20" width="80" height="30" uuid="53a6b778-0b56-4db5-a420-7c153c2ca2d7"/>
+				<textFieldExpression><![CDATA[$F{id}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="180" y="20" width="100" height="30" uuid="338a5d29-88f6-49be-b926-d33a1df5f281"/>
+				<textFieldExpression><![CDATA[$F{dataCompra}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="280" y="20" width="120" height="30" uuid="86cf6ed1-54bd-4ffd-adf5-602f1adc5908"/>
+				<textFieldExpression><![CDATA[$F{lote}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="455" y="19" width="100" height="30" uuid="2ede6148-0062-4f5f-8efc-f3de1a595bc2"/>
+				<textFieldExpression><![CDATA[$F{quantidadeDisponivel}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="80" y="20" width="100" height="30" uuid="c28ac517-34f2-4444-b121-6e428f63d7e1"/>
+				<textFieldExpression><![CDATA[$F{descricao}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="50" splitType="Stretch"/>
+	</summary>
+</jasperReport>
