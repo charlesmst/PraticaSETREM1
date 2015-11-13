@@ -76,7 +76,7 @@ public class EstoqueMovimentacaoService extends Service<EstoqueMovimentacao> {
                 if (qtd >= restantes) {
                     EstoqueMovimentacao eM = new EstoqueMovimentacao();
                     eM.setDataLancamento(new Date());
-                    eM.setDescricao("SAIDA DE " + restantes + "->" + i.getDescricao());
+                    eM.setDescricao("SAIDA DE " + restantes + " -> " + i.getDescricao());
                     eM.setQuantidade(restantes);
                     eM.setMovimentacaoTipo(estMov.getMovimentacaoTipo());
                     eM.setOrdem(estMov.getOrdem());

@@ -90,6 +90,7 @@ public class FrmOrdemItemCadastro extends JDialogController {
                 estMov.setOrdem(or);
                 item.setUltimoValorVenda(txtValor.getValue());
                 new EstoqueMovimentacaoService().descontaEstoque(estMov, item, ordem);
+                utils.Forms.mensagem("Salvo com sucesso!", AlertaTipos.sucesso);
             } catch (Exception e) {
                 utils.Forms.mensagem(e.getMessage(), AlertaTipos.erro);
             }
