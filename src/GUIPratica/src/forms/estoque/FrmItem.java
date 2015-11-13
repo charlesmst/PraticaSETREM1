@@ -141,9 +141,9 @@ public class FrmItem extends JPanelControleButtons {
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(txtBuscar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(18, 18, 18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnEntrada)
-                        .addGap(18, 18, 18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnRelatorio))
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 873, Short.MAX_VALUE))
                 .addContainerGap())
@@ -170,14 +170,17 @@ public class FrmItem extends JPanelControleButtons {
 
     private void btnRelatorioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRelatorioActionPerformed
         JRBeanCollectionDataSource jrs = new JRBeanCollectionDataSource(service.findAllWithDisp());
+  
         Map parametros = new HashMap();
          try {
-             JasperPrint jpr = JasperFillManager.fillReport("C:\\Users\\gusta\\Documents\\NetBeansProjects\\trunk\\src\\GUIPratica\\src\\relatorios\\relatorio_item.jasper", parametros, jrs);
+             JasperPrint jpr = JasperFillManager
+                    .fillReport("src/relatorios/relatorio_de_item.jasper", parametros, jrs);
              JasperViewer.viewReport(jpr, false);
-             JasperExportManager.exportReportToPdfFile(jpr, "relatorios/relatorio_item.pdf");
+             JasperExportManager.exportReportToPdfFile(jpr, "src/relatorios/relatorio_de_item.pdf");
          } catch(JRException ex){
              utils.Forms.mensagem(ex.getMessage(), AlertaTipos.erro);
          }
+         
     }//GEN-LAST:event_btnRelatorioActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

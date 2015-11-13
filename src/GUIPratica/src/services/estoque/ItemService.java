@@ -5,6 +5,7 @@
  */
 package services.estoque;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -47,7 +48,7 @@ public class ItemService extends Service<Item> {
 
     public Collection<Item> findAllWithDisp() {
         Collection<Item> lista = this.findAll();
-        Collection<Item> lista2 = new ArrayList<>();
+        Collection<Item> lista2 = new ArrayList();
         for (Item i : lista) {
             i.setQtdDisponivel(this.verificaQuantidadeDisp(i));
             lista2.add(i);
