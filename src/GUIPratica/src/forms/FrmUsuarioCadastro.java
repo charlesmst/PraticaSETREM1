@@ -332,9 +332,11 @@ public class FrmUsuarioCadastro extends JDialogController {
         }
         String s = Arrays.toString(password);
         try {
-            if (service.autentica(u.getUsuario(),s)) {
+            if (service.autentica(u.getUsuario(), s)) {
                 txtSenha.setEnabled(true);
                 txtSenhaConfirmacao.setEnabled(true);
+                validator.validarObrigatorio(txtSenha);
+                validator.validarObrigatorio(txtSenhaConfirmacao);
             } else {
                 utils.Forms.mensagem("Senha incorreta!", AlertaTipos.erro);
             }
