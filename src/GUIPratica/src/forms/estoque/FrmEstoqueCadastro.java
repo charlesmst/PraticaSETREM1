@@ -395,8 +395,8 @@ public class FrmEstoqueCadastro extends JDialogController {
         estMov.setValorUnitario(txtValorCompra.getValue());
         estMov.setQuantidade(Integer.parseInt(spinerQuantidade.getValue().toString()));
         estMov.setDataLancamento(new Date());
-        estMov.setDescricao(estMov.getMovimentacaoTipo().getDescricao()
-                + " DE " + estMov.getQuantidade() + " " + est.getItem().getDescricao());
+        estMov.setDescricao("ENTRADA DE " + estMov.getQuantidade() + " -> " + est.getItem().getItemTipo().getNome()
+                + " -> " + est.getItem().getDescricao());
         est.setDataCompra(txtDataCompra.getDate());
         est.setLote(txtLote.getText());
         if (chkDataValidade.isSelected()) {
@@ -426,7 +426,7 @@ public class FrmEstoqueCadastro extends JDialogController {
     }
 
     private void zerarCampos() {
-        
+
         txtItem.setText("");
         jcbTipoMovimentação.setSelectedIndex(0);
         txtValorCompra.setValue(0);

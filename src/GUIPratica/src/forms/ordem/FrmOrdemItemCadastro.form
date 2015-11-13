@@ -178,6 +178,9 @@
     <Component class="components.JDateField" name="txtData">
     </Component>
     <Component class="components.F2" name="txtItem">
+      <Events>
+        <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="txtItemFocusLost"/>
+      </Events>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new components.F2(FrmItemF2.class, (id)-&gt; new ItemService().findById(id).toString());"/>
       </AuxValues>

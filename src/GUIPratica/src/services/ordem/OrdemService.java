@@ -26,11 +26,11 @@ public class OrdemService extends Service<Ordem> {
 
     @Override
     public void insert(Ordem obj) throws ServiceException {
-        executeOnTransaction((s,t)->{
+        executeOnTransaction((s, t) -> {
             s.saveOrUpdate(obj);
             t.commit();
         });
-        
+
     }
 
     public OrdemService() {
@@ -51,13 +51,14 @@ public class OrdemService extends Service<Ordem> {
             return c;
         });
     }
-    public double valorTotal(Ordem obj){
+
+    public double valorTotal(Ordem obj) {
         double v = 0;
         for (EstoqueMovimentacao estoqueMovimentacao : obj.getEstoqueMovimentacaos()) {
-            v+= 0;//@Todo Pegar valor de estoque;
+            v += estoqueMovimentacao.getValorUnitarioVenda() * estoqueMovimentacao.getQuantidade();//@Todo Pegar valor de estoque;
         }
         for (OrdemServico ordemServico : obj.getOrdemServicos()) {
-            v+= ordemServico.getValorEntrada() * ordemServico.getQuantidade();
+            v += ordemServico.getValorEntrada() * ordemServico.getQuantidade();
         }
         return v;
     }

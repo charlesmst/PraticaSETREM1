@@ -49,17 +49,20 @@ public class FrmOrdemItemCadastro extends JDialogController {
         loadTiposMovimentação();
         validator.validarObrigatorio(txtItem);
         validator.validarDeBanco(txtItem, new ItemService());
-        //atualizaValor();
     }
 
     private void atualizaValor() {
-        item = new ItemService().findById(txtItem.getValueSelected());
-        if (item.getUltimoValorVenda() > 0) {
-            txtValor.setValue(item.getUltimoValorVenda());
-        } else {
-            txtValor.setValue(0);
+        try {
+            item = new ItemService().findById(txtItem.getValueSelected());
+            if (item.getUltimoValorVenda() > 0) {
+                txtValor.setValue(item.getUltimoValorVenda());
+            } else {
+                txtValor.setValue(0);
+            }
+            atualizaValorTotal();
+        } catch (Exception e) {
+
         }
-        atualizaValorTotal();
     }
 
     private double getValorTotal() {
@@ -74,7 +77,10 @@ public class FrmOrdemItemCadastro extends JDialogController {
 
     private void save() {
         item = new ItemService().findById(txtItem.getValueSelected());
-        if (!validator.isValido()) {
+        if (txtValor.getValue() <= 0) {
+            utils.Forms.mensagem("Informe o valor de venda!", AlertaTipos.erro);
+            return;
+        } else if (!validator.isValido()) {
             return;
         }
         int qtd = new ItemService().verificaQuantidadeDisp(item);
@@ -91,14 +97,10 @@ public class FrmOrdemItemCadastro extends JDialogController {
                 item.setUltimoValorVenda(txtValor.getValue());
                 new EstoqueMovimentacaoService().descontaEstoque(estMov, item, ordem);
                 utils.Forms.mensagem("Salvo com sucesso!", AlertaTipos.sucesso);
+                dispose();
             } catch (Exception e) {
                 utils.Forms.mensagem(e.getMessage(), AlertaTipos.erro);
             }
-
-//            Utils.safeCode(() -> {
-//                service.insertPersonalizado(eM,item);
-//                dispose();
-//            });
         } else {
             utils.Forms.mensagem("Estoque atual insuficiente: " + qtd, AlertaTipos.erro);
         }
@@ -164,6 +166,12 @@ public class FrmOrdemItemCadastro extends JDialogController {
         jLabel4.setText("Valor Total");
 
         lblValorTotal.setText("R$0,00");
+
+        txtItem.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtItemFocusLost(evt);
+            }
+        });
 
         jLabel5.setText("Origem");
 
@@ -256,6 +264,10 @@ public class FrmOrdemItemCadastro extends JDialogController {
     private void txtQuantidadeStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_txtQuantidadeStateChanged
         atualizaValorTotal();
     }//GEN-LAST:event_txtQuantidadeStateChanged
+
+    private void txtItemFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtItemFocusLost
+        atualizaValor();
+    }//GEN-LAST:event_txtItemFocusLost
     private void loadTiposMovimentação() {
         List<MovimentacaoTipo> movTipoTemp = new MovimentacaoTipoService().findAll();
         movTipo = new ArrayList<>();

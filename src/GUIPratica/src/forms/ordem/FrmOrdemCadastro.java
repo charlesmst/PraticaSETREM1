@@ -31,10 +31,9 @@ import org.jdesktop.beansbinding.AutoBinding;
 import org.jdesktop.beansbinding.Converter;
 import services.PessoaService;
 import services.ServiceException;
+import services.estoque.EstoqueMovimentacaoService;
 import services.fluxo.ContaService;
 import services.ordem.OrdemService;
-
-import services.ordem.MarcaService;
 import services.ordem.OrdemServicoService;
 import services.ordem.OrdemStatusService;
 import services.ordem.VeiculoService;
@@ -144,7 +143,7 @@ public class FrmOrdemCadastro extends JDialogController {
                     l[3] = m.getQuantidade();
                     l[4] = m.getEstoque().getItem().getDescricao();
                     l[5] = Utils.formataDate(m.getDataLancamento());
-                    l[6] = Utils.formataDinheiro(m.getValorUnitarioVenda()*m.getQuantidade());
+                    l[6] = Utils.formataDinheiro(m.getValorUnitarioVenda() * m.getQuantidade());
                 }
                 return l;
             }
@@ -154,7 +153,6 @@ public class FrmOrdemCadastro extends JDialogController {
 
     private void atualizaListagem() {
         table.atualizar();
-
         double valorTotal = service.valorTotal(ordem);
         lblValor.setText(Utils.formataDinheiro(valorTotal));
     }
@@ -409,11 +407,11 @@ public class FrmOrdemCadastro extends JDialogController {
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 630, Short.MAX_VALUE)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 760, Short.MAX_VALUE)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addComponent(jLabel3)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 388, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(txtCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 533, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jcbStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
@@ -524,7 +522,6 @@ public class FrmOrdemCadastro extends JDialogController {
         if (!validator.isValido()) {
             return;
         }
-
         salvar();
 
         FrmOrdemServicoCadastro frm = new FrmOrdemServicoCadastro(ordem);
@@ -548,9 +545,8 @@ public class FrmOrdemCadastro extends JDialogController {
             if (table.getDefaultTableModel().getValueAt(table.getSelectedRow(), 1).equals("PEÇA")) {
                 for (EstoqueMovimentacao estoqueMovimentacao : ordem.getEstoqueMovimentacaos()) {
                     if (estoqueMovimentacao.getId() == id) {
-                        ordem.getEstoqueMovimentacaos().remove(estoqueMovimentacao);
-                        salvar();
-                        JOptionPane.showMessageDialog(null, "Implementar essa parte");
+                        new EstoqueMovimentacaoService().excluirEstoque(ordem, estoqueMovimentacao);
+                        utils.Forms.mensagem("Excluído com sucesso!", AlertaTipos.sucesso);
                         break;
                     }
                 }

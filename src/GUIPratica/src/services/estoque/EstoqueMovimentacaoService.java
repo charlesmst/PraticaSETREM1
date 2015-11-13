@@ -23,30 +23,6 @@ import services.Service;
 
 public class EstoqueMovimentacaoService extends Service<EstoqueMovimentacao> {
 
-//Estoque est = new EstoqueService().verificaMaisAntigo(item);
-//            List<EstoqueMovimentacao> lista = new EstoqueMovimentacaoService().buscaMovimentacoes(est);
-//            EstoqueMovimentacao estMov = new EstoqueMovimentacao();
-//            int cont = 0;
-//            for (EstoqueMovimentacao eM : lista) {
-//                if (cont > 0) {
-//                    JOptionPane.showMessageDialog(null, "Possui mais de uma movimentação-estoque relacionada ao Estoque");
-//                } else {
-//                    estMov = eM;
-//                }
-//                cont++;
-//            }
-//            estMov.setDataLancamento(new Date());
-//            estMov.setPessoa(ordem.getPessoa());
-//            estMov.setDescricao("SAIDA DE -> " + txtQuantidade.getValue() + " -> " + item.toString());
-//            estMov.setMovimentacaoTipo((MovimentacaoTipo) txtOrigem.getModel().getSelectedItem());
-//            estMov.setQuantidade(qtd * -1);
-//            est.getItem().setUltimoValorVenda(getValorTotal());
-//            est.setQuantidadeDisponivel(est.getQuantidadeDisponivel() + estMov.getQuantidade());
-//            estMov.setEstoque(est);
-//            estMov.setValorUnitario(txtValor.getValue());
-//            //estMov.getOrdem().add(ordem);
-//            ordem.getEstoqueMovimentacaos().add(estMov);
-//            eM = estMov;
     public void insertPersonalizado(EstoqueMovimentacao estMov, Item i) throws services.ServiceException {
         Session s = getSession();
         synchronized (s) {
@@ -65,6 +41,19 @@ public class EstoqueMovimentacaoService extends Service<EstoqueMovimentacao> {
         }
     }
 
+    public void excluirEstoque(Ordem ordem, EstoqueMovimentacao estMov) {
+        executeOnTransaction((s, t) -> {
+            Estoque e = estMov.getEstoque();
+            int qtd = e.getQuantidadeDisponivel();
+            e.setQuantidadeDisponivel(qtd + estMov.getQuantidade());
+            ordem.getEstoqueMovimentacaos().remove(estMov);
+            s.merge(e);
+            s.delete(estMov);
+            s.merge(ordem);
+            t.commit();
+        });
+    }
+
     public void descontaEstoque(EstoqueMovimentacao estMov, Item i, Ordem ordem) {
         executeOnTransaction((s, t) -> {
             List<Estoque> estoques = buscaEstoqueOrdenado(s, i);
@@ -76,7 +65,7 @@ public class EstoqueMovimentacaoService extends Service<EstoqueMovimentacao> {
                 if (qtd >= restantes) {
                     EstoqueMovimentacao eM = new EstoqueMovimentacao();
                     eM.setDataLancamento(new Date());
-                    eM.setDescricao("SAIDA DE " + restantes + " -> " + i.getDescricao());
+                    eM.setDescricao("SAIDA DE " + restantes + " -> " + i.getItemTipo().getNome() + " -> " + i.getDescricao());
                     eM.setQuantidade(restantes);
                     eM.setMovimentacaoTipo(estMov.getMovimentacaoTipo());
                     eM.setOrdem(estMov.getOrdem());
@@ -94,7 +83,7 @@ public class EstoqueMovimentacaoService extends Service<EstoqueMovimentacao> {
                 } else {
                     EstoqueMovimentacao eM = new EstoqueMovimentacao();
                     eM.setDataLancamento(new Date());
-                    eM.setDescricao("SAIDA DE " + e.getQuantidadeDisponivel() + "->" + i.getDescricao());
+                    eM.setDescricao("SAIDA DE " + e.getQuantidadeDisponivel() + " -> " + i.getItemTipo().getNome() + " -> " + i.getDescricao());
                     eM.setQuantidade(e.getQuantidadeDisponivel());
                     eM.setMovimentacaoTipo(estMov.getMovimentacaoTipo());
                     eM.setOrdem(estMov.getOrdem());
@@ -125,10 +114,6 @@ public class EstoqueMovimentacaoService extends Service<EstoqueMovimentacao> {
         query.setInteger("item_id", (int) i.getId());
         return query.list();
     }
-//
-//    public boolean unico(int id, String descricao) throws ServiceException {
-//        return findFilter(Restrictions.ne("id", id), Restrictions.eq("descricao", descricao)).isEmpty();
-//    }
 
     public List<EstoqueMovimentacao> buscaMovimentacoes(Estoque e) {
         List<EstoqueMovimentacao> estMov = findBy("estoque.id", e.getId());
