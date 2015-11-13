@@ -5,17 +5,23 @@
  */
 package guipratica;
 
+import java.sql.PreparedStatement;
 import java.util.Date;
+import java.util.List;
 import model.Pessoa;
 import model.Usuario;
 import model.fluxo.ContaCategoria;
 import model.fluxo.FormaPagamento;
 import model.ordem.OrdemStatus;
+import net.sf.jasperreports.engine.util.JRProperties;
+import org.hibernate.Hibernate;
+import org.hibernate.Session;
 import services.PessoaService;
 import services.UsuarioService;
 import services.fluxo.ContaCategoriaService;
 import services.fluxo.FormaPagamentoService;
 import services.ordem.OrdemStatusService;
+import utils.HibernateUtil;
 import utils.Parametros;
 
 /**
@@ -26,6 +32,63 @@ public class Initialize {
 
     public static void init() throws Exception {
         validaParametros();
+        JRProperties.setProperty("net.sf.jasperreports.awt.ignore.missing.font", "true");
+        criaIndices();
+    }
+
+    private static void criaIndices() {
+        /*SELECT 'CREATE INDEX fk_' || conname || '_idx ON ' 
+         || relname || ' ' || 
+         regexp_replace(
+         regexp_replace(pg_get_constraintdef(pg_constraint.oid, true), 
+         ' REFERENCES.*$','',''), 'FOREIGN KEY ','','') || ';'
+         FROM pg_constraint 
+         JOIN pg_class 
+         ON (conrelid = pg_class.oid)
+         JOIN pg_namespace
+         ON (relnamespace = pg_namespace.oid)
+         WHERE contype = 'f'
+         AND nspname = 'public'
+         AND NOT EXISTS (
+         SELECT * FROM pg_class pgc
+         JOIN pg_namespace pgn ON (pgc.relnamespace = pgn.oid)
+         WHERE relkind='i'
+         AND pgc.relname = ('fk_' || conname || '_idx') );*/
+        Session s = null;
+        //Cria os indices automaticamente
+        try {
+            s = HibernateUtil.getSessionFactory().openSession();
+            List<String> l =s.createSQLQuery("SELECT 'CREATE INDEX fk_' || conname || '_idx ON ' \n"
+                    + "       || relname || ' ' || \n"
+                    + "       regexp_replace(\n"
+                    + "           regexp_replace(pg_get_constraintdef(pg_constraint.oid, true), \n"
+                    + "           ' REFERENCES.*$','',''), 'FOREIGN KEY ','','') || ';'\n"
+                    + "FROM pg_constraint \n"
+                    + "JOIN pg_class \n"
+                    + "    ON (conrelid = pg_class.oid)\n"
+                    + "JOIN pg_namespace\n"
+                    + "    ON (relnamespace = pg_namespace.oid)\n"
+                    + "WHERE contype = 'f'\n"
+                    + "  AND nspname = 'public'\n"
+                    + "  AND NOT EXISTS (\n"
+                    + "  SELECT pgc.relnamespace FROM pg_class pgc\n"
+                    + "    JOIN pg_namespace pgn ON (pgc.relnamespace = pgn.oid)\n"
+                    + "  WHERE relkind='i'\n"
+                    + "    AND pgc.relname = ('fk_' || conname || '_idx') )").list();
+            
+            s.beginTransaction();
+            for (String l1 : l) {
+                s.doWork((c)->{
+                    c.createStatement().execute(l1);
+                    
+                });
+                
+            }
+        } finally {
+            if (s != null) {
+                s.close();
+            }
+        }
     }
 
     private static void validaParametros() throws Exception {
