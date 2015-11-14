@@ -1,8 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.1.1.final using JasperReports Library version 6.1.1  -->
-<!-- 2015-11-13T22:23:21 -->
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="registro_de_operacoes" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="89626380-39e7-4940-9905-d6118daeb63b">
+<!-- 2015-11-14T09:09:50 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="registro_de_operacoes" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="0" uuid="89626380-39e7-4940-9905-d6118daeb63b">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.topMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.bottomMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.leftMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
 	<style name="Table_TH" mode="Opaque" backcolor="#DBDBDB">
 		<box>
 			<pen lineWidth="0.5" lineColor="#000000"/>
@@ -393,20 +402,30 @@
 		</band>
 	</detail>
 	<pageFooter>
-		<band height="40" splitType="Stretch">
+		<band height="55" splitType="Stretch">
+			<rectangle>
+				<reportElement x="-20" y="2" width="842" height="1" forecolor="#000000" backcolor="#FFFFFF" uuid="b5aa1617-80cc-4ac3-a53e-79111d509a0e">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<graphicElement>
+					<pen lineStyle="Solid"/>
+				</graphicElement>
+			</rectangle>
+			<image>
+				<reportElement x="-20" y="11" width="50" height="43" uuid="8b826ea5-b09e-4aa1-8bd4-2c52e0798f31"/>
+				<imageExpression><![CDATA["fusca.png"]]></imageExpression>
+			</image>
 			<textField evaluationTime="Report">
-				<reportElement x="351" y="13" width="100" height="18" uuid="9b7f6f52-1d07-44ba-8ca0-6ab7c074a6fa"/>
-				<textElement textAlignment="Center">
+				<reportElement x="351" y="3" width="100" height="52" uuid="03fefa54-6651-4a3b-ac65-2647322045c8"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="arial"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
 			</textField>
-			<rectangle>
-				<reportElement x="-20" y="0" width="842" height="1" forecolor="#000000" backcolor="#FFFFFF" uuid="b555ac43-7684-4393-8061-b89350fd07a9">
-					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
-					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
-				</reportElement>
-			</rectangle>
+			<image>
+				<reportElement x="772" y="11" width="50" height="43" uuid="473ef453-aa9e-421f-b7fb-95553fb295dc"/>
+				<imageExpression><![CDATA["fusca_metade.png"]]></imageExpression>
+			</image>
 		</band>
 	</pageFooter>
 </jasperReport>
