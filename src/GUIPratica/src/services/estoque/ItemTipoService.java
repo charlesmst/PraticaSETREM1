@@ -1,6 +1,5 @@
 package services.estoque;
 
-import services.aul.*;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;

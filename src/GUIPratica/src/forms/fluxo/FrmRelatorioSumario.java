@@ -360,6 +360,8 @@ public class FrmRelatorioSumario extends JPanelControleButtons {
         List<Compras> l = new ArrayList<>();
         Compras c = new Compras();
         c.setCompras(getComprasEVendas());
+        c.setCategorias(getValorCategorias());
+        c.setResultados(getResultados());
         l.add(c);
         JRBeanCollectionDataSource jrs = new JRBeanCollectionDataSource(l);
         
@@ -410,9 +412,28 @@ public class FrmRelatorioSumario extends JPanelControleButtons {
     public void btnAtualizarActionPerformed(ActionEvent evt) {
         atualizar();
     }
-    class Compras{
+    public class Compras{
         private List<ComprasVendas> compras;
+        
+        private List<SomaCategoria> categorias;
 
+        public List<SomaCategoria> getCategorias() {
+            return categorias;
+        }
+
+        public void setCategorias(List<SomaCategoria> categorias) {
+            this.categorias = categorias;
+        }
+
+        public List<SomaCategoria> getResultados() {
+            return resultados;
+        }
+
+        public void setResultados(List<SomaCategoria> resultados) {
+            this.resultados = resultados;
+        }
+
+        private List<SomaCategoria> resultados;
         public List<ComprasVendas> getCompras() {
             return compras;
         }

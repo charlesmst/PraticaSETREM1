@@ -5,7 +5,6 @@
  */
 package forms;
 
-import forms.aula.*;
 import components.JTableDataBinderListener;
 import forms.frmF2;
 import forms.frmMain;

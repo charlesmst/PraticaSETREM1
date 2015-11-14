@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.1.1.final using JasperReports Library version 6.1.1  -->
-<!-- 2015-11-14T09:09:50 -->
+<!-- 2015-11-14T10:03:06 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="registro_de_operacoes" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="0" uuid="89626380-39e7-4940-9905-d6118daeb63b">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
 	<property name="com.jaspersoft.studio.unit." value="pixel"/>
@@ -110,11 +110,11 @@
 		<queryString>
 			<![CDATA[]]>
 		</queryString>
-		<field name="dataFormatada" class="java.util.Date"/>
-		<field name="comprasPrazoD" class="java.lang.Double"/>
-		<field name="comprasAVistaD" class="java.lang.Double"/>
-		<field name="vendasPrazoD" class="java.lang.Double"/>
-		<field name="vendasAVistaD" class="java.lang.Double"/>
+		<field name="dataFormatada" class="java.lang.String"/>
+		<field name="comprasPrazoD" class="java.lang.String"/>
+		<field name="comprasAVistaD" class="java.lang.String"/>
+		<field name="vendasPrazoD" class="java.lang.String"/>
+		<field name="vendasAVistaD" class="java.lang.String"/>
 	</subDataset>
 	<subDataset name="SomaCategorias" uuid="b6789afc-c3c8-4149-ad8c-210809ed6e50">
 		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
@@ -161,33 +161,33 @@
 		</band>
 	</title>
 	<detail>
-		<band height="430" splitType="Stretch">
+		<band height="420" splitType="Stretch">
 			<componentElement>
-				<reportElement x="0" y="30" width="380" height="264" uuid="47fe7528-ef1e-4536-82c7-246016a99a55">
+				<reportElement x="10" y="30" width="370" height="300" uuid="47fe7528-ef1e-4536-82c7-246016a99a55">
 					<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.VerticalRowLayout"/>
 				</reportElement>
 				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
-					<datasetRun subDataset="ComprasVendas" uuid="7f769d20-d1b5-4e4d-9d98-6e16c718618c">
-						<dataSourceExpression><![CDATA[$F{compras}new net.sf.jasperreports.engine.JREmptyDataSource()]]></dataSourceExpression>
+					<datasetRun subDataset="ComprasVendas" uuid="86f51772-7deb-403c-af8f-6afe1d0e40c5">
+						<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($F{compras}) ]]></dataSourceExpression>
 					</datasetRun>
 					<jr:column width="90" uuid="848b4ee6-a729-47d0-901d-0c2b16a4c91e">
 						<jr:tableHeader style="Table_TH" height="30"/>
-						<jr:tableFooter style="Table_TH" height="30"/>
+						<jr:tableFooter style="Table_TH" height="8"/>
 						<jr:columnHeader style="Table_CH" height="30">
 							<staticText>
 								<reportElement x="0" y="0" width="90" height="30" uuid="a848dc56-d77f-4d92-8c5c-f323a9751784"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font fontName="Arial" size="14" isBold="true"/>
+									<font fontName="Arial" size="10" isBold="true"/>
 								</textElement>
-								<text><![CDATA[dataFormatada]]></text>
+								<text><![CDATA[Data]]></text>
 							</staticText>
 						</jr:columnHeader>
-						<jr:columnFooter style="Table_CH" height="30"/>
-						<jr:detailCell style="Table_TD" height="30">
+						<jr:columnFooter style="Table_CH" height="2"/>
+						<jr:detailCell style="Table_TD" height="10">
 							<textField>
-								<reportElement x="0" y="0" width="90" height="30" uuid="d776e5f3-912f-4f28-93e7-1159fe67aacf"/>
+								<reportElement positionType="Float" x="0" y="0" width="90" height="10" uuid="d776e5f3-912f-4f28-93e7-1159fe67aacf"/>
 								<textElement textAlignment="Left" verticalAlignment="Middle">
-									<font fontName="Arial" size="14"/>
+									<font fontName="Arial" size="8"/>
 								</textElement>
 								<textFieldExpression><![CDATA[$F{dataFormatada}]]></textFieldExpression>
 							</textField>
@@ -195,22 +195,22 @@
 					</jr:column>
 					<jr:column width="70" uuid="ca63e165-e492-4095-a27b-7d82a0895d45">
 						<jr:tableHeader style="Table_TH" height="30"/>
-						<jr:tableFooter style="Table_TH" height="30"/>
+						<jr:tableFooter style="Table_TH" height="8"/>
 						<jr:columnHeader style="Table_CH" height="30">
 							<staticText>
 								<reportElement x="0" y="0" width="70" height="30" uuid="cc82205a-58fb-4ba2-8f7a-ad47b8b9d586"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font fontName="arial" size="14" isBold="true"/>
+									<font fontName="arial" size="10" isBold="true"/>
 								</textElement>
-								<text><![CDATA[comprasPrazoD]]></text>
+								<text><![CDATA[Compras a Prazo]]></text>
 							</staticText>
 						</jr:columnHeader>
-						<jr:columnFooter style="Table_CH" height="30"/>
-						<jr:detailCell style="Table_TD" height="30">
+						<jr:columnFooter style="Table_CH" height="2"/>
+						<jr:detailCell style="Table_TD" height="10">
 							<textField>
-								<reportElement x="0" y="0" width="70" height="30" uuid="72cefcda-000d-42bd-ae68-9c3a14789cdb"/>
+								<reportElement x="0" y="0" width="70" height="10" uuid="72cefcda-000d-42bd-ae68-9c3a14789cdb"/>
 								<textElement verticalAlignment="Middle">
-									<font fontName="Arial" size="14"/>
+									<font fontName="Arial" size="8"/>
 								</textElement>
 								<textFieldExpression><![CDATA[$F{comprasPrazoD}]]></textFieldExpression>
 							</textField>
@@ -218,22 +218,22 @@
 					</jr:column>
 					<jr:column width="80" uuid="3aa080f0-46ae-485c-8422-30bc97185573">
 						<jr:tableHeader style="Table_TH" height="30"/>
-						<jr:tableFooter style="Table_TH" height="30"/>
+						<jr:tableFooter style="Table_TH" height="8"/>
 						<jr:columnHeader style="Table_CH" height="30">
 							<staticText>
 								<reportElement x="0" y="0" width="80" height="30" uuid="7ff9a744-68c0-4a16-bc4d-dfa77fd13580"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font fontName="Arial" size="14" isBold="true"/>
+									<font fontName="Arial" size="10" isBold="true"/>
 								</textElement>
-								<text><![CDATA[comprasAVistaD]]></text>
+								<text><![CDATA[Compras à vista]]></text>
 							</staticText>
 						</jr:columnHeader>
-						<jr:columnFooter style="Table_CH" height="30"/>
-						<jr:detailCell style="Table_TD" height="30">
+						<jr:columnFooter style="Table_CH" height="2"/>
+						<jr:detailCell style="Table_TD" height="10">
 							<textField>
-								<reportElement x="0" y="0" width="80" height="30" uuid="cc4f412c-e963-44df-b3a1-0dd82955c9f8"/>
+								<reportElement x="0" y="0" width="80" height="10" uuid="cc4f412c-e963-44df-b3a1-0dd82955c9f8"/>
 								<textElement verticalAlignment="Middle">
-									<font fontName="Aria" size="14"/>
+									<font fontName="Aria" size="8"/>
 								</textElement>
 								<textFieldExpression><![CDATA[$F{comprasAVistaD}]]></textFieldExpression>
 							</textField>
@@ -241,22 +241,22 @@
 					</jr:column>
 					<jr:column width="70" uuid="a7c28006-6f08-4820-9c35-3d70089b61c6">
 						<jr:tableHeader style="Table_TH" height="30"/>
-						<jr:tableFooter style="Table_TH" height="30"/>
+						<jr:tableFooter style="Table_TH" height="8"/>
 						<jr:columnHeader style="Table_CH" height="30">
 							<staticText>
 								<reportElement x="0" y="0" width="70" height="30" uuid="9a7a786c-daa9-4b78-9d4e-0404857762a3"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font fontName="Arial" size="14" isBold="true"/>
+									<font fontName="Arial" size="10" isBold="true"/>
 								</textElement>
-								<text><![CDATA[vendasPrazoD]]></text>
+								<text><![CDATA[Vendas a prazo]]></text>
 							</staticText>
 						</jr:columnHeader>
-						<jr:columnFooter style="Table_CH" height="30"/>
-						<jr:detailCell style="Table_TD" height="30">
+						<jr:columnFooter style="Table_CH" height="2"/>
+						<jr:detailCell style="Table_TD" height="10">
 							<textField>
-								<reportElement x="0" y="0" width="70" height="30" uuid="4ae5b746-f373-4947-b55b-49c0bef9583b"/>
+								<reportElement x="0" y="0" width="70" height="10" uuid="4ae5b746-f373-4947-b55b-49c0bef9583b"/>
 								<textElement textAlignment="Left" verticalAlignment="Middle">
-									<font size="14"/>
+									<font size="8"/>
 								</textElement>
 								<textFieldExpression><![CDATA[$F{vendasPrazoD}]]></textFieldExpression>
 							</textField>
@@ -264,22 +264,22 @@
 					</jr:column>
 					<jr:column width="70" uuid="57ef0597-ddfb-4796-8aec-315e76250357">
 						<jr:tableHeader style="Table_TH" height="30"/>
-						<jr:tableFooter style="Table_TH" height="30"/>
+						<jr:tableFooter style="Table_TH" height="8"/>
 						<jr:columnHeader style="Table_CH" height="30">
 							<staticText>
 								<reportElement x="0" y="0" width="70" height="30" uuid="fcff390f-0b8c-47f6-aabd-1be4054b5048"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font fontName="Arial" size="14" isBold="true"/>
+									<font fontName="Arial" size="10" isBold="true"/>
 								</textElement>
-								<text><![CDATA[vendasAVistaD]]></text>
+								<text><![CDATA[Vendas à vista]]></text>
 							</staticText>
 						</jr:columnHeader>
-						<jr:columnFooter style="Table_CH" height="30"/>
-						<jr:detailCell style="Table_TD" height="30">
+						<jr:columnFooter style="Table_CH" height="2"/>
+						<jr:detailCell style="Table_TD" height="10">
 							<textField>
-								<reportElement x="0" y="0" width="70" height="30" uuid="77166ac3-c45f-4be8-b8d2-029503f83a3e"/>
+								<reportElement x="0" y="0" width="70" height="10" uuid="77166ac3-c45f-4be8-b8d2-029503f83a3e"/>
 								<textElement verticalAlignment="Middle">
-									<font size="14"/>
+									<font size="8"/>
 								</textElement>
 								<textFieldExpression><![CDATA[$F{vendasAVistaD}]]></textFieldExpression>
 							</textField>
@@ -288,12 +288,12 @@
 				</jr:table>
 			</componentElement>
 			<componentElement>
-				<reportElement x="390" y="30" width="410" height="170" uuid="a7281925-e0d4-408f-b42d-55c63d7fc107">
+				<reportElement stretchType="RelativeToTallestObject" x="390" y="30" width="410" height="170" uuid="a7281925-e0d4-408f-b42d-55c63d7fc107">
 					<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.VerticalRowLayout"/>
 				</reportElement>
 				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
-					<datasetRun subDataset="SomaCategorias" uuid="8be690ee-5a64-4269-84ef-463704593d7a">
-						<dataSourceExpression><![CDATA[$F{categorias}new net.sf.jasperreports.engine.JREmptyDataSource()]]></dataSourceExpression>
+					<datasetRun subDataset="SomaCategorias" uuid="760e0964-e130-4202-9bb4-233d6962d51a">
+						<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($F{categorias}) ]]></dataSourceExpression>
 					</datasetRun>
 					<jr:column width="200" uuid="b12ec7c8-289a-4d96-a3c6-70017b3fbe6b">
 						<jr:tableHeader style="Table 1_TH" height="30"/>
@@ -302,19 +302,19 @@
 							<staticText>
 								<reportElement x="0" y="0" width="200" height="30" uuid="49b3e7a0-405e-4296-a307-fa9ef162fe1a"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font size="14" isBold="true"/>
+									<font size="10" isBold="true"/>
 								</textElement>
-								<text><![CDATA[valor]]></text>
+								<text><![CDATA[Categoria]]></text>
 							</staticText>
 						</jr:columnHeader>
 						<jr:columnFooter style="Table 1_CH" height="30"/>
-						<jr:detailCell style="Table 1_TD" height="30">
+						<jr:detailCell style="Table 1_TD" height="20">
 							<textField>
-								<reportElement x="0" y="0" width="200" height="30" uuid="65c94035-8829-4e9e-86e5-8ad952cfb4ed"/>
+								<reportElement x="0" y="0" width="200" height="20" uuid="65c94035-8829-4e9e-86e5-8ad952cfb4ed"/>
 								<textElement textAlignment="Left" verticalAlignment="Middle">
-									<font fontName="Arial" size="14"/>
+									<font fontName="Arial" size="10"/>
 								</textElement>
-								<textFieldExpression><![CDATA[$F{valor}]]></textFieldExpression>
+								<textFieldExpression><![CDATA[$F{categoria}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
@@ -325,19 +325,19 @@
 							<staticText>
 								<reportElement x="0" y="0" width="210" height="30" uuid="85e7560e-3fe6-4227-8a2e-87db44663e9f"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font fontName="SansSerif" size="14" isBold="true"/>
+									<font fontName="SansSerif" size="10" isBold="true"/>
 								</textElement>
-								<text><![CDATA[categoria]]></text>
+								<text><![CDATA[Valor]]></text>
 							</staticText>
 						</jr:columnHeader>
 						<jr:columnFooter style="Table 1_CH" height="30"/>
-						<jr:detailCell style="Table 1_TD" height="30">
+						<jr:detailCell style="Table 1_TD" height="20">
 							<textField>
-								<reportElement x="0" y="0" width="210" height="30" uuid="cd4384bb-7d3e-4441-9540-ccc7b6967dd0"/>
+								<reportElement x="0" y="0" width="210" height="20" uuid="cd4384bb-7d3e-4441-9540-ccc7b6967dd0"/>
 								<textElement verticalAlignment="Middle">
-									<font fontName="Arial" size="14"/>
+									<font fontName="Arial" size="10"/>
 								</textElement>
-								<textFieldExpression><![CDATA[$F{categoria}]]></textFieldExpression>
+								<textFieldExpression><![CDATA[$F{valor}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
@@ -348,8 +348,8 @@
 					<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.VerticalRowLayout"/>
 				</reportElement>
 				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
-					<datasetRun subDataset="SomaCategorias" uuid="965d6f06-b8c0-4e7d-96f9-dee513a31e40">
-						<dataSourceExpression><![CDATA[$F{resultados}new net.sf.jasperreports.engine.JREmptyDataSource()]]></dataSourceExpression>
+					<datasetRun subDataset="SomaCategorias" uuid="bc579554-b72d-46b8-8b37-3c78cfbf13b0">
+						<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($F{resultados}) ]]></dataSourceExpression>
 					</datasetRun>
 					<jr:column width="200" uuid="c7479383-ca37-40be-8d5f-0ad6e93ebbee">
 						<jr:tableHeader style="Table 2_TH" height="30"/>
