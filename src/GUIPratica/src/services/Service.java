@@ -55,10 +55,12 @@ public abstract class Service<T> {
     private Session session;
 
     public Session getSession() {
-//        if (session == null || !session.isConnected()) {
-        session = HibernateUtil.getSessionFactory().openSession();
+//        if (session == null 
+//                //|| !session.isConnected()
+//                ) {
+            session = HibernateUtil.getSessionFactory().openSession();
 //        }
-        return session;
+        return session;//HibernateUtil.getSessionFactory().openSession();
     }
 
     public T findById(Serializable id) {
@@ -77,7 +79,8 @@ public abstract class Service<T> {
                 throw new ServiceException(e.getMessage(), e);
 
             } finally {
-                s.close();
+                autoClose(s);
+//                s.close();
             }
         }
     }
@@ -91,7 +94,8 @@ public abstract class Service<T> {
                 throw new ServiceException(e.getMessage(), e);
 
             } finally {
-                s.close();
+                autoClose(s);
+//                s.close();
             }
         }
     }
@@ -109,7 +113,8 @@ public abstract class Service<T> {
                     throw new ServiceException(e.getMessage(), e);
 
                 } finally {
-                    s.close();
+                    autoClose(s);
+//                    s.close();
                 }
             }
         }

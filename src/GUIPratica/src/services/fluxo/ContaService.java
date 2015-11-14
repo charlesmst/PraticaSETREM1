@@ -132,9 +132,13 @@ public class ContaService extends Service<Conta> {
             )
                     .setInteger("p", id)
                     .uniqueResult();
-
+//            Conta c = (Conta)s.load(Conta.class,id);
             for (Parcela parcela : c.getParcelas()) {
-                parcela.getPagamentos();
+                List<ParcelaPagamento> p =  parcela.getPagamentos();
+                for (ParcelaPagamento p1 : p) {
+                    break;
+                }
+                
             }
             return c;
         });
