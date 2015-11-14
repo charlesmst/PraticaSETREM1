@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.1.1.final using JasperReports Library version 6.1.1  -->
-<!-- 2015-11-13T21:32:52 -->
+<!-- 2015-11-13T22:23:21 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="registro_de_operacoes" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="89626380-39e7-4940-9905-d6118daeb63b">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
 	<style name="Table_TH" mode="Opaque" backcolor="#DBDBDB">
@@ -136,8 +136,8 @@
 				</reportElement>
 			</rectangle>
 			<staticText>
-				<reportElement x="178" y="26" width="622" height="30" uuid="911ecc8e-95a3-4173-abdf-1e7f169d6a93"/>
-				<textElement textAlignment="Center">
+				<reportElement x="90" y="24" width="622" height="30" uuid="911ecc8e-95a3-4173-abdf-1e7f169d6a93"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Arial" size="18" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Relatório de Registro de Operações]]></text>
@@ -335,7 +335,7 @@
 				</jr:table>
 			</componentElement>
 			<componentElement>
-				<reportElement x="390" y="210" width="410" height="200" uuid="0f7be3a5-e771-4052-a05b-512a85703980">
+				<reportElement x="390" y="200" width="410" height="200" uuid="0f7be3a5-e771-4052-a05b-512a85703980">
 					<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.VerticalRowLayout"/>
 				</reportElement>
 				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
@@ -394,11 +394,6 @@
 	</detail>
 	<pageFooter>
 		<band height="40" splitType="Stretch">
-			<rectangle>
-				<reportElement x="-20" y="4" width="842" height="1" forecolor="#000000" backcolor="#FFFFFF" uuid="90108c44-cac0-40a5-8bc6-2812a42752ab">
-					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
-				</reportElement>
-			</rectangle>
 			<textField evaluationTime="Report">
 				<reportElement x="351" y="13" width="100" height="18" uuid="9b7f6f52-1d07-44ba-8ca0-6ab7c074a6fa"/>
 				<textElement textAlignment="Center">
@@ -406,6 +401,12 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
 			</textField>
+			<rectangle>
+				<reportElement x="-20" y="0" width="842" height="1" forecolor="#000000" backcolor="#FFFFFF" uuid="b555ac43-7684-4393-8061-b89350fd07a9">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+			</rectangle>
 		</band>
 	</pageFooter>
 </jasperReport>
