@@ -78,6 +78,10 @@ public class JValidadorDeCampos {
 
                 }
             });
+        }else if (contro instanceof JComboBox){
+            ((JComboBox) contro).addActionListener((e)->{
+                validaControl(contro);
+            });
         }
     }
 

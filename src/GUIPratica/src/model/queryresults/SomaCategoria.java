@@ -5,6 +5,8 @@
  */
 package model.queryresults;
 
+import utils.Utils;
+
 /**
  *
  * @author charles
@@ -17,6 +19,12 @@ public class SomaCategoria {
         return valor;
     }
 
+    public String getValorFormatado(){
+        if(valor > 0d)
+            return Utils.formataDinheiro(valor);
+        else
+            return "-";
+    }
     public void setValor(double valor) {
         this.valor = valor;
     }

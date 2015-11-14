@@ -80,7 +80,7 @@ public class FrmConta extends JPanelControleButtons {
                         pagas++;
                     }
                 }
-                Object[] obj = new Object[10];
+                Object[] obj = new Object[11];
                 obj[0] = dado.getId();
                 obj[1] = dado.getDescricao();
                 obj[2] = dado.getPessoa().getNome();
@@ -90,7 +90,8 @@ public class FrmConta extends JPanelControleButtons {
                 obj[6] = Utils.formataDinheiro(dado.getValorPago() - dado.getValorTotal());
                 obj[7] = pagas + "/" + total;
                 obj[8] = status;
-                obj[9] = i;
+                obj[9] = dado.getTipo().toString().toUpperCase();
+                obj[10] = i;
 
                 return obj;
 
@@ -144,20 +145,20 @@ public class FrmConta extends JPanelControleButtons {
 
         table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null}
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "Código", "Descrição", "Pessoa Relacionada", "Tipo", "Valor", "Categoria", "Saldo", "Pagas", "Parcelas", "Status"
+                "Código", "Descrição", "Pessoa Relacionada", "Tipo", "Valor", "Categoria", "Saldo", "Pagas", "Parcelas", "Origem", "Status"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.Object.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class
+                java.lang.String.class, java.lang.String.class, java.lang.Object.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, true, false, false
+                false, false, false, false, false, false, false, true, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -175,10 +176,12 @@ public class FrmConta extends JPanelControleButtons {
             table.getColumnModel().getColumn(0).setMinWidth(10);
             table.getColumnModel().getColumn(0).setPreferredWidth(60);
             table.getColumnModel().getColumn(0).setMaxWidth(100);
+            table.getColumnModel().getColumn(2).setMaxWidth(100);
             table.getColumnModel().getColumn(3).setMaxWidth(70);
             table.getColumnModel().getColumn(7).setMaxWidth(50);
-            table.getColumnModel().getColumn(9).setPreferredWidth(30);
-            table.getColumnModel().getColumn(9).setMaxWidth(30);
+            table.getColumnModel().getColumn(9).setMaxWidth(50);
+            table.getColumnModel().getColumn(10).setPreferredWidth(30);
+            table.getColumnModel().getColumn(10).setMaxWidth(30);
         }
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
@@ -297,7 +300,7 @@ public class FrmConta extends JPanelControleButtons {
         defaultUpdateOperation(table, (id) -> {
 
             Conta c = service.findConta(id);
-            FrmParcelaCadastro frm = new FrmParcelaCadastro(c, c.getParcelas().get(0));
+            FrmParcelaCadastro frm = new FrmParcelaCadastro(c,null);
             frm.setListener((conta) -> {
                 service.update(c);
                 table.atualizar();

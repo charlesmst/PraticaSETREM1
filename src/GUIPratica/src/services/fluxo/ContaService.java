@@ -356,7 +356,7 @@ public class ContaService extends Service<Conta> {
         return (List<SomaCategoria>) selectOnSession((s) -> {
             List<SomaCategoria> l = new ArrayList<>();
 
-            l.add(new SomaCategoria(valorPagamentosPeriodoAVista(s, ContaCategoria.TipoCategoria.entrada, monthFirstDate, monthEndDate, Conta.ContaTipo.ordem), "VENDAS À VISTA"));
+            l.add(new SomaCategoria(valorPagamentosPeriodoAVista(s, ContaCategoria.TipoCategoria.entrada, monthFirstDate, monthEndDate, Conta.ContaTipo.ordem), "PAGAMENTOS DE VENDAS À VISTA"));
 
             l.add(new SomaCategoria(valorPagamentosPeriodoAPrazo(s, ContaCategoria.TipoCategoria.entrada, monthFirstDate, monthEndDate, Conta.ContaTipo.ordem), "RECEBIMENTOS DE VENDA A PRAZO"));
 
@@ -367,7 +367,7 @@ public class ContaService extends Service<Conta> {
             //Separador
             l.add(new SomaCategoria(0d, ""));
 
-            l.add(new SomaCategoria(valorPagamentosPeriodoAVista(s, ContaCategoria.TipoCategoria.saida, monthFirstDate, monthEndDate, Conta.ContaTipo.estoque), "TOTAL DAS COMPRAS À VISTA"));
+            l.add(new SomaCategoria(valorPagamentosPeriodoAVista(s, ContaCategoria.TipoCategoria.saida, monthFirstDate, monthEndDate, Conta.ContaTipo.estoque), "PAGAMENTOS DE COMPRAS À VISTA"));
 
             l.add(new SomaCategoria(valorPagamentosPeriodoAPrazo(s, ContaCategoria.TipoCategoria.saida, monthFirstDate, monthEndDate, Conta.ContaTipo.estoque), "PAGAMENTO EFETUADOS A FORNECEDORES"));
 

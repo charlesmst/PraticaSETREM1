@@ -14,17 +14,18 @@ import utils.Utils;
  * @author charles
  */
 public class ComprasVendas {
+
     private Date data;
     private double comprasPrazo;
     private double comprasAVista;
     private double vendasPrazo;
     private double vendasAVista;
 
-    private String dataFormatada;
-    private String comprasPrazoD;
-    private String comprasAVistaD;
-    private String vendasPrazoD;
-    private String vendasAVistaD;
+    private String dataFormatada = "";
+    private String comprasPrazoD = "";
+    private String comprasAVistaD = "";
+    private String vendasPrazoD = "";
+    private String vendasAVistaD ="";
 
     public Date getData() {
         return data;
@@ -40,11 +41,21 @@ public class ComprasVendas {
         this.comprasAVista = comprasAVista;
         this.vendasPrazo = vendasPrazo;
         this.vendasAVista = vendasAVista;
-        dataFormatada = Utils.formataDate(data,"dd/MM");
-        comprasPrazoD =  Utils.formataDinheiro(comprasPrazo);
-        comprasAVistaD =  Utils.formataDinheiro(comprasAVista);
-        vendasPrazoD = Utils.formataDinheiro(vendasPrazo);
-        vendasAVistaD = Utils.formataDinheiro(vendasAVista);
+        if (data != null) {
+            dataFormatada = Utils.formataDate(data, "dd/MM");
+        }
+        if (comprasPrazo > 0d) {
+            comprasPrazoD = Utils.formataDinheiro(comprasPrazo);
+        }
+        if (comprasAVista > 0d) {
+            comprasAVistaD = Utils.formataDinheiro(comprasAVista);
+        }
+        if (vendasPrazo > 0d) {
+            vendasPrazoD = Utils.formataDinheiro(vendasPrazo);
+        }
+        if (vendasAVista > 0d) {
+            vendasAVistaD = Utils.formataDinheiro(vendasAVista);
+        }
     }
 
     public String getDataFormatada() {

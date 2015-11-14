@@ -59,13 +59,13 @@ public class FrmRelatorioSumario extends JPanelControleButtons {
         service = new ContaService();
         setupForm();
     }
-    Collection<ComprasVendas> dados;
+    List<ComprasVendas> dados;
 
     private String porcentagem(double valor1, double valor2) {
         return Math.round(valor1 * 100 / (valor1 + valor2) * 100d) / 100d + "%";
     }
 
-    Collection<SomaCategoria> totalCategorias;
+    List<SomaCategoria> totalCategorias;
 
     private void setupForm() {
         txtData.setDateFormat("M/y");
@@ -141,12 +141,12 @@ public class FrmRelatorioSumario extends JPanelControleButtons {
             @Override
             public Collection<SomaCategoria> lista(String busca) throws ServiceException {
                 return getResultados();
-                
+
             }
 
             @Override
             public Object[] addRow(SomaCategoria dado) {
-                return new Object[]{dado.getCategoria(), dado.getValor()==0d?"-": Utils.formataDinheiro(dado.getValor())};
+                return new Object[]{dado.getCategoria(), dado.getValor() == 0d ? "-" : Utils.formataDinheiro(dado.getValor())};
             }
         });
         atualizar();
@@ -179,6 +179,7 @@ public class FrmRelatorioSumario extends JPanelControleButtons {
         Date end = aCalendar.getTime();
         return service.valorCategoria(start, end, ContaCategoria.TipoCategoria.saida);
     }
+
     private List<SomaCategoria> getResultados() {
         Calendar aCalendar = Calendar.getInstance();
         aCalendar.setTime(txtData.getDate());
@@ -190,6 +191,7 @@ public class FrmRelatorioSumario extends JPanelControleButtons {
         Date end = aCalendar.getTime();
         return service.resultadoPeriodo(start, end);
     }
+
     private void atualizar() {
         table.atualizar();
         tableCategoria.atualizar();
@@ -359,18 +361,42 @@ public class FrmRelatorioSumario extends JPanelControleButtons {
     private void btnImprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImprimirActionPerformed
         List<Compras> l = new ArrayList<>();
         Compras c = new Compras();
-        c.setCompras(getComprasEVendas());
+        dados = getComprasEVendas();
+        c.setCompras(dados);
+
+        double totalcv = 0d, totalcp = 0d, totalvv = 0d, totalvp = 0d;
+        for (ComprasVendas dado : dados) {
+            totalcv += dado.getComprasAVista();
+            totalcp += dado.getComprasPrazo();
+            totalvv += dado.getVendasAVista();
+            totalvp += dado.getVendasPrazo();
+        }
+        ComprasVendas cv = new ComprasVendas(null, 0, 0, 0, 0);
+        cv.setDataFormatada("TOTAL");
+        cv.setComprasAVistaD(Utils.formataDinheiro(totalcv));
+        cv.setComprasPrazoD(Utils.formataDinheiro(totalcp));
+        cv.setVendasAVistaD(Utils.formataDinheiro(totalvv));
+        cv.setVendasPrazoD(Utils.formataDinheiro(totalvp));
+        dados.add(cv);
+        cv = new ComprasVendas(null, 0, 0, 0, 0);
+        cv.setDataFormatada("");
+        cv.setComprasAVistaD(porcentagem(totalcv, totalcp));
+        cv.setComprasPrazoD(porcentagem(totalcp, totalcv));
+        cv.setVendasAVistaD(porcentagem(totalvv, totalvp));
+        cv.setVendasPrazoD(porcentagem(totalvp, totalvv));
+        dados.add(cv);
+
         c.setCategorias(getValorCategorias());
         c.setResultados(getResultados());
         l.add(c);
         JRBeanCollectionDataSource jrs = new JRBeanCollectionDataSource(l);
-        
+
         Map parametros = new HashMap();
 //        parametros.put("comprasvendas", jrs);
         try {
             JasperPrint jpr = JasperFillManager
                     .fillReport("src/relatorios/registro_de_operacoes.jasper",
-                            parametros,jrs);
+                            parametros, jrs);
             JasperViewer.viewReport(jpr, false);
         } catch (JRException ex) {
             Forms.mensagem(Mensagens.erroRelatorio, AlertaTipos.erro);
@@ -412,9 +438,11 @@ public class FrmRelatorioSumario extends JPanelControleButtons {
     public void btnAtualizarActionPerformed(ActionEvent evt) {
         atualizar();
     }
-    public class Compras{
+
+    public class Compras {
+
         private List<ComprasVendas> compras;
-        
+
         private List<SomaCategoria> categorias;
 
         public List<SomaCategoria> getCategorias() {
@@ -434,6 +462,7 @@ public class FrmRelatorioSumario extends JPanelControleButtons {
         }
 
         private List<SomaCategoria> resultados;
+
         public List<ComprasVendas> getCompras() {
             return compras;
         }
@@ -441,7 +470,7 @@ public class FrmRelatorioSumario extends JPanelControleButtons {
         public void setCompras(List<ComprasVendas> compras) {
             this.compras = compras;
         }
-        
+
     }
 
 }

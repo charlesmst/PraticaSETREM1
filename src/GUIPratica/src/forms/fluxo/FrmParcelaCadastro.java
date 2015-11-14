@@ -61,8 +61,22 @@ public class FrmParcelaCadastro extends JDialogController {
         if (c == null) {
             throw new IllegalArgumentException("conta");
         }
-        if (parcela != null && !c.getParcelas().contains(parcela)) {
-            throw new IllegalArgumentException("conta não está relacionada a parcela");
+//        if (parcela != null && !c.getParcelas().contains(parcela)) {
+//            throw new IllegalArgumentException("conta não está relacionada a parcela");
+//        }
+        if (parcela == null) {
+            c.getParcelas().sort((c1, c2)
+                    -> Integer.compare(c1.getParcela(), c2.getParcela())
+            );
+            for (Parcela parcela1 : c.getParcelas()) {
+                if (ParcelaService.valorTotalParcela(parcela1) < parcela1.getValor()) {
+                    parcela = parcela1;
+                    break;
+                }
+            }
+            if (parcela == null) {
+                parcela = c.getParcelas().get(0);
+            }
         }
         initComponents();
         this.parcela = parcela;
@@ -414,9 +428,9 @@ public class FrmParcelaCadastro extends JDialogController {
     private void jffValorFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jffValorFocusLost
         if (parcela.getId() == 0) {
             conta.setValorTotal(ContaService.valorConta(conta));
-        }else if(valorOriginal != jffValor.getValue()){
+        } else if (valorOriginal != jffValor.getValue()) {
             FrmConfirmarValorParcela frm = new FrmConfirmarValorParcela(conta, parcela, valorOriginal);
-            frm.setListenerOnCancelar((e)->{
+            frm.setListenerOnCancelar((e) -> {
                 parcela.setValor(valorOriginal);
                 jffValor.setValue(valorOriginal);
             });

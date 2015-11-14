@@ -305,7 +305,12 @@ public class FrmRelatorioLivroCaixa extends JPanelControleButtons {
         if (!validador.isValido()) {
             return;
         }
-        JRBeanCollectionDataSource jrs = new JRBeanCollectionDataSource(getLivroCaixa());
+        List<LivroCaixa> livros = getLivroCaixa();
+        for (LivroCaixa livro : livros) {
+            if(livro.getDescricao() == null)
+                livro.setDescricao("");
+        }
+        JRBeanCollectionDataSource jrs = new JRBeanCollectionDataSource(livros);
         JRProperties.setProperty("net.sf.jasperreports.awt.ignore.missing.font", "true");
         Map parametros = new HashMap();
         parametros.put("saldoAnterior", Utils.formataDinheiro(getValorAnterior((ContaBancaria) jcbCaixa.getSelectedItem())));

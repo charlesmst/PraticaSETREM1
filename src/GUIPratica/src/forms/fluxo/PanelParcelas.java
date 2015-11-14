@@ -54,6 +54,9 @@ public class PanelParcelas extends javax.swing.JPanel {
     public void setParcelas(int parcelas){
         jtbParcelas.setValue(parcelas);
     }
+    public void setParcelasEnable(boolean enable){
+        jtbParcelas.setEnabled(enable);
+    }
     public List<Parcela> getParcelas() {
         return conta.getParcelas();
 
