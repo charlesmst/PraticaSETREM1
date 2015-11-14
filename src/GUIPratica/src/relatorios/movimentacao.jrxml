@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.1.1.final using JasperReports Library version 6.1.1  -->
-<!-- 2015-11-13T22:40:31 -->
+<!-- 2015-11-14T08:21:48 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="movimentacao" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="29b363e3-6be7-4311-9658-34a5b73de1fc">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
 	<queryString>
@@ -45,7 +45,7 @@
 	<columnHeader>
 		<band height="81" splitType="Stretch">
 			<staticText>
-				<reportElement x="0" y="0" width="137" height="30" uuid="cb955143-a1a3-482b-a0ca-2c48b0dce5c3"/>
+				<reportElement x="0" y="10" width="137" height="30" uuid="cb955143-a1a3-482b-a0ca-2c48b0dce5c3"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="Aria" size="14" isBold="true"/>
 				</textElement>
@@ -87,7 +87,7 @@
 				<text><![CDATA[Número:]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="0" y="31" width="137" height="30" uuid="ca1e95c5-b6ad-488d-8916-4318407dede6"/>
+				<reportElement x="0" y="41" width="137" height="30" uuid="ca1e95c5-b6ad-488d-8916-4318407dede6"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="Arial" size="12"/>
 				</textElement>
