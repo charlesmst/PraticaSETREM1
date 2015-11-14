@@ -11,6 +11,7 @@ import java.awt.event.ActionEvent;
 import components.JPanelControleButtons;
 
 import components.JTableDataBinderListener;
+import components.JValidadorDeCampos;
 import java.awt.EventQueue;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -72,13 +73,14 @@ public class FrmRelatorioLivroCaixa extends JPanelControleButtons {
     Collection<ComprasVendas> dados;
 
     Collection<SomaCategoria> totalCategorias;
+    private JValidadorDeCampos validador = new JValidadorDeCampos();
 
     private void setupForm() {
         txtData.setDateFormat("M/y");
         txtData.setValue(new Date());
         tableResumos.setTableHeader(null);
         SimpleDateFormat format = new SimpleDateFormat("d/M");
-
+        validador.validarObrigatorio(jcbCaixa);
         jcbCaixa.setModel(new DefaultComboBoxModel(new Vector(new ContaBancariaService().findAtivos())));
         table.setListener(new JTableDataBinderListener<LivroCaixa>() {
 
@@ -292,17 +294,23 @@ public class FrmRelatorioLivroCaixa extends JPanelControleButtons {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
+        if (!validador.isValido()) {
+            return;
+        }
         atualizar();
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void btnImprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImprimirActionPerformed
-        
+
+        if (!validador.isValido()) {
+            return;
+        }
         JRBeanCollectionDataSource jrs = new JRBeanCollectionDataSource(getLivroCaixa());
         JRProperties.setProperty("net.sf.jasperreports.awt.ignore.missing.font", "true");
         Map parametros = new HashMap();
-        parametros.put("saldoAnterior", Utils.formataDinheiro(getValorAnterior((ContaBancaria)jcbCaixa.getSelectedItem())));
-        
-        parametros.put("saldoPeriodo", Utils.formataDinheiro(getValorPeriodo((ContaBancaria)jcbCaixa.getSelectedItem())));
+        parametros.put("saldoAnterior", Utils.formataDinheiro(getValorAnterior((ContaBancaria) jcbCaixa.getSelectedItem())));
+
+        parametros.put("saldoPeriodo", Utils.formataDinheiro(getValorPeriodo((ContaBancaria) jcbCaixa.getSelectedItem())));
         try {
             JasperPrint jpr = JasperFillManager
                     .fillReport("src/relatorios/livro_caixa.jasper",

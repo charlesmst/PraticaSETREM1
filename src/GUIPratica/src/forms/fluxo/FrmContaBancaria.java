@@ -55,7 +55,7 @@ public class FrmContaBancaria extends JPanelControleButtons {
                 } else {
                     i = Globals.iconeError;
                 }
-                double valorSaldo = service.saldoCaixa(dado);
+                double valorSaldo = new ContaBancariaService().saldoCaixa(dado);
                 return new Object[]{dado.getId(), dado.getNome(), dado.getTipo().toString().toUpperCase(), Utils.formataDinheiro(valorSaldo), i};
 
             }

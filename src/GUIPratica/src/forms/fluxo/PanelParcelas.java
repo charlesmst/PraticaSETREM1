@@ -128,7 +128,7 @@ public class PanelParcelas extends javax.swing.JPanel {
                     case 2:
 
                         p.setValor(Utils.parseDinheiro(value + ""));
-                        table.atualizar();
+                        getTable().atualizar();
                         break;
 
                 }
@@ -394,4 +394,8 @@ public class PanelParcelas extends javax.swing.JPanel {
     private javax.swing.JSpinner jtbParcelas;
     private components.JTableDataBinder table;
     // End of variables declaration//GEN-END:variables
+
+    public components.JTableDataBinder getTable() {
+        return table;
+    }
 }

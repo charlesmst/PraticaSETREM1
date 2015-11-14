@@ -120,7 +120,9 @@ public class FrmPessoaCadastro extends JDialogController {
             txtCheckDefDataNasc.setSelected(true);
             txtDataNasc.setDate(p.getDataNascimento());
         }
-        txtCidade.setText(p.getCidade().getId() + "");
+        if (p.getCidade() != null) {
+            txtCidade.setText(p.getCidade().getId() + "");
+        }
         txtEndereco.setText(p.getEndereco());
     }
 

@@ -81,12 +81,17 @@ public class ContaBancariaService extends Service<ContaBancaria> {
             q.setParameter("entrada", ContaCategoria.TipoCategoria.entrada);
             q.setDate("data", ate);
             List l = q.list();
-            return Double.parseDouble(l.get(0).toString());
+            if (l.size() == 1 && l.get(0) != null) {
+                return Double.parseDouble(l.get(0).toString());
+            }
+            return 0D;
         });
     }
-    public double saldoCaixa(ContaBancaria c){
-        return  saldoCaixa(c, new Date());
+
+    public double saldoCaixa(ContaBancaria c) {
+        return saldoCaixa(c, new Date());
     }
+
     /**
      * Faz movimentação de uma conta para outra de certo valor
      *
@@ -159,13 +164,14 @@ public class ContaBancariaService extends Service<ContaBancaria> {
 
         new ContaService().insert(contaSaida, contaEntrada);
     }
-    
+
     /**
      * Consulta o saldo geral do sistema até período
+     *
      * @param ate
      * @return
      */
-    public double saldoGeral( Date ate) {
+    public double saldoGeral(Date ate) {
         return (Double) selectOnSession((s) -> {
 //            Query q = s.createQuery("SELECT "
 //                    + "CASE WHEN c.categoria.tipo = :entrada"
@@ -178,7 +184,7 @@ public class ContaBancariaService extends Service<ContaBancaria> {
                     + "ELSE (valor * -1.0) END"
                     + ")"
                     + " FROM ParcelaPagamento c where c.data <= :data");
-            
+
             q.setParameter("entrada", ContaCategoria.TipoCategoria.entrada);
             q.setDate("data", ate);
             List l = q.list();

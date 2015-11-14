@@ -279,7 +279,7 @@ public class ContaService extends Service<Conta> {
     }
 
     private double valorPagamentosPeriodo(Session s, ContaCategoria.TipoCategoria tipo, Date monthFirstDate, Date monthEndDate) {
-        return (Double) s.createQuery("select "
+        Object d =  s.createQuery("select "
                 + " sum(valor) "
                 + "from ParcelaPagamento parcelaPagamento "
                 + " where data  between :inicio and :fim"
@@ -289,10 +289,13 @@ public class ContaService extends Service<Conta> {
                 .setDate("fim", monthEndDate)
                 .setParameter("tipo", tipo)
                 .uniqueResult();
+        if(d != null)
+            return (Double)d;
+        else return 0D;
     }
 
     private double valorPagamentosPeriodo(Session s, ContaCategoria.TipoCategoria tipo, Date monthFirstDate, Date monthEndDate, Conta.ContaTipo tipoDeConta) {
-        return (Double) s.createQuery("select "
+        Object d = s.createQuery("select "
                 + " sum(valor) "
                 + "from ParcelaPagamento parcelaPagamento "
                 + " where data  between :inicio and :fim"
@@ -304,6 +307,9 @@ public class ContaService extends Service<Conta> {
                 .setParameter("tipo", tipo)
                 .setParameter("tipoConta", tipoDeConta)
                 .uniqueResult();
+        if(d != null)
+            return (Double)d;
+        else return 0D;
     }
 
     private double valorPagamentosPeriodoAPrazo(Session s, ContaCategoria.TipoCategoria tipo, Date monthFirstDate, Date monthEndDate, Conta.ContaTipo tipoConta) {

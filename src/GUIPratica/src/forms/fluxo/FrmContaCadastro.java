@@ -23,6 +23,7 @@ import model.fluxo.Parcela;
 import forms.FrmPessoaF2;
 import java.awt.event.ActionListener;
 import java.util.function.Consumer;
+import model.Parametro;
 import org.jdesktop.beansbinding.AutoBinding;
 import services.PessoaService;
 import org.jdesktop.beansbinding.Converter;
@@ -30,6 +31,7 @@ import services.fluxo.ContaCategoriaService;
 import services.fluxo.ContaService;
 import services.fluxo.FormaPagamentoService;
 import utils.AlertaTipos;
+import utils.Parametros;
 import utils.Utils;
 
 /**
@@ -110,6 +112,10 @@ public class FrmContaCadastro extends JDialogController {
         validator.validarObrigatorio(jcbCategoria);
         validator.validarObrigatorio(jcbFormaPagamento);
         validator.validarObrigatorio(jtbPessoa);
+
+        validator.validarCustom(panelParcelas1.getTable(), (v) -> !conta.getParcelas().isEmpty(), "A conta deve ter no mínimo uma parcela");
+        //Validar a vista uma parcela
+        validator.validarCustom(panelParcelas1.getTable(), (v) -> conta.getFormaPagamento().getId() == Integer.parseInt(Parametros.getInstance().getValue("forma_pagamento_a_vista")) && conta.getParcelas().size() ==  1, "A conta deve ter uma parcela quando é a vísta");
 
         validator.validarDeBanco(jtbPessoa, new PessoaService());
 
@@ -195,10 +201,9 @@ public class FrmContaCadastro extends JDialogController {
 
             modelCategoria = new DefaultComboBoxModel<>(new Vector<>(categorias));
             jcbCategoria.setModel(modelCategoria);
-            
+
             panelParcelas1.setConta(conta);
             initBindings();
-            
 
         }, false);
 
