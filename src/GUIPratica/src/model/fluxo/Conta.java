@@ -92,7 +92,7 @@ public class Conta implements Serializable {
     @OneToMany(mappedBy = "conta", orphanRemoval = true, cascade = CascadeType.ALL)
 
 //    @Column(name = "conta_id")
-    private List<Parcela> parcelas = new ArrayList<>();
+    private List<Parcela> parcelas ;//= new ArrayList<>();
 
     private double valorPago;
 
@@ -130,6 +130,8 @@ public class Conta implements Serializable {
     }
 
     public List<Parcela> getParcelas() {
+        if(parcelas == null)
+            parcelas = new ArrayList<>();
         return parcelas;
     }
 
