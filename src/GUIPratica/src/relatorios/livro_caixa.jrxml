@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.1.1.final using JasperReports Library version 6.1.1  -->
-<!-- 2015-11-14T09:08:50 -->
+<!-- 2015-11-14T09:14:22 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="registro_de_operacoes" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="0" uuid="89626380-39e7-4940-9905-d6118daeb63b">
 	<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.VerticalRowLayout"/>
 	<property name="com.jaspersoft.studio.unit." value="pixel"/>
@@ -217,21 +217,21 @@
 	<columnFooter>
 		<band height="66" splitType="Stretch">
 			<staticText>
-				<reportElement x="0" y="30" width="110" height="20" uuid="f2cfceaf-2cbf-476c-9f48-0e9cad7a687b"/>
+				<reportElement x="0" y="36" width="110" height="20" uuid="f2cfceaf-2cbf-476c-9f48-0e9cad7a687b"/>
 				<textElement>
 					<font fontName="Arial" size="14" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Saldo Período:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="0" y="3" width="110" height="20" uuid="ad77520d-84ff-4e7a-9622-baa98f92ef79"/>
+				<reportElement x="0" y="9" width="110" height="20" uuid="ad77520d-84ff-4e7a-9622-baa98f92ef79"/>
 				<textElement>
 					<font fontName="Arial" size="14" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Saldo Anterior:]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="110" y="3" width="200" height="20" uuid="1361fd8a-f27b-4c14-8de6-4299e839308f">
+				<reportElement x="110" y="9" width="200" height="20" uuid="1361fd8a-f27b-4c14-8de6-4299e839308f">
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 				</reportElement>
@@ -242,7 +242,7 @@
 				<textFieldExpression><![CDATA[$P{saldoAnterior}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="110" y="30" width="200" height="20" uuid="99d47945-1341-43d7-ab69-06cc5a478e71">
+				<reportElement x="110" y="36" width="200" height="20" uuid="99d47945-1341-43d7-ab69-06cc5a478e71">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 				</reportElement>
 				<textElement textAlignment="Left" verticalAlignment="Middle" markup="none">
