@@ -83,8 +83,8 @@ public class EstoqueMovimentacao implements Serializable {
     @JoinColumn(name = "conta_id")
     private Conta conta;
 
-    @ManyToMany
-    private Set<Ordem> ordem = new HashSet<>();
+//    @ManyToMany
+//    private Set<Ordem> ordem = new HashSet<>();
 
     @Column(name = "nota_fiscal")
     private String notaFiscal;
@@ -173,9 +173,9 @@ public class EstoqueMovimentacao implements Serializable {
         this.pessoa = pessoa;
     }
 
-    public void setOrdem(Set<Ordem> ordem) {
-        this.ordem = ordem;
-    }
+//    public void setOrdem(Set<Ordem> ordem) {
+//        this.ordem = ordem;
+//    }
 
     public double getValorUnitarioVenda() {
         return valorUnitarioVenda;
@@ -184,9 +184,9 @@ public class EstoqueMovimentacao implements Serializable {
     public void setValorUnitarioVenda(double valorUnitarioVenda) {
         this.valorUnitarioVenda = valorUnitarioVenda;
     }
-
-    public Set<Ordem> getOrdem() {
-        return ordem;
-    }
+//
+//    public Set<Ordem> getOrdem() {
+//        return ordem;
+//    }
     
 }

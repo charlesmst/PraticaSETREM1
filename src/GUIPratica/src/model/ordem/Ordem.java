@@ -23,6 +23,7 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 import model.estoque.EstoqueMovimentacao;
 import model.fluxo.Conta;
+import org.hibernate.annotations.Cascade;
 
 @Entity
 @Table(name = "sh_ordem")
@@ -65,12 +66,13 @@ public class Ordem implements Serializable {
 
     private int km;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "sh_ordem_pecas", joinColumns = {
         @JoinColumn(name = "ordem_id")
     }, inverseJoinColumns = {
         @JoinColumn(name = "estoque_movimentacao_id")
     })
+   
     private Set<EstoqueMovimentacao> estoqueMovimentacaos = new HashSet<>();
     ;
 

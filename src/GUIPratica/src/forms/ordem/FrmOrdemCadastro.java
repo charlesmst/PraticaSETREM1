@@ -39,6 +39,7 @@ import services.ordem.OrdemStatusService;
 import services.ordem.VeiculoService;
 import utils.AlertaTipos;
 import utils.Forms;
+import utils.Mensagens;
 import utils.Parametros;
 import utils.Utils;
 
@@ -65,6 +66,7 @@ public class FrmOrdemCadastro extends JDialogController {
         initComponents();
         setupForm();
     }
+    List lordenada;
 
     private void setupForm() {
 
@@ -93,7 +95,7 @@ public class FrmOrdemCadastro extends JDialogController {
 
             @Override
             public Collection lista(String busca) throws ServiceException {
-                List lordenada = new ArrayList();
+                lordenada = new ArrayList();
                 lordenada.addAll(ordem.getEstoqueMovimentacaos());
                 lordenada.addAll(ordem.getOrdemServicos());
                 lordenada.sort(new Comparator() {
@@ -540,43 +542,38 @@ public class FrmOrdemCadastro extends JDialogController {
     }//GEN-LAST:event_btnAddPecaActionPerformed
 
     private void btnExcluiPecaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluiPecaActionPerformed
-        int id = table.getSelectedId();
-        if (id > 0 && Forms.dialogDelete()) {
-            if (table.getDefaultTableModel().getValueAt(table.getSelectedRow(), 1).equals("PEÇA")) {
-                for (EstoqueMovimentacao estoqueMovimentacao : ordem.getEstoqueMovimentacaos()) {
-                    if (estoqueMovimentacao.getId() == id) {
-                        new EstoqueMovimentacaoService().excluirEstoque(ordem, estoqueMovimentacao);
-                        utils.Forms.mensagem("Excluído com sucesso!", AlertaTipos.sucesso);
-                        break;
+
+        int id = table.getSelectedRow();
+        if (id >= 0 && Forms.dialogDelete()) {
+            Object o = lordenada.get(id);
+            if (o instanceof EstoqueMovimentacao) {
+                new EstoqueMovimentacaoService().excluirEstoque(ordem, (EstoqueMovimentacao) o);
+                utils.Forms.mensagem(Mensagens.excluidoSucesso, AlertaTipos.sucesso);
+
+            } else {
+                OrdemServico ordemServico = (OrdemServico) o;
+                boolean deleteconta = false;
+                if (ordemServico.getConta() != null) {
+                    int sel = JOptionPane.showConfirmDialog(null, "O serviço possui uma conta a pagar relacionada, deseja excluir a conta?");
+                    if (sel == JOptionPane.YES_OPTION) {
+                        deleteconta = true;
+                    } else if (sel == JOptionPane.CANCEL_OPTION) {
+                        return;
                     }
                 }
-            } else {
-                for (OrdemServico ordemServico : ordem.getOrdemServicos()) {
-                    if (ordemServico.getId() == id) {
-                        boolean deleteconta = false;
-                        if (ordemServico.getConta() != null) {
-                            int sel = JOptionPane.showConfirmDialog(null, "O serviço possui uma conta a pagar relacionada, deseja excluir a conta?");
-                            if (sel == JOptionPane.YES_OPTION) {
-                                deleteconta = true;
-                            } else if (sel == JOptionPane.CANCEL_OPTION) {
-                                return;
-                            }
-                        }
+                ordem.getOrdemServicos().remove(ordemServico);
+                salvar();
+                service.refreshCollection(ordem);
+//                new OrdemServicoService().delete(ordemServico.getId());
 
-                        ordem.getOrdemServicos().remove(ordemServico);
-                        salvar();
-                        new OrdemServicoService().delete(ordemServico.getId());
-
-                        if (deleteconta) {
-                            new ContaService().delete(ordemServico.getConta().getId());
-                        }
-
-                        break;
-                    }
+                if (deleteconta) {
+                    new ContaService().delete(ordemServico.getConta().getId());
                 }
             }
-            atualizaListagem();
         }
+
+        atualizaListagem();
+
     }//GEN-LAST:event_btnExcluiPecaActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed

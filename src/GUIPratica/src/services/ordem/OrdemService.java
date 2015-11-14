@@ -5,6 +5,8 @@
  */
 package services.ordem;
 
+import java.util.List;
+import java.util.Set;
 import model.estoque.EstoqueMovimentacao;
 import model.fluxo.Conta;
 import model.fluxo.Parcela;
@@ -27,7 +29,14 @@ public class OrdemService extends Service<Ordem> {
     @Override
     public void insert(Ordem obj) throws ServiceException {
         executeOnTransaction((s, t) -> {
-            s.saveOrUpdate(obj);
+//            Set<EstoqueMovimentacao> estoques = obj.getEstoqueMovimentacaos();
+//            obj.setEstoqueMovimentacaos(null);
+            if (obj.getId() == 0) {
+                s.save(obj);
+            } else {
+                s.merge(obj);
+            }
+//            obj.setEstoqueMovimentacaos(estoques);
             t.commit();
         });
 
@@ -61,5 +70,11 @@ public class OrdemService extends Service<Ordem> {
             v += ordemServico.getValorEntrada() * ordemServico.getQuantidade();
         }
         return v;
+    }
+
+    public void refreshCollection(Ordem ordem) {
+        Ordem o = findOrdem(ordem.getId());
+        ordem.setEstoqueMovimentacaos(o.getEstoqueMovimentacaos());
+        ordem.setOrdemServicos(o.getOrdemServicos());
     }
 }

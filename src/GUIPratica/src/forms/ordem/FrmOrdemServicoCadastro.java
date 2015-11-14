@@ -17,12 +17,14 @@ import model.ordem.Marca;
 import model.ordem.Ordem;
 import model.ordem.OrdemServico;
 import model.ordem.OrdemTipoServico;
+import services.ServiceException;
 import services.fluxo.ContaService;
 import services.ordem.OrdemServicoService;
 
 import services.ordem.MarcaService;
 import services.ordem.OrdemTipoServicoService;
 import utils.AlertaTipos;
+import utils.Forms;
 import utils.Utils;
 
 /**
@@ -47,6 +49,10 @@ public class FrmOrdemServicoCadastro extends JDialogController {
         setDefaultButton(btnSalvar);
         jcbTerceiro.setSelected(false);
         jcbServico.setModel(new DefaultComboBoxModel(new Vector(new OrdemTipoServicoService().findAtivos())));
+        if (jcbServico.getModel().getSize() == 0) {
+            Forms.mensagem("Cadastre um tipo de serviço primeiro", AlertaTipos.erro);
+            throw new ServiceException("Cadastre um tipo de serviço primeiro", null);
+        }
         atualizaValor();
 
     }

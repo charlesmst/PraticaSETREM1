@@ -6,7 +6,9 @@
 package services.estoque;
 
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import javax.swing.JOptionPane;
 import model.estoque.Estoque;
 import model.estoque.EstoqueMovimentacao;
@@ -20,6 +22,7 @@ import org.hibernate.criterion.Restrictions;
 import org.hibernate.exception.ConstraintViolationException;
 import org.hibernate.service.spi.ServiceException;
 import services.Service;
+import services.ordem.OrdemService;
 
 public class EstoqueMovimentacaoService extends Service<EstoqueMovimentacao> {
 
@@ -48,10 +51,13 @@ public class EstoqueMovimentacaoService extends Service<EstoqueMovimentacao> {
             e.setQuantidadeDisponivel(qtd + estMov.getQuantidade());
             ordem.getEstoqueMovimentacaos().remove(estMov);
             s.merge(e);
-            s.delete(estMov);
             s.merge(ordem);
+            EstoqueMovimentacao mov = (EstoqueMovimentacao) s.get(classRef, estMov.getId());
+            s.delete(mov);
+
             t.commit();
         });
+        new OrdemService().refreshCollection(ordem);
     }
 
     public void descontaEstoque(EstoqueMovimentacao estMov, Item i, Ordem ordem) {
@@ -62,48 +68,42 @@ public class EstoqueMovimentacaoService extends Service<EstoqueMovimentacao> {
             while (restantes > 0 && indiceEstoque < estoques.size()) {
                 Estoque e = estoques.get(indiceEstoque);
                 int qtd = e.getQuantidadeDisponivel();
+
+                EstoqueMovimentacao eM = new EstoqueMovimentacao();
+                eM.setDataLancamento(new Date());
+                eM.setDescricao("SAIDA DE " + restantes + " -> " + i.getItemTipo().getNome() + " -> " + i.getDescricao());
+                eM.setMovimentacaoTipo(estMov.getMovimentacaoTipo());
+                eM.setPessoa(estMov.getPessoa());
+                eM.setValorUnitario(e.getValorUnitario());
+                eM.setValorUnitarioVenda(estMov.getValorUnitarioVenda());
+
+                eM.setEstoque(e);
+
                 if (qtd >= restantes) {
-                    EstoqueMovimentacao eM = new EstoqueMovimentacao();
-                    eM.setDataLancamento(new Date());
-                    eM.setDescricao("SAIDA DE " + restantes + " -> " + i.getItemTipo().getNome() + " -> " + i.getDescricao());
                     eM.setQuantidade(restantes);
-                    eM.setMovimentacaoTipo(estMov.getMovimentacaoTipo());
-                    eM.setOrdem(estMov.getOrdem());
-                    eM.setPessoa(estMov.getPessoa());
-                    eM.setValorUnitario(e.getValorUnitario());
-                    eM.setValorUnitarioVenda(estMov.getValorUnitarioVenda());
                     e.setQuantidadeDisponivel(qtd - restantes);
-                    eM.setEstoque(e);
-                    ordem.getEstoqueMovimentacaos().add(eM);
-                    s.merge(e);
-                    s.merge(i);
-                    s.save(eM);
-                    s.merge(ordem);
-                    break;
+                    restantes = 0;
                 } else {
-                    EstoqueMovimentacao eM = new EstoqueMovimentacao();
-                    eM.setDataLancamento(new Date());
-                    eM.setDescricao("SAIDA DE " + e.getQuantidadeDisponivel() + " -> " + i.getItemTipo().getNome() + " -> " + i.getDescricao());
-                    eM.setQuantidade(e.getQuantidadeDisponivel());
-                    eM.setMovimentacaoTipo(estMov.getMovimentacaoTipo());
-                    eM.setOrdem(estMov.getOrdem());
-                    eM.setPessoa(estMov.getPessoa());
-                    eM.setValorUnitario(e.getValorUnitario());
-                    eM.setValorUnitarioVenda(estMov.getValorUnitarioVenda());
                     e.setQuantidadeDisponivel(0);
-                    restantes = restantes - qtd;
-                    eM.setEstoque(e);
-                    ordem.getEstoqueMovimentacaos().add(eM);
-                    s.merge(e);
-                    s.merge(i);
-                    s.save(eM);
-                    s.merge(ordem);
+                    eM.setQuantidade(qtd);
+                    restantes -= qtd;
+
                 }
                 s.merge(e);
+                s.merge(i);
+//                s.save(eM);
+                ordem.getEstoqueMovimentacaos().add(eM);
+                
+                s.merge(ordem);
                 indiceEstoque++;
+
             }
+
             t.commit();
+//            s.refresh(ordem);
+
         });
+        new OrdemService().refreshCollection(ordem);
     }
 
     private List<Estoque> buscaEstoqueOrdenado(Session s, Item i) {

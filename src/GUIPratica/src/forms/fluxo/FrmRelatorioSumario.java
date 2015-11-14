@@ -12,6 +12,7 @@ import components.JPanelControleButtons;
 import components.JTableDataBinderListener;
 import java.awt.EventQueue;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
@@ -356,15 +357,18 @@ public class FrmRelatorioSumario extends JPanelControleButtons {
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void btnImprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImprimirActionPerformed
-        JRBeanCollectionDataSource jrs = new JRBeanCollectionDataSource(getComprasEVendas());
-
-        JRProperties.setProperty("net.sf.jasperreports.awt.ignore.missing.font", "true");
+        List<Compras> l = new ArrayList<>();
+        Compras c = new Compras();
+        c.setCompras(getComprasEVendas());
+        l.add(c);
+        JRBeanCollectionDataSource jrs = new JRBeanCollectionDataSource(l);
+        
         Map parametros = new HashMap();
-        parametros.put("comprasvendas", jrs);
+//        parametros.put("comprasvendas", jrs);
         try {
             JasperPrint jpr = JasperFillManager
                     .fillReport("src/relatorios/registro_de_operacoes.jasper",
-                            parametros);
+                            parametros,jrs);
             JasperViewer.viewReport(jpr, false);
         } catch (JRException ex) {
             Forms.mensagem(Mensagens.erroRelatorio, AlertaTipos.erro);
@@ -405,6 +409,18 @@ public class FrmRelatorioSumario extends JPanelControleButtons {
     @Override
     public void btnAtualizarActionPerformed(ActionEvent evt) {
         atualizar();
+    }
+    class Compras{
+        private List<ComprasVendas> compras;
+
+        public List<ComprasVendas> getCompras() {
+            return compras;
+        }
+
+        public void setCompras(List<ComprasVendas> compras) {
+            this.compras = compras;
+        }
+        
     }
 
 }

@@ -21,6 +21,7 @@ import services.estoque.EstoqueService;
 import services.estoque.ItemService;
 import services.estoque.MovimentacaoTipoService;
 import utils.AlertaTipos;
+import utils.Mensagens;
 import utils.Utils;
 
 /**
@@ -91,12 +92,9 @@ public class FrmOrdemItemCadastro extends JDialogController {
                 estMov.setMovimentacaoTipo((MovimentacaoTipo) txtOrigem.getModel().getSelectedItem());
                 estMov.setQuantidade((int) txtQuantidade.getValue());
                 estMov.setValorUnitarioVenda(txtValor.getValue());
-                Set<Ordem> or = new HashSet<>();
-                or.add(ordem);
-                estMov.setOrdem(or);
                 item.setUltimoValorVenda(txtValor.getValue());
                 new EstoqueMovimentacaoService().descontaEstoque(estMov, item, ordem);
-                utils.Forms.mensagem("Salvo com sucesso!", AlertaTipos.sucesso);
+                utils.Forms.mensagem(Mensagens.registroSalvo, AlertaTipos.sucesso);
                 dispose();
             } catch (Exception e) {
                 utils.Forms.mensagem(e.getMessage(), AlertaTipos.erro);
