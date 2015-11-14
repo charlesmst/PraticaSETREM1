@@ -8,6 +8,7 @@ package services.ordem;
 import java.io.Serializable;
 import java.util.List;
 import model.ordem.OrdemStatus;
+import org.hibernate.criterion.Restrictions;
 import services.Service;
 import services.ServiceException;
 
@@ -43,5 +44,8 @@ public class OrdemStatusService extends Service<OrdemStatus> {
         c.setAtivo(false);
 
         update(c); //To change body of generated methods, choose Tools | Templates.
+    }
+    public boolean unico(int id, String nome) throws ServiceException {
+        return findFilter(Restrictions.ne("id", id), Restrictions.eq("nome", nome)).isEmpty();
     }
 }

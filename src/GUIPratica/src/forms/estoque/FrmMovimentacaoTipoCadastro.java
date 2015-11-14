@@ -38,6 +38,7 @@ public class FrmMovimentacaoTipoCadastro extends JDialogController {
         txtCodigo.setEnabled(false);
 
         validator.validarObrigatorio(txtNome);
+        validator.validarCustom(txtNome, (valor) -> service.unico(id, valor), "Tipo de movimentação já existe");
 
         validator.validarCustom(jrbSaida, (v) -> {
             return jrbSaida.isSelected() || jrbEntrada.isSelected();

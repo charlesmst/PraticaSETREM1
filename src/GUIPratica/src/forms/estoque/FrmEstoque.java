@@ -24,7 +24,7 @@ public class FrmEstoque extends JPanelControleButtons {
         initComponents();
         table.setDefaultRenderer(Object.class, new CellRenderer());
         setBtnAddEnable(true);
-        setBtnAlterarEnable(true);
+        setBtnAlterarEnable(false);
         setBtnExcluirEnable(true);
         setBtnAtualizarEnable(true);
 

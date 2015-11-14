@@ -18,6 +18,7 @@ import model.fluxo.Parcela;
 import model.fluxo.ParcelaPagamento;
 import org.hibernate.Criteria;
 import org.hibernate.Query;
+import org.hibernate.criterion.Restrictions;
 import services.Service;
 import services.ServiceException;
 import utils.Globals;
@@ -190,5 +191,9 @@ public class ContaBancariaService extends Service<ContaBancaria> {
             List l = q.list();
             return Double.parseDouble(l.get(0).toString());
         });
+    }
+
+    public boolean unico(int id, String nome) throws ServiceException {
+        return findFilter(Restrictions.ne("id", id), Restrictions.eq("nome", nome)).isEmpty();
     }
 }

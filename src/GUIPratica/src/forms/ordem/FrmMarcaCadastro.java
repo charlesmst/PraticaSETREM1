@@ -42,6 +42,7 @@ public class FrmMarcaCadastro extends JDialogController {
         txtCodigo.setEnabled(false);
 
         validator.validarObrigatorio(txtNome);
+        validator.validarCustom(txtNome, (valor) -> service.unico(id, valor), "Marca já cadastrada");
 
         if (id > 0) {
             load();

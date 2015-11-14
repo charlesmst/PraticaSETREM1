@@ -42,6 +42,7 @@ public class FrmOrdemTipoServicoCadastro extends JDialogController {
         txtCodigo.setEnabled(false);
 
         validator.validarObrigatorio(txtNome);
+        validator.validarCustom(txtNome, (valor) -> service.unico(id, valor), "Tipo de serviço já cadastrado!");
 
         if (id > 0) {
             load();

@@ -9,6 +9,7 @@ import java.io.Serializable;
 import java.util.List;
 import model.fluxo.ContaBancaria;
 import model.fluxo.ContaCategoria;
+import org.hibernate.criterion.Restrictions;
 import services.Service;
 import services.ServiceException;
 
@@ -23,13 +24,14 @@ public class ContaCategoriaService extends Service<ContaCategoria> {
         //Faz update pra inativo
         ContaCategoria c = findById(key);
         c.setAtivo(false);
-        
+
         update(c); //To change body of generated methods, choose Tools | Templates.
     }
 
-    public List<ContaCategoria> findAtivos(){
+    public List<ContaCategoria> findAtivos() {
         return findBy("ativo", true);
     }
+
     public ContaCategoriaService() {
         super(ContaCategoria.class);
     }
@@ -44,6 +46,10 @@ public class ContaCategoriaService extends Service<ContaCategoria> {
     public void insert(ContaCategoria obj) throws ServiceException {
         obj.setNome(obj.getNome().toUpperCase());
         super.insert(obj); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public boolean unico(int id, String nome) throws ServiceException {
+        return findFilter(Restrictions.ne("id", id), Restrictions.eq("nome", nome)).isEmpty();
     }
 
 }

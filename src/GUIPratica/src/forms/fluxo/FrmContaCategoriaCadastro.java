@@ -43,6 +43,7 @@ public class FrmContaCategoriaCadastro extends JDialogController {
         txtCodigo.setEnabled(false);
 
         validator.validarObrigatorio(txtNome);
+        validator.validarCustom(txtNome, (valor) -> service.unico(id, valor), "Categoria já cadastrada");
 
         validator.validarCustom(jrbSaida, (v)->{
             return jrbSaida.isSelected() || jrbEntrada.isSelected();

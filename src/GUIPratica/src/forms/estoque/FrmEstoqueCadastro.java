@@ -70,9 +70,14 @@ public class FrmEstoqueCadastro extends JDialogController {
         setDefaultButton(btnSalvar);
         validator.validarObrigatorio(txtItem);
         validator.validarDeBanco(txtItem, new ItemService());
+        validator.validarObrigatorio(txtPessoa);
+        validator.validarDeBanco(txtPessoa, new PessoaService());
         validator.validarCustom(txtValorCompra, (valor) -> {
             return txtValorCompra.getValue() > 0;
-        }, "Valor deve ser maior que zero");
+        }, "Valor unitário deve ser maior que zero");
+        validator.validarCustom(txtValorTotal, (valor) -> {
+            return txtValorTotal.getValue() > 0;
+        }, "Valor total deve ser maior que zero");
         tableItem.setListener(new JTableDataBinderListener<Estoque>() {
 
             @Override
@@ -94,25 +99,28 @@ public class FrmEstoqueCadastro extends JDialogController {
     }
 
     private void save() {
+        if (estoque.size() < 0 || txtPessoa.getValueSelected() == 0 || txtValorTotal.getValue() == 0) {
+            utils.Forms.mensagem("Verifique os campos obrigatórios", AlertaTipos.erro);
+        } else {
+            Utils.safeCode(() -> {
 
-        Utils.safeCode(() -> {
-
-            for (EstoqueMovimentacao estoqueMovimentacoe : estoqueMovimentacoes) {
-                estoqueMovimentacoe.setPessoa(new Pessoa(txtPessoa.getValueSelected()));
-            }
-            FrmContaCadastro frmConta = new FrmContaCadastro(txtValorTotal.getValue(), 1, txtNotaFiscal.getText(), Conta.ContaTipo.estoque, ContaCategoria.TipoCategoria.saida);
-            frmConta.setPessoa(txtPessoa.getValueSelected(), true);
-            frmConta.setDescricao("ENTRADA DE ESTOQUE DO FORNECEDOR " + txtPessoa.getTextValue());
-            frmConta.setListenerOnSave((c) -> {
                 for (EstoqueMovimentacao estoqueMovimentacoe : estoqueMovimentacoes) {
-                    estoqueMovimentacoe.setConta(c);
+                    estoqueMovimentacoe.setPessoa(new Pessoa(txtPessoa.getValueSelected()));
                 }
-                serviceEst.insert(estoque, estoqueMovimentacoes);
-                utils.Forms.mensagem(utils.Mensagens.registroSalvo, AlertaTipos.sucesso);
-                dispose();
+                FrmContaCadastro frmConta = new FrmContaCadastro(txtValorTotal.getValue(), 1, txtNotaFiscal.getText(), Conta.ContaTipo.estoque, ContaCategoria.TipoCategoria.saida);
+                frmConta.setPessoa(txtPessoa.getValueSelected(), true);
+                frmConta.setDescricao("ENTRADA DE ESTOQUE DO FORNECEDOR " + txtPessoa.getTextValue());
+                frmConta.setListenerOnSave((c) -> {
+                    for (EstoqueMovimentacao estoqueMovimentacoe : estoqueMovimentacoes) {
+                        estoqueMovimentacoe.setConta(c);
+                    }
+                    serviceEst.insert(estoque, estoqueMovimentacoes);
+                    utils.Forms.mensagem(utils.Mensagens.registroSalvo, AlertaTipos.sucesso);
+                    dispose();
+                });
+                frmConta.setVisible(true);
             });
-            frmConta.setVisible(true);
-        });
+        }
 
     }
 
@@ -391,7 +399,11 @@ public class FrmEstoqueCadastro extends JDialogController {
         EstoqueMovimentacao estMov = new EstoqueMovimentacao();
         estMov.setEstoque(est);
         est.setItem(new ItemService().findById(txtItem.getValueSelected()));
-        estMov.setMovimentacaoTipo((MovimentacaoTipo) jcbTipoMovimentação.getModel().getSelectedItem());
+        try {
+            estMov.setMovimentacaoTipo((MovimentacaoTipo) jcbTipoMovimentação.getModel().getSelectedItem());
+        } catch (Exception e) {
+            utils.Forms.mensagem("Nenhum tipo de movimentação cadastrado!", AlertaTipos.erro);
+        }
         estMov.setValorUnitario(txtValorCompra.getValue());
         estMov.setQuantidade(Integer.parseInt(spinerQuantidade.getValue().toString()));
         estMov.setDataLancamento(new Date());
@@ -428,7 +440,11 @@ public class FrmEstoqueCadastro extends JDialogController {
     private void zerarCampos() {
 
         txtItem.setText("");
-        jcbTipoMovimentação.setSelectedIndex(0);
+        try {
+            jcbTipoMovimentação.setSelectedIndex(0);
+        } catch (Exception e) {
+            utils.Forms.mensagem("Nenhum tipo de movimentação cadastrado!", AlertaTipos.erro);
+        }
         txtValorCompra.setValue(0);
         spinerQuantidade.setValue(1);
         txtLote.setText("");

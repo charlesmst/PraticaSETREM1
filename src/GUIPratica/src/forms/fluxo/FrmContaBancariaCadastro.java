@@ -43,6 +43,7 @@ public class FrmContaBancariaCadastro extends JDialogController {
         txtCodigo.setEnabled(false);
 
         validator.validarObrigatorio(txtNome);
+        validator.validarCustom(txtNome, (valor) -> service.unico(id, valor), "Conta bancária já cadastrada");
 
         validator.validarCustom(jrbContaBancaria, (v)->{
             return jrbContaBancaria.isSelected() || jrbCaixa.isSelected();

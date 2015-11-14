@@ -7,6 +7,7 @@ package services.fluxo;
 
 import java.io.Serializable;
 import model.fluxo.FormaPagamento;
+import org.hibernate.criterion.Restrictions;
 import services.Service;
 import services.ServiceException;
 
@@ -21,7 +22,7 @@ public class FormaPagamentoService extends Service<FormaPagamento> {
         //Faz update pra inativo
         FormaPagamento c = findById(key);
         c.setAtivo(false);
-        
+
         update(c); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -41,4 +42,7 @@ public class FormaPagamentoService extends Service<FormaPagamento> {
         super.insert(obj); //To change body of generated methods, choose Tools | Templates.
     }
 
+    public boolean unico(int id, String nome) throws ServiceException {
+        return findFilter(Restrictions.ne("id", id), Restrictions.eq("nome", nome)).isEmpty();
+    }
 }

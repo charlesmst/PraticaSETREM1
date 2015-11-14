@@ -9,6 +9,7 @@ import java.io.Serializable;
 import java.util.regex.Pattern;
 import jdk.nashorn.internal.runtime.regexp.joni.Regex;
 import model.ordem.Cor;
+import org.hibernate.criterion.Restrictions;
 import services.Service;
 import services.ServiceException;
 
@@ -22,10 +23,9 @@ public class CorService extends Service<Cor> {
         super(Cor.class);
     }
 
-
     @Override
     public void update(Cor obj) throws ServiceException {
-   
+
         obj.setNome(obj.getNome().toUpperCase());
         super.update(obj); //To change body of generated methods, choose Tools | Templates.
     }
@@ -34,6 +34,10 @@ public class CorService extends Service<Cor> {
     public void insert(Cor obj) throws ServiceException {
         obj.setNome(obj.getNome().toUpperCase());
         super.insert(obj); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public boolean unico(int id, String nome) throws ServiceException {
+        return findFilter(Restrictions.ne("id", id), Restrictions.eq("nome", nome)).isEmpty();
     }
 
 }

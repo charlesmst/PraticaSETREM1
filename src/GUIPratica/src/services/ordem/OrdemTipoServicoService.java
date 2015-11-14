@@ -8,6 +8,7 @@ package services.ordem;
 import java.io.Serializable;
 import java.util.List;
 import model.ordem.OrdemTipoServico;
+import org.hibernate.criterion.Restrictions;
 import services.Service;
 import services.ServiceException;
 
@@ -43,5 +44,8 @@ public class OrdemTipoServicoService extends Service<OrdemTipoServico> {
     }
     public List<OrdemTipoServico> findAtivos(){
         return  findBy("ativo", true);
+    }
+    public boolean unico(int id, String nome) throws ServiceException {
+        return findFilter(Restrictions.ne("id", id), Restrictions.eq("nome", nome)).isEmpty();
     }
 }

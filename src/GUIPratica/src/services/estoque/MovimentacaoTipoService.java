@@ -7,6 +7,7 @@ package services.estoque;
 
 import java.io.Serializable;
 import model.estoque.MovimentacaoTipo;
+import org.hibernate.criterion.Restrictions;
 import services.Service;
 import services.ServiceException;
 
@@ -40,5 +41,7 @@ public class MovimentacaoTipoService extends Service<MovimentacaoTipo> {
         obj.setDescricao(obj.getDescricao().toUpperCase());
         super.insert(obj); //To change body of generated methods, choose Tools | Templates.
     }
-
+    public boolean unico(int id, String nome) throws ServiceException {
+        return findFilter(Restrictions.ne("id", id), Restrictions.eq("descricao", nome)).isEmpty();
+    }
 }

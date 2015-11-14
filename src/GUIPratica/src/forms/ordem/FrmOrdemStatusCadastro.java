@@ -42,6 +42,7 @@ public class FrmOrdemStatusCadastro extends JDialogController {
         txtCodigo.setEnabled(false);
 
         validator.validarObrigatorio(txtNome);
+        validator.validarCustom(txtNome, (valor) -> service.unico(id, valor), "Status já cadastrado");
 
         if (id > 0) {
             load();

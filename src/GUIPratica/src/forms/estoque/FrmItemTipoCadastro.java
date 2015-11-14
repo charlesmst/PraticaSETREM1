@@ -35,13 +35,6 @@ public class FrmItemTipoCadastro extends JDialogController {
         txtCodigo.setEnabled(false);
         validator.validarObrigatorio(txtNome);
         validator.validarCustom(txtNome, (valor) -> service.unico(id, valor), "Nome já existe");
-                //                new Function<String, Boolean>() {
-                //
-                //                    @Override
-                //                    public Boolean apply(String valor) {
-                //                        return service.findBy("descricao", valor.toUpperCase())== null;
-                //                    }
-                //                }
         if (id > 0) {
             load();
         }
