@@ -138,7 +138,7 @@ public class Ordem implements Serializable {
     }
 
     public void setPrazo(Date prazo) {
-
+        
         Date old = this.prazo;
         this.prazo = prazo;
         changeSupport.firePropertyChange("prazo", old, prazo);

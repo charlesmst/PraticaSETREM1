@@ -96,22 +96,10 @@ public class FrmUsuarioCadastro extends JDialogController {
             }
             u.setPessoa(new PessoaService().findById(txtPessoa.getValueSelected()));
             u.setUsuario(txtUsuario.getText());
-            if (id == 0) {
-                try {
-                    u.setSenha(converteSenha());
-                } catch (NoSuchAlgorithmException ex) {
-                    Logger.getLogger(FrmUsuarioCadastro.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (UnsupportedEncodingException ex) {
-                    Logger.getLogger(FrmUsuarioCadastro.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            } else if (txtSenha.isEnabled()) {
-                try {
-                    u.setSenha(converteSenha());
-                } catch (NoSuchAlgorithmException ex) {
-                    Logger.getLogger(FrmUsuarioCadastro.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (UnsupportedEncodingException ex) {
-                    Logger.getLogger(FrmUsuarioCadastro.class.getName()).log(Level.SEVERE, null, ex);
-                }
+            if (id == 0 || txtSenha.isEnabled()) {
+               
+                    u.setSenha(Utils.criptografa(new String(txtSenha.getPassword())));
+               
             }
             if (txtTipoUsuario.getSelectedIndex() == 0) {
                 u.setNivel(Usuario.Tipo.gestor);
@@ -330,21 +318,17 @@ public class FrmUsuarioCadastro extends JDialogController {
         if (result == JOptionPane.OK_OPTION) {
             password = jpf.getPassword();
         }
-        String s = Arrays.toString(password);
-        try {
-            if (service.autentica(u.getUsuario(), s)) {
-                txtSenha.setEnabled(true);
-                txtSenhaConfirmacao.setEnabled(true);
-                validator.validarObrigatorio(txtSenha);
-                validator.validarObrigatorio(txtSenhaConfirmacao);
-            } else {
-                utils.Forms.mensagem("Senha incorreta!", AlertaTipos.erro);
-            }
-        } catch (NoSuchAlgorithmException ex) {
-            Logger.getLogger(FrmUsuarioCadastro.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (UnsupportedEncodingException ex) {
-            Logger.getLogger(FrmUsuarioCadastro.class.getName()).log(Level.SEVERE, null, ex);
+        String s = String.valueOf(password);
+        String cr = Utils.criptografa(s);
+        if (cr.equals(u.getSenha())) {
+            txtSenha.setEnabled(true);
+            txtSenhaConfirmacao.setEnabled(true);
+            validator.validarObrigatorio(txtSenha);
+            validator.validarObrigatorio(txtSenhaConfirmacao);
+        } else {
+            utils.Forms.mensagem("Senha incorreta!", AlertaTipos.erro);
         }
+
     }//GEN-LAST:event_btnAlterarSenhaActionPerformed
 
     private String converteSenha() throws NoSuchAlgorithmException, UnsupportedEncodingException {

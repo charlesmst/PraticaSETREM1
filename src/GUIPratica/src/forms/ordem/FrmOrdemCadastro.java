@@ -223,9 +223,25 @@ public class FrmOrdemCadastro extends JDialogController {
                 }
             });
             a.bind();
-
+            if (ordem.getPrazo() != null) {
+                txtPrazo.setValue(ordem.getPrazo());
+            }
 //            AutoBinding aPrazo = Utils.createBind(ordem, "prazo", txtPrazo, false);
+//            aPrazo.setConverter(new Converter<Date,Object>() {
 //
+//                @Override
+//                public Object convertForward(Date value) {
+//                    return value;
+//                }
+//
+//                @Override
+//                public Date convertReverse(Object value) {
+//                    if(value != null)
+//                        return (Date) value;
+//                    else
+//                        return null;
+//                }
+//            });
 //            aPrazo.bind();
             Utils.createBind(ordem, "descricao", txtPedido);
         }
@@ -233,6 +249,7 @@ public class FrmOrdemCadastro extends JDialogController {
     }
 
     private void salvar() {
+        ordem.setPrazo(txtPrazo.getDate());
         if (ordem.getId() == 0) {
             service.insert(ordem);
         } else {
