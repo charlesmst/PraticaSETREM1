@@ -90,8 +90,8 @@ public class FrmRelatorioMovimentoCaixa extends JPanelControleButtons {
                 o[0] = dado.getNumero();
                 o[1] = format.format(dado.getData());
                 o[2] = dado.getConta();
-                o[3] = dado.getEntrada() > 0 ? Utils.formataDinheiro(dado.getEntrada()) : "";
-                o[4] = dado.getSaida() > 0 ? Utils.formataDinheiro(dado.getSaida()) : "";
+                o[3] = dado.getEntradaFormatada();
+                o[4] = dado.getSaidaFormatada();
                 o[5] = dado.getDescricao();
                 return o;
             }
@@ -281,12 +281,16 @@ public class FrmRelatorioMovimentoCaixa extends JPanelControleButtons {
 
     private void btnImprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImprimirActionPerformed
 
-        JRBeanCollectionDataSource jrs = new JRBeanCollectionDataSource(getMovimentacoesBancarias());
-        JRProperties.setProperty("net.sf.jasperreports.awt.ignore.missing.font", "true");
+        List<MovimentoBancario> mov = getMovimentacoesBancarias();
+        mov.stream().filter(m -> m.getDescricao() == null).forEach(m2 -> m2.setDescricao(""));
+        JRBeanCollectionDataSource jrs = new JRBeanCollectionDataSource(mov);
         Map parametros = new HashMap();
+        parametros.put("saldoAnterior", Utils.formataDinheiro(getValorAnterior()));
+        parametros.put("saldoPeriodo", Utils.formataDinheiro(getValorPeriodo()));
+
         try {
             JasperPrint jpr = JasperFillManager
-                    .fillReport("src/relatorios/livro_caixa.jasper",
+                    .fillReport("src/relatorios/movimentacao.jasper",
                             parametros,
                             jrs);
             JasperViewer.viewReport(jpr, false);

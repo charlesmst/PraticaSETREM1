@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.1.1.final using JasperReports Library version 6.1.1  -->
-<!-- 2015-11-14T09:11:21 -->
+<!-- 2015-11-14T22:21:44 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="movimentacao" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="0" uuid="29b363e3-6be7-4311-9658-34a5b73de1fc">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
 	<property name="com.jaspersoft.studio.unit." value="pixel"/>
@@ -12,15 +12,17 @@
 	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
 	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
 	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
+	<parameter name="saldoAnterior" class="java.lang.String"/>
+	<parameter name="saldoPeriodo" class="java.lang.String"/>
 	<queryString>
 		<![CDATA[]]>
 	</queryString>
 	<field name="data" class="java.util.Date"/>
 	<field name="conta" class="java.lang.String"/>
-	<field name="entrada" class="java.lang.String"/>
-	<field name="saida" class="java.lang.String"/>
+	<field name="entradaFormatada" class="java.lang.String"/>
+	<field name="saidaFormatada" class="java.lang.String"/>
 	<field name="descricao" class="java.lang.String"/>
-	<field name="numero" class="java.lang.String"/>
+	<field name="numero" class="java.lang.Integer"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -52,7 +54,7 @@
 		</band>
 	</title>
 	<columnHeader>
-		<band height="81" splitType="Stretch">
+		<band height="41" splitType="Stretch">
 			<staticText>
 				<reportElement x="0" y="10" width="137" height="30" uuid="cb955143-a1a3-482b-a0ca-2c48b0dce5c3"/>
 				<textElement verticalAlignment="Middle">
@@ -95,53 +97,93 @@
 				</textElement>
 				<text><![CDATA[Número:]]></text>
 			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="22" splitType="Stretch">
 			<textField>
-				<reportElement x="0" y="41" width="137" height="30" uuid="ca1e95c5-b6ad-488d-8916-4318407dede6"/>
+				<reportElement x="0" y="0" width="137" height="22" uuid="ca1e95c5-b6ad-488d-8916-4318407dede6"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="Arial" size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{data}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="137" y="40" width="133" height="30" uuid="e60b3a30-d380-477d-a82d-6df36626d307"/>
+				<reportElement x="137" y="0" width="133" height="22" uuid="e60b3a30-d380-477d-a82d-6df36626d307"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="Arial" size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{conta}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="270" y="40" width="133" height="30" uuid="9519a003-cf72-4113-b078-a9e179e22bfc"/>
+				<reportElement x="270" y="0" width="133" height="22" uuid="9519a003-cf72-4113-b078-a9e179e22bfc"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="Arial" size="12"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{entrada}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{entradaFormatada}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="403" y="40" width="133" height="30" uuid="5207eea3-6e35-4775-8900-6caa14540334"/>
+				<reportElement x="410" y="0" width="133" height="22" uuid="5207eea3-6e35-4775-8900-6caa14540334"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="Arial" size="12"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{saida}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{saidaFormatada}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="536" y="40" width="133" height="30" uuid="783eca9c-f643-4086-8194-a0db758e7a1d"/>
+				<reportElement x="536" y="0" width="133" height="22" uuid="783eca9c-f643-4086-8194-a0db758e7a1d"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="Arial" size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{descricao}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="670" y="40" width="133" height="30" uuid="86e8d143-68f6-4080-a695-f6211ed4d419"/>
+				<reportElement x="670" y="0" width="133" height="22" uuid="86e8d143-68f6-4080-a695-f6211ed4d419"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="Arial" size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{numero}]]></textFieldExpression>
 			</textField>
 		</band>
-	</columnHeader>
-	<detail>
-		<band height="125" splitType="Stretch"/>
 	</detail>
+	<columnFooter>
+		<band height="56">
+			<staticText>
+				<reportElement x="0" y="36" width="110" height="20" uuid="b97149fe-c64a-48ee-ba34-5bea990ef8b9"/>
+				<textElement>
+					<font fontName="Arial" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Saldo Período:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="9" width="110" height="20" uuid="a8648caa-3596-4e2f-94e9-fa2b0fb3a44a"/>
+				<textElement>
+					<font fontName="Arial" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Saldo Anterior:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="110" y="9" width="200" height="20" uuid="b42a5e95-35b5-4bf0-a999-61b0e99ab355">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle" markup="rtf">
+					<font fontName="arial" size="11"/>
+					<paragraph lineSpacing="1_1_2"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{saldoAnterior}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="110" y="36" width="200" height="20" uuid="da90ad55-1ab9-4f78-9b14-69bc56aab650">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle" markup="none">
+					<font fontName="arial" size="11"/>
+					<paragraph lineSpacing="Single" tabStopWidth="40"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{saldoPeriodo}]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnFooter>
 	<pageFooter>
 		<band height="55" splitType="Stretch">
 			<rectangle>

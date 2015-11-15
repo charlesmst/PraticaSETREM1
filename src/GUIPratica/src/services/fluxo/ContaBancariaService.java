@@ -189,7 +189,10 @@ public class ContaBancariaService extends Service<ContaBancaria> {
             q.setParameter("entrada", ContaCategoria.TipoCategoria.entrada);
             q.setDate("data", ate);
             List l = q.list();
-            return Double.parseDouble(l.get(0).toString());
+            if (l.get(0) != null) {
+                return Double.parseDouble(l.get(0).toString());
+            }
+            return 0d;
         });
     }
 

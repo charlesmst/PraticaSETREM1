@@ -96,6 +96,7 @@ public class FrmOrdemServicoCadastro extends JDialogController {
                 command.action();
             } else {
                 FrmContaCadastro frm = new FrmContaCadastro(getValorTotal(), 1, txtNotaFiscal.getText(), Conta.ContaTipo.conta, ContaCategoria.TipoCategoria.saida);
+                frm.setDescricao("SERVIÇO DE TERCEIRO RELACIONAO A ORDEM DE SERVIÇO "+ordem.getId());
                 frm.setListenerOnSave((conta) -> {
                     m.setConta(conta);
                     command.action();

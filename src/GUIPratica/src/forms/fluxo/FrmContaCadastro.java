@@ -50,7 +50,7 @@ public class FrmContaCadastro extends JDialogController {
     }
 
     public void setDescricao(String descricao) {
-        jtaDescricao.setText(descricao);
+        conta.setDescricao(descricao);
     }
 
     public void setPessoa(int pessoa, boolean disable) {

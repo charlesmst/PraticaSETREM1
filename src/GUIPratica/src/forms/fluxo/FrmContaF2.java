@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package forms.estoque;
+package forms.fluxo;
 import components.JTableDataBinderListener;
+import forms.estoque.FrmItemTipoCadastro;
 import forms.frmF2;
 import forms.frmMain;
 import java.util.Collection;

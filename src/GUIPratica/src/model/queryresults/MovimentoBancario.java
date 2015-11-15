@@ -6,12 +6,14 @@
 package model.queryresults;
 
 import java.util.Date;
+import utils.Utils;
 
 /**
  *
  * @author charles
  */
 public class MovimentoBancario {
+
     private Date data;
     private String conta;
     private double entrada;
@@ -26,6 +28,7 @@ public class MovimentoBancario {
     public void setNumero(int numero) {
         this.numero = numero;
     }
+
     public MovimentoBancario(Date data, String conta, double entrada, double saida, String descricao) {
         this.data = data;
         this.conta = conta;
@@ -54,12 +57,20 @@ public class MovimentoBancario {
         return entrada;
     }
 
+    public String getEntradaFormatada() {
+        return getEntrada() > 0D ? Utils.formataDinheiro(getEntrada()) : "";
+    }
+
     public void setEntrada(double entrada) {
         this.entrada = entrada;
     }
 
     public double getSaida() {
         return saida;
+    }
+
+    public String getSaidaFormatada() {
+        return getSaida() > 0 ? Utils.formataDinheiro(getSaida()) : "";
     }
 
     public void setSaida(double saida) {
