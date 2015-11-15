@@ -408,7 +408,7 @@ public class FrmRelatorioSumario extends JPanelControleButtons {
             JasperPrint jpr = JasperFillManager
                     .fillReport("src/relatorios/registro_de_operacoes.jasper",
                             parametros, jrs);
-            JasperViewer.viewReport(jpr, false);
+            Forms.showJasperModal(jpr);
         } catch (JRException ex) {
             Forms.mensagem(Mensagens.erroRelatorio, AlertaTipos.erro);
             LogManager.getLogger(getClass()).log(Priority.ERROR, ex);

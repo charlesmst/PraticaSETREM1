@@ -115,7 +115,8 @@ public class FrmContaCadastro extends JDialogController {
 
         validator.validarCustom(panelParcelas1.getTable(), (v) -> !conta.getParcelas().isEmpty(), "A conta deve ter no mínimo uma parcela");
         //Validar a vista uma parcela
-        validator.validarCustom(panelParcelas1.getTable(), (v) -> conta.getFormaPagamento().getId() != Integer.parseInt(Parametros.getInstance().getValue("forma_pagamento_a_vista")) || conta.getParcelas().size() == 1, "A conta deve ter uma parcela quando é a vísta");
+        validator.validarCustom(panelParcelas1.getTable(), (v) -> conta.getFormaPagamento() != null && 
+                (conta.getFormaPagamento().getId() != Integer.parseInt(Parametros.getInstance().getValue("forma_pagamento_a_vista")) || conta.getParcelas().size() == 1), "A conta deve ter uma parcela quando é a vísta");
 
         validator.validarDeBanco(jtbPessoa, new PessoaService());
 

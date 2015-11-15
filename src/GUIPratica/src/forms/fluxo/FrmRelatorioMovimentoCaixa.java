@@ -304,7 +304,8 @@ public class FrmRelatorioMovimentoCaixa extends JPanelControleButtons {
                     .fillReport("src/relatorios/movimentacao.jasper",
                             parametros,
                             jrs);
-            JasperViewer.viewReport(jpr, false);
+            
+            Forms.showJasperModal(jpr);
         } catch (JRException ex) {
             Forms.mensagem(Mensagens.erroRelatorio, AlertaTipos.erro);
             LogManager.getLogger(getClass()).log(Priority.ERROR, ex);

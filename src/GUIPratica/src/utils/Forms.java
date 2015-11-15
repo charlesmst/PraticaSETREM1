@@ -17,6 +17,8 @@ import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import javax.swing.JRootPane;
 import javax.swing.KeyStroke;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.view.JRViewer;
 import org.apache.log4j.LogManager;
 
 /**
@@ -29,10 +31,10 @@ public class Forms {
      * Mostra mensagem na tela
      */
     public static void mensagem(String text, AlertaTipos tipo) {
-        mensagem(text, tipo,true);
+        mensagem(text, tipo, true);
     }
 
-    public static void mensagem(String text, AlertaTipos tipo,boolean beepOnError) {
+    public static void mensagem(String text, AlertaTipos tipo, boolean beepOnError) {
         frmMain.getInstance().alert(text);
         frmMain.getInstance().setIcone(tipo);
 
@@ -79,8 +81,22 @@ public class Forms {
         int dialogResult = JOptionPane.showConfirmDialog(null, Mensagens.exclusaoConfirmacao);
         return (dialogResult == JOptionPane.YES_OPTION);
     }
-    
-    public static void log(Exception ex){
-         LogManager.getLogger(Forms.class).error(ex.getMessage(), ex);
+
+    public static void log(Exception ex) {
+        LogManager.getLogger(Forms.class).error(ex.getMessage(), ex);
+    }
+
+    public static void showJasperModal(JasperPrint print) {
+        JDialog dialog = new JDialog(frmMain.getInstance(), "Relatório");
+        dialog.setModal(true);
+        JRViewer view = new JRViewer(print);
+        dialog.add(view);
+
+        Toolkit tk = Toolkit.getDefaultToolkit();
+        int xSize = ((int) tk.getScreenSize().getWidth());
+        int ySize = ((int) tk.getScreenSize().getHeight());
+        dialog.setSize(xSize, ySize);
+        dialog.setVisible(true);
+
     }
 }

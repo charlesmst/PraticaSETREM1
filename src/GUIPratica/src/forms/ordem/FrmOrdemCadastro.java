@@ -17,7 +17,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import model.estoque.EstoqueMovimentacao;
@@ -27,6 +29,16 @@ import model.ordem.Ordem;
 import model.ordem.OrdemServico;
 import model.ordem.OrdemStatus;
 import model.ordem.Veiculo;
+import model.queryresults.ItemFichaServico;
+import model.queryresults.OrdemRelatorio;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import net.sf.jasperreports.view.JRViewer;
+import net.sf.jasperreports.view.JasperViewer;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Priority;
 import org.jdesktop.beansbinding.AutoBinding;
 import org.jdesktop.beansbinding.Converter;
 import services.PessoaService;
@@ -95,31 +107,7 @@ public class FrmOrdemCadastro extends JDialogController {
 
             @Override
             public Collection lista(String busca) throws ServiceException {
-                lordenada = new ArrayList();
-                lordenada.addAll(ordem.getEstoqueMovimentacaos());
-                lordenada.addAll(ordem.getOrdemServicos());
-                lordenada.sort(new Comparator() {
-
-                    @Override
-                    public int compare(Object o1, Object o2) {
-                        Date d1;
-                        if (o1 instanceof OrdemServico) {
-                            d1 = ((OrdemServico) o1).getDataRealizada();
-                        } else {
-                            d1 = ((EstoqueMovimentacao) o1).getDataLancamento();
-                        }
-
-                        Date d2;
-                        if (o2 instanceof OrdemServico) {
-                            d2 = ((OrdemServico) o2).getDataRealizada();
-                        } else {
-                            d2 = ((EstoqueMovimentacao) o2).getDataLancamento();
-                        }
-                        return d1.compareTo(d2);
-                    }
-                });
-                return lordenada;
-
+                return listagem();
             }
 
             @Override
@@ -151,6 +139,34 @@ public class FrmOrdemCadastro extends JDialogController {
             }
         });
         initBinding();
+    }
+
+    private List listagem() {
+        lordenada = new ArrayList();
+        lordenada.addAll(ordem.getEstoqueMovimentacaos());
+        lordenada.addAll(ordem.getOrdemServicos());
+        lordenada.sort(new Comparator() {
+
+            @Override
+            public int compare(Object o1, Object o2) {
+                Date d1;
+                if (o1 instanceof OrdemServico) {
+                    d1 = ((OrdemServico) o1).getDataRealizada();
+                } else {
+                    d1 = ((EstoqueMovimentacao) o1).getDataLancamento();
+                }
+
+                Date d2;
+                if (o2 instanceof OrdemServico) {
+                    d2 = ((OrdemServico) o2).getDataRealizada();
+                } else {
+                    d2 = ((EstoqueMovimentacao) o2).getDataLancamento();
+                }
+                return d1.compareTo(d2);
+            }
+        });
+        return lordenada;
+
     }
 
     private void atualizaListagem() {
@@ -273,6 +289,57 @@ public class FrmOrdemCadastro extends JDialogController {
 
     private void imprimirFicha() {
 
+        OrdemRelatorio relatorio = new OrdemRelatorio();
+        relatorio.setCliente(ordem.getPessoa().getNome());
+        relatorio.setMarca(ordem.getVeiculo().getModelo().getMarca().getNome());
+        relatorio.setModelo(ordem.getVeiculo().getModelo().getNome());
+        relatorio.setPedido(ordem.getDescricao());
+        relatorio.setTelefone(ordem.getPessoa().getTelefone());
+        relatorio.setPlaca(ordem.getVeiculo().getPlaca());
+        relatorio.setAno(ordem.getVeiculo().getAno() == 0 ? "" : ordem.getVeiculo().getAno() + "");
+        relatorio.setValorTotal(Utils.formataDinheiro(service.valorTotal(ordem)));
+        relatorio.setCor(ordem.getVeiculo().getCor().getNome());
+
+        for (Object item : listagem()) {
+            ItemFichaServico i = new ItemFichaServico();
+            if (item instanceof OrdemServico) {
+                OrdemServico s = ((OrdemServico) item);
+                i.setTipoServico("SERVIÇO");
+                if (s.getConta() != null) {
+                    i.setTipoServico(i.getTipoServico() + " DE TERCEIRO");
+                }
+                i.setValorUnitario(Utils.formataDinheiro(s.getValorEntrada()));
+                i.setQuantidade(s.getQuantidade());
+                i.setDescricao(s.getTipoServico().getNome());
+                i.setDataRealizado(Utils.formataDate(s.getDataRealizada()));
+                i.setValorTotal(Utils.formataDinheiro(s.getValorEntrada() * s.getQuantidade()));
+            } else {
+                EstoqueMovimentacao m = (EstoqueMovimentacao) item;
+                i.setTipoServico("PEÇA");
+                i.setValorUnitario(Utils.formataDinheiro(m.getValorUnitarioVenda()));
+                i.setQuantidade(m.getQuantidade());
+                i.setDescricao(m.getEstoque().getItem().getDescricao());
+                i.setDataRealizado(Utils.formataDate(m.getDataLancamento()));
+                i.setValorTotal(Utils.formataDinheiro(m.getValorUnitarioVenda() * m.getQuantidade()));
+            }
+            relatorio.getItens().add(i);
+        }
+
+        List<OrdemRelatorio> fichas = new ArrayList<>();
+        fichas.add(relatorio);
+        JRBeanCollectionDataSource jrs = new JRBeanCollectionDataSource(fichas);
+
+        Map parametros = new HashMap();
+        try {
+            JasperPrint jpr = JasperFillManager
+                    .fillReport("src/relatorios/ordem_servico.jasper",
+                            parametros, jrs);
+            Forms.showJasperModal(jpr);
+
+        } catch (JRException ex) {
+            Forms.mensagem(Mensagens.erroRelatorio, AlertaTipos.erro);
+            LogManager.getLogger(getClass()).log(Priority.ERROR, ex);
+        }
     }
 
     /**
@@ -545,14 +612,15 @@ public class FrmOrdemCadastro extends JDialogController {
                     ordem.setOrdemStatus(new OrdemStatusService().findById(codigoStatus));
                     salvar();
                     imprimirFicha();
-                    dispose();
+                    Forms.mensagem("Ordem de serviço finalizada", AlertaTipos.sucesso);
                 });
                 frmConta.setVisible(true);
             });
             frmDesconto.setVisible(true);
         } else {
+            Forms.mensagem("Ordem de serviço já está finalizada", AlertaTipos.sucesso);
             imprimirFicha();
-            dispose();
+
         }
     }//GEN-LAST:event_btnFinalizarActionPerformed
 
