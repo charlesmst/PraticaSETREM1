@@ -30,27 +30,7 @@ public class EstoqueMovimentacao implements Serializable {
         return descricao;
     }
 
-    @Override
-    public int hashCode() {
-        int hash = 7;
-        hash = 83 * hash + this.id;
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final EstoqueMovimentacao other = (EstoqueMovimentacao) obj;
-        if (this.id != other.id) {
-            return false;
-        }
-        return true;
-    }
+   
 
     @Id
     @GeneratedValue(generator = "seq_estoque_movimentacao", strategy = GenerationType.SEQUENCE)
