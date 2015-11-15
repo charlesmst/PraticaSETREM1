@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.1.1.final using JasperReports Library version 6.1.1  -->
+<!-- 2015-11-14T10:02:12 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ordem_servico" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="0" uuid="a0890c42-8fa2-448e-bea8-ca300ae701e8">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.topMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.bottomMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.leftMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="cliente" class="java.lang.String"/>
+	<field name="telefone" class="java.lang.String"/>
+	<field name="placa" class="java.lang.String"/>
+	<field name="valorTotal" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="89" splitType="Stretch">
+			<image>
+				<reportElement x="0" y="6" width="150" height="67" uuid="190276a7-337e-485b-9562-c9ca08511568"/>
+				<imageExpression><![CDATA["logo_relatorio.png"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="90" y="24" width="622" height="30" uuid="3ee4da26-55fa-4d36-b011-fe83d1b16878"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="18" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Ordem de Serviço ]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="700" y="20" width="100" height="30" uuid="4c25e9d1-55d2-4f71-be98-246dbd82d4c6"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement x="-20" y="88" width="842" height="1" forecolor="#000000" backcolor="#FFFFFF" uuid="a958d8a5-50dd-450f-a042-03b4f342e2e1">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+			</rectangle>
+		</band>
+	</title>
+	<detail>
+		<band height="125" splitType="Stretch">
+			<textField>
+				<reportElement x="40" y="8" width="420" height="20" uuid="96ffba6d-bd59-4a67-bd74-f6af803a5cba">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{cliente}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="16" width="40" height="20" uuid="905008af-7207-4e5c-b63c-48b1dfaeb046">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Cliente:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="518" y="8" width="130" height="20" uuid="1640fe0b-4883-49b0-8b8b-25abec7c3080"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{telefone}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="469" y="8" width="49" height="20" uuid="5c77deac-2b5a-4cfb-8bea-b379c168c2d9">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Telefone:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="695" y="8" width="105" height="20" uuid="199831f4-51db-485a-bd2a-cae589a7317f">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{placa}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="658" y="8" width="37" height="20" uuid="6731f9f6-d761-41ee-913a-062d88675f7d">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial"/>
+				</textElement>
+				<text><![CDATA[Placa:]]></text>
+			</staticText>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="55" splitType="Stretch">
+			<image>
+				<reportElement x="772" y="11" width="50" height="43" uuid="5c7bfc19-96c4-4cfd-8041-bc540b801912"/>
+				<imageExpression><![CDATA["fusca_metade.png"]]></imageExpression>
+			</image>
+			<image>
+				<reportElement x="-20" y="11" width="50" height="43" uuid="4690e88a-f9be-49fb-ab27-66db01f449f3"/>
+				<imageExpression><![CDATA["fusca.png"]]></imageExpression>
+			</image>
+			<rectangle>
+				<reportElement x="-20" y="2" width="842" height="1" forecolor="#000000" backcolor="#FFFFFF" uuid="d52e014b-602a-42e8-acc9-afb16fd94cbd">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<graphicElement>
+					<pen lineStyle="Solid"/>
+				</graphicElement>
+			</rectangle>
+			<textField evaluationTime="Report">
+				<reportElement x="351" y="3" width="100" height="52" uuid="f48b3b8c-5657-4b26-a46d-e4a715b6ab68"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+</jasperReport>
