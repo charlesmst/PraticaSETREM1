@@ -192,8 +192,12 @@ public class FrmRelatorioLivroCaixa extends JPanelControleButtons {
         ));
         jScrollPane2.setViewportView(jTableDataBinder1);
 
-        jLabel1.setText("Mês");
+        txtData.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
 
+        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jLabel1.setText("Mês:");
+
+        btnBuscar.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         btnBuscar.setText("Buscar");
         btnBuscar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -217,6 +221,7 @@ public class FrmRelatorioLivroCaixa extends JPanelControleButtons {
                 return canEdit [columnIndex];
             }
         });
+        table.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jScrollPane1.setViewportView(table);
         if (table.getColumnModel().getColumnCount() > 0) {
             table.getColumnModel().getColumn(0).setMaxWidth(100);
@@ -229,8 +234,10 @@ public class FrmRelatorioLivroCaixa extends JPanelControleButtons {
             table.getColumnModel().getColumn(6).setMaxWidth(200);
         }
 
-        jLabel2.setText("Conta");
+        jLabel2.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jLabel2.setText("Conta:");
 
+        jcbCaixa.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jcbCaixa.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Carregando..." }));
 
         tableResumos.setModel(new javax.swing.table.DefaultTableModel(
@@ -241,8 +248,10 @@ public class FrmRelatorioLivroCaixa extends JPanelControleButtons {
                 "Descrição", "Valor"
             }
         ));
+        tableResumos.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jScrollPane3.setViewportView(tableResumos);
 
+        btnImprimir.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         btnImprimir.setText("Imprimir");
         btnImprimir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -257,7 +266,7 @@ public class FrmRelatorioLivroCaixa extends JPanelControleButtons {
             .addGroup(layout.createSequentialGroup()
                 .addGap(20, 20, 20)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1029, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -266,11 +275,11 @@ public class FrmRelatorioLivroCaixa extends JPanelControleButtons {
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jcbCaixa, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnBuscar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnImprimir)
-                        .addGap(0, 540, Short.MAX_VALUE))
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addComponent(jScrollPane3))
                 .addContainerGap())
         );
@@ -279,14 +288,14 @@ public class FrmRelatorioLivroCaixa extends JPanelControleButtons {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtData, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtData, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1)
-                    .addComponent(btnBuscar)
+                    .addComponent(btnBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2)
-                    .addComponent(jcbCaixa, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnImprimir))
+                    .addComponent(jcbCaixa, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnImprimir, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 338, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 337, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())

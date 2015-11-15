@@ -41,8 +41,8 @@
                   <Component id="txtBuscar" alignment="3" min="-2" pref="28" max="-2" attributes="0"/>
                   <Component id="jLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace min="-2" max="-2" attributes="0"/>
-              <Component id="jScrollPane2" pref="278" max="32767" attributes="0"/>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <Component id="jScrollPane2" min="-2" pref="266" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>

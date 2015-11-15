@@ -70,6 +70,8 @@ public class FrmLoading extends javax.swing.JFrame {
             }
         });
 
+        jProgressBar1.setForeground(new java.awt.Color(0, 0, 0));
+
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);

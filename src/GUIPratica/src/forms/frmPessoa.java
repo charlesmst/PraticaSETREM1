@@ -82,6 +82,7 @@ public class frmPessoa extends JPanelControleButtons {
         jLabel2 = new javax.swing.JLabel();
         txtBuscar = new components.JTextFieldUpper();
 
+        jtbDados.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jtbDados.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -131,8 +132,8 @@ public class frmPessoa extends JPanelControleButtons {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 202, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents

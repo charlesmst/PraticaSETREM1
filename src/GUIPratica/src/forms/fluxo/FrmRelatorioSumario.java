@@ -219,8 +219,12 @@ public class FrmRelatorioSumario extends JPanelControleButtons {
         tableResultados = new components.JTableDataBinder();
         btnImprimir = new javax.swing.JButton();
 
-        jLabel1.setText("Mês");
+        txtData.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
 
+        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jLabel1.setText("Mês:");
+
+        btnBuscar.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         btnBuscar.setText("Buscar");
         btnBuscar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -244,6 +248,7 @@ public class FrmRelatorioSumario extends JPanelControleButtons {
                 return canEdit [columnIndex];
             }
         });
+        table.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jScrollPane1.setViewportView(table);
         if (table.getColumnModel().getColumnCount() > 0) {
             table.getColumnModel().getColumn(1).setMinWidth(150);
@@ -269,13 +274,15 @@ public class FrmRelatorioSumario extends JPanelControleButtons {
                 return canEdit [columnIndex];
             }
         });
+        tableCategoria.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jScrollPane2.setViewportView(tableCategoria);
         if (tableCategoria.getColumnModel().getColumnCount() > 0) {
             tableCategoria.getColumnModel().getColumn(1).setMinWidth(150);
             tableCategoria.getColumnModel().getColumn(1).setMaxWidth(200);
         }
 
-        jLabel2.setText("Demonstrativo de resultados do período");
+        jLabel2.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jLabel2.setText("Demonstrativo de resultados do período:");
 
         tableResultados.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -293,12 +300,14 @@ public class FrmRelatorioSumario extends JPanelControleButtons {
                 return canEdit [columnIndex];
             }
         });
+        tableResultados.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jScrollPane3.setViewportView(tableResultados);
         if (tableResultados.getColumnModel().getColumnCount() > 0) {
             tableResultados.getColumnModel().getColumn(1).setMinWidth(150);
             tableResultados.getColumnModel().getColumn(1).setMaxWidth(200);
         }
 
+        btnImprimir.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         btnImprimir.setText("Imprimir");
         btnImprimir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -317,10 +326,10 @@ public class FrmRelatorioSumario extends JPanelControleButtons {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(txtData, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtData, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnBuscar)
-                        .addGap(9, 9, 9)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnImprimir)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addGap(18, 18, 18)
@@ -337,13 +346,13 @@ public class FrmRelatorioSumario extends JPanelControleButtons {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtData, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtData, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1)
-                    .addComponent(btnBuscar)
-                    .addComponent(btnImprimir))
+                    .addComponent(btnBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnImprimir, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 426, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)

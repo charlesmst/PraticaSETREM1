@@ -133,7 +133,7 @@
               <EmptySpace max="-2" attributes="0"/>
               <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="txtConta" min="-2" pref="24" max="-2" attributes="0"/>
+              <Component id="txtConta" min="-2" pref="28" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="jLabel3" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -142,7 +142,7 @@
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Component id="lblParcela" min="-2" max="-2" attributes="0"/>
-                  <Component id="jtbParcela" min="-2" pref="31" max="-2" attributes="0"/>
+                  <Component id="jtbParcela" min="-2" pref="28" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="1" attributes="0">
@@ -150,22 +150,22 @@
                       <Group type="102" alignment="0" attributes="0">
                           <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="jffValor" min="-2" pref="24" max="-2" attributes="0"/>
+                          <Component id="jffValor" min="-2" pref="28" max="-2" attributes="0"/>
                       </Group>
                       <Group type="102" alignment="0" attributes="0">
                           <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="jcbCategoria" min="-2" pref="24" max="-2" attributes="0"/>
+                          <Component id="jcbCategoria" min="-2" pref="28" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                   <Group type="102" alignment="1" attributes="0">
                       <Component id="jLabel9" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jcbContaBancaria" min="-2" pref="24" max="-2" attributes="0"/>
+                      <Component id="jcbContaBancaria" min="-2" pref="28" max="-2" attributes="0"/>
                   </Group>
               </Group>
-              <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
-              <Component id="jSeparator1" min="-2" pref="10" max="-2" attributes="0"/>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <Component id="jSeparator1" min="-2" pref="15" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="jcbImpostos" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -177,18 +177,18 @@
                       <Group type="102" alignment="0" attributes="0">
                           <Component id="jLabel5" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="jffValor1" min="-2" pref="24" max="-2" attributes="0"/>
+                          <Component id="jffValor1" min="-2" pref="28" max="-2" attributes="0"/>
                       </Group>
                       <Group type="102" alignment="1" attributes="0">
                           <Component id="jLabel6" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="jcbCategoria1" min="-2" pref="24" max="-2" attributes="0"/>
+                          <Component id="jcbCategoria1" min="-2" pref="28" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                   <Group type="102" attributes="0">
                       <Component id="jLabel10" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jcbContaBancaria1" min="-2" pref="24" max="-2" attributes="0"/>
+                      <Component id="jcbContaBancaria1" min="-2" pref="28" max="-2" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
@@ -201,18 +201,18 @@
                       <Group type="102" alignment="0" attributes="0">
                           <Component id="jLabel7" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="jffValor2" min="-2" pref="24" max="-2" attributes="0"/>
+                          <Component id="jffValor2" min="-2" pref="28" max="-2" attributes="0"/>
                       </Group>
                       <Group type="102" alignment="1" attributes="0">
                           <Component id="jLabel8" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="jcbCategoria2" min="-2" pref="24" max="-2" attributes="0"/>
+                          <Component id="jcbCategoria2" min="-2" pref="28" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                   <Group type="102" attributes="0">
                       <Component id="jLabel11" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jcbContaBancaria2" min="-2" pref="24" max="-2" attributes="0"/>
+                      <Component id="jcbContaBancaria2" min="-2" pref="28" max="-2" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
