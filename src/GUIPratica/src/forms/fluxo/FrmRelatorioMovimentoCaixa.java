@@ -190,6 +190,7 @@ public class FrmRelatorioMovimentoCaixa extends JPanelControleButtons {
         jLabel1.setText("Mês");
 
         btnBuscar.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        btnBuscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/magnifying.png"))); // NOI18N
         btnBuscar.setText("Buscar");
         btnBuscar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -238,6 +239,7 @@ public class FrmRelatorioMovimentoCaixa extends JPanelControleButtons {
         jScrollPane3.setViewportView(tableResumos);
 
         btnImprimir.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        btnImprimir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/paper6.png"))); // NOI18N
         btnImprimir.setText("Imprimir");
         btnImprimir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
