@@ -94,11 +94,11 @@ public class EstoqueMovimentacaoService extends Service<EstoqueMovimentacao> {
 //                s.save(eM);
                 ordem.getEstoqueMovimentacaos().add(eM);
                 
-                s.merge(ordem);
                 indiceEstoque++;
 
             }
 
+                s.merge(ordem);
             t.commit();
 //            s.refresh(ordem);
 
