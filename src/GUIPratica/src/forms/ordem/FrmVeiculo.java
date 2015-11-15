@@ -39,7 +39,7 @@ public class FrmVeiculo extends JPanelControleButtons {
 
             @Override
             public Collection<Veiculo> lista(String busca) throws ServiceException {
-                return service.findByMultipleColumns(busca, "id", "id", "placa","ano","modelo.nome","modelo.marca.nome","placa","chassi");
+                return service.findByMultipleColumns(busca, "id", "id", "placa","ano","modelo.nome","placa","chassi");
             }
 
             @Override

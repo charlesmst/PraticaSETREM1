@@ -143,6 +143,17 @@ public class Initialize {
             serviceStatus.insert(cat);
             return cat.getId() + "";
         });
+        Parametros.getInstance().validaParametro("status_inicial", (value) -> {
+            OrdemStatus c = serviceStatus.findById(Integer.parseInt(value));
+            return c != null ;
+        }, (value) -> {
+            OrdemStatus cat = new OrdemStatus();
+            cat.setNome("ABERTO");
+            cat.setAtivo(true);
+            cat.setFinaliza(false);
+            serviceStatus.insert(cat);
+            return cat.getId() + "";
+        });
         //Status aberto
         Parametros.getInstance().validaParametro("status_aberto", (value) -> {
             OrdemStatus c = serviceStatus.findById(Integer.parseInt(value));

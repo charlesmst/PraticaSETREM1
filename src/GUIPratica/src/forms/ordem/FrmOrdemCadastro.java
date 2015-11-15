@@ -90,6 +90,7 @@ public class FrmOrdemCadastro extends JDialogController {
             ordem = new Ordem();
             ordem.setPessoa(new Pessoa());
             ordem.setVeiculo(new Veiculo());
+            setStatusPadrao();
         }
         // center the jframe on screen
         setLocationRelativeTo(null);
@@ -101,6 +102,7 @@ public class FrmOrdemCadastro extends JDialogController {
         validator.validarDeBanco(txtCliente, new PessoaService());
         validator.validarDeBanco(txtVeiculo, new VeiculoService());
         validator.validarCustom(jcbStatus, (valor) -> jcbStatus.getSelectedItem() != null, "Selecione uma status");
+
         jcbStatus.setModel(new DefaultComboBoxModel(new Vector(new OrdemStatusService().findAtivos())));
 
         table.setListener(new JTableDataBinderListener() {
@@ -175,6 +177,11 @@ public class FrmOrdemCadastro extends JDialogController {
         lblValor.setText(Utils.formataDinheiro(valorTotal));
     }
 
+    private void setStatusPadrao() {
+        int inicial = Integer.parseInt(Parametros.getInstance().getValue("status_inicial"));
+        ordem.setOrdemStatus(new OrdemStatusService().findById(inicial));
+
+    }
     private boolean binded = false;
 
     private void initBinding() {
@@ -265,6 +272,16 @@ public class FrmOrdemCadastro extends JDialogController {
     }
 
     private void salvar() {
+        if (ordem.getOrdemStatus().isFinaliza() && ordem.getConta() == null) {
+            int dialogResult = JOptionPane.showConfirmDialog(null, "Para a ordem de serviço ser finalizada, deve ser cadastrada uma conta para ela, deseja cadastrar agora?");
+            if(dialogResult == JOptionPane.YES_OPTION){
+                btnFinalizar.doClick();
+                return;
+            }else{
+                setStatusPadrao();
+                JOptionPane.showMessageDialog(rootPane, "A ordem não foi finalizada");
+            }
+        }
         ordem.setPrazo(txtPrazo.getDate());
         if (ordem.getId() == 0) {
             service.insert(ordem);

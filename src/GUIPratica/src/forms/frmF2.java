@@ -102,7 +102,6 @@ public class frmF2 extends JDialogController {
         jLabel2.setText("Buscar:");
 
         btnSelecionar.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        btnSelecionar.setIcon(new javax.swing.ImageIcon("C:\\Users\\Jenifer\\Documents\\NetBeansProjects\\trunk\\src\\GUIPratica\\src\\resources\\index-finger.png")); // NOI18N
         btnSelecionar.setText("Selecionar");
         btnSelecionar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -166,6 +165,9 @@ public class frmF2 extends JDialogController {
             }
         });
         jScrollPane2.setViewportView(table);
+        if (table.getColumnModel().getColumnCount() > 0) {
+            table.getColumnModel().getColumn(0).setMaxWidth(50);
+        }
 
         txtBuscar.setMargin(new java.awt.Insets(2, 8, 2, 2));
 
