@@ -30,7 +30,7 @@ public class FrmContaBancariaCadastro extends JDialogController {
     }
 
     public FrmContaBancariaCadastro(int id) {
-        super(frmMain.getInstance(), "Manutenção de Contas Bancarias");
+        super(frmMain.getInstance(), "Manutenção de Contas Bancárias");
         initComponents();
         this.id = id;
         setupForm();
@@ -156,7 +156,7 @@ public class FrmContaBancariaCadastro extends JDialogController {
         jrbCaixa.setText("CAIXA");
 
         jrbContaBancaria.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jrbContaBancaria.setText("CONTA BANCARIA");
+        jrbContaBancaria.setText("CONTA BANCÁRIA");
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jLabel3.setText("Saldo Atual:");
