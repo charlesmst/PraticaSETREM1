@@ -77,10 +77,12 @@ public class ContaBancariaService extends Service<ContaBancaria> {
                     + "valor "
                     + "ELSE (valor * -1.0) END"
                     + ")"
-                    + " FROM ParcelaPagamento c where c.contaBancaria.id = :id and c.data <= :data");
+                    + " FROM ParcelaPagamento c where c.contaBancaria.id = :id" + (ate != null ? "and c.data <= :data" : ""));
             q.setInteger("id", c.getId());
             q.setParameter("entrada", ContaCategoria.TipoCategoria.entrada);
-            q.setDate("data", ate);
+            if (ate != null) {
+                q.setDate("data", ate);
+            }
             List l = q.list();
             if (l.size() == 1 && l.get(0) != null) {
                 return Double.parseDouble(l.get(0).toString());
@@ -90,7 +92,7 @@ public class ContaBancariaService extends Service<ContaBancaria> {
     }
 
     public double saldoCaixa(ContaBancaria c) {
-        return saldoCaixa(c, new Date());
+        return saldoCaixa(c,null);
     }
 
     /**
