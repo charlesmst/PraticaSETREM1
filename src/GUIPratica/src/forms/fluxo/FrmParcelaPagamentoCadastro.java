@@ -50,7 +50,7 @@ public class FrmParcelaPagamentoCadastro extends JDialogController {
     }
 
     public FrmParcelaPagamentoCadastro(Conta c, Parcela parcela) {
-        super(frmMain.getInstance(), "Manutenção de Contas Bancarias");
+        super(frmMain.getInstance(), "Manutenção de Pagamento de parcelas");
         if (!c.getParcelas().stream().findFirst().isPresent()) {
             throw new IllegalArgumentException("Conta sem parcelas");
         }
