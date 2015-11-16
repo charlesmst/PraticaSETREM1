@@ -7,7 +7,9 @@ import components.JTableDataBinderListener;
 import java.util.Collection;
 import javax.swing.JDialog;
 import model.estoque.Estoque;
+import model.estoque.EstoqueMovimentacao;
 import services.ServiceException;
+import services.estoque.EstoqueMovimentacaoService;
 import services.estoque.EstoqueService;
 import utils.AlertaTipos;
 import utils.Utils;
@@ -18,35 +20,34 @@ import utils.Utils;
  */
 public class FrmEstoque extends JPanelControleButtons {
 
-    private final EstoqueService service;
+    private final EstoqueMovimentacaoService service;
 
     public FrmEstoque() {
         initComponents();
         table.setDefaultRenderer(Object.class, new CellRenderer());
         setBtnAddEnable(true);
-        setBtnAlterarEnable(false);
-        setBtnExcluirEnable(true);
+        setBtnAlterarEnable(true);
+        setBtnExcluirEnable(false);
         setBtnAtualizarEnable(true);
 
-        service = new EstoqueService();
+        service = new EstoqueMovimentacaoService();
 
-        table.setListener(new JTableDataBinderListener<Estoque>() {
+        table.setListener(new JTableDataBinderListener<EstoqueMovimentacao>() {
 
             @Override
-            public Collection<Estoque> lista(String busca) throws ServiceException {
+            public Collection<EstoqueMovimentacao> lista(String busca) throws ServiceException {
 
-                return service.findByMultipleColumns(busca, "id", "id", "item.descricao", "lote");
+                return service.findByMultipleColumns(busca, "id", "id", "descricao");
             }
 
             @Override
-            public Object[] addRow(Estoque dado) {
+            public Object[] addRow(EstoqueMovimentacao dado) {
                 return new Object[]{dado.getId() + "",
-                    dado.getItem().toString(),
-                    Utils.formataDate(dado.getDataCompra()),
-                    dado.getLote(),
-                    dado.getQuantidadeDisponivel() + "",
+                    dado.getDescricao(),
+                    Utils.formataDate(dado.getDataLancamento()),
+                    dado.getQuantidade() + "",
                     Utils.formataDinheiro(dado.getValorUnitario()),
-                    Utils.formataDate(dado.getDataValidade())
+                    Utils.formataDinheiro(dado.getValorUnitarioVenda())
                 };
             }
         });
@@ -66,20 +67,20 @@ public class FrmEstoque extends JPanelControleButtons {
 
         table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null}
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
             },
             new String [] {
-                "Código", "Item", "Data de Compra", "Lote", "Qtd. Disponível", "Valor Unitário", "Validade"
+                "Código", "Descrição", "Data", "Quantidade", "Custo Unitário", "Valor de Venda"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class
+                java.lang.Integer.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false
+                false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -95,12 +96,11 @@ public class FrmEstoque extends JPanelControleButtons {
         jScrollPane2.setViewportView(table);
         if (table.getColumnModel().getColumnCount() > 0) {
             table.getColumnModel().getColumn(0).setPreferredWidth(100);
-            table.getColumnModel().getColumn(1).setPreferredWidth(450);
+            table.getColumnModel().getColumn(1).setPreferredWidth(550);
             table.getColumnModel().getColumn(2).setPreferredWidth(100);
             table.getColumnModel().getColumn(3).setPreferredWidth(100);
             table.getColumnModel().getColumn(4).setPreferredWidth(100);
             table.getColumnModel().getColumn(5).setPreferredWidth(100);
-            table.getColumnModel().getColumn(6).setPreferredWidth(100);
         }
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
@@ -150,15 +150,18 @@ public class FrmEstoque extends JPanelControleButtons {
 
     @Override
     public void btnAlterarActionPerformed(ActionEvent evt) {
-        defaultUpdateOperation(table, (i) -> {
-            JDialog dialog = new FrmEstoqueAlteracao(table.getSelectedId());
-            dialog.setVisible(true);
-        });
+//        try {
+//            int id = table.getSelectedId();
+//            JDialog dialog = new FrmEstoqueAlteracao(id);
+//            dialog.setVisible(true);
+//        } catch (Exception e) {
+//            utils.Forms.mensagem(e.getMessage(), AlertaTipos.erro);
+//        }
     }
 
     @Override
     public void btnExcluirActionPerformed(ActionEvent evt) {
-        defaultDeleteOperation(table, (i) -> service.delete(i));
+
     }
 
     @Override

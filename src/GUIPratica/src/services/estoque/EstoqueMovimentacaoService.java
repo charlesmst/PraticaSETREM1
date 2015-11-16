@@ -14,6 +14,7 @@ import model.estoque.Estoque;
 import model.estoque.EstoqueMovimentacao;
 import model.estoque.Item;
 import model.estoque.MovimentacaoTipo;
+import model.fluxo.Conta;
 import model.ordem.Ordem;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -60,6 +61,18 @@ public class EstoqueMovimentacaoService extends Service<EstoqueMovimentacao> {
         new OrdemService().refreshCollection(ordem);
     }
 
+    public void excluirEstoqueMovimentacao(EstoqueMovimentacao estMov) {
+        executeOnTransaction((s, t) -> {
+            EstoqueMovimentacao mov = (EstoqueMovimentacao) s.get(classRef, estMov.getId());
+            Estoque e = estMov.getEstoque();
+            Conta conta = estMov.getConta();
+            s.delete(mov);
+            s.delete(e);
+            s.delete(conta);
+            t.commit();
+        });
+    }
+
     public void descontaEstoque(EstoqueMovimentacao estMov, Item i, Ordem ordem) {
         executeOnTransaction((s, t) -> {
             List<Estoque> estoques = buscaEstoqueOrdenado(s, i);
@@ -71,12 +84,10 @@ public class EstoqueMovimentacaoService extends Service<EstoqueMovimentacao> {
 
                 EstoqueMovimentacao eM = new EstoqueMovimentacao();
                 eM.setDataLancamento(new Date());
-                eM.setDescricao("SAIDA DE " + restantes + " -> " + i.getItemTipo().getNome() + " -> " + i.getDescricao());
                 eM.setMovimentacaoTipo(estMov.getMovimentacaoTipo());
                 eM.setPessoa(estMov.getPessoa());
                 eM.setValorUnitario(e.getValorUnitario());
                 eM.setValorUnitarioVenda(estMov.getValorUnitarioVenda());
-
                 eM.setEstoque(e);
 
                 if (qtd >= restantes) {
@@ -87,8 +98,8 @@ public class EstoqueMovimentacaoService extends Service<EstoqueMovimentacao> {
                     e.setQuantidadeDisponivel(0);
                     eM.setQuantidade(qtd);
                     restantes -= qtd;
-
                 }
+                eM.setDescricao("SAIDA DE " + eM.getQuantidade() + " -> " + i.getItemTipo().getNome() + " -> " + i.getDescricao());
                 s.merge(e);
 //                s.save(eM);
                 ordem.getEstoqueMovimentacaos().add(eM);

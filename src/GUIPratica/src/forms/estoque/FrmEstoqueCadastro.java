@@ -143,7 +143,7 @@ public class FrmEstoqueCadastro extends JDialogController {
         jLabel9 = new javax.swing.JLabel();
         btnAdicionar = new javax.swing.JButton();
         btnRemover = new javax.swing.JButton();
-        jcbTipoMovimentação = new javax.swing.JComboBox();
+        jcbTipoMovimentacao = new javax.swing.JComboBox();
         txtDataValidade = new components.JDateField();
         txtValorCompra = new components.JTextFieldMoney();
         spinerQuantidade = new javax.swing.JSpinner();
@@ -227,8 +227,13 @@ public class FrmEstoqueCadastro extends JDialogController {
         btnRemover.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         btnRemover.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/delete.png"))); // NOI18N
         btnRemover.setText("Remover");
+        btnRemover.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRemoverActionPerformed(evt);
+            }
+        });
 
-        jcbTipoMovimentação.setPreferredSize(new java.awt.Dimension(56, 25));
+        jcbTipoMovimentacao.setPreferredSize(new java.awt.Dimension(56, 25));
 
         txtValorCompra.setMinimumSize(new java.awt.Dimension(6, 30));
 
@@ -306,23 +311,22 @@ public class FrmEstoqueCadastro extends JDialogController {
                             .addComponent(jLabel8))
                         .addGap(1, 1, 1))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jLabel3)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(txtItem, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jLabel7)
-                                        .addComponent(txtValorCompra, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jLabel4)
-                                        .addComponent(spinerQuantidade, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(txtDataCompra, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jLabel9)))))
-                        .addGap(10, 10, 10)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel7)
+                                    .addComponent(txtValorCompra, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel4)
+                                    .addComponent(spinerQuantidade, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel9)
+                                    .addComponent(txtDataCompra, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addComponent(txtItem, javax.swing.GroupLayout.PREFERRED_SIZE, 408, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel2)
@@ -331,14 +335,13 @@ public class FrmEstoqueCadastro extends JDialogController {
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(layout.createSequentialGroup()
-                                        .addComponent(txtDataValidade, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addGap(10, 10, 10))
-                                    .addGroup(layout.createSequentialGroup()
                                         .addComponent(chkDataValidade)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                                        .addGap(0, 0, Short.MAX_VALUE))
+                                    .addComponent(txtDataValidade, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addGap(18, 18, 18)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel5)
-                                    .addComponent(jcbTipoMovimentação, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                    .addComponent(jcbTipoMovimentacao, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                     .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
@@ -382,7 +385,7 @@ public class FrmEstoqueCadastro extends JDialogController {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(txtItem, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jcbTipoMovimentação, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jcbTipoMovimentacao, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(txtDataValidade, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -437,7 +440,7 @@ public class FrmEstoqueCadastro extends JDialogController {
         estMov.setEstoque(est);
         est.setItem(new ItemService().findById(txtItem.getValueSelected()));
         try {
-            estMov.setMovimentacaoTipo((MovimentacaoTipo) jcbTipoMovimentação.getModel().getSelectedItem());
+            estMov.setMovimentacaoTipo((MovimentacaoTipo) jcbTipoMovimentacao.getModel().getSelectedItem());
         } catch (Exception e) {
             utils.Forms.mensagem("Nenhum tipo de movimentação cadastrado!", AlertaTipos.erro);
         }
@@ -463,6 +466,10 @@ public class FrmEstoqueCadastro extends JDialogController {
         refreshTable();
     }//GEN-LAST:event_btnAdicionarActionPerformed
 
+    private void btnRemoverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoverActionPerformed
+        JOptionPane.showMessageDialog(null, estoque.size());
+    }//GEN-LAST:event_btnRemoverActionPerformed
+
     private void chkDataValidadeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkDataValidadeActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_chkDataValidadeActionPerformed
@@ -479,14 +486,14 @@ public class FrmEstoqueCadastro extends JDialogController {
                 movTipo.add(m);
             }
         }
-        jcbTipoMovimentação.setModel(new DefaultComboBoxModel(new Vector(movTipo)));
+        jcbTipoMovimentacao.setModel(new DefaultComboBoxModel(new Vector(movTipo)));
     }
 
     private void zerarCampos() {
 
         txtItem.setText("");
         try {
-            jcbTipoMovimentação.setSelectedIndex(0);
+            jcbTipoMovimentacao.setSelectedIndex(0);
         } catch (Exception e) {
             utils.Forms.mensagem("Nenhum tipo de movimentação cadastrado!", AlertaTipos.erro);
         }
@@ -518,7 +525,7 @@ public class FrmEstoqueCadastro extends JDialogController {
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTable jTable1;
-    private javax.swing.JComboBox jcbTipoMovimentação;
+    private javax.swing.JComboBox jcbTipoMovimentacao;
     private javax.swing.JSpinner spinerQuantidade;
     private components.JTableDataBinder tableItem;
     private components.JDateField txtDataCompra;

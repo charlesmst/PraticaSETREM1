@@ -21,18 +21,6 @@ import javax.persistence.Table;
 public class Estoque implements Serializable {
 
     @Override
-    public String toString() {
-        return lote;
-    }
-
-    @Override
-    public int hashCode() {
-        int hash = 7;
-        hash = 83 * hash + this.id;
-        return hash;
-    }
-
-    @Override
     public boolean equals(Object obj) {
         if (obj == null) {
             return false;
