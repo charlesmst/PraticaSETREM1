@@ -274,10 +274,10 @@ public class FrmOrdemCadastro extends JDialogController {
     private void salvar() {
         if (ordem.getOrdemStatus().isFinaliza() && ordem.getConta() == null) {
             int dialogResult = JOptionPane.showConfirmDialog(null, "Para a ordem de serviço ser finalizada, deve ser cadastrada uma conta para ela, deseja cadastrar agora?");
-            if(dialogResult == JOptionPane.YES_OPTION){
+            if (dialogResult == JOptionPane.YES_OPTION) {
                 btnFinalizar.doClick();
                 return;
-            }else{
+            } else {
                 setStatusPadrao();
                 JOptionPane.showMessageDialog(rootPane, "A ordem não foi finalizada");
             }
@@ -316,7 +316,7 @@ public class FrmOrdemCadastro extends JDialogController {
         relatorio.setAno(ordem.getVeiculo().getAno() == 0 ? "" : ordem.getVeiculo().getAno() + "");
         relatorio.setValorTotal(Utils.formataDinheiro(service.valorTotal(ordem)));
         relatorio.setCor(ordem.getVeiculo().getCor().getNome());
-
+        relatorio.setDesconto(Utils.formataDinheiro(ordem.getDesconto()));
         for (Object item : listagem()) {
             ItemFichaServico i = new ItemFichaServico();
             if (item instanceof OrdemServico) {
@@ -635,7 +635,18 @@ public class FrmOrdemCadastro extends JDialogController {
             });
             frmDesconto.setVisible(true);
         } else {
+            if (!ordem.getOrdemStatus().isFinaliza()) {
+                int codigoStatus = Integer.parseInt(Parametros.getInstance().getValue("status_finalizador"));
+                ordem.setOrdemStatus(new OrdemStatusService().findById(codigoStatus));
+            }
+            salvar();
             Forms.mensagem("Ordem de serviço já está finalizada", AlertaTipos.sucesso);
+
+            //Se já foi gerada a conta, mas os valores foram alterados, deve ser exibida a conta
+            if (ordem.getConta().getValorTotal() != service.valorTotal(ordem) - ordem.getDesconto()) {
+                FrmContaCadastro frmConta = new FrmContaCadastro(ordem.getConta().getId());
+                frmConta.setVisible(true);
+            }
             imprimirFicha();
 
         }

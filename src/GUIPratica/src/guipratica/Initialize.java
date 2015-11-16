@@ -58,7 +58,7 @@ public class Initialize {
         //Cria os indices automaticamente
         try {
             s = HibernateUtil.getSessionFactory().openSession();
-            List<String> l =s.createSQLQuery("SELECT 'CREATE INDEX fk_' || conname || '_idx ON ' \n"
+            List<String> l = s.createSQLQuery("SELECT 'CREATE INDEX fk_' || conname || '_idx ON ' \n"
                     + "       || relname || ' ' || \n"
                     + "       regexp_replace(\n"
                     + "           regexp_replace(pg_get_constraintdef(pg_constraint.oid, true), \n"
@@ -75,14 +75,14 @@ public class Initialize {
                     + "    JOIN pg_namespace pgn ON (pgc.relnamespace = pgn.oid)\n"
                     + "  WHERE relkind='i'\n"
                     + "    AND pgc.relname = ('fk_' || conname || '_idx') )").list();
-            
+
             s.beginTransaction();
             for (String l1 : l) {
-                s.doWork((c)->{
+                s.doWork((c) -> {
                     c.createStatement().execute(l1);
-                    
+
                 });
-                
+
             }
         } finally {
             if (s != null) {
@@ -145,7 +145,7 @@ public class Initialize {
         });
         Parametros.getInstance().validaParametro("status_inicial", (value) -> {
             OrdemStatus c = serviceStatus.findById(Integer.parseInt(value));
-            return c != null ;
+            return c != null;
         }, (value) -> {
             OrdemStatus cat = new OrdemStatus();
             cat.setNome("ABERTO");
@@ -185,6 +185,20 @@ public class Initialize {
             cat.setSenha(utils.Utils.criptografa("ADMIN"));
             new UsuarioService().insert(cat);
             return cat.getId() + "";
+        });
+
+        //forma_pagamento_a_vista
+        Parametros.getInstance().validaParametro("categoria_terceiros", (value) -> {
+            ContaCategoria cc = new ContaCategoriaService().findById(Integer.parseInt(value));
+            return cc != null && cc.getTipo() == ContaCategoria.TipoCategoria.saida && cc.isAtivo();
+        }, (value) -> {
+
+            ContaCategoria cc = new ContaCategoria();
+            cc.setAtivo(true);
+            cc.setNome("SERVIÇOES DE TERCEIROS");
+            cc.setTipo(ContaCategoria.TipoCategoria.saida);
+            new ContaCategoriaService().insert(cc);
+            return cc.getId() + "";
         });
     }
 }

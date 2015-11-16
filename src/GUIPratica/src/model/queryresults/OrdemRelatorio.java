@@ -23,6 +23,7 @@ public class OrdemRelatorio {
     private String valorTotal;
     private String ano;
     private String cor;
+    private String desconto;
     private List<ItemFichaServico> itens = new ArrayList<>();
 
     public String getCliente() {
@@ -127,6 +128,14 @@ public class OrdemRelatorio {
 
     public void setItens(List<ItemFichaServico> itens) {
         this.itens = itens;
+    }
+
+    public String getDesconto() {
+        return desconto;
+    }
+
+    public void setDesconto(String desconto) {
+        this.desconto = desconto;
     }
 
 }

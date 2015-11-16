@@ -130,6 +130,9 @@ public class FrmContaCadastro extends JDialogController {
 //        initBindings();
     }
 
+    public void setCategoria(ContaCategoria cc){
+        conta.setCategoria(cc);
+    }
     private boolean binded = false;
 
     private void initBindings() {

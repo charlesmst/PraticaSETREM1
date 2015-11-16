@@ -29,8 +29,10 @@ public class OrdemService extends Service<Ordem> {
     @Override
     public void insert(Ordem obj) throws ServiceException {
         executeOnTransaction((s, t) -> {
-//            Set<EstoqueMovimentacao> estoques = obj.getEstoqueMovimentacaos();
-//            obj.setEstoqueMovimentacaos(null);
+
+            if (obj.getDescricao() != null) {
+                obj.setDescricao(obj.getDescricao().toUpperCase());
+            }
             if (obj.getId() == 0) {
                 s.save(obj);
             } else {

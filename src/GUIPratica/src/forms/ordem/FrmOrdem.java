@@ -14,6 +14,7 @@ import javax.swing.JDialog;
 import model.ordem.Ordem;
 import services.ServiceException;
 import services.ordem.OrdemService;
+import utils.Utils;
 
 /**
  *
@@ -38,13 +39,20 @@ public class FrmOrdem extends JPanelControleButtons {
             @Override
             public Collection<Ordem> lista(String busca) throws ServiceException {
 
-                return service.findByMultipleColumns(busca, "id", "id");
+                return service.findByMultipleColumns(busca, "id", "id","descricao","veiculo.placa","pessoa.nome","ordemStatus.nome");
 
             }
 
             @Override
             public Object[] addRow(Ordem dado) {
-                return new Object[]{dado.getId(), dado.getDescricao()};
+                return new Object[]{
+                    dado.getId(), 
+                    dado.getDescricao(),
+                    Utils.formataDate(dado.getPrazo()),
+                    dado.getPessoa().getNome(),
+                    dado.getVeiculo() != null? dado.getVeiculo().toString():"",
+                    dado.getOrdemStatus().getNome()
+                };
 
             }
         });
@@ -64,20 +72,17 @@ public class FrmOrdem extends JPanelControleButtons {
 
         table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null}
+
             },
             new String [] {
-                "Código", "Descrição"
+                "Código", "Descrição", "Prazo", "Cliente", "Veículo", "Status"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class
+                java.lang.String.class, java.lang.String.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false
+                false, false, false, false, true, false
             };
 
             public Class getColumnClass(int columnIndex) {

@@ -25,6 +25,7 @@ import services.ordem.MarcaService;
 import services.ordem.OrdemTipoServicoService;
 import utils.AlertaTipos;
 import utils.Forms;
+import utils.Parametros;
 import utils.Utils;
 
 /**
@@ -84,9 +85,11 @@ public class FrmOrdemServicoCadastro extends JDialogController {
         m.setOrdem(ordem);
         m.setTipoServico((OrdemTipoServico) jcbServico.getSelectedItem());
         m.setQuantidade((Integer) txtQuantidade.getValue());
-        ordem.getOrdemServicos().add(m);
         ThrowingCommand command = () -> {
+
             service.insert(m);
+            ordem.getOrdemServicos().add(m);
+
             dispose();
         };
         if (jcbTerceiro.isSelected()) {
@@ -96,7 +99,8 @@ public class FrmOrdemServicoCadastro extends JDialogController {
                 command.action();
             } else {
                 FrmContaCadastro frm = new FrmContaCadastro(getValorTotal(), 1, txtNotaFiscal.getText(), Conta.ContaTipo.conta, ContaCategoria.TipoCategoria.saida);
-                frm.setDescricao("SERVIÇO DE TERCEIRO RELACIONAO A ORDEM DE SERVIÇO "+ordem.getId());
+                frm.setDescricao("SERVIÇO DE TERCEIRO RELACIONAO A ORDEM DE SERVIÇO " + ordem.getId());
+                frm.setCategoria(new ContaCategoria(Integer.valueOf(Parametros.getInstance().getValue("categoria_terceiros"))));
                 frm.setListenerOnSave((conta) -> {
                     m.setConta(conta);
                     command.action();

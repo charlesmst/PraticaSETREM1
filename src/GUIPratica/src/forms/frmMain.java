@@ -22,7 +22,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.ImageIcon;
 import javax.swing.Timer;
+import jdk.nashorn.internal.objects.Global;
+import model.Usuario;
 import utils.AlertaTipos;
+import utils.Globals;
 
 /**
  *
@@ -161,8 +164,8 @@ public class frmMain extends javax.swing.JFrame {
 
         TreeMenuModel model = new TreeMenuModel(new DefaultMutableTreeNode());
         DefaultMutableTreeNode root = (DefaultMutableTreeNode) model.getRoot();
-        root.setUserObject("JContabil");
-
+        root.setUserObject("ProCar");
+        boolean master = Globals.nivel == Usuario.Tipo.gestor;
         jTreeMenu.setModel(model);
 
 //        jTreeMenu.setRootVisible(false);
@@ -170,15 +173,16 @@ public class frmMain extends javax.swing.JFrame {
 
         jTreeMenu.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
 
-        DefaultMutableTreeNode gerenciamento = new DefaultMutableTreeNode("Gerenciamento");
-        gerenciamento.add(new TreeNodeMenu("Sumário de compras e vendas", "forms.fluxo.FrmRelatorioSumario"));
-        gerenciamento.add(new TreeNodeMenu("Livro Caixa", "forms.fluxo.FrmRelatorioLivroCaixa"));
-        gerenciamento.add(new TreeNodeMenu("Movimentações de caixa", "forms.fluxo.FrmRelatorioMovimentoCaixa"));
+        if (master) {
+            DefaultMutableTreeNode gerenciamento = new DefaultMutableTreeNode("Gerenciamento");
+            gerenciamento.add(new TreeNodeMenu("Sumário de compras e vendas", "forms.fluxo.FrmRelatorioSumario"));
+            gerenciamento.add(new TreeNodeMenu("Livro Caixa", "forms.fluxo.FrmRelatorioLivroCaixa"));
+            gerenciamento.add(new TreeNodeMenu("Movimentações de caixa", "forms.fluxo.FrmRelatorioMovimentoCaixa"));
 
-        gerenciamento.add(new TreeNodeMenu("Pessoas", "forms.frmPessoa"));
-        gerenciamento.add(new TreeNodeMenu("Usuários", "forms.frmUsuarios"));
-        root.add(gerenciamento);
-
+            gerenciamento.add(new TreeNodeMenu("Pessoas", "forms.frmPessoa"));
+            gerenciamento.add(new TreeNodeMenu("Usuários", "forms.frmUsuarios"));
+            root.add(gerenciamento);
+        }
 //----------------------------- Estoque -----------------------------//   
         DefaultMutableTreeNode estoque = new DefaultMutableTreeNode("Estoque");
 
@@ -188,8 +192,6 @@ public class frmMain extends javax.swing.JFrame {
         estoque.add(new TreeNodeMenu(("Item"), "forms.estoque.FrmItem"));
         estoque.add(new TreeNodeMenu(("Tipo de Movimentação"), "forms.estoque.FrmMovimentacaoTipo"));
 
-        
-        
         estoque.add(new TreeNodeMenu(("Movimentações"), "forms.estoque.FrmEstoque"));
 
         root.add(estoque);
@@ -198,8 +200,10 @@ public class frmMain extends javax.swing.JFrame {
         DefaultMutableTreeNode ordem = new DefaultMutableTreeNode("Ordem de Serviço");
 
         ordem.add(new TreeNodeMenu("Ordens de Serviço", "forms.ordem.FrmOrdem"));
-        ordem.add(new TreeNodeMenu("Tipos de Serviço", "forms.ordem.FrmOrdemTipoServico"));
-        ordem.add(new TreeNodeMenu("Status de Serviço", "forms.ordem.FrmOrdemStatus"));
+        if (master) {
+            ordem.add(new TreeNodeMenu("Tipos de Serviço", "forms.ordem.FrmOrdemTipoServico"));
+            ordem.add(new TreeNodeMenu("Status de Serviço", "forms.ordem.FrmOrdemStatus"));
+        }
         ordem.add(new TreeNodeMenu("Veiculos", "forms.ordem.FrmVeiculo"));
 
         ordem.add(new TreeNodeMenu("Marcas", "forms.ordem.FrmMarca"));
@@ -212,11 +216,12 @@ public class frmMain extends javax.swing.JFrame {
 //-------------------------------------------------------------------//    
         DefaultMutableTreeNode caixa = new DefaultMutableTreeNode("Fluxo de Caixa");
         caixa.add(new TreeNodeMenu("Contas a pagar e receber", "forms.fluxo.FrmConta"));
-        caixa.add(new TreeNodeMenu("Contas Bancárias", "forms.fluxo.FrmContaBancaria"));
+        if (master) {
+            caixa.add(new TreeNodeMenu("Contas Bancárias", "forms.fluxo.FrmContaBancaria"));
 
-        caixa.add(new TreeNodeMenu("Categorias de Conta", "forms.fluxo.FrmContaCategoria"));
-        caixa.add(new TreeNodeMenu("Formas de Pagamento", "forms.fluxo.FrmFormaPagamento"));
-
+            caixa.add(new TreeNodeMenu("Categorias de Conta", "forms.fluxo.FrmContaCategoria"));
+            caixa.add(new TreeNodeMenu("Formas de Pagamento", "forms.fluxo.FrmFormaPagamento"));
+        }
 //        caixa.add(new TreeNodeMenu("Usuários", "forms.frmUsuarios"));
         root.add(caixa);
 
@@ -230,6 +235,9 @@ public class frmMain extends javax.swing.JFrame {
             j = jTreeMenu.getRowCount();
         }
         startedTree = true;
+         jTreeMenu.setRootVisible(false) ;
+         jTreeMenu.setShowsRootHandles(true);
+
 
     }
 
@@ -533,7 +541,7 @@ public class frmMain extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 312, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jtabs))
             .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, 852, Short.MAX_VALUE)

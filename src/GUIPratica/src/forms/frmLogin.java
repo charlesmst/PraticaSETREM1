@@ -15,8 +15,10 @@ import java.security.NoSuchAlgorithmException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import jdk.nashorn.internal.objects.Global;
 import model.Usuario;
 import services.UsuarioService;
+import utils.Globals;
 
 /**
  *
@@ -54,8 +56,8 @@ public class frmLogin extends JDialogController {
         txtSenha = new components.PlaceholderPasswordField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setIconImage(utils.Globals.imageIcone);
         setModal(true);
-        setPreferredSize(new java.awt.Dimension(405, 318));
         setSize(new java.awt.Dimension(375, 300));
 
         btnLogin.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
@@ -149,7 +151,10 @@ public class frmLogin extends JDialogController {
 
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
         try {
-            if (service.autentica(txtUsuario.getText(), String.valueOf(txtSenha.getPassword()))) {
+            if (service.autentica(txtUsuario.getText().toUpperCase(), String.valueOf(txtSenha.getPassword()))) {
+                Usuario u = new UsuarioService().findBy("usuario", txtUsuario.getText().toUpperCase()).get(0);
+                Globals.idUsuarioOn = u.getPessoa().getId();
+                Globals.nivel = u.getNivel();
                 if (autenticadoEvent != null) {
                     autenticadoEvent.actionPerformed(new ActionEvent(evt, 1, "autenticado", 1));
                 }

@@ -584,6 +584,7 @@ public class FrmParcelaPagamentoCadastro extends JDialogController {
     }//GEN-LAST:event_jtbParcelaStateChanged
 
     private void jcbImpostosStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jcbImpostosStateChanged
+
         jffValor1.setValue(0);
         ajustaValores();
     }//GEN-LAST:event_jcbImpostosStateChanged
@@ -607,7 +608,8 @@ public class FrmParcelaPagamentoCadastro extends JDialogController {
     }//GEN-LAST:event_jffValorKeyPressed
 
     private void jcbParcelasExcessoStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jcbParcelasExcessoStateChanged
-        // TODO add your handling code here:
+        jffValor1.setValue(0);
+        ajustaValores();
     }//GEN-LAST:event_jcbParcelasExcessoStateChanged
 
 
