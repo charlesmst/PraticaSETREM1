@@ -8,6 +8,7 @@ package guipratica;
 import java.sql.PreparedStatement;
 import java.util.Date;
 import java.util.List;
+import javax.swing.UIManager;
 import model.Pessoa;
 import model.Usuario;
 import model.fluxo.ContaCategoria;
@@ -21,6 +22,7 @@ import services.UsuarioService;
 import services.fluxo.ContaCategoriaService;
 import services.fluxo.FormaPagamentoService;
 import services.ordem.OrdemStatusService;
+import utils.Globals;
 import utils.HibernateUtil;
 import utils.Parametros;
 
@@ -33,6 +35,7 @@ public class Initialize {
     public static void init() throws Exception {
         validaParametros();
         JRProperties.setProperty("net.sf.jasperreports.awt.ignore.missing.font", "true");
+
         criaIndices();
     }
 

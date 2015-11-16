@@ -17,6 +17,7 @@ import javax.swing.tree.TreeSelectionModel;
 import components.TreeMenuModel;
 import components.TreeNodeMenu;
 import components.JPanelControleButtons;
+import components.JTreeMenuRenderer;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -161,7 +162,7 @@ public class frmMain extends javax.swing.JFrame {
     }
 
     private void setupTree() {
-
+        jTreeMenu.setCellRenderer(new JTreeMenuRenderer());
         TreeMenuModel model = new TreeMenuModel(new DefaultMutableTreeNode());
         DefaultMutableTreeNode root = (DefaultMutableTreeNode) model.getRoot();
         root.setUserObject("ProCar");
@@ -486,6 +487,11 @@ public class frmMain extends javax.swing.JFrame {
         jMenu2.add(jMenuItem1);
 
         jMenuItem2.setText("Sair");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
         jMenu2.add(jMenuItem2);
 
         jMenuBar1.add(jMenu2);
@@ -631,6 +637,10 @@ public class frmMain extends javax.swing.JFrame {
     private void menuAtualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuAtualizarActionPerformed
         btnAtualizar.doClick();        // TODO add your handling code here:
     }//GEN-LAST:event_menuAtualizarActionPerformed
+
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        System.exit(0);
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     /**
      * @param args the command line arguments
