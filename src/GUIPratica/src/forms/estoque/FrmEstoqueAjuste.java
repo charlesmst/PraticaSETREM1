@@ -3,6 +3,7 @@ package forms.estoque;
 import components.JDialogController;
 import forms.fluxo.FrmContaCadastro;
 import forms.frmMain;
+import java.util.Date;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import model.estoque.Estoque;
@@ -46,7 +47,7 @@ public class FrmEstoqueAjuste extends JDialogController {
         estMov = service.findById(id);
         est = estMov.getEstoque();
         txtCodigo.setText(estMov.getId() + "");
-        txtItem.setText(est.getItem().getId() + "");
+        txtItem.setText(est.getItem().getDescricao() + "");
     }
 
     @SuppressWarnings("unchecked")
@@ -58,13 +59,14 @@ public class FrmEstoqueAjuste extends JDialogController {
         jLabel2 = new javax.swing.JLabel();
         txtCodigo = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
-        txtItem = new components.F2(FrmItemF2.class, (id) -> new ItemService().findById(id).getDescricao());
         jLabel4 = new javax.swing.JLabel();
         txtTipoAjuste = new javax.swing.JComboBox();
         btnSalvar = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
+        txtItem = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setResizable(false);
 
         txtQuantidade.setModel(new javax.swing.SpinnerNumberModel(Integer.valueOf(1), Integer.valueOf(1), null, Integer.valueOf(1)));
 
@@ -73,7 +75,7 @@ public class FrmEstoqueAjuste extends JDialogController {
         jLabel2.setText("Código");
 
         txtCodigo.setEditable(false);
-        txtCodigo.setEnabled(false);
+        txtCodigo.setBackground(new java.awt.Color(255, 255, 255));
 
         jLabel3.setText("Item");
 
@@ -95,6 +97,8 @@ public class FrmEstoqueAjuste extends JDialogController {
             }
         });
 
+        txtItem.setEditable(false);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -114,11 +118,11 @@ public class FrmEstoqueAjuste extends JDialogController {
                             .addComponent(jLabel1))
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addComponent(txtCodigo)
-                    .addComponent(txtItem, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(btnSalvar, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnCancelar)))
+                        .addComponent(btnCancelar))
+                    .addComponent(txtItem))
                 .addContainerGap(20, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -155,6 +159,7 @@ public class FrmEstoqueAjuste extends JDialogController {
 
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
         estMov.setQuantidade((Integer) txtQuantidade.getValue());
+        estMov.setDataLancamento(new Date());
         if (txtTipoAjuste.getSelectedIndex() == 0) {
             int id = Integer.parseInt(Parametros.getInstance().getValue("ajuste_entrada"));
             MovimentacaoTipo t = new MovimentacaoTipo();
@@ -204,7 +209,7 @@ public class FrmEstoqueAjuste extends JDialogController {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JTextField txtCodigo;
-    private components.F2 txtItem;
+    private javax.swing.JTextField txtItem;
     private javax.swing.JSpinner txtQuantidade;
     private javax.swing.JComboBox txtTipoAjuste;
     // End of variables declaration//GEN-END:variables

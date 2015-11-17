@@ -117,6 +117,8 @@ public class FrmMovimentacaoTipoCadastro extends JDialogController {
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jLabel1.setText("Código:");
 
+        txtCodigo.setEditable(false);
+        txtCodigo.setBackground(new java.awt.Color(255, 255, 255));
         txtCodigo.setMargin(new java.awt.Insets(2, 8, 2, 2));
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
