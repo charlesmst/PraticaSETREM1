@@ -5,6 +5,7 @@
  */
 package forms.ordem;
 
+import components.CellRenderer;
 import java.awt.event.ActionEvent;
 import components.JPanelControleButtons;
 
@@ -28,6 +29,7 @@ public class FrmVeiculo extends JPanelControleButtons {
 
     public FrmVeiculo() {
         initComponents();
+        table.setDefaultRenderer(Object.class, new CellRenderer());
         setBtnAddEnable(true);
         setBtnAlterarEnable(true);
         setBtnExcluirEnable(true);
@@ -39,12 +41,12 @@ public class FrmVeiculo extends JPanelControleButtons {
 
             @Override
             public Collection<Veiculo> lista(String busca) throws ServiceException {
-                return service.findByMultipleColumns(busca, "id", "id", "placa","ano","modelo.nome","placa","chassi");
+                return service.findByMultipleColumns(busca, "id", "id", "placa", "ano", "modelo.nome", "placa", "chassi");
             }
 
             @Override
             public Object[] addRow(Veiculo dado) {
-                return new Object[]{dado.getId(), dado.getPlaca(),dado.getModelo().toString(),dado.getCor(),dado.getAno()==0?"":dado.getAno(),dado.getChassi()};
+                return new Object[]{dado.getId() + "", dado.getPlaca(), dado.getModelo().toString(), dado.getCor(), dado.getAno() == 0 ? "" : dado.getAno()+"", dado.getChassi()};
             }
         });
 

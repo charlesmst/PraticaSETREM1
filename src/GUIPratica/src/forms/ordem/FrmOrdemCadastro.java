@@ -5,6 +5,7 @@
  */
 package forms.ordem;
 
+import components.CellRenderer;
 import components.JDialogController;
 import components.JTableDataBinderListener;
 import forms.frmMain;
@@ -74,8 +75,8 @@ public class FrmOrdemCadastro extends JDialogController {
     public FrmOrdemCadastro(int id) {
         super(frmMain.getInstance(), "Manutenção de Ordem de serviço");
         this.id = id;
-
         initComponents();
+        table.setDefaultRenderer(Object.class, new CellRenderer());
         setupForm();
     }
     List lordenada;
@@ -97,7 +98,6 @@ public class FrmOrdemCadastro extends JDialogController {
         setDefaultButton(btnSalvar);
 
         validator.validarObrigatorio(txtCliente);
-//      validator.validarObrigatorio(txtVeiculo);
         validator.validarObrigatorio(jcbStatus);
         validator.validarDeBanco(txtCliente, new PessoaService());
         validator.validarDeBanco(txtVeiculo, new VeiculoService());
@@ -117,22 +117,22 @@ public class FrmOrdemCadastro extends JDialogController {
                 Object[] l = new Object[7];
                 if (dado instanceof OrdemServico) {
                     OrdemServico s = ((OrdemServico) dado);
-                    l[0] = s.getId();
+                    l[0] = s.getId()+"";
                     l[1] = "SERVIÇO";
                     if (s.getConta() != null) {
                         l[1] += " DE TERCEIRO";
                     }
                     l[2] = Utils.formataDinheiro(s.getValorEntrada());
-                    l[3] = s.getQuantidade();
+                    l[3] = s.getQuantidade()+"";
                     l[4] = s.getTipoServico().getNome();
                     l[5] = Utils.formataDate(s.getDataRealizada());
                     l[6] = Utils.formataDinheiro(s.getValorEntrada() * s.getQuantidade());
                 } else {
                     EstoqueMovimentacao m = (EstoqueMovimentacao) dado;
-                    l[0] = m.getId();
+                    l[0] = m.getId()+"";
                     l[1] = "PEÇA";
                     l[2] = Utils.formataDinheiro(m.getValorUnitarioVenda());
-                    l[3] = m.getQuantidade();
+                    l[3] = m.getQuantidade()+"";
                     l[4] = m.getEstoque().getItem().getDescricao();
                     l[5] = Utils.formataDate(m.getDataLancamento());
                     l[6] = Utils.formataDinheiro(m.getValorUnitarioVenda() * m.getQuantidade());

@@ -5,6 +5,7 @@
  */
 package forms.ordem;
 
+import components.CellRenderer;
 import java.awt.event.ActionEvent;
 import components.JPanelControleButtons;
 
@@ -28,6 +29,7 @@ public class FrmCor extends JPanelControleButtons {
 
     public FrmCor() {
         initComponents();
+        table.setDefaultRenderer(Object.class, new CellRenderer());
         setBtnAddEnable(true);
         setBtnAlterarEnable(true);
         setBtnExcluirEnable(true);

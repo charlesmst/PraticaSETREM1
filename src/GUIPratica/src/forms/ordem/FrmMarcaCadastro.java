@@ -21,9 +21,6 @@ public class FrmMarcaCadastro extends JDialogController {
     private int id;
     private final MarcaService service = new MarcaService();
 
-    /**
-     * Creates new form frmCadastroMarca
-     */
     public FrmMarcaCadastro() {
         this(0);
     }

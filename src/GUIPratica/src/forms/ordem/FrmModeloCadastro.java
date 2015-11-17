@@ -46,6 +46,7 @@ public class FrmModeloCadastro extends JDialogController {
         txtCodigo.setEnabled(false);
 
         validator.validarObrigatorio(txtNome);
+        validator.validarCustom(txtNome, (valor) -> service.unico(id, valor), "Modelo já cadastrado");
         validator.validarObrigatorio(txtMarca);
         validator.validarDeBanco(txtMarca, new MarcaService());
         if (id > 0) {

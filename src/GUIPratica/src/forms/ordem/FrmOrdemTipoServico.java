@@ -5,6 +5,7 @@
  */
 package forms.ordem;
 
+import components.CellRenderer;
 import java.awt.event.ActionEvent;
 import components.JPanelControleButtons;
 
@@ -28,6 +29,7 @@ public class FrmOrdemTipoServico extends JPanelControleButtons {
 
     public FrmOrdemTipoServico() {
         initComponents();
+        table.setDefaultRenderer(Object.class, new CellRenderer());
         setBtnAddEnable(true);
         setBtnAlterarEnable(true);
         setBtnExcluirEnable(true);
@@ -46,7 +48,7 @@ public class FrmOrdemTipoServico extends JPanelControleButtons {
 
             @Override
             public Object[] addRow(OrdemTipoServico dado) {
-                return new Object[]{dado.getId(), dado.getNome(), Utils.formataDinheiro(dado.getValorEntrada()), dado.isAtivo() ? Globals.iconeSuccess : Globals.iconeError};
+                return new Object[]{dado.getId()+"", dado.getNome(), Utils.formataDinheiro(dado.getValorEntrada()), dado.isAtivo() ? Globals.iconeSuccess : Globals.iconeError};
 
             }
         });

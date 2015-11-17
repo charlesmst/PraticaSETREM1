@@ -5,6 +5,7 @@
  */
 package forms.ordem;
 
+import components.CellRenderer;
 import java.awt.event.ActionEvent;
 import components.JPanelControleButtons;
 
@@ -27,6 +28,7 @@ public class FrmOrdem extends JPanelControleButtons {
 
     public FrmOrdem() {
         initComponents();
+        table.setDefaultRenderer(Object.class, new CellRenderer());
         setBtnAddEnable(true);
         setBtnAlterarEnable(true);
         setBtnExcluirEnable(true);
@@ -46,7 +48,7 @@ public class FrmOrdem extends JPanelControleButtons {
             @Override
             public Object[] addRow(Ordem dado) {
                 return new Object[]{
-                    dado.getId(), 
+                    dado.getId()+"", 
                     dado.getDescricao(),
                     Utils.formataDate(dado.getPrazo()),
                     dado.getPessoa().getNome(),

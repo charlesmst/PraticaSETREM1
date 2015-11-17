@@ -32,6 +32,7 @@ public class FrmCidadeCadastro extends JDialogController {
         setDefaultButton(btnSalvar);
         txtCodigo.setEnabled(false);
         validator.validarObrigatorio(txtNome);
+        validator.validarCustom(txtCep, (valor) -> service.unico(id, valor), "CEP já cadastrado");
         if (id > 0) {
             load();
         }

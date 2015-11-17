@@ -31,8 +31,8 @@ public class CidadeService extends Service<Cidade> {
         obj.setUf(obj.getUf().substring(0, 2).toUpperCase());
         super.insert(obj); //To change body of generated methods, choose Tools | Templates.
     }
-    
+
     public boolean unico(int id, String nome) throws org.hibernate.service.spi.ServiceException {
-        return findFilter(Restrictions.ne("id", id), Restrictions.eq("nome", nome)).isEmpty();
+        return findFilter(Restrictions.ne("id", id), Restrictions.eq("cep", nome)).isEmpty();
     }
 }

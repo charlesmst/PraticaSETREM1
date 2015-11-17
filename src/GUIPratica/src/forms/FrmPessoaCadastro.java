@@ -127,50 +127,54 @@ public class FrmPessoaCadastro extends JDialogController {
     }
 
     private void save() {
+        txtNome.getText().trim();
         if (!txtRadioFisica.isSelected() && !txtRadioJuridica.isSelected()) {
             utils.Forms.mensagem("Selecione o tipo de Pessoa", AlertaTipos.erro);
-        }
-        p.setNome(txtNome.getText());
-        p.setTelefone(txtTelefone.getText());
-        p.setTelefoneSecundario(txtTelefone2.getText());
-        p.setEmail(txtEmail.getText());
-        if (txtCheckDefDataNasc.isSelected()) {
-            p.setDataNascimento(txtDataNasc.getDate());
-        } else {
-            p.setDataNascimento(null);
-        }
-        p.setCidade(new CidadeService().findById(Integer.parseInt(txtCidade.getText())));
-        p.setEndereco(txtEndereco.getText());
-        if (txtRadioFisica.isSelected()) {
-            if (txtSexo.getSelectedIndex() == 0) {
-                pF.setSexo(PessoaFisica.SexoPessoa.masculino);
-            } else if (txtSexo.getSelectedIndex() == 1) {
-                pF.setSexo(PessoaFisica.SexoPessoa.feminino);
+        } else if (txtNome.getText().trim().length() > 0) {
+            p.setNome(txtNome.getText());
+            p.setTelefone(txtTelefone.getText());
+            p.setTelefoneSecundario(txtTelefone2.getText());
+            p.setEmail(txtEmail.getText());
+            if (txtCheckDefDataNasc.isSelected()) {
+                p.setDataNascimento(txtDataNasc.getDate());
+            } else {
+                p.setDataNascimento(null);
             }
-            pF.setPessoa(p);
-            pF.setCpf(txtCpf.getText());
-            pF.setRg(txtRg.getText());
-            p.setTipo(Pessoa.TipoPessoa.fisica);
-            Utils.safeCode(() -> {
+            p.setCidade(new CidadeService().findById(Integer.parseInt(txtCidade.getText())));
+            p.setEndereco(txtEndereco.getText());
+            if (txtRadioFisica.isSelected()) {
+                if (txtSexo.getSelectedIndex() == 0) {
+                    pF.setSexo(PessoaFisica.SexoPessoa.masculino);
+                } else if (txtSexo.getSelectedIndex() == 1) {
+                    pF.setSexo(PessoaFisica.SexoPessoa.feminino);
+                }
+                pF.setPessoa(p);
+                pF.setCpf(txtCpf.getText());
+                pF.setRg(txtRg.getText());
+                p.setTipo(Pessoa.TipoPessoa.fisica);
+                Utils.safeCode(() -> {
 
-                new PessoaFisicaService().insert(pF);
+                    new PessoaFisicaService().insert(pF);
 
-                utils.Forms.mensagem(utils.Mensagens.registroSalvo, AlertaTipos.sucesso);
-                dispose();
-            });
-        } else if (txtRadioJuridica.isSelected()) {
-            pJ.setPessoa(p);
-            pJ.setNomeFantasia(txtNomeFantasia.getText());
-            pJ.setRazaoSocial(txtRazaoSocial.getText());
-            pJ.setCnpj(txtCnpj.getText());
-            p.setTipo(Pessoa.TipoPessoa.juridica);
-            Utils.safeCode(() -> {
+                    utils.Forms.mensagem(utils.Mensagens.registroSalvo, AlertaTipos.sucesso);
+                    dispose();
+                });
+            } else if (txtRadioJuridica.isSelected()) {
+                pJ.setPessoa(p);
+                pJ.setNomeFantasia(txtNomeFantasia.getText());
+                pJ.setRazaoSocial(txtRazaoSocial.getText());
+                pJ.setCnpj(txtCnpj.getText());
+                p.setTipo(Pessoa.TipoPessoa.juridica);
+                Utils.safeCode(() -> {
 
-                new PessoaJuridicaService().insert(pJ);
+                    new PessoaJuridicaService().insert(pJ);
 
-                utils.Forms.mensagem(utils.Mensagens.registroSalvo, AlertaTipos.sucesso);
-                dispose();
-            });
+                    utils.Forms.mensagem(utils.Mensagens.registroSalvo, AlertaTipos.sucesso);
+                    dispose();
+                });
+            }
+        } else {
+            utils.Forms.mensagem("Campos obrigatórios inválidos", AlertaTipos.erro);
         }
     }
 

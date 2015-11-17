@@ -49,6 +49,7 @@ public class FrmEstoqueCadastro extends JDialogController {
     List<MovimentacaoTipo> movTipo;
     Estoque est;
     EstoqueMovimentacao estMov;
+    int seq = 0;
 
     public FrmEstoqueCadastro() {
         this(0);
@@ -88,6 +89,7 @@ public class FrmEstoqueCadastro extends JDialogController {
             @Override
             public Object[] addRow(Estoque dado) {
                 return new String[]{
+                    "" + dado.getId(),
                     "" + dado.getItem().getDescricao(),
                     "" + Utils.formataDinheiro(dado.getValorUnitario()),
                     "" + dado.getQuantidadeDisponivel(),
@@ -104,15 +106,17 @@ public class FrmEstoqueCadastro extends JDialogController {
         } else {
             Utils.safeCode(() -> {
 
-                for (EstoqueMovimentacao estoqueMovimentacoe : estoqueMovimentacoes) {
-                    estoqueMovimentacoe.setPessoa(new Pessoa(txtPessoa.getValueSelected()));
+                for (EstoqueMovimentacao estoqueMovimentacao : estoqueMovimentacoes) {
+                    estoqueMovimentacao.setPessoa(new Pessoa(txtPessoa.getValueSelected()));
+                    estoqueMovimentacao.setId(0);
+                    estoqueMovimentacao.getEstoque().setId(0);
                 }
                 FrmContaCadastro frmConta = new FrmContaCadastro(txtValorTotal.getValue(), 1, txtNotaFiscal.getText(), Conta.ContaTipo.estoque, ContaCategoria.TipoCategoria.saida);
                 frmConta.setPessoa(txtPessoa.getValueSelected(), true);
                 frmConta.setDescricao("ENTRADA DE ESTOQUE DO FORNECEDOR " + txtPessoa.getTextValue());
                 frmConta.setListenerOnSave((c) -> {
-                    for (EstoqueMovimentacao estoqueMovimentacoe : estoqueMovimentacoes) {
-                        estoqueMovimentacoe.setConta(c);
+                    for (EstoqueMovimentacao estoqueMovimentacao : estoqueMovimentacoes) {
+                        estoqueMovimentacao.setConta(c);
                     }
                     serviceEst.insert(estoque, estoqueMovimentacoes);
                     utils.Forms.mensagem(utils.Mensagens.registroSalvo, AlertaTipos.sucesso);
@@ -121,7 +125,6 @@ public class FrmEstoqueCadastro extends JDialogController {
                 frmConta.setVisible(true);
             });
         }
-
     }
 
     @SuppressWarnings("unchecked")
@@ -175,6 +178,7 @@ public class FrmEstoqueCadastro extends JDialogController {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Cadastro das entradas de Estoque");
+        setResizable(false);
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jLabel2.setText("Lote:");
@@ -275,11 +279,11 @@ public class FrmEstoqueCadastro extends JDialogController {
 
             },
             new String [] {
-                "Item", "Valor Unit.", "Quantidade", "Data de Compra", "Lote"
+                "ID", "Item", "Valor Unit.", "Quantidade", "Data de Compra", "Lote"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
+                false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -287,6 +291,11 @@ public class FrmEstoqueCadastro extends JDialogController {
             }
         });
         jScrollPane3.setViewportView(tableItem);
+        if (tableItem.getColumnModel().getColumnCount() > 0) {
+            tableItem.getColumnModel().getColumn(0).setMinWidth(30);
+            tableItem.getColumnModel().getColumn(0).setPreferredWidth(30);
+            tableItem.getColumnModel().getColumn(0).setMaxWidth(30);
+        }
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -435,9 +444,10 @@ public class FrmEstoqueCadastro extends JDialogController {
         if (!validator.isValido()) {
             return;
         }
+        seq++;
         Estoque est = new Estoque();
         EstoqueMovimentacao estMov = new EstoqueMovimentacao();
-        estMov.setEstoque(est);
+        //estMov.setEstoque(est);
         est.setItem(new ItemService().findById(txtItem.getValueSelected()));
         try {
             estMov.setMovimentacaoTipo((MovimentacaoTipo) jcbTipoMovimentacao.getModel().getSelectedItem());
@@ -456,6 +466,8 @@ public class FrmEstoqueCadastro extends JDialogController {
             est.setDataValidade(null);
         }
         estMov.setNotaFiscal(txtNotaFiscal.getText());
+        estMov.setId(seq);
+        est.setId(estMov.getId());
         est.setValorUnitario(txtValorCompra.getValue());
         est.setQuantidadeDisponivel(Integer.parseInt(spinerQuantidade.getValue().toString()));
         estMov.setEstoque(est);
@@ -466,7 +478,19 @@ public class FrmEstoqueCadastro extends JDialogController {
     }//GEN-LAST:event_btnAdicionarActionPerformed
 
     private void btnRemoverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoverActionPerformed
-        JOptionPane.showMessageDialog(null, estoque.size());
+        int linha = tableItem.getSelectedId();
+        if (linha < 1) {
+            utils.Forms.mensagem("Selecione um item da tabela", AlertaTipos.erro);
+        } else {
+            JOptionPane.showMessageDialog(null, linha);
+            for (int x = 0; x < estoque.size(); x++) {
+                if (estoque.get(x).getId() == linha) {
+                    estoque.remove(estoque.get(x));
+                    estoqueMovimentacoes.remove(estoqueMovimentacoes.get(x));
+                    refreshTable();
+                }
+            }
+        }
     }//GEN-LAST:event_btnRemoverActionPerformed
 
     private void chkDataValidadeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkDataValidadeActionPerformed

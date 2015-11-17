@@ -68,7 +68,7 @@ public class FrmVeiculoCadastro extends JDialogController {
     private void load() {
         Veiculo m = service.findById(id);
         txtCodigo.setText(String.valueOf(m.getId()));
-        txtCor.setText(m.getCor().getNome());
+        txtCor.setText(m.getCor().getId() + "");
         txtAno.setValue(m.getAno());
         txtModelo.setText(m.getModelo().getId() + "");
         txtObservacao.setText(m.getObservacao());
