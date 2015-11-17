@@ -11,6 +11,7 @@ import java.util.List;
 import javax.swing.UIManager;
 import model.Pessoa;
 import model.Usuario;
+import model.estoque.MovimentacaoTipo;
 import model.fluxo.ContaCategoria;
 import model.fluxo.FormaPagamento;
 import model.ordem.OrdemStatus;
@@ -19,6 +20,7 @@ import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import services.PessoaService;
 import services.UsuarioService;
+import services.estoque.MovimentacaoTipoService;
 import services.fluxo.ContaCategoriaService;
 import services.fluxo.FormaPagamentoService;
 import services.ordem.OrdemStatusService;
@@ -202,6 +204,30 @@ public class Initialize {
             cc.setTipo(ContaCategoria.TipoCategoria.saida);
             new ContaCategoriaService().insert(cc);
             return cc.getId() + "";
+        });
+
+        Parametros.getInstance().validaParametro("ajuste_saida", (value) -> {
+            MovimentacaoTipo cc = new MovimentacaoTipoService().findById(Integer.parseInt(value));
+            return cc != null && cc.getTipo() == MovimentacaoTipo.TipoMovimentacao.saida && cc.isAtivo();
+        }, (value) -> {
+            MovimentacaoTipo mT = new MovimentacaoTipo();
+            mT.setAtivo(true);
+            mT.setDescricao("AJUSTE SAIDA");
+            mT.setTipo(MovimentacaoTipo.TipoMovimentacao.saida);
+            new MovimentacaoTipoService().insert(mT);
+            return mT.getId() + "";
+        });
+        
+        Parametros.getInstance().validaParametro("ajuste_entrada", (value) -> {
+            MovimentacaoTipo cc = new MovimentacaoTipoService().findById(Integer.parseInt(value));
+            return cc != null && cc.getTipo() == MovimentacaoTipo.TipoMovimentacao.entrada && cc.isAtivo();
+        }, (value) -> {
+            MovimentacaoTipo mT = new MovimentacaoTipo();
+            mT.setAtivo(true);
+            mT.setDescricao("AJUSTE ENTRADA");
+            mT.setTipo(MovimentacaoTipo.TipoMovimentacao.entrada);
+            new MovimentacaoTipoService().insert(mT);
+            return mT.getId() + "";
         });
     }
 }

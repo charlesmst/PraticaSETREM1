@@ -79,7 +79,7 @@ public class FrmOrdemItemCadastro extends JDialogController {
     private void save() {
         item = new ItemService().findById(txtItem.getValueSelected());
         if (txtValor.getValue() <= 0) {
-            utils.Forms.mensagem("Informe o valor de venda!", AlertaTipos.erro);
+            utils.Forms.mensagem("Informe o valor de venda", AlertaTipos.erro);
             return;
         } else if (!validator.isValido()) {
             return;

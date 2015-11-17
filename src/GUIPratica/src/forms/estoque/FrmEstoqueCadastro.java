@@ -447,8 +447,7 @@ public class FrmEstoqueCadastro extends JDialogController {
         estMov.setValorUnitario(txtValorCompra.getValue());
         estMov.setQuantidade(Integer.parseInt(spinerQuantidade.getValue().toString()));
         estMov.setDataLancamento(new Date());
-        estMov.setDescricao("ENTRADA DE " + estMov.getQuantidade() + " -> " + est.getItem().getItemTipo().getNome()
-                + " -> " + est.getItem().getDescricao());
+        estMov.setDescricao("ENTRADA DE " + est.getItem().getDescricao());
         est.setDataCompra(txtDataCompra.getDate());
         est.setLote(txtLote.getText());
         if (chkDataValidade.isSelected()) {

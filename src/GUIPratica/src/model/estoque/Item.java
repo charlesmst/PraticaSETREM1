@@ -37,7 +37,7 @@ public class Item implements Serializable {
 
     @Column(name = "ultimo_valor_venda", nullable = false)
     private double ultimoValorVenda;
-    
+
     @Transient
     private int qtdDisponivel;
 
@@ -95,10 +95,5 @@ public class Item implements Serializable {
 
     public void setUltimoValorVenda(double ultimoValorVenda) {
         this.ultimoValorVenda = ultimoValorVenda;
-    }
-
-    @Override
-    public String toString() {
-        return itemTipo.getNome() + " -> " + descricao;
     }
 }

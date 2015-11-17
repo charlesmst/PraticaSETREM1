@@ -40,6 +40,7 @@ public class EstoqueService extends Service<Estoque> {
 
     public void update(Estoque est, EstoqueMovimentacao estMov) throws services.ServiceException {
         executeOnTransaction((s, t) -> {
+            estMov.setId(0);
             if (est.getId() > 0) {
                 s.merge(est);
             } else {
@@ -61,7 +62,7 @@ public class EstoqueService extends Service<Estoque> {
     public Estoque verificaMaisAntigo(Item i) {
         List<Estoque> estoqueDoItem = new EstoqueService().findBy("item.id", i.getId());
         Estoque estoqueOld = new Estoque();
-        
+
         Date d = new Date();
         Calendar c = Calendar.getInstance();
         c.setTime(d);

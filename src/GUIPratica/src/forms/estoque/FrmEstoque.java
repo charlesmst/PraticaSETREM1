@@ -8,6 +8,7 @@ import java.util.Collection;
 import javax.swing.JDialog;
 import model.estoque.Estoque;
 import model.estoque.EstoqueMovimentacao;
+import model.estoque.MovimentacaoTipo;
 import services.ServiceException;
 import services.estoque.EstoqueMovimentacaoService;
 import services.estoque.EstoqueService;
@@ -150,13 +151,22 @@ public class FrmEstoque extends JPanelControleButtons {
 
     @Override
     public void btnAlterarActionPerformed(ActionEvent evt) {
-//        try {
-//            int id = table.getSelectedId();
-//            JDialog dialog = new FrmEstoqueAlteracao(id);
-//            dialog.setVisible(true);
-//        } catch (Exception e) {
-//            utils.Forms.mensagem(e.getMessage(), AlertaTipos.erro);
-//        }
+        try {
+            int id = table.getSelectedId();
+            EstoqueMovimentacao estMov = service.findById(id);
+            if (id < 1) {
+                utils.Forms.mensagem("Selecione uma movimentação", AlertaTipos.erro);
+            } else if (estMov.getMovimentacaoTipo().getTipo().equals(MovimentacaoTipo.TipoMovimentacao.entrada)
+                    && !estMov.getMovimentacaoTipo().getDescricao().equals("AJUSTE ENTRADA")) {
+                JDialog dialog = new FrmEstoqueAjuste(id);
+                dialog.setVisible(true);
+                table.atualizar();
+            } else {
+                utils.Forms.mensagem("Não é possível alterar essa movimentação", AlertaTipos.erro);
+            }
+        } catch (Exception e) {
+            utils.Forms.mensagem(e.getMessage(), AlertaTipos.erro);
+        }
     }
 
     @Override

@@ -6,22 +6,15 @@
 package services.estoque;
 
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
-import javax.swing.JOptionPane;
 import model.estoque.Estoque;
 import model.estoque.EstoqueMovimentacao;
 import model.estoque.Item;
-import model.estoque.MovimentacaoTipo;
 import model.fluxo.Conta;
 import model.ordem.Ordem;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import org.hibernate.criterion.Restrictions;
-import org.hibernate.exception.ConstraintViolationException;
-import org.hibernate.service.spi.ServiceException;
 import services.Service;
 import services.ordem.OrdemService;
 
@@ -99,9 +92,8 @@ public class EstoqueMovimentacaoService extends Service<EstoqueMovimentacao> {
                     eM.setQuantidade(qtd);
                     restantes -= qtd;
                 }
-                eM.setDescricao("SAIDA DE " + eM.getQuantidade() + " -> " + i.getItemTipo().getNome() + " -> " + i.getDescricao());
+                eM.setDescricao("SAIDA DE " + i.getDescricao());
                 s.merge(e);
-//                s.save(eM);
                 ordem.getEstoqueMovimentacaos().add(eM);
 
                 indiceEstoque++;
@@ -111,7 +103,6 @@ public class EstoqueMovimentacaoService extends Service<EstoqueMovimentacao> {
 
             s.merge(ordem);
             t.commit();
-//            s.refresh(ordem);
 
         });
         new OrdemService().refreshCollection(ordem);

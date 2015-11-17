@@ -183,7 +183,6 @@ public class FrmItem extends JPanelControleButtons {
              JasperPrint jpr = JasperFillManager
                     .fillReport("src/relatorios/relatorio_de_item.jasper", parametros, jrs);
              JasperViewer.viewReport(jpr, false);
-             JasperExportManager.exportReportToPdfFile(jpr, "src/relatorios/relatorio_de_item.pdf");
          } catch(JRException ex){
              utils.Forms.mensagem(ex.getMessage(), AlertaTipos.erro);
          }
