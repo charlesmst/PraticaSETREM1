@@ -77,7 +77,7 @@ public class ContaBancariaService extends Service<ContaBancaria> {
                     + "valor "
                     + "ELSE (valor * -1.0) END"
                     + ")"
-                    + " FROM ParcelaPagamento c where c.contaBancaria.id = :id" + (ate != null ? "and c.data <= :data" : ""));
+                    + " FROM ParcelaPagamento where contaBancaria.id = :id" + (ate != null ? " and data <= :data" : ""));
             q.setInteger("id", c.getId());
             q.setParameter("entrada", ContaCategoria.TipoCategoria.entrada);
             if (ate != null) {
