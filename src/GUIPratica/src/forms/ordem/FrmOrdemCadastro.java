@@ -660,6 +660,7 @@ public class FrmOrdemCadastro extends JDialogController {
 
         FrmOrdemServicoCadastro frm = new FrmOrdemServicoCadastro(ordem);
         frm.setVisible(true);
+        service.refreshCollection(ordem);
         atualizaListagem();
     }//GEN-LAST:event_btnAddServicoActionPerformed
 

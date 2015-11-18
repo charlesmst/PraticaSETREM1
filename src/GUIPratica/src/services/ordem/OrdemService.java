@@ -79,4 +79,8 @@ public class OrdemService extends Service<Ordem> {
         ordem.setEstoqueMovimentacaos(o.getEstoqueMovimentacaos());
         ordem.setOrdemServicos(o.getOrdemServicos());
     }
+    
+    public List<Ordem> findAbertos(){
+        return (List<Ordem>)selectOnSession((s)->s.createQuery("from Ordem o where o.ordemStatus.finaliza = :f").setBoolean("f", false).list());
+    }
 }

@@ -99,7 +99,10 @@ public class frmMain extends javax.swing.JFrame {
     }
 
     private void setupWelcome() {
-        jtabs.addTab("Bem Vindo", new frmBemVindo());
+        frmBemVindo f = new frmBemVindo();
+        jtabs.addTab("Bem Vindo", f);
+        f.OnShow();
+        refreshButtons();
     }
 
     private void setupFrame() {
@@ -153,12 +156,19 @@ public class frmMain extends javax.swing.JFrame {
                 if (jtabs.getComponentAt(i) == p) {
 
                     jtabs.setSelectedComponent(p);
+                    if (p instanceof JPanelControleButtons) {
+                        ((JPanelControleButtons) p).OnShow();
+                    }
                     return;
                 }
             }
 
             jtabs.add(treeNodeMenu.getUserObject().toString(), p);
             jtabs.setSelectedComponent(p);
+            if (p instanceof JPanelControleButtons) {
+                ((JPanelControleButtons) p).OnShow();
+            }
+
         }
     }
 
@@ -237,9 +247,8 @@ public class frmMain extends javax.swing.JFrame {
             j = jTreeMenu.getRowCount();
         }
         startedTree = true;
-         jTreeMenu.setRootVisible(false) ;
-         jTreeMenu.setShowsRootHandles(true);
-
+        jTreeMenu.setRootVisible(false);
+        jTreeMenu.setShowsRootHandles(true);
 
     }
 
@@ -375,6 +384,8 @@ public class frmMain extends javax.swing.JFrame {
         setForeground(new java.awt.Color(102, 102, 102));
         setIconImage(utils.Globals.imageIcone);
 
+        javax.swing.tree.DefaultMutableTreeNode treeNode1 = new javax.swing.tree.DefaultMutableTreeNode("root");
+        jTreeMenu.setModel(new javax.swing.tree.DefaultTreeModel(treeNode1));
         jTreeMenu.addTreeSelectionListener(new javax.swing.event.TreeSelectionListener() {
             public void valueChanged(javax.swing.event.TreeSelectionEvent evt) {
                 jTreeMenuValueChanged(evt);

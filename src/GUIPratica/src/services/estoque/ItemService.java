@@ -15,7 +15,7 @@ import model.estoque.Item;
 import org.hibernate.Query;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.service.spi.ServiceException;
-import org.hsqldb.Session;
+
 import services.Service;
 
 public class ItemService extends Service<Item> {

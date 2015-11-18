@@ -9,9 +9,11 @@ import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.Optional;
 import model.fluxo.Conta;
 import model.fluxo.ContaBancaria;
 import model.fluxo.ContaCategoria;
@@ -75,6 +77,10 @@ public class ContaService extends Service<Conta> {
         this.insert(obj);
     }
 
+    public Optional<Parcela> proximaParcela(Conta conta) {
+        return conta.getParcelas().stream().filter((p) -> !p.isFechado()).min((e1, e2) -> e1.getDataLancamento().compareTo(e2.getDataLancamento()));
+    }
+
     private double calculaValorPago(Conta conta) {
         double valorPago = 0;
         for (Parcela parcela : conta.getParcelas()) {
@@ -134,11 +140,11 @@ public class ContaService extends Service<Conta> {
                     .uniqueResult();
 //            Conta c = (Conta)s.load(Conta.class,id);
             for (Parcela parcela : c.getParcelas()) {
-                List<ParcelaPagamento> p =  parcela.getPagamentos();
+                List<ParcelaPagamento> p = parcela.getPagamentos();
                 for (ParcelaPagamento p1 : p) {
                     break;
                 }
-                
+
             }
             return c;
         });
@@ -279,7 +285,7 @@ public class ContaService extends Service<Conta> {
     }
 
     private double valorPagamentosPeriodo(Session s, ContaCategoria.TipoCategoria tipo, Date monthFirstDate, Date monthEndDate) {
-        Object d =  s.createQuery("select "
+        Object d = s.createQuery("select "
                 + " sum(valor) "
                 + "from ParcelaPagamento parcelaPagamento "
                 + " where data  between :inicio and :fim"
@@ -289,9 +295,11 @@ public class ContaService extends Service<Conta> {
                 .setDate("fim", monthEndDate)
                 .setParameter("tipo", tipo)
                 .uniqueResult();
-        if(d != null)
-            return (Double)d;
-        else return 0D;
+        if (d != null) {
+            return (Double) d;
+        } else {
+            return 0D;
+        }
     }
 
     private double valorPagamentosPeriodo(Session s, ContaCategoria.TipoCategoria tipo, Date monthFirstDate, Date monthEndDate, Conta.ContaTipo tipoDeConta) {
@@ -307,9 +315,11 @@ public class ContaService extends Service<Conta> {
                 .setParameter("tipo", tipo)
                 .setParameter("tipoConta", tipoDeConta)
                 .uniqueResult();
-        if(d != null)
-            return (Double)d;
-        else return 0D;
+        if (d != null) {
+            return (Double) d;
+        } else {
+            return 0D;
+        }
     }
 
     private double valorPagamentosPeriodoAPrazo(Session s, ContaCategoria.TipoCategoria tipo, Date monthFirstDate, Date monthEndDate, Conta.ContaTipo tipoConta) {
@@ -413,12 +423,13 @@ public class ContaService extends Service<Conta> {
 
     /**
      * Selecionar movimentos de bancarios
+     *
      * @param start
      * @param end
      * @return
      */
     public List<MovimentoBancario> movimentosBancarios(Date start, Date end) {
-        List<MovimentoBancario>  r=  (List<MovimentoBancario>) selectOnSession((s) -> {
+        List<MovimentoBancario> r = (List<MovimentoBancario>) selectOnSession((s) -> {
             Query q = s.createQuery("select "
                     + "new model.queryresults.MovimentoBancario("
                     + "parcelaPagamento.data,"

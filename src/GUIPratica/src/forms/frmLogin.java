@@ -7,6 +7,7 @@ package forms;
 
 import antlr.actions.cpp.ActionLexer;
 import components.JDialogController;
+import components.JValidadorDeCampos;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -14,7 +15,10 @@ import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.JRootPane;
+import javax.swing.SwingUtilities;
 import jdk.nashorn.internal.objects.Global;
 import model.Usuario;
 import services.UsuarioService;
@@ -24,11 +28,22 @@ import utils.Globals;
  *
  * @author Charles
  */
-public class frmLogin extends JDialogController {
+public class frmLogin extends JFrame {
 
-    public frmLogin(java.awt.Frame parent, boolean modal) {
-        super(parent, "Login");
+    private ActionListener listener;
+
+    public ActionListener getListener() {
+        return listener;
+    }
+
+    public void setListener(ActionListener listener) {
+        this.listener = listener;
+    }
+    public frmLogin() {
+        super("Login");
         initComponents();
+        setResizable(false);
+        
         setupFrame();
     }
     UsuarioService service = new UsuarioService();
@@ -57,7 +72,7 @@ public class frmLogin extends JDialogController {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setIconImage(utils.Globals.imageIcone);
-        setModal(true);
+        setResizable(false);
         setSize(new java.awt.Dimension(375, 300));
 
         btnLogin.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
@@ -150,6 +165,8 @@ public class frmLogin extends JDialogController {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
+        if(!validador.isValido())
+            return;
         try {
             if (service.autentica(txtUsuario.getText().toUpperCase(), String.valueOf(txtSenha.getPassword()))) {
                 Usuario u = new UsuarioService().findBy("usuario", txtUsuario.getText().toUpperCase()).get(0);
@@ -157,6 +174,7 @@ public class frmLogin extends JDialogController {
                 Globals.nivel = u.getNivel();
                 if (autenticadoEvent != null) {
                     autenticadoEvent.actionPerformed(new ActionEvent(evt, 1, "autenticado", 1));
+                    listener.actionPerformed(null);
                 }
                 dispose();
 
@@ -175,47 +193,6 @@ public class frmLogin extends JDialogController {
 
     }//GEN-LAST:event_btnCancelarActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(frmLogin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(frmLogin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(frmLogin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(frmLogin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the dialog */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                frmLogin dialog = new frmLogin(new javax.swing.JFrame(), true);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                    @Override
-                    public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
-                    }
-                });
-                dialog.setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancelar;
@@ -227,9 +204,14 @@ public class frmLogin extends JDialogController {
     private components.PlaceholderTextField txtUsuario;
     // End of variables declaration//GEN-END:variables
 
+    private JValidadorDeCampos validador = new JValidadorDeCampos();
     private void setupFrame() {
-        setDefaultButton(btnLogin);
+        JRootPane rootPane = SwingUtilities.getRootPane(btnLogin);
+        rootPane.setDefaultButton(btnLogin);
         setLocationRelativeTo(null);
-
+        validador.validarObrigatorio(txtUsuario);
+        validador.validarObrigatorio(txtSenha);
+        validador.isValido(false);
+        
     }
 }

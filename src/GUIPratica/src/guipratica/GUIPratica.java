@@ -24,15 +24,16 @@ public class GUIPratica {
         FrmLoading loading = new FrmLoading();
         loading.setAoFinalizar((e) -> {
             LoginListener evento = new LoginListener();
-            frmLogin login = new frmLogin(null, true);
+            frmLogin login = new frmLogin();
             login.setAutenticadoListener(evento);
+            login.setListener((e2) -> {
+                if (evento.isAutenticou()) {
+                    frmMain frm;
+                    frm = new frmMain();
+                    frm.setVisible(true);
+                }
+            });
             login.setVisible(true);
-
-            if (evento.isAutenticou()) {
-                frmMain frm;
-                frm = new frmMain();
-                frm.setVisible(true);
-            }
 
         });
         loading.setListener((e) -> {

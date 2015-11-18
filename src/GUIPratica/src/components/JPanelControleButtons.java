@@ -11,6 +11,7 @@ import java.io.Serializable;
 import java.util.function.Consumer;
 import javax.swing.GroupLayout;
 import javax.swing.JDialog;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import services.ServiceException;
 import utils.AlertaTipos;
@@ -49,6 +50,9 @@ public abstract class JPanelControleButtons extends JPanel {
 
     }
 
+    public void OnShow(){
+        //Faz nada, a não ser que implemente
+    }
     public boolean isBtnAtualizarEnable() {
         return btnAtualizarEnable;
     }

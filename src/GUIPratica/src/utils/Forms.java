@@ -35,11 +35,13 @@ public class Forms {
     }
 
     public static void mensagem(String text, AlertaTipos tipo, boolean beepOnError) {
-        frmMain.getInstance().alert(text);
-        frmMain.getInstance().setIcone(tipo);
+        if (frmMain.getInstance() != null) {
+            frmMain.getInstance().alert(text);
+            frmMain.getInstance().setIcone(tipo);
 
-        if (tipo == AlertaTipos.erro && beepOnError) {
-            beep();
+            if (tipo == AlertaTipos.erro && beepOnError) {
+                beep();
+            }
         }
     }
 
