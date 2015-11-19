@@ -261,7 +261,7 @@ public class ContaService extends Service<Conta> {
                             cv.setComprasPrazo(cv.getComprasPrazo() - pagamento1.getValor());
                             for (ComprasVendas cv2 : l) {
                                 if (f1.format(cv2.getData()).equals(f1.format(pagamento1.getData()))) {
-                                    cv.setComprasAVista(cv.getComprasAVista() + pagamento1.getValor());
+                                    cv2.setComprasAVista(cv2.getComprasAVista() + pagamento1.getValor());
                                     break;
                                 }
 
@@ -271,7 +271,7 @@ public class ContaService extends Service<Conta> {
                             cv.setVendasPrazo(cv.getVendasPrazo() - pagamento1.getValor());
                             for (ComprasVendas cv2 : l) {
                                 if (f1.format(cv2.getData()).equals(f1.format(pagamento1.getData()))) {
-                                    cv.setVendasAVista(cv.getVendasAVista() + pagamento1.getValor());
+                                    cv2.setVendasAVista(cv2.getVendasAVista() + pagamento1.getValor());
                                     break;
                                 }
 
