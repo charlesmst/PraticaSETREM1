@@ -14,6 +14,7 @@ import javax.swing.DefaultComboBoxModel;
 import model.Pessoa;
 import forms.FrmPessoaF2;
 import forms.fluxo.FrmContaCadastro;
+import java.awt.EventQueue;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
@@ -61,7 +62,7 @@ import utils.Utils;
  * @author Charles
  */
 public class FrmOrdemCadastro extends JDialogController {
-    
+
     private int id;
     private final OrdemService service = new OrdemService();
 
@@ -71,7 +72,7 @@ public class FrmOrdemCadastro extends JDialogController {
     public FrmOrdemCadastro() {
         this(0);
     }
-    
+
     public FrmOrdemCadastro(int id) {
         super(frmMain.getInstance(), "Manutenção de Ordem de serviço");
         this.id = id;
@@ -80,7 +81,7 @@ public class FrmOrdemCadastro extends JDialogController {
         setupForm();
     }
     List lordenada;
-    
+
     private void setupForm() {
 
         //Esconde a coluna id
@@ -90,28 +91,28 @@ public class FrmOrdemCadastro extends JDialogController {
         } else {
             ordem = new Ordem();
             ordem.setPessoa(new Pessoa());
-            ordem.setVeiculo(new Veiculo());
+//            ordem.setVeiculo(new Veiculo());
             setStatusPadrao();
         }
         // center the jframe on screen
         setLocationRelativeTo(null);
         setDefaultButton(btnSalvar);
-        
+
         validator.validarObrigatorio(txtCliente);
         validator.validarObrigatorio(jcbStatus);
         validator.validarDeBanco(txtCliente, new PessoaService());
         validator.validarDeBanco(txtVeiculo, new VeiculoService());
         validator.validarCustom(jcbStatus, (valor) -> jcbStatus.getSelectedItem() != null, "Selecione uma status");
-        
+
         jcbStatus.setModel(new DefaultComboBoxModel(new Vector(new OrdemStatusService().findAtivos())));
-        
+
         table.setListener(new JTableDataBinderListener() {
-            
+
             @Override
             public Collection lista(String busca) throws ServiceException {
                 return listagem();
             }
-            
+
             @Override
             public Object[] addRow(Object dado) {
                 Object[] l = new Object[7];
@@ -142,13 +143,13 @@ public class FrmOrdemCadastro extends JDialogController {
         });
         initBinding();
     }
-    
+
     private List listagem() {
         lordenada = new ArrayList();
         lordenada.addAll(ordem.getEstoqueMovimentacaos());
         lordenada.addAll(ordem.getOrdemServicos());
         lordenada.sort(new Comparator() {
-            
+
             @Override
             public int compare(Object o1, Object o2) {
                 Date d1;
@@ -157,7 +158,7 @@ public class FrmOrdemCadastro extends JDialogController {
                 } else {
                     d1 = ((EstoqueMovimentacao) o1).getDataLancamento();
                 }
-                
+
                 Date d2;
                 if (o2 instanceof OrdemServico) {
                     d2 = ((OrdemServico) o2).getDataRealizada();
@@ -168,28 +169,28 @@ public class FrmOrdemCadastro extends JDialogController {
             }
         });
         return lordenada;
-        
+
     }
-    
+
     private void atualizaListagem() {
         table.atualizar();
         double valorTotal = service.valorTotal(ordem);
         lblValor.setText(Utils.formataDinheiro(valorTotal));
     }
-    
+
     private void setStatusPadrao() {
         int inicial = Integer.parseInt(Parametros.getInstance().getValue("status_inicial"));
         ordem.setOrdemStatus(new OrdemStatusService().findById(inicial));
-        
+
     }
     private boolean binded = false;
-    
+
     private void initBinding() {
         if (!binded) {
             binded = true;
             AutoBinding autoVehicle = Utils.createBind(ordem, "veiculo", txtVeiculo, false);
             autoVehicle.setConverter(new Converter<Veiculo, String>() {
-                
+
                 @Override
                 public Veiculo convertReverse(String value) {
                     try {
@@ -200,7 +201,7 @@ public class FrmOrdemCadastro extends JDialogController {
                         return null;
                     }
                 }
-                
+
                 @Override
                 public String convertForward(Veiculo value) {
                     if (value != null && value.getId() != 0) {
@@ -221,11 +222,11 @@ public class FrmOrdemCadastro extends JDialogController {
                     }
                 }
             }
-            
+
             Utils.createBind(ordem, "ordemStatus", jcbStatus);
             AutoBinding a = Utils.createBind(ordem, "pessoa", txtCliente, false);
             a.setConverter(new Converter<Pessoa, String>() {
-                
+
                 @Override
                 public Pessoa convertReverse(String value) {
                     try {
@@ -236,7 +237,7 @@ public class FrmOrdemCadastro extends JDialogController {
                         return null;
                     }
                 }
-                
+
                 @Override
                 public String convertForward(Pessoa value) {
                     if (value != null && value.getId() != 0) {
@@ -270,7 +271,7 @@ public class FrmOrdemCadastro extends JDialogController {
         }
         atualizaListagem();
     }
-    
+
     private void salvar() {
         if (ordem.getOrdemStatus().isFinaliza() && ordem.getConta() == null) {
             int dialogResult = JOptionPane.showConfirmDialog(null, "Para a ordem de serviço ser finalizada, deve ser cadastrada uma conta para ela, deseja cadastrar agora?");
@@ -290,12 +291,12 @@ public class FrmOrdemCadastro extends JDialogController {
         }
         id = ordem.getId();
     }
-    
+
     private void save() {
         if (!validator.isValido()) {
             return;
         }
-        
+
         Utils.safeCode(() -> {
             salvar();
             utils.Forms.mensagem(utils.Mensagens.registroSalvo, AlertaTipos.sucesso);
@@ -303,60 +304,75 @@ public class FrmOrdemCadastro extends JDialogController {
             dispose();
         });
     }
-    
+
     private void imprimirFicha() {
-        
-        OrdemRelatorio relatorio = new OrdemRelatorio();
-        relatorio.setCliente(ordem.getPessoa().getNome());
-        relatorio.setMarca(ordem.getVeiculo().getModelo().getMarca().getNome());
-        relatorio.setModelo(ordem.getVeiculo().getModelo().getNome());
-        relatorio.setPedido(ordem.getDescricao());
-        relatorio.setTelefone(ordem.getPessoa().getTelefone());
-        relatorio.setPlaca(ordem.getVeiculo().getPlaca());
-        relatorio.setAno(ordem.getVeiculo().getAno() == 0 ? "" : ordem.getVeiculo().getAno() + "");
-        relatorio.setValorTotal(Utils.formataDinheiro(service.valorTotal(ordem)));
-        relatorio.setCor(ordem.getVeiculo().getCor().getNome());
-        relatorio.setDesconto(Utils.formataDinheiro(ordem.getDesconto()));
-        for (Object item : listagem()) {
-            ItemFichaServico i = new ItemFichaServico();
-            if (item instanceof OrdemServico) {
-                OrdemServico s = ((OrdemServico) item);
-                i.setTipoServico("SERVIÇO");
-                if (s.getConta() != null) {
-                    i.setTipoServico(i.getTipoServico() + " DE TERCEIRO");
-                }
-                i.setValorUnitario(Utils.formataDinheiro(s.getValorEntrada()));
-                i.setQuantidade(s.getQuantidade());
-                i.setDescricao(s.getTipoServico().getNome());
-                i.setDataRealizado(Utils.formataDate(s.getDataRealizada()));
-                i.setValorTotal(Utils.formataDinheiro(s.getValorEntrada() * s.getQuantidade()));
+
+        EventQueue.invokeLater(() -> {
+            OrdemRelatorio relatorio = new OrdemRelatorio();
+            relatorio.setCliente(ordem.getPessoa().getNome());
+            if (ordem.getVeiculo() != null) {
+                relatorio.setMarca(ordem.getVeiculo().getModelo().getMarca().getNome());
+                relatorio.setModelo(ordem.getVeiculo().getModelo().getNome());
+
+                relatorio.setPlaca(ordem.getVeiculo().getPlaca());
+                relatorio.setAno(ordem.getVeiculo().getAno() == 0 ? "" : ordem.getVeiculo().getAno() + "");
+                relatorio.setCor(ordem.getVeiculo().getCor().getNome());
+
             } else {
-                EstoqueMovimentacao m = (EstoqueMovimentacao) item;
-                i.setTipoServico("PEÇA");
-                i.setValorUnitario(Utils.formataDinheiro(m.getValorUnitarioVenda()));
-                i.setQuantidade(m.getQuantidade());
-                i.setDescricao(m.getEstoque().getItem().getDescricao());
-                i.setDataRealizado(Utils.formataDate(m.getDataLancamento()));
-                i.setValorTotal(Utils.formataDinheiro(m.getValorUnitarioVenda() * m.getQuantidade()));
+                relatorio.setMarca("");
+                relatorio.setModelo("");
+
+                relatorio.setPlaca("");
+                relatorio.setAno("");
+                relatorio.setCor("");
+
             }
-            relatorio.getItens().add(i);
-        }
-        
-        List<OrdemRelatorio> fichas = new ArrayList<>();
-        fichas.add(relatorio);
-        JRBeanCollectionDataSource jrs = new JRBeanCollectionDataSource(fichas);
-        
-        Map parametros = new HashMap();
-        try {
-            JasperPrint jpr = JasperFillManager
-                    .fillReport("src/relatorios/ordem_servico.jasper",
-                            parametros, jrs);
-            Forms.showJasperModal(jpr);
-            
-        } catch (JRException ex) {
-            Forms.mensagem(Mensagens.erroRelatorio, AlertaTipos.erro);
-            LogManager.getLogger(getClass()).log(Priority.ERROR, ex);
-        }
+            relatorio.setPedido(ordem.getDescricao());
+            relatorio.setTelefone(ordem.getPessoa().getTelefone());
+            relatorio.setValorTotal(Utils.formataDinheiro(service.valorTotal(ordem)));
+            relatorio.setDesconto(Utils.formataDinheiro(ordem.getDesconto()));
+            for (Object item : listagem()) {
+                ItemFichaServico i = new ItemFichaServico();
+                if (item instanceof OrdemServico) {
+                    OrdemServico s = ((OrdemServico) item);
+                    i.setTipoServico("SERVIÇO");
+                    if (s.getConta() != null) {
+                        i.setTipoServico(i.getTipoServico() + " DE TERCEIRO");
+                    }
+                    i.setValorUnitario(Utils.formataDinheiro(s.getValorEntrada()));
+                    i.setQuantidade(s.getQuantidade());
+                    i.setDescricao(s.getTipoServico().getNome());
+                    i.setDataRealizado(Utils.formataDate(s.getDataRealizada()));
+                    i.setValorTotal(Utils.formataDinheiro(s.getValorEntrada() * s.getQuantidade()));
+                } else {
+                    EstoqueMovimentacao m = (EstoqueMovimentacao) item;
+                    i.setTipoServico("PEÇA");
+                    i.setValorUnitario(Utils.formataDinheiro(m.getValorUnitarioVenda()));
+                    i.setQuantidade(m.getQuantidade());
+                    i.setDescricao(m.getEstoque().getItem().getDescricao());
+                    i.setDataRealizado(Utils.formataDate(m.getDataLancamento()));
+                    i.setValorTotal(Utils.formataDinheiro(m.getValorUnitarioVenda() * m.getQuantidade()));
+                }
+                relatorio.getItens().add(i);
+            }
+
+            List<OrdemRelatorio> fichas = new ArrayList<>();
+            fichas.add(relatorio);
+            JRBeanCollectionDataSource jrs = new JRBeanCollectionDataSource(fichas);
+
+            Map parametros = new HashMap();
+            try {
+                JasperPrint jpr = JasperFillManager
+                        .fillReport("src/relatorios/ordem_servico.jasper",
+                                parametros, jrs);
+                Forms.showJasperModal(jpr);
+
+            } catch (JRException ex) {
+                Forms.mensagem(Mensagens.erroRelatorio, AlertaTipos.erro);
+                LogManager.getLogger(getClass()).log(Priority.ERROR, ex);
+            }
+        });
+
     }
 
     /**
@@ -614,7 +630,7 @@ public class FrmOrdemCadastro extends JDialogController {
         }
         //Cadastra conta
         if (ordem.getConta() == null) {
-            
+
             double valorTotal = service.valorTotal(ordem);
             FrmDescontoCadastro frmDesconto = new FrmDescontoCadastro(valorTotal);
             frmDesconto.setListener((desconto) -> {
@@ -625,7 +641,6 @@ public class FrmOrdemCadastro extends JDialogController {
                 frmConta.setDescricao("ORDEM DE SERVIÇO CÒDIGO " + ordem.getId());
                 frmConta.setListenerOnSave((c) -> {
                     ordem.setConta(c);
-                    
                     int codigoStatus = Integer.parseInt(Parametros.getInstance().getValue("status_finalizador"));
                     ordem.setOrdemStatus(new OrdemStatusService().findById(codigoStatus));
                     salvar();
@@ -649,7 +664,7 @@ public class FrmOrdemCadastro extends JDialogController {
                 frmConta.setVisible(true);
             }
             imprimirFicha();
-            
+
         }
     }//GEN-LAST:event_btnFinalizarActionPerformed
 
@@ -658,7 +673,7 @@ public class FrmOrdemCadastro extends JDialogController {
             return;
         }
         salvar();
-        
+
         FrmOrdemServicoCadastro frm = new FrmOrdemServicoCadastro(ordem);
         frm.setVisible(true);
         service.refreshCollection(ordem);
@@ -676,14 +691,14 @@ public class FrmOrdemCadastro extends JDialogController {
     }//GEN-LAST:event_btnAddPecaActionPerformed
 
     private void btnExcluiPecaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluiPecaActionPerformed
-        
+
         int id = table.getSelectedRow();
         if (id >= 0 && Forms.dialogDelete()) {
             Object o = lordenada.get(id);
             if (o instanceof EstoqueMovimentacao) {
                 new EstoqueMovimentacaoService().excluirEstoque(ordem, (EstoqueMovimentacao) o);
                 utils.Forms.mensagem(Mensagens.excluidoSucesso, AlertaTipos.sucesso);
-                
+
             } else {
                 OrdemServico ordemServico = (OrdemServico) o;
                 boolean deleteconta = false;
@@ -705,7 +720,7 @@ public class FrmOrdemCadastro extends JDialogController {
                 }
             }
         }
-        
+
         atualizaListagem();
 
     }//GEN-LAST:event_btnExcluiPecaActionPerformed

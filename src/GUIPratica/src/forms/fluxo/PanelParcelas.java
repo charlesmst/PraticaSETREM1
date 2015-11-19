@@ -120,24 +120,24 @@ public class PanelParcelas extends javax.swing.JPanel {
 
                 return o;
             }
-
-            @Override
-            public void setValueAt(int row, int column, Object value) {
-                Parcela p = getParcelas().get(row);
-                switch (column) {
-                    case 1:
-                        p.setDataLancamento((Date) value);
-                        break;
-                    case 2:
-
-                        p.setValor(Utils.parseDinheiro(value + ""));
-                        getTable().atualizar();
-                        break;
-
-                }
-                LogManager.getLogger(getClass()).info("Chamou com " + value);
-                System.out.println("Chamou com " + value);
-            }
+//
+//            @Override
+//            public void setValueAt(int row, int column, Object value) {
+//                Parcela p = getParcelas().get(row);
+//                switch (column) {
+//                    case 1:
+//                        p.setDataLancamento((Date) value);
+//                        break;
+//                    case 2:
+//
+//                        p.setValor(Utils.parseDinheiro(value + ""));
+//                        getTable().atualizar();
+//                        break;
+//
+//                }
+//                LogManager.getLogger(getClass()).info("Chamou com " + value);
+//                System.out.println("Chamou com " + value);
+//            }
         });
         table.atualizar();
 
@@ -259,7 +259,7 @@ public class PanelParcelas extends javax.swing.JPanel {
                 java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class
             };
             boolean[] canEdit = new boolean [] {
-                false, true, true, false, false
+                false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {

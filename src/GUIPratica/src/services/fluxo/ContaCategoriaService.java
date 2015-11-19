@@ -48,8 +48,8 @@ public class ContaCategoriaService extends Service<ContaCategoria> {
         super.insert(obj); //To change body of generated methods, choose Tools | Templates.
     }
 
-    public boolean unico(int id, String nome) throws ServiceException {
-        return findFilter(Restrictions.ne("id", id), Restrictions.eq("nome", nome)).isEmpty();
+    public boolean unico(int id, String nome,ContaCategoria.TipoCategoria tipo) throws ServiceException {
+        return findFilter(Restrictions.ne("id", id), Restrictions.eq("nome", nome), Restrictions.eq("tipo", tipo)).isEmpty();
     }
 
 }
