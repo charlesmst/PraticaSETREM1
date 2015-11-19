@@ -382,14 +382,14 @@ public class FrmRelatorioSumario extends JPanelControleButtons {
             totalvv += dado.getVendasAVista();
             totalvp += dado.getVendasPrazo();
         }
-        ComprasVendas cv = new ComprasVendas(null, 0, 0, 0, 0);
+        ComprasVendas cv = new ComprasVendas(null, 0, 0);
         cv.setDataFormatada("TOTAL");
         cv.setComprasAVistaD(Utils.formataDinheiro(totalcv));
         cv.setComprasPrazoD(Utils.formataDinheiro(totalcp));
         cv.setVendasAVistaD(Utils.formataDinheiro(totalvv));
         cv.setVendasPrazoD(Utils.formataDinheiro(totalvp));
         dados.add(cv);
-        cv = new ComprasVendas(null, 0, 0, 0, 0);
+        cv = new ComprasVendas(null, 0, 0);
         cv.setDataFormatada("");
         cv.setComprasAVistaD(porcentagem(totalcv, totalcp));
         cv.setComprasPrazoD(porcentagem(totalcp, totalcv));

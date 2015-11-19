@@ -14,6 +14,7 @@ import model.fluxo.Parcela;
 import model.fluxo.ParcelaPagamento;
 import services.ServiceException;
 import utils.Forms;
+import utils.Globals;
 import utils.Utils;
 
 /**
@@ -45,7 +46,7 @@ public class PanelPagamentos extends javax.swing.JPanel {
                     dado.getData(),
                     dado.getContaCategoria().getNome(),
                     Utils.formataDinheiro(dado.getValor()),
-                    conta.toString()
+                    dado.isaVista()?Globals.iconeSuccess:Globals.iconeError
                 };
                 return obj;
             }
@@ -96,7 +97,7 @@ public class PanelPagamentos extends javax.swing.JPanel {
                 {null, null, null, null, null}
             },
             new String [] {
-                "Parcela", "Data", "Categoria", "Valor", "Conta"
+                "Parcela", "Data", "Categoria", "Valor", "À Vista"
             }
         ) {
             boolean[] canEdit = new boolean [] {

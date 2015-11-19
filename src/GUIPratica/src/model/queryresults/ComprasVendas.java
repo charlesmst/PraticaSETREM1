@@ -25,7 +25,7 @@ public class ComprasVendas {
     private String comprasPrazoD = "";
     private String comprasAVistaD = "";
     private String vendasPrazoD = "";
-    private String vendasAVistaD ="";
+    private String vendasAVistaD = "";
 
     public Date getData() {
         return data;
@@ -35,12 +35,12 @@ public class ComprasVendas {
         this.data = data;
     }
 
-    public ComprasVendas(Date data, double comprasPrazo, double comprasAVista, double vendasPrazo, double vendasAVista) {
+    public ComprasVendas(Date data, double comprasPrazo, double vendasPrazo) {
         this.data = data;
         this.comprasPrazo = comprasPrazo;
-        this.comprasAVista = comprasAVista;
+//        this.comprasAVista = comprasAVista;
         this.vendasPrazo = vendasPrazo;
-        this.vendasAVista = vendasAVista;
+//        this.vendasAVista = vendasAVista;
         if (data != null) {
             dataFormatada = Utils.formataDate(data, "dd/MM");
         }
@@ -72,14 +72,17 @@ public class ComprasVendas {
 
     public void setComprasPrazoD(String comprasPrazoD) {
         this.comprasPrazoD = comprasPrazoD;
+        
     }
 
     public String getComprasAVistaD() {
         return comprasAVistaD;
+
     }
 
     public void setComprasAVistaD(String comprasAVistaD) {
         this.comprasAVistaD = comprasAVistaD;
+
     }
 
     public String getVendasPrazoD() {
@@ -104,6 +107,9 @@ public class ComprasVendas {
 
     public void setComprasPrazo(double comprasPrazo) {
         this.comprasPrazo = comprasPrazo;
+        if (comprasPrazo > 0d) {
+            comprasPrazoD = Utils.formataDinheiro(comprasPrazo);
+        }
     }
 
     public double getComprasAVista() {
@@ -112,6 +118,9 @@ public class ComprasVendas {
 
     public void setComprasAVista(double comprasAVista) {
         this.comprasAVista = comprasAVista;
+        if (comprasAVista > 0d) {
+            comprasAVistaD = Utils.formataDinheiro(comprasAVista);
+        }
     }
 
     public double getVendasPrazo() {
@@ -120,6 +129,9 @@ public class ComprasVendas {
 
     public void setVendasPrazo(double vendasPrazo) {
         this.vendasPrazo = vendasPrazo;
+        if (vendasPrazo > 0d) {
+            vendasPrazoD = Utils.formataDinheiro(vendasPrazo);
+        }
     }
 
     public double getVendasAVista() {
@@ -128,5 +140,8 @@ public class ComprasVendas {
 
     public void setVendasAVista(double vendasAVista) {
         this.vendasAVista = vendasAVista;
+         if (vendasAVista > 0d) {
+            vendasAVistaD = Utils.formataDinheiro(vendasAVista);
+        }
     }
 }

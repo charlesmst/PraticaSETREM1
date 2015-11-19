@@ -82,6 +82,8 @@
                                           <Component id="lblParcela" min="-2" max="-2" attributes="0"/>
                                           <Component id="jLabel12" min="-2" max="-2" attributes="0"/>
                                       </Group>
+                                      <EmptySpace min="-2" pref="23" max="-2" attributes="0"/>
+                                      <Component id="jcbAVista" min="-2" max="-2" attributes="0"/>
                                   </Group>
                                   <Group type="102" alignment="0" attributes="0">
                                       <Component id="jcbImpostos" min="-2" max="-2" attributes="0"/>
@@ -141,7 +143,10 @@
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="lblParcela" min="-2" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="lblParcela" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="jcbAVista" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
                   <Component id="jtbParcela" min="-2" pref="28" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
@@ -222,7 +227,7 @@
                   <Component id="btnCancelar" alignment="3" min="-2" pref="34" max="-2" attributes="0"/>
                   <Component id="btnSalvar" alignment="3" min="-2" pref="34" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace max="-2" attributes="0"/>
+              <EmptySpace type="unrelated" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -499,6 +504,11 @@
       <Events>
         <EventHandler event="stateChanged" listener="javax.swing.event.ChangeListener" parameters="javax.swing.event.ChangeEvent" handler="jcbParcelasExcessoStateChanged"/>
       </Events>
+    </Component>
+    <Component class="javax.swing.JCheckBox" name="jcbAVista">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="&#xc0; Vista"/>
+      </Properties>
     </Component>
   </SubComponents>
 </Form>

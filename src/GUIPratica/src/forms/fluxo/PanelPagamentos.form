@@ -63,7 +63,7 @@
                 <Column editable="false" title="Data" type="java.lang.Object"/>
                 <Column editable="false" title="Categoria" type="java.lang.Object"/>
                 <Column editable="false" title="Valor" type="java.lang.Object"/>
-                <Column editable="false" title="Conta" type="java.lang.Object"/>
+                <Column editable="false" title="&#xc0; Vista" type="java.lang.Object"/>
               </Table>
             </Property>
             <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">

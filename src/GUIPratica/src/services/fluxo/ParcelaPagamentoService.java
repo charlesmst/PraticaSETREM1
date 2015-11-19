@@ -45,10 +45,11 @@ public class ParcelaPagamentoService extends Service<ParcelaPagamento> {
         super.insert(obj); //To change body of generated methods, choose Tools | Templates.
     }
 
-    public void pagamentoProximasParcelas(int parcelaAtual, double valor, ContaBancaria banco, ContaCategoria categoria,Conta conta){
-        insereNasProximas(parcelaAtual+1, valor, banco, categoria, conta);
+    public void pagamentoProximasParcelas(int parcelaAtual, double valor, ContaBancaria banco, ContaCategoria categoria, Conta conta, boolean aVista) {
+        insereNasProximas(parcelaAtual + 1, valor, banco, categoria, conta, aVista);
     }
-    private void insereNasProximas(int parcelaAtual, double valor, ContaBancaria banco, ContaCategoria categoria,Conta conta) {
+
+    private void insereNasProximas(int parcelaAtual, double valor, ContaBancaria banco, ContaCategoria categoria, Conta conta, boolean aVista) {
         Parcela p = null;
         for (Parcela parcela1 : conta.getParcelas()) {
             if (parcela1.getParcela() == parcelaAtual) {
@@ -67,15 +68,18 @@ public class ParcelaPagamentoService extends Service<ParcelaPagamento> {
             pExtra.setParcela(p);
             pExtra.setValor(valor);
             pExtra.setContaCategoria(categoria);
+            pExtra.setaVista(aVista);
             p.getPagamentos().add(pExtra);
         } else {
             ParcelaPagamento pExtra = new ParcelaPagamento();
             pExtra.setData(new Date());
             pExtra.setContaBancaria(banco);
             pExtra.setParcela(p);
+            pExtra.setaVista(aVista);
+
             double valorFalta = p.getValor() - new ParcelaService().valorTotalParcela(p);
             if (valorFalta <= 0d) {
-                insereNasProximas(parcelaAtual + 1, valor, banco, categoria,conta);
+                insereNasProximas(parcelaAtual + 1, valor, banco, categoria, conta,aVista);
                 return;
             }
             double vPagar = valor;
@@ -89,7 +93,7 @@ public class ParcelaPagamentoService extends Service<ParcelaPagamento> {
             pExtra.setContaCategoria(categoria);
             p.getPagamentos().add(pExtra);
             if (valorRestante > 0d) {
-                insereNasProximas(parcelaAtual + 1, valorRestante, banco, categoria,conta);
+                insereNasProximas(parcelaAtual + 1, valorRestante, banco, categoria, conta,aVista);
 
             }
         }

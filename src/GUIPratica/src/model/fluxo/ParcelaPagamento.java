@@ -42,6 +42,16 @@ public class ParcelaPagamento implements Serializable {
     @JoinColumn(name = "parcela_id", nullable = false)
     private Parcela parcela;
 
+    @Column(name = "a_vista",nullable = true)
+    private boolean aVista;
+
+    public boolean isaVista() {
+        return aVista;
+    }
+
+    public void setaVista(boolean aVista) {
+        this.aVista = aVista;
+    }
     public Parcela getParcela() {
         return parcela;
     }
