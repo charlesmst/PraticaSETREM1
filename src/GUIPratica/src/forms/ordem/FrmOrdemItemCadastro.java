@@ -92,6 +92,7 @@ public class FrmOrdemItemCadastro extends JDialogController {
                 estMov.setMovimentacaoTipo((MovimentacaoTipo) txtOrigem.getModel().getSelectedItem());
                 estMov.setQuantidade((int) txtQuantidade.getValue());
                 estMov.setValorUnitarioVenda(txtValor.getValue());
+                estMov.setDataLancamento(txtData.getDate());
                 item.setUltimoValorVenda(txtValor.getValue());
                 new EstoqueMovimentacaoService().descontaEstoque(estMov, item, ordem);
                 utils.Forms.mensagem(Mensagens.registroSalvo, AlertaTipos.sucesso);
@@ -281,7 +282,8 @@ public class FrmOrdemItemCadastro extends JDialogController {
         List<MovimentacaoTipo> movTipoTemp = new MovimentacaoTipoService().findAll();
         movTipo = new ArrayList<>();
         for (MovimentacaoTipo m : movTipoTemp) {
-            if (m.isAtivo() && m.getTipo().equals(m.getTipo().saida)) {
+            if (m.isAtivo() && m.getTipo().equals(m.getTipo().saida)
+                    && !m.getDescricao().contains("AJUSTE SAIDA")) {
                 movTipo.add(m);
             }
         }

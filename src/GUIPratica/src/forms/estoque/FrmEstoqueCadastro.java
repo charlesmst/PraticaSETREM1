@@ -7,14 +7,11 @@ import forms.FrmPessoaF2;
 import forms.fluxo.FrmContaCadastro;
 import forms.frmMain;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collection;
-import java.util.Date;
 import java.util.List;
 import java.util.Vector;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
-import javax.swing.table.DefaultTableModel;
 import model.Pessoa;
 import model.estoque.Estoque;
 import model.estoque.EstoqueMovimentacao;
@@ -22,15 +19,12 @@ import model.estoque.Item;
 import model.estoque.MovimentacaoTipo;
 import model.fluxo.Conta;
 import model.fluxo.ContaCategoria;
-import model.ordem.Ordem;
 import services.PessoaService;
 import services.ServiceException;
 import services.estoque.EstoqueMovimentacaoService;
 import services.estoque.EstoqueService;
 import services.estoque.ItemService;
 import services.estoque.MovimentacaoTipoService;
-import services.fluxo.ContaService;
-import sun.awt.datatransfer.DataTransferer;
 import utils.AlertaTipos;
 import utils.Utils;
 
@@ -43,7 +37,7 @@ public class FrmEstoqueCadastro extends JDialogController {
     private int id;
     private List<Estoque> estoque = new ArrayList<>();
     private List<EstoqueMovimentacao> estoqueMovimentacoes = new ArrayList<>();
-
+    private double valorTotal;
     private final EstoqueService serviceEst = new EstoqueService();
     private final EstoqueMovimentacaoService serviceEstMov = new EstoqueMovimentacaoService();
     List<MovimentacaoTipo> movTipo;
@@ -68,7 +62,7 @@ public class FrmEstoqueCadastro extends JDialogController {
 
     private void setupForm() {
         setLocationRelativeTo(null);
-        setDefaultButton(btnSalvar);
+        setDefaultButton(btnAdicionar);
         validator.validarObrigatorio(txtItem);
         validator.validarDeBanco(txtItem, new ItemService());
         validator.validarObrigatorio(txtPessoa);
@@ -76,9 +70,6 @@ public class FrmEstoqueCadastro extends JDialogController {
         validator.validarCustom(txtValorCompra, (valor) -> {
             return txtValorCompra.getValue() > 0;
         }, "Valor unitário deve ser maior que zero");
-        validator.validarCustom(txtValorTotal, (valor) -> {
-            return txtValorTotal.getValue() > 0;
-        }, "Valor total deve ser maior que zero");
         tableItem.setListener(new JTableDataBinderListener<Estoque>() {
 
             @Override
@@ -91,27 +82,33 @@ public class FrmEstoqueCadastro extends JDialogController {
                 return new String[]{
                     "" + dado.getId(),
                     "" + dado.getItem().getDescricao(),
-                    "" + Utils.formataDinheiro(dado.getValorUnitario()),
                     "" + dado.getQuantidadeDisponivel(),
-                    "" + Utils.formataDate(dado.getDataCompra()),
-                    "" + dado.getLote()
+                    Utils.formataDinheiro(dado.getValorUnitario()),
+                    Utils.formataDinheiro(dado.getQuantidadeDisponivel() * dado.getValorUnitario())
                 };
             }
         });
     }
 
     private void save() {
-        if (estoque.size() < 0 || txtPessoa.getValueSelected() == 0 || txtValorTotal.getValue() == 0) {
+        if (estoque.size() < 1 || txtPessoa.getValueSelected() == 0) {
             utils.Forms.mensagem("Verifique os campos obrigatórios", AlertaTipos.erro);
         } else {
             Utils.safeCode(() -> {
-
                 for (EstoqueMovimentacao estoqueMovimentacao : estoqueMovimentacoes) {
                     estoqueMovimentacao.setPessoa(new Pessoa(txtPessoa.getValueSelected()));
                     estoqueMovimentacao.setId(0);
                     estoqueMovimentacao.getEstoque().setId(0);
+                    estoqueMovimentacao.setDataLancamento(txtDataCompra.getDate());
+                    estoqueMovimentacao.getEstoque().setDataCompra(txtDataCompra.getDate());
+                    estoqueMovimentacao.setNotaFiscal(txtNotaFiscal.getText());
+                    try {
+                        estoqueMovimentacao.setMovimentacaoTipo((MovimentacaoTipo) jcbTipoMovimentacao.getModel().getSelectedItem());
+                    } catch (Exception e) {
+                        utils.Forms.mensagem("Nenhum tipo de movimentação cadastrado!", AlertaTipos.erro);
+                    }
                 }
-                FrmContaCadastro frmConta = new FrmContaCadastro(txtValorTotal.getValue(), 1, txtNotaFiscal.getText(), Conta.ContaTipo.estoque, ContaCategoria.TipoCategoria.saida);
+                FrmContaCadastro frmConta = new FrmContaCadastro(valorTotal, 1, txtNotaFiscal.getText(), Conta.ContaTipo.estoque, ContaCategoria.TipoCategoria.saida);
                 frmConta.setPessoa(txtPessoa.getValueSelected(), true);
                 frmConta.setDescricao("ENTRADA DE ESTOQUE DO FORNECEDOR " + txtPessoa.getTextValue());
                 frmConta.setListenerOnSave((c) -> {
@@ -125,6 +122,14 @@ public class FrmEstoqueCadastro extends JDialogController {
                 frmConta.setVisible(true);
             });
         }
+    }
+
+    private void atualizaValotTotal() {
+        valorTotal = 0;
+        for (EstoqueMovimentacao eM : estoqueMovimentacoes) {
+            valorTotal += (eM.getQuantidade() * eM.getValorUnitario());
+        }
+        txtValorTotal.setValue(valorTotal);
     }
 
     @SuppressWarnings("unchecked")
@@ -162,6 +167,8 @@ public class FrmEstoqueCadastro extends JDialogController {
         jLabel8 = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
         tableItem = new components.JTableDataBinder();
+        jLabel10 = new javax.swing.JLabel();
+        txtValorVenda = new components.JTextFieldMoney();
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -178,6 +185,7 @@ public class FrmEstoqueCadastro extends JDialogController {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Cadastro das entradas de Estoque");
+        setResizable(false);
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jLabel2.setText("Lote:");
@@ -202,6 +210,11 @@ public class FrmEstoqueCadastro extends JDialogController {
 
         txtItem.setMinimumSize(new java.awt.Dimension(6, 25));
         txtItem.setPreferredSize(new java.awt.Dimension(6, 25));
+        txtItem.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtItemFocusLost(evt);
+            }
+        });
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jLabel3.setText("Item:");
@@ -270,6 +283,8 @@ public class FrmEstoqueCadastro extends JDialogController {
         jLabel6.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jLabel6.setText("Fornecedor:");
 
+        txtValorTotal.setEditable(false);
+
         jLabel8.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jLabel8.setText("Total:");
 
@@ -278,7 +293,7 @@ public class FrmEstoqueCadastro extends JDialogController {
 
             },
             new String [] {
-                "Item", "Valor Unit.", "Quantidade", "Data de Compra", "Lote"
+                "ID", "Item", "Quantidade", "Valor Unit.", "Valor Total"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -290,6 +305,17 @@ public class FrmEstoqueCadastro extends JDialogController {
             }
         });
         jScrollPane3.setViewportView(tableItem);
+        if (tableItem.getColumnModel().getColumnCount() > 0) {
+            tableItem.getColumnModel().getColumn(0).setMinWidth(30);
+            tableItem.getColumnModel().getColumn(0).setPreferredWidth(30);
+            tableItem.getColumnModel().getColumn(0).setMaxWidth(30);
+            tableItem.getColumnModel().getColumn(1).setPreferredWidth(300);
+            tableItem.getColumnModel().getColumn(2).setPreferredWidth(50);
+        }
+
+        jLabel10.setText("Preço de Venda Sugerido");
+
+        txtValorVenda.setMinimumSize(new java.awt.Dimension(6, 30));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -301,37 +327,13 @@ public class FrmEstoqueCadastro extends JDialogController {
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jLabel3)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLabel7)
-                                            .addComponent(txtValorCompra, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLabel4)
-                                            .addComponent(spinerQuantidade, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLabel9)
-                                            .addComponent(txtDataCompra, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                                    .addComponent(txtItem, javax.swing.GroupLayout.PREFERRED_SIZE, 408, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(18, 18, 18)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jLabel2)
-                                        .addGap(0, 0, Short.MAX_VALUE))
-                                    .addComponent(txtLote, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addGroup(layout.createSequentialGroup()
-                                                .addComponent(chkDataValidade)
-                                                .addGap(0, 0, Short.MAX_VALUE))
-                                            .addComponent(txtDataValidade, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                        .addGap(18, 18, 18)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLabel5)
-                                            .addComponent(jcbTipoMovimentacao, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                    .addComponent(jLabel3)
+                                    .addComponent(txtItem, javax.swing.GroupLayout.PREFERRED_SIZE, 599, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(chkDataValidade)
+                                    .addComponent(txtDataValidade, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addComponent(jScrollPane3)
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(0, 0, Short.MAX_VALUE)
@@ -345,59 +347,90 @@ public class FrmEstoqueCadastro extends JDialogController {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(btnSalvar)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnCancelar)))
+                                .addComponent(btnCancelar))
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel4)
+                                    .addComponent(spinerQuantidade, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(26, 26, 26)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel7)
+                                    .addComponent(txtValorCompra, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(26, 26, 26)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel10)
+                                    .addComponent(txtValorVenda, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(26, 26, 26)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel2)
+                                        .addGap(0, 0, Short.MAX_VALUE))
+                                    .addComponent(txtLote, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                         .addGap(20, 20, 20))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel6)
-                            .addComponent(txtPessoa, javax.swing.GroupLayout.PREFERRED_SIZE, 479, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, Short.MAX_VALUE)
+                            .addComponent(txtPessoa, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(26, 26, 26)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel9)
+                            .addComponent(txtDataCompra, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(26, 26, 26)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel1)
-                            .addComponent(txtNotaFiscal, javax.swing.GroupLayout.PREFERRED_SIZE, 307, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18))))
+                            .addComponent(txtNotaFiscal, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(26, 26, 26)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel5)
+                            .addComponent(jcbTipoMovimentacao, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap(20, Short.MAX_VALUE))))
             .addComponent(jSeparator1)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel6)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtPessoa, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtNotaFiscal, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(25, 25, 25)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabel6)
+                                .addComponent(jLabel9, javax.swing.GroupLayout.Alignment.TRAILING))
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(txtPessoa, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(txtDataCompra, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jLabel1)
+                                .addComponent(jLabel5))
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(txtNotaFiscal, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jcbTipoMovimentacao, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 25, Short.MAX_VALUE)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(chkDataValidade)
-                    .addComponent(jLabel5))
+                    .addComponent(chkDataValidade))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(txtItem, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jcbTipoMovimentacao, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(txtDataValidade, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(txtDataValidade, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel7)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel7)
+                            .addComponent(jLabel10))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtValorCompra, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txtValorCompra, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtValorVenda, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel9)
-                            .addComponent(jLabel2))
+                        .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(txtDataCompra, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtLote, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(txtLote, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel4)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -414,7 +447,7 @@ public class FrmEstoqueCadastro extends JDialogController {
                     .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtValorTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel8))
-                .addGap(21, 21, 21))
+                .addGap(20, 20, 20))
         );
 
         bindingGroup.bind();
@@ -437,25 +470,19 @@ public class FrmEstoqueCadastro extends JDialogController {
         seq++;
         Estoque est = new Estoque();
         EstoqueMovimentacao estMov = new EstoqueMovimentacao();
-        //estMov.setEstoque(est);
         est.setItem(new ItemService().findById(txtItem.getValueSelected()));
-        try {
-            estMov.setMovimentacaoTipo((MovimentacaoTipo) jcbTipoMovimentacao.getModel().getSelectedItem());
-        } catch (Exception e) {
-            utils.Forms.mensagem("Nenhum tipo de movimentação cadastrado!", AlertaTipos.erro);
-        }
         estMov.setValorUnitario(txtValorCompra.getValue());
+        if (txtValorVenda.getValue() > 0.01) {
+            est.getItem().setUltimoValorVenda(txtValorVenda.getValue());
+        }
         estMov.setQuantidade(Integer.parseInt(spinerQuantidade.getValue().toString()));
-        estMov.setDataLancamento(new Date());
         estMov.setDescricao("ENTRADA DE " + est.getItem().getDescricao());
-        est.setDataCompra(txtDataCompra.getDate());
         est.setLote(txtLote.getText());
         if (chkDataValidade.isSelected()) {
             est.setDataValidade(txtDataValidade.getDate());
         } else {
             est.setDataValidade(null);
         }
-        estMov.setNotaFiscal(txtNotaFiscal.getText());
         estMov.setId(seq);
         est.setId(estMov.getId());
         est.setValorUnitario(txtValorCompra.getValue());
@@ -464,6 +491,7 @@ public class FrmEstoqueCadastro extends JDialogController {
         estoque.add(est);
         estoqueMovimentacoes.add(estMov);
         zerarCampos();
+        atualizaValotTotal();
         refreshTable();
     }//GEN-LAST:event_btnAdicionarActionPerformed
 
@@ -472,11 +500,11 @@ public class FrmEstoqueCadastro extends JDialogController {
         if (linha < 1) {
             utils.Forms.mensagem("Selecione um item da tabela", AlertaTipos.erro);
         } else {
-            JOptionPane.showMessageDialog(null, linha);
             for (int x = 0; x < estoque.size(); x++) {
                 if (estoque.get(x).getId() == linha) {
                     estoque.remove(estoque.get(x));
                     estoqueMovimentacoes.remove(estoqueMovimentacoes.get(x));
+                    atualizaValotTotal();
                     refreshTable();
                 }
             }
@@ -484,26 +512,44 @@ public class FrmEstoqueCadastro extends JDialogController {
     }//GEN-LAST:event_btnRemoverActionPerformed
 
     private void chkDataValidadeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkDataValidadeActionPerformed
-        // TODO add your handling code here:
+
     }//GEN-LAST:event_chkDataValidadeActionPerformed
 
     private void txtLoteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtLoteActionPerformed
-        // TODO add your handling code here:
+
     }//GEN-LAST:event_txtLoteActionPerformed
+
+    private void txtItemFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtItemFocusLost
+        try {
+            Item i = new ItemService().findById(txtItem.getValueSelected());
+            if (i.getUltimoValorVenda() > 0.01) {
+                txtValorVenda.setValue(i.getUltimoValorVenda());
+            } else {
+                txtValorVenda.setValue(0d);
+            }
+        } catch (Exception e) {
+
+        }
+    }//GEN-LAST:event_txtItemFocusLost
 
     private void loadTiposMovimentação() {
         List<MovimentacaoTipo> movTipoTemp = new MovimentacaoTipoService().findAll();
-        movTipo = new ArrayList<>();
-        for (MovimentacaoTipo m : movTipoTemp) {
-            if (m.isAtivo() && m.getTipo().equals(m.getTipo().entrada)) {
-                movTipo.add(m);
+        if (movTipoTemp.size() < 1) {
+            utils.Forms.mensagem("É necessário cadastrar um tipo de movimentação de entrada de estoque para prosseguir!", AlertaTipos.erro);
+            this.dispose();
+        } else {
+            movTipo = new ArrayList<>();
+            for (MovimentacaoTipo m : movTipoTemp) {
+                if (m.isAtivo() && m.getTipo().equals(MovimentacaoTipo.TipoMovimentacao.entrada)
+                        && !m.getDescricao().contains("AJUSTE ENTRADA")) {
+                    movTipo.add(m);
+                }
             }
+            jcbTipoMovimentacao.setModel(new DefaultComboBoxModel(new Vector(movTipo)));
         }
-        jcbTipoMovimentacao.setModel(new DefaultComboBoxModel(new Vector(movTipo)));
     }
 
     private void zerarCampos() {
-
         txtItem.setText("");
         try {
             jcbTipoMovimentacao.setSelectedIndex(0);
@@ -511,6 +557,7 @@ public class FrmEstoqueCadastro extends JDialogController {
             utils.Forms.mensagem("Nenhum tipo de movimentação cadastrado!", AlertaTipos.erro);
         }
         txtValorCompra.setValue(0);
+        txtValorVenda.setValue(0);
         spinerQuantidade.setValue(1);
         txtLote.setText("");
     }
@@ -526,6 +573,7 @@ public class FrmEstoqueCadastro extends JDialogController {
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JCheckBox chkDataValidade;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -549,6 +597,7 @@ public class FrmEstoqueCadastro extends JDialogController {
     private components.F2 txtPessoa;
     private components.JTextFieldMoney txtValorCompra;
     private components.JTextFieldMoney txtValorTotal;
+    private components.JTextFieldMoney txtValorVenda;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
 }

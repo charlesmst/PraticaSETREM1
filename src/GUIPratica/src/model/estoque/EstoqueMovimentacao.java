@@ -16,6 +16,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import model.fluxo.Conta;
 import model.Pessoa;
 import model.ordem.Ordem;
@@ -62,6 +63,18 @@ public class EstoqueMovimentacao implements Serializable {
     @OneToOne
     @JoinColumn(name = "conta_id")
     private Conta conta;
+    
+    @Transient
+    private String data;
+    
+    @Transient
+    private String valorEntrada;
+    
+    @Transient
+    private String valorSaida;
+    
+    @Transient
+    private String valorTotal;
 
 //    @ManyToMany
 //    private Set<Ordem> ordem = new HashSet<>();
@@ -75,6 +88,14 @@ public class EstoqueMovimentacao implements Serializable {
 
     public int getId() {
         return id;
+    }
+
+    public String getData() {
+        return data;
+    }
+
+    public void setData(String data) {
+        this.data = data;
     }
 
     public void setId(int id) {
@@ -168,5 +189,30 @@ public class EstoqueMovimentacao implements Serializable {
 //    public Set<Ordem> getOrdem() {
 //        return ordem;
 //    }
+
+    public String getValorEntrada() {
+        return valorEntrada;
+    }
+
+    public void setValorEntrada(String valorEntrada) {
+        this.valorEntrada = valorEntrada;
+    }
+
+    public String getValorSaida() {
+        return valorSaida;
+    }
+
+    public void setValorSaida(String valorSaida) {
+        this.valorSaida = valorSaida;
+    }
+
+    public String getValorTotal() {
+        return valorTotal;
+    }
+
+    public void setValorTotal(String valorTotal) {
+        this.valorTotal = valorTotal;
+    }
+    
     
 }

@@ -31,7 +31,6 @@ public class EstoqueService extends Service<Estoque> {
                 s.save(estoque1);
             }
             for (EstoqueMovimentacao estoqueMovimentacoe : estoqueMovimentacoes) {
-                estoqueMovimentacoe.setDataLancamento(new Date());
                 s.save(estoqueMovimentacoe);
             }
             t.commit();

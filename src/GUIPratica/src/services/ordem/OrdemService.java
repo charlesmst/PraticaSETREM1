@@ -33,6 +33,9 @@ public class OrdemService extends Service<Ordem> {
             if (obj.getDescricao() != null) {
                 obj.setDescricao(obj.getDescricao().toUpperCase());
             }
+            for (EstoqueMovimentacao estMov : obj.getEstoqueMovimentacaos()) {
+                estMov.setConta(obj.getConta());
+            }
             if (obj.getId() == 0) {
                 s.save(obj);
             } else {
@@ -79,8 +82,8 @@ public class OrdemService extends Service<Ordem> {
         ordem.setEstoqueMovimentacaos(o.getEstoqueMovimentacaos());
         ordem.setOrdemServicos(o.getOrdemServicos());
     }
-    
-    public List<Ordem> findAbertos(){
-        return (List<Ordem>)selectOnSession((s)->s.createQuery("from Ordem o where o.ordemStatus.finaliza = :f").setBoolean("f", false).list());
+
+    public List<Ordem> findAbertos() {
+        return (List<Ordem>) selectOnSession((s) -> s.createQuery("from Ordem o where o.ordemStatus.finaliza = :f").setBoolean("f", false).list());
     }
 }

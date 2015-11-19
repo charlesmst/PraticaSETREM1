@@ -1,24 +1,22 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package services.estoque;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
-import javax.swing.JOptionPane;
 import model.estoque.Estoque;
+import model.estoque.EstoqueMovimentacao;
 import model.estoque.Item;
-import org.hibernate.Query;
+import model.estoque.MovimentacaoTipo;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.service.spi.ServiceException;
 
 import services.Service;
 
 public class ItemService extends Service<Item> {
+
+    private List<EstoqueMovimentacao> lista = new ArrayList<>();
 
     @Override
     public void update(Item obj) throws services.ServiceException {
@@ -47,6 +45,57 @@ public class ItemService extends Service<Item> {
             quantidade = quantidade + e.getQuantidadeDisponivel();
         }
         return quantidade;
+    }
+
+    private List<EstoqueMovimentacao> getEstoqueMovimentacaoAll(Item i) {
+        lista = new EstoqueMovimentacaoService().movimentosDeEstoqueAll(i);
+        return lista;
+    }
+
+    public Item MPM(Item i) {
+        getEstoqueMovimentacaoAll(i);
+        //----------Saldo----------
+        int qtdSaldo = 0;
+        double valorUniSaldo = 0d;
+        double valorTotal = 0d;
+        //-------------------------
+        double venda = 0d;
+        int cont = 0;
+        Date date = null;
+        for (EstoqueMovimentacao estMov : lista) {
+            if (estMov.getMovimentacaoTipo().getTipo().equals(MovimentacaoTipo.TipoMovimentacao.entrada)
+                    || estMov.getMovimentacaoTipo().getDescricao().contains("AJUSTE ENTRADA")
+                    || estMov.getMovimentacaoTipo().getDescricao().contains("AJUSTE SAIDA")) {
+                if (estMov.getMovimentacaoTipo().getDescricao().contains("AJUSTE SAIDA")) {
+                    valorTotal -= (estMov.getQuantidade() * estMov.getValorUnitario());
+                    qtdSaldo -= estMov.getQuantidade();
+                    valorUniSaldo = valorTotal / qtdSaldo;
+                } else {
+                    valorTotal += (estMov.getQuantidade() * estMov.getValorUnitario());
+                    qtdSaldo += estMov.getQuantidade();
+                    valorUniSaldo = valorTotal / qtdSaldo;
+                }
+            }
+            if (estMov.getMovimentacaoTipo().getTipo().equals(MovimentacaoTipo.TipoMovimentacao.saida)
+                    && !estMov.getMovimentacaoTipo().getDescricao().contains("AJUSTE SAIDA")) {
+                valorTotal -= (estMov.getQuantidade() * valorUniSaldo);
+                venda += estMov.getQuantidade() * valorUniSaldo;
+                qtdSaldo -= estMov.getQuantidade();
+            }
+//            System.out.println("------------------" + cont + "-------------------");
+//            System.out.println("ID -> " + estMov.getId());
+//            System.out.println("Tipo de Mov -> " + estMov.getMovimentacaoTipo().getDescricao());
+//            System.out.println("Qtd -> " + qtdSaldo);
+//            System.out.println("Valor Unitario -> " + valorUniSaldo);
+//            System.out.println("Valor Total -> " + valorTotal);
+//            System.out.println("Saldo -> " + venda);
+//            System.out.println("----------------------------------------------");
+            //cont++;
+        }
+        i.setQtdDisponivel(qtdSaldo);
+        i.setCustoMedio(valorUniSaldo);
+        i.setValotTotal(valorTotal);
+        return i;
     }
 
     public Collection<Item> findAllWithDisp() {

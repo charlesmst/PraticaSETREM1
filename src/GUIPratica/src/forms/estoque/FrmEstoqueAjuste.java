@@ -159,7 +159,6 @@ public class FrmEstoqueAjuste extends JDialogController {
 
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
         estMov.setQuantidade((Integer) txtQuantidade.getValue());
-        estMov.setDataLancamento(new Date());
         if (txtTipoAjuste.getSelectedIndex() == 0) {
             int id = Integer.parseInt(Parametros.getInstance().getValue("ajuste_entrada"));
             MovimentacaoTipo t = new MovimentacaoTipo();

@@ -23,6 +23,11 @@ public class FrmEstoque extends JPanelControleButtons {
 
     private final EstoqueMovimentacaoService service;
 
+    @Override
+    public void OnShow() {
+        table.atualizar();
+    }
+
     public FrmEstoque() {
         initComponents();
         table.setDefaultRenderer(Object.class, new CellRenderer());

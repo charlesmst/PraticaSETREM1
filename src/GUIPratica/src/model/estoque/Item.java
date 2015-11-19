@@ -41,6 +41,21 @@ public class Item implements Serializable {
     @Transient
     private int qtdDisponivel;
 
+    @Transient
+    private double custoMedio;
+
+    @Transient
+    private double valotTotal;
+
+    @Transient
+    private String qtdDisponivelRel;
+
+    @Transient
+    private String custoMedioRel;
+
+    @Transient
+    private String valotTotalRel;
+
     public int getQtdDisponivel() {
         return qtdDisponivel;
     }
@@ -96,4 +111,45 @@ public class Item implements Serializable {
     public void setUltimoValorVenda(double ultimoValorVenda) {
         this.ultimoValorVenda = ultimoValorVenda;
     }
+
+    public double getCustoMedio() {
+        return custoMedio;
+    }
+
+    public void setCustoMedio(double custoMedio) {
+        this.custoMedio = custoMedio;
+    }
+
+    public double getValotTotal() {
+        return valotTotal;
+    }
+
+    public void setValotTotal(double valotTotal) {
+        this.valotTotal = valotTotal;
+    }
+
+    public String getQtdDisponivelRel() {
+        return qtdDisponivelRel;
+    }
+
+    public void setQtdDisponivelRel(String qtdDisponivelRel) {
+        this.qtdDisponivelRel = qtdDisponivelRel;
+    }
+
+    public String getCustoMedioRel() {
+        return custoMedioRel;
+    }
+
+    public void setCustoMedioRel(String custoMedioRel) {
+        this.custoMedioRel = custoMedioRel;
+    }
+
+    public String getValotTotalRel() {
+        return valotTotalRel;
+    }
+
+    public void setValotTotalRel(String valotTotalRel) {
+        this.valotTotalRel = valotTotalRel;
+    }
+
 }

@@ -10,6 +10,7 @@ import java.util.List;
 import model.estoque.Estoque;
 import model.estoque.EstoqueMovimentacao;
 import model.estoque.Item;
+import model.estoque.MovimentacaoTipo;
 import model.fluxo.Conta;
 import model.ordem.Ordem;
 import org.hibernate.Query;
@@ -76,7 +77,7 @@ public class EstoqueMovimentacaoService extends Service<EstoqueMovimentacao> {
                 int qtd = e.getQuantidadeDisponivel();
 
                 EstoqueMovimentacao eM = new EstoqueMovimentacao();
-                eM.setDataLancamento(new Date());
+                eM.setDataLancamento(estMov.getDataLancamento());
                 eM.setMovimentacaoTipo(estMov.getMovimentacaoTipo());
                 eM.setPessoa(estMov.getPessoa());
                 eM.setValorUnitario(e.getValorUnitario());
@@ -120,6 +121,30 @@ public class EstoqueMovimentacaoService extends Service<EstoqueMovimentacao> {
     public List<EstoqueMovimentacao> buscaMovimentacoes(Estoque e) {
         List<EstoqueMovimentacao> estMov = findBy("estoque.id", e.getId());
         return estMov;
+    }
+
+    public List<EstoqueMovimentacao> movimentosDeEstoque(Date start, Date end, Item item) {
+        List<EstoqueMovimentacao> r = (List<EstoqueMovimentacao>) selectOnSession((s) -> {
+            Query q = s.createQuery("from EstoqueMovimentacao "
+                    + "where estoque.item.id=:item_id and dataLancamento between :start and :end "
+                    + "order by dataLancamento")
+                    .setDate("start", start)
+                    .setDate("end", end)
+                    .setParameter("item_id", item.getId());
+            return q.list();
+        });
+        return r;
+    }
+
+    public List<EstoqueMovimentacao> movimentosDeEstoqueAll(Item item) {
+        List<EstoqueMovimentacao> r = (List<EstoqueMovimentacao>) selectOnSession((s) -> {
+            Query q = s.createQuery("from EstoqueMovimentacao "
+                    + "where estoque.item.id=:item_id and estoque.quantidadeDisponivel > 0 "
+                    + "order by dataLancamento")
+                    .setParameter("item_id", item.getId());
+            return q.list();
+        });
+        return r;
     }
 
     public EstoqueMovimentacaoService() {
