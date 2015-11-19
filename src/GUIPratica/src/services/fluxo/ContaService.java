@@ -226,7 +226,7 @@ public class ContaService extends Service<Conta> {
                     //+ "sum(case when (conta.tipo =  :contavenda and conta.formaPagamento.id = :formaavista) then valorTotal else 0 end)"
                     + ")"
                     + " from Conta conta"
-                    + " where dataLancamento  between :inicio and :fim"
+                    + " where dataLancamento  between :inicio and :fim "
                     + " group by cast(dataLancamento as date) order by cast(dataLancamento as date)")
                     //                    .setParameter("tiposaida", ContaCategoria.TipoCategoria.saida)
                     .setDate("inicio", monthFirstDate)
@@ -236,9 +236,12 @@ public class ContaService extends Service<Conta> {
                     //                    .setParameter("formaavista", formaAvista)
                     .list();
             //Seleciona os pagamentos a vista
-            List<ParcelaPagamento> pagamento = s.createQuery("from ParcelaPagamento where aVista = true and data  between :inicio and :fim ")
+            List<ParcelaPagamento> pagamento = s.createQuery("from ParcelaPagamento where aVista = true and data  between :inicio and :fim and (parcela.conta.tipo = :contacompra or parcela.conta.tipo = :contavenda) ")
                     .setDate("inicio", monthFirstDate)
                     .setDate("fim", monthEndDate)
+                    
+                    .setParameter("contavenda", Conta.ContaTipo.ordem)
+                    .setParameter("contacompra", Conta.ContaTipo.estoque)
                     .list();
             SimpleDateFormat f1 = new SimpleDateFormat("dMy");
 
