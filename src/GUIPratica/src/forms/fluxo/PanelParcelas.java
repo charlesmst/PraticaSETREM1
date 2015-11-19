@@ -199,7 +199,7 @@ public class PanelParcelas extends javax.swing.JPanel {
             } catch (IllegalArgumentException e) {
                 Forms.mensagem("Informe a " + e.getMessage(), AlertaTipos.erro);
             }
-        });
+        },true);
     }
 
     /**
