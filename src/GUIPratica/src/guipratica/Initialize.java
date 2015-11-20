@@ -172,17 +172,17 @@ public class Initialize {
             return cat.getId() + "";
         });
         //Status aberto
-        Parametros.getInstance().validaParametro("status_aberto", (value) -> {
-            OrdemStatus c = serviceStatus.findById(Integer.parseInt(value));
-            return c != null && !c.isFinaliza();
-        }, (value) -> {
-            OrdemStatus cat = new OrdemStatus();
-            cat.setNome("ABERTO");
-            cat.setAtivo(true);
-            cat.setFinaliza(false);
-            serviceStatus.insert(cat);
-            return cat.getId() + "";
-        });
+//        Parametros.getInstance().validaParametro("status_aberto", (value) -> {
+//            OrdemStatus c = serviceStatus.findById(Integer.parseInt(value));
+//            return c != null && !c.isFinaliza();
+//        }, (value) -> {
+//            OrdemStatus cat = new OrdemStatus();
+//            cat.setNome("ABERTO");
+//            cat.setAtivo(true);
+//            cat.setFinaliza(false);
+//            serviceStatus.insert(cat);
+//            return cat.getId() + "";
+//        });
 
         Parametros.getInstance().validaParametro("usuario_admin", (value) -> {
             Usuario c = new UsuarioService().findById(Integer.parseInt(value));
