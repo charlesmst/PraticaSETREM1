@@ -148,6 +148,18 @@ public class Initialize {
             serviceStatus.insert(cat);
             return cat.getId() + "";
         });
+
+        Parametros.getInstance().validaParametro("status_cancelado", (value) -> {
+            OrdemStatus c = serviceStatus.findById(Integer.parseInt(value));
+            return c != null && c.isFinaliza();
+        }, (value) -> {
+            OrdemStatus cat = new OrdemStatus();
+            cat.setNome("CANCELADO");
+            cat.setAtivo(true);
+            cat.setFinaliza(true);
+            serviceStatus.insert(cat);
+            return cat.getId() + "";
+        });
         Parametros.getInstance().validaParametro("status_inicial", (value) -> {
             OrdemStatus c = serviceStatus.findById(Integer.parseInt(value));
             return c != null;
@@ -217,7 +229,7 @@ public class Initialize {
             new MovimentacaoTipoService().insert(mT);
             return mT.getId() + "";
         });
-        
+
         Parametros.getInstance().validaParametro("ajuste_entrada", (value) -> {
             MovimentacaoTipo cc = new MovimentacaoTipoService().findById(Integer.parseInt(value));
             return cc != null && cc.getTipo() == MovimentacaoTipo.TipoMovimentacao.entrada && cc.isAtivo();
@@ -229,5 +241,6 @@ public class Initialize {
             new MovimentacaoTipoService().insert(mT);
             return mT.getId() + "";
         });
+
     }
 }

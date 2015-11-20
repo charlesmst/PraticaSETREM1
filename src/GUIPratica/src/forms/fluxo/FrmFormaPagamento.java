@@ -5,6 +5,7 @@
  */
 package forms.fluxo;
 
+import components.CellRenderer;
 import components.JCampoBusca;
 import java.awt.event.ActionEvent;
 import components.JPanelControleButtons;
@@ -14,6 +15,7 @@ import java.util.Collection;
 import javax.swing.ImageIcon;
 import javax.swing.JCheckBox;
 import javax.swing.JDialog;
+import javax.swing.SwingConstants;
 import model.fluxo.FormaPagamento;
 import services.ServiceException;
 import services.fluxo.FormaPagamentoService;
@@ -38,25 +40,26 @@ public class FrmFormaPagamento extends JPanelControleButtons {
 
         service = new FormaPagamentoService();
 
-
+        CellRenderer cr = new CellRenderer(SwingConstants.LEFT);
+        cr.setAlign(2, SwingConstants.RIGHT);
+        table.setDefaultRenderer(String.class, cr);
         table.setListener(new JTableDataBinderListener<FormaPagamento>() {
 
             @Override
-            public Collection<FormaPagamento> lista(String busca) throws ServiceException{
-                
-                    return service.findByMultipleColumns(busca, "id", "id", "nome");
-              
+            public Collection<FormaPagamento> lista(String busca) throws ServiceException {
+
+                return service.findByMultipleColumns(busca, "id", "id", "nome");
+
             }
 
             @Override
             public Object[] addRow(FormaPagamento dado) {
-                return new Object[]{dado.getId(), dado.getNome(), Utils.formataDinheiro(dado.getAcrescimo()), dado.isAtivo()?Globals.iconeSuccess:Globals.iconeError};
-              
+                return new Object[]{dado.getId(), dado.getNome(), Utils.formataDinheiro(dado.getAcrescimo()), dado.isAtivo() ? Globals.iconeSuccess : Globals.iconeError};
+
             }
         });
 
-        
-        table.setBusca(txtBuscar,true);
+        table.setBusca(txtBuscar, true);
         table.atualizar();
     }
 

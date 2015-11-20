@@ -6,6 +6,7 @@
 package forms.fluxo;
 
 import com.alee.managers.log.Log;
+import components.CellRenderer;
 import components.JCampoBusca;
 import java.awt.event.ActionEvent;
 import components.JPanelControleButtons;
@@ -29,6 +30,7 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JCheckBox;
 import javax.swing.JDialog;
+import javax.swing.SwingConstants;
 import model.fluxo.Conta;
 import model.fluxo.ContaBancaria;
 import model.fluxo.ContaCategoria;
@@ -81,6 +83,18 @@ public class FrmRelatorioLivroCaixa extends JPanelControleButtons {
         tableResumos.setTableHeader(null);
         SimpleDateFormat format = new SimpleDateFormat("d/M");
         validador.validarObrigatorio(jcbCaixa);
+
+        CellRenderer cr = new CellRenderer(SwingConstants.CENTER);
+        cr.setAlign(5, SwingConstants.LEFT);
+        cr.setAlign(6, SwingConstants.RIGHT);
+
+        table.setDefaultRenderer(String.class, cr);
+        
+        cr = new CellRenderer();
+        cr.setAlign(1, SwingConstants.RIGHT);
+
+        tableResumos.setDefaultRenderer(String.class, cr);
+
         jcbCaixa.setModel(new DefaultComboBoxModel(new Vector(new ContaBancariaService().findAtivos())));
         table.setListener(new JTableDataBinderListener<LivroCaixa>() {
 
@@ -318,8 +332,9 @@ public class FrmRelatorioLivroCaixa extends JPanelControleButtons {
         }
         List<LivroCaixa> livros = getLivroCaixa();
         for (LivroCaixa livro : livros) {
-            if(livro.getDescricao() == null)
+            if (livro.getDescricao() == null) {
                 livro.setDescricao("");
+            }
         }
         JRBeanCollectionDataSource jrs = new JRBeanCollectionDataSource(livros);
         JRProperties.setProperty("net.sf.jasperreports.awt.ignore.missing.font", "true");

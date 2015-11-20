@@ -5,6 +5,7 @@
  */
 package forms.fluxo;
 
+import components.CellRenderer;
 import components.JCampoBusca;
 import java.awt.event.ActionEvent;
 import components.JPanelControleButtons;
@@ -23,6 +24,7 @@ import java.util.Map;
 import javax.swing.ImageIcon;
 import javax.swing.JCheckBox;
 import javax.swing.JDialog;
+import javax.swing.SwingConstants;
 import model.fluxo.Conta;
 import model.fluxo.ContaBancaria;
 import model.fluxo.ContaCategoria;
@@ -71,6 +73,22 @@ public class FrmRelatorioSumario extends JPanelControleButtons {
         txtData.setDateFormat("M/y");
         txtData.setValue(new Date());
         SimpleDateFormat format = new SimpleDateFormat("d/M");
+        
+        
+        CellRenderer cr = new CellRenderer(SwingConstants.CENTER);
+        cr.setAlign(1, SwingConstants.LEFT);
+        cr.setAlign(2, SwingConstants.LEFT);
+        cr.setAlign(3, SwingConstants.RIGHT);
+        cr.setAlign(4, SwingConstants.RIGHT);
+
+        table.setDefaultRenderer(String.class, cr);
+        
+        cr = new CellRenderer();
+        cr.setAlign(1, SwingConstants.RIGHT);
+
+        tableCategoria.setDefaultRenderer(String.class, cr);
+        tableResultados.setDefaultRenderer(String.class, cr);
+
         table.setListener(new JTableDataBinderListener<ComprasVendas>() {
 
             @Override
@@ -251,13 +269,6 @@ public class FrmRelatorioSumario extends JPanelControleButtons {
         });
         table.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jScrollPane1.setViewportView(table);
-        if (table.getColumnModel().getColumnCount() > 0) {
-            table.getColumnModel().getColumn(1).setMinWidth(150);
-            table.getColumnModel().getColumn(1).setMaxWidth(200);
-            table.getColumnModel().getColumn(2).setHeaderValue("Compras a Prazo");
-            table.getColumnModel().getColumn(3).setHeaderValue("Vendas à Vista");
-            table.getColumnModel().getColumn(4).setHeaderValue("Vendas a Prazo");
-        }
 
         tableCategoria.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {

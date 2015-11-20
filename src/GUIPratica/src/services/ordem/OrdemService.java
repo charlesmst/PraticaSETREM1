@@ -5,6 +5,7 @@
  */
 package services.ordem;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Set;
 import model.estoque.EstoqueMovimentacao;
@@ -12,8 +13,10 @@ import model.fluxo.Conta;
 import model.fluxo.Parcela;
 import model.ordem.Ordem;
 import model.ordem.OrdemServico;
+import model.ordem.OrdemStatus;
 import services.Service;
 import services.ServiceException;
+import utils.Parametros;
 
 /**
  *
@@ -22,8 +25,16 @@ import services.ServiceException;
 public class OrdemService extends Service<Ordem> {
 
     @Override
+    public void delete(Serializable key) throws ServiceException {
+        OrdemStatus o = new OrdemStatusService().findById(Integer.parseInt(Parametros.getInstance().getValue("status_cancelado")));
+        Ordem or = findOrdem((int) key);
+        or.setOrdemStatus(o);
+        update(or);
+    }
+
+    @Override
     public void update(Ordem obj) throws ServiceException {
-        insert(obj); //To change body of generated methods, choose Tools | Templates.
+        insert(obj);
     }
 
     @Override

@@ -49,7 +49,9 @@ public class FrmConta extends JPanelControleButtons {
 
         service = new ContaService();
         CellRenderer cr = new CellRenderer(SwingConstants.LEFT);
-        cr.setAlign(4, SwingConstants.RIGHT);
+        cr.setAlign(4, SwingConstants.CENTER);
+        cr.setAlign(6, SwingConstants.CENTER);
+        
         table.setDefaultRenderer(String.class, cr);
         table.setListener(new JTableDataBinderListener<Conta>() {
 

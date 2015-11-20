@@ -6,6 +6,7 @@
 package forms.fluxo;
 
 import com.alee.managers.log.Log;
+import components.CellRenderer;
 import components.JCampoBusca;
 import java.awt.event.ActionEvent;
 import components.JPanelControleButtons;
@@ -28,6 +29,7 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JCheckBox;
 import javax.swing.JDialog;
+import javax.swing.SwingConstants;
 import model.fluxo.Conta;
 import model.fluxo.ContaBancaria;
 import model.fluxo.ContaCategoria;
@@ -76,6 +78,17 @@ public class FrmRelatorioMovimentoCaixa extends JPanelControleButtons {
         txtData.setValue(new Date());
         tableResumos.setTableHeader(null);
         SimpleDateFormat format = new SimpleDateFormat("d/M");
+
+        CellRenderer cr = new CellRenderer(SwingConstants.CENTER);
+        cr.setAlign(3, SwingConstants.LEFT);
+        cr.setAlign(4, SwingConstants.RIGHT);
+
+        table.setDefaultRenderer(String.class, cr);
+        
+        cr = new CellRenderer();
+        cr.setAlign(1, SwingConstants.RIGHT);
+
+        tableResumos.setDefaultRenderer(String.class, cr);
 
         table.setListener(new JTableDataBinderListener<MovimentoBancario>() {
 
