@@ -167,7 +167,7 @@ public class WidgetVencendo extends javax.swing.JPanel implements WidgetProCar {
 
         int id = table.getSelectedId();
         if (id > 0) {
-            new FrmOrdemCadastro(id).setVisible(true);
+            new FrmContaCadastro(id).setVisible(true);
             atualizar();
         }
     }//GEN-LAST:event_tableMouseClicked
