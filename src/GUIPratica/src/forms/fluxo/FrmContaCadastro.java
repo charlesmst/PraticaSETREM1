@@ -149,6 +149,7 @@ public class FrmContaCadastro extends JDialogController {
 
             if (jcbFormaPagamento.getSelectedIndex() == -1 && jcbFormaPagamento.getItemCount() > 0) {
                 jcbFormaPagamento.setSelectedIndex(0);
+                conta.setFormaPagamento((FormaPagamento)jcbFormaPagamento.getModel().getSelectedItem());
             }
         }
 
@@ -210,7 +211,7 @@ public class FrmContaCadastro extends JDialogController {
             panelParcelas1.setConta(conta);
             initBindings();
 
-        }, false);
+        }, true);
 
     }
 
@@ -240,7 +241,7 @@ public class FrmContaCadastro extends JDialogController {
                 getListenerOnSave().accept(conta);
             }
             dispose();
-        });
+        },true);
     }
 
     private void verificaMensagem() {

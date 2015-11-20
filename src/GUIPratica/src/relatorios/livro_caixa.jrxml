@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.1.1.final using JasperReports Library version 6.1.1  -->
-<!-- 2015-11-14T09:14:22 -->
+<!-- 2015-11-19T20:15:29 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="registro_de_operacoes" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="0" uuid="89626380-39e7-4940-9905-d6118daeb63b">
 	<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.VerticalRowLayout"/>
 	<property name="com.jaspersoft.studio.unit." value="pixel"/>
@@ -189,7 +189,7 @@
 				<reportElement x="620" y="3" width="90" height="18" uuid="6b6cc403-2597-4af4-bc91-d32dce35d89a">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 				</reportElement>
-				<textElement textAlignment="Center" verticalAlignment="Top">
+				<textElement textAlignment="Left" verticalAlignment="Top">
 					<font fontName="arial" size="11"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{entradaDescricao}]]></textFieldExpression>
@@ -198,7 +198,7 @@
 				<reportElement x="720" y="2" width="80" height="18" uuid="9c0b5f26-172f-4a45-bd4f-6ef86924ddd9">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 				</reportElement>
-				<textElement textAlignment="Center" verticalAlignment="Top">
+				<textElement textAlignment="Right" verticalAlignment="Top">
 					<font fontName="arial" size="11"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{saidaDescricao}]]></textFieldExpression>

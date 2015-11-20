@@ -17,6 +17,11 @@ import javax.persistence.Transient;
 @SequenceGenerator(name = "seq_item", allocationSize = 1, sequenceName = "seq_item")
 public class Item implements Serializable {
 
+    @Override
+    public String toString() {
+        return descricao;
+    }
+
     @Id
     @GeneratedValue(generator = "seq_item", strategy = GenerationType.SEQUENCE)
     private int id;

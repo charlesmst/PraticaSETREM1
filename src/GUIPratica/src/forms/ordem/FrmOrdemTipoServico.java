@@ -12,6 +12,7 @@ import components.JPanelControleButtons;
 import components.JTableDataBinderListener;
 import java.util.Collection;
 import javax.swing.JDialog;
+import javax.swing.SwingConstants;
 import model.ordem.OrdemTipoServico;
 import services.ServiceException;
 import services.ordem.OrdemTipoServicoService;
@@ -29,7 +30,9 @@ public class FrmOrdemTipoServico extends JPanelControleButtons {
 
     public FrmOrdemTipoServico() {
         initComponents();
-        table.setDefaultRenderer(Object.class, new CellRenderer());
+        CellRenderer cr = new CellRenderer();
+        cr.setAlign(2, SwingConstants.RIGHT);
+        table.setDefaultRenderer(String.class, cr);
         setBtnAddEnable(true);
         setBtnAlterarEnable(true);
         setBtnExcluirEnable(true);

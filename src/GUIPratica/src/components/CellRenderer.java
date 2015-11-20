@@ -6,6 +6,7 @@
 package components;
 
 import java.awt.Component;
+import java.util.HashMap;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 
@@ -19,11 +20,27 @@ public class CellRenderer extends DefaultTableCellRenderer {
 
     public CellRenderer() {
         super();
+        defaultAll=CENTER;
+    }
+    public CellRenderer(int all) {
+        super();
+        defaultAll=all;
+    }
+    private int defaultAll;
+    private HashMap<Integer, Integer> columns =  new HashMap<>();
+
+    public void setAlign(int column, int align) {
+        columns.put(column, align);
     }
 
     public Component getTableCellRendererComponent(JTable table, Object value,
             boolean isSelected, boolean hasFocus, int row, int column) {
-        this.setHorizontalAlignment(CENTER);
+        if (columns.containsKey(column)) {
+            this.setHorizontalAlignment(columns.get(column));
+
+        } else {
+            this.setHorizontalAlignment(defaultAll);
+        }
 
         return super.getTableCellRendererComponent(table, value, isSelected,
                 hasFocus, row, column);

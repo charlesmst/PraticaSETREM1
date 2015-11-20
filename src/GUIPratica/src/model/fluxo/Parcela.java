@@ -28,6 +28,11 @@ import javax.persistence.Transient;
 @SequenceGenerator(name = "seq_fc_conta_parcela", sequenceName = "seq_fc_conta_parcela", initialValue = 1, allocationSize = 1)
 public class Parcela implements Serializable {
 
+    @Override
+    public String toString() {
+        return getParcela()+"";
+    }
+
     @Transient
     private PropertyChangeSupport changeSupport = new PropertyChangeSupport(this);
 

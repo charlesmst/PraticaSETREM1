@@ -290,6 +290,7 @@ public class FrmOrdemCadastro extends JDialogController {
             service.update(ordem);
         }
         id = ordem.getId();
+        ordem.setOrdemStatus(ordem.getOrdemStatus());
     }
 
     private void save() {
@@ -310,7 +311,8 @@ public class FrmOrdemCadastro extends JDialogController {
         EventQueue.invokeLater(() -> {
             OrdemRelatorio relatorio = new OrdemRelatorio();
             relatorio.setCliente(ordem.getPessoa().getNome());
-            if (ordem.getVeiculo() != null) {
+            if (ordem.getVeiculo() != null && ordem.getVeiculo().getId()>0) {
+                ordem.setVeiculo(new VeiculoService().findById(ordem.getVeiculo().getId()));
                 relatorio.setMarca(ordem.getVeiculo().getModelo().getMarca().getNome());
                 relatorio.setModelo(ordem.getVeiculo().getModelo().getNome());
 

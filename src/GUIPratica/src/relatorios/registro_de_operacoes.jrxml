@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.1.1.final using JasperReports Library version 6.1.1  -->
-<!-- 2015-11-18T21:05:59 -->
+<!-- 2015-11-19T20:17:04 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="registro_de_operacoes" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="0" uuid="89626380-39e7-4940-9905-d6118daeb63b">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
 	<property name="com.jaspersoft.studio.unit." value="pixel"/>
@@ -151,7 +151,7 @@
 				</textElement>
 				<text><![CDATA[Relatório de Registro de Operações]]></text>
 			</staticText>
-			<textField pattern="dd/MM/yyyy">
+			<textField pattern="dd/MM/yyyy HH:mm">
 				<reportElement x="700" y="20" width="100" height="30" uuid="bd0a9a45-9161-4399-92b5-54b1d939fcf7"/>
 				<textElement textAlignment="Right">
 					<font fontName="Arial" size="10"/>
@@ -207,7 +207,7 @@
 						<jr:detailCell style="Table_TD" height="10">
 							<textField>
 								<reportElement mode="Opaque" x="0" y="0" width="70" height="10" backcolor="#EDEBEB" uuid="72cefcda-000d-42bd-ae68-9c3a14789cdb"/>
-								<textElement textAlignment="Center" verticalAlignment="Middle">
+								<textElement textAlignment="Left" verticalAlignment="Middle">
 									<font fontName="Arial" size="8"/>
 								</textElement>
 								<textFieldExpression><![CDATA[$F{comprasPrazoD}]]></textFieldExpression>
@@ -229,7 +229,7 @@
 						<jr:detailCell style="Table_TD" height="10">
 							<textField>
 								<reportElement mode="Opaque" x="0" y="0" width="70" height="10" backcolor="#EDEBEB" uuid="cc4f412c-e963-44df-b3a1-0dd82955c9f8"/>
-								<textElement textAlignment="Center" verticalAlignment="Middle">
+								<textElement textAlignment="Left" verticalAlignment="Middle">
 									<font fontName="Arial" size="8"/>
 								</textElement>
 								<textFieldExpression><![CDATA[$F{comprasAVistaD}]]></textFieldExpression>
@@ -251,7 +251,7 @@
 						<jr:detailCell style="Table_TD" height="10">
 							<textField>
 								<reportElement mode="Opaque" x="0" y="0" width="70" height="10" backcolor="#EDEBEB" uuid="4ae5b746-f373-4947-b55b-49c0bef9583b"/>
-								<textElement textAlignment="Center" verticalAlignment="Middle">
+								<textElement textAlignment="Right" verticalAlignment="Middle">
 									<font fontName="Arial" size="8"/>
 								</textElement>
 								<textFieldExpression><![CDATA[$F{vendasPrazoD}]]></textFieldExpression>
@@ -273,7 +273,7 @@
 						<jr:detailCell style="Table_TD" height="10">
 							<textField>
 								<reportElement mode="Opaque" x="0" y="0" width="60" height="10" backcolor="#EDEBEB" uuid="77166ac3-c45f-4be8-b8d2-029503f83a3e"/>
-								<textElement textAlignment="Center" verticalAlignment="Middle">
+								<textElement textAlignment="Right" verticalAlignment="Middle">
 									<font fontName="Arial" size="8"/>
 								</textElement>
 								<textFieldExpression><![CDATA[$F{vendasAVistaD}]]></textFieldExpression>
@@ -325,7 +325,7 @@
 						<jr:detailCell style="Table 1_TD" height="10">
 							<textField>
 								<reportElement mode="Opaque" x="0" y="0" width="140" height="10" backcolor="#EDEBEB" uuid="cd4384bb-7d3e-4441-9540-ccc7b6967dd0"/>
-								<textElement textAlignment="Center" verticalAlignment="Middle">
+								<textElement textAlignment="Right" verticalAlignment="Middle">
 									<font fontName="Arial" size="8"/>
 								</textElement>
 								<textFieldExpression><![CDATA[$F{valorFormatado}]]></textFieldExpression>
@@ -359,7 +359,7 @@
 						<jr:detailCell style="Table 2_TD" height="10">
 							<textField>
 								<reportElement mode="Opaque" x="0" y="0" width="130" height="10" backcolor="#EDEBEB" uuid="3de674bd-8be8-492a-beff-70c0d1a4b71b"/>
-								<textElement textAlignment="Left" verticalAlignment="Middle">
+								<textElement textAlignment="Right" verticalAlignment="Middle">
 									<font fontName="Arial" size="8"/>
 								</textElement>
 								<textFieldExpression><![CDATA[$F{valorFormatado}]]></textFieldExpression>

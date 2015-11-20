@@ -168,7 +168,7 @@ public class FrmParcelaCadastro extends JDialogController {
         }, "A data da parcela deve ser maior que anterior");
 
         new JCampoBusca(jffValor, () -> atualizaValor());
-        setupParcela();
+            setupParcela();
     }
 
     private void save() {

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.1.1.final using JasperReports Library version 6.1.1  -->
-<!-- 2015-11-18T20:50:55 -->
+<!-- 2015-11-19T20:26:11 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ordem_servico" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="0" whenResourceMissingType="Empty" uuid="a0890c42-8fa2-448e-bea8-ca300ae701e8">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
 	<property name="com.jaspersoft.studio.unit." value="pixel"/>
@@ -76,7 +76,7 @@
 				</textElement>
 				<text><![CDATA[Ordem de Serviço ]]></text>
 			</staticText>
-			<textField pattern="dd/MM/yyyy">
+			<textField pattern="dd/MM/yyyy HH:mm">
 				<reportElement x="455" y="24" width="100" height="30" uuid="4c25e9d1-55d2-4f71-be98-246dbd82d4c6"/>
 				<textElement textAlignment="Right">
 					<font fontName="Arial" size="10"/>
@@ -96,7 +96,7 @@
 				<reportElement x="-1" y="96" width="550" height="70" uuid="866dc27d-c720-4c6a-acc3-24f111888c62"/>
 			</rectangle>
 			<textField>
-				<reportElement x="40" y="8" width="300" height="20" uuid="96ffba6d-bd59-4a67-bd74-f6af803a5cba">
+				<reportElement x="50" y="8" width="290" height="20" uuid="96ffba6d-bd59-4a67-bd74-f6af803a5cba">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 				</reportElement>
 				<textElement verticalAlignment="Middle">
@@ -105,7 +105,7 @@
 				<textFieldExpression><![CDATA[$F{cliente}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="0" y="8" width="40" height="20" uuid="905008af-7207-4e5c-b63c-48b1dfaeb046">
+				<reportElement x="0" y="8" width="50" height="20" uuid="905008af-7207-4e5c-b63c-48b1dfaeb046">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 				</reportElement>
 				<textElement verticalAlignment="Middle">
@@ -139,7 +139,7 @@
 				<textFieldExpression><![CDATA[$F{placa}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="0" y="51" width="37" height="20" uuid="6731f9f6-d761-41ee-913a-062d88675f7d">
+				<reportElement x="0" y="52" width="37" height="20" uuid="6731f9f6-d761-41ee-913a-062d88675f7d">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 				</reportElement>
 				<textElement verticalAlignment="Middle">
@@ -225,7 +225,7 @@
 			</staticText>
 			<textField>
 				<reportElement x="390" y="54" width="159" height="15" uuid="b2a0cc91-583c-4f40-9064-9616da75503e"/>
-				<textElement>
+				<textElement textAlignment="Right">
 					<font fontName="Arial" size="12" isBold="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{valorTotal}]]></textFieldExpression>
@@ -376,7 +376,7 @@
 						<jr:detailCell style="Table_TD" height="12">
 							<textField>
 								<reportElement mode="Opaque" x="0" y="0" width="70" height="12" backcolor="#EDEBEB" uuid="3a303638-2177-4255-a98e-1abac4e0069f"/>
-								<textElement textAlignment="Center" verticalAlignment="Middle">
+								<textElement textAlignment="Right" verticalAlignment="Middle">
 									<font fontName="Arial" size="8"/>
 								</textElement>
 								<textFieldExpression><![CDATA[$F{valorTotal}]]></textFieldExpression>
@@ -386,14 +386,14 @@
 				</jr:table>
 			</componentElement>
 			<textField>
-				<reportElement x="244" y="76" width="159" height="15" uuid="5ef7dfd7-e5b0-469e-b7ce-7fa82aa6237a"/>
-				<textElement>
+				<reportElement x="449" y="75" width="100" height="15" uuid="5ef7dfd7-e5b0-469e-b7ce-7fa82aa6237a"/>
+				<textElement textAlignment="Right">
 					<font fontName="Arial" size="12" isBold="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{desconto}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="180" y="76" width="90" height="17" uuid="84ba0cc9-aabe-470d-bcf8-c1d9b305ce4e"/>
+				<reportElement x="350" y="73" width="90" height="17" uuid="84ba0cc9-aabe-470d-bcf8-c1d9b305ce4e"/>
 				<textElement>
 					<font fontName="Arial" size="12" isBold="true"/>
 				</textElement>
@@ -419,13 +419,6 @@
 					<pen lineStyle="Solid"/>
 				</graphicElement>
 			</rectangle>
-			<textField evaluationTime="Report">
-				<reportElement x="227" y="3" width="100" height="52" uuid="f48b3b8c-5657-4b26-a46d-e4a715b6ab68"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="arial"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
-			</textField>
 		</band>
 	</pageFooter>
 </jasperReport>

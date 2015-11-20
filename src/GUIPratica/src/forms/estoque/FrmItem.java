@@ -196,6 +196,7 @@ public class FrmItem extends JPanelControleButtons {
     private void btnEntradaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEntradaActionPerformed
         JDialog dialog = new FrmEstoqueCadastro();
         dialog.setVisible(true);
+        table.atualizar();
     }//GEN-LAST:event_btnEntradaActionPerformed
 
     private void btnRelatorioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRelatorioActionPerformed

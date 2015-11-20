@@ -5,6 +5,7 @@
  */
 package forms.fluxo;
 
+import components.CellRenderer;
 import components.JCampoBusca;
 import java.awt.event.ActionEvent;
 import components.JPanelControleButtons;
@@ -14,6 +15,7 @@ import java.util.Collection;
 import javax.swing.ImageIcon;
 import javax.swing.JCheckBox;
 import javax.swing.JDialog;
+import javax.swing.SwingConstants;
 import model.fluxo.ContaBancaria;
 import services.ServiceException;
 import services.fluxo.ContaBancariaService;
@@ -35,7 +37,9 @@ public class FrmContaBancaria extends JPanelControleButtons {
         setBtnAlterarEnable(true);
         setBtnExcluirEnable(true);
         setBtnAtualizarEnable(true);
-
+        CellRenderer cr = new CellRenderer(SwingConstants.LEFT);
+        cr.setAlign(3, SwingConstants.RIGHT);
+        table.setDefaultRenderer(String.class, cr);
         service = new ContaBancariaService();
 
         table.setListener(new JTableDataBinderListener<ContaBancaria>() {

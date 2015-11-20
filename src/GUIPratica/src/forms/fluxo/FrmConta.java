@@ -5,6 +5,7 @@
  */
 package forms.fluxo;
 
+import components.CellRenderer;
 import components.JCampoBusca;
 import java.awt.event.ActionEvent;
 import components.JPanelControleButtons;
@@ -20,6 +21,7 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JCheckBox;
 import javax.swing.JDialog;
+import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
 import model.fluxo.Conta;
 import model.fluxo.ContaCategoria;
@@ -46,7 +48,9 @@ public class FrmConta extends JPanelControleButtons {
         setBtnAtualizarEnable(true);
 
         service = new ContaService();
-
+        CellRenderer cr = new CellRenderer(SwingConstants.LEFT);
+        cr.setAlign(4, SwingConstants.RIGHT);
+        table.setDefaultRenderer(String.class, cr);
         table.setListener(new JTableDataBinderListener<Conta>() {
 
             @Override
@@ -300,7 +304,7 @@ public class FrmConta extends JPanelControleButtons {
         defaultUpdateOperation(table, (id) -> {
 
             Conta c = service.findConta(id);
-            FrmParcelaCadastro frm = new FrmParcelaCadastro(c,null);
+            FrmParcelaCadastro frm = new FrmParcelaCadastro(c, null);
             frm.setListener((conta) -> {
                 service.update(c);
                 table.atualizar();
