@@ -45,7 +45,7 @@ public class FrmPrateleira extends JPanelControleButtons {
             @Override
             public Collection<Prateleira> lista(String busca) throws ServiceException {
 
-                return service.findByMultipleColumns(busca, "id", "id", "nome");
+                return service.findByMultipleColumns(busca, "id", "id", "descricao");
 
             }
 

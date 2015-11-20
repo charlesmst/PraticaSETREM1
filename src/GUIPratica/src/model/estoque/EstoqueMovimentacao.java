@@ -31,8 +31,6 @@ public class EstoqueMovimentacao implements Serializable {
         return descricao;
     }
 
-   
-
     @Id
     @GeneratedValue(generator = "seq_estoque_movimentacao", strategy = GenerationType.SEQUENCE)
     private int id;

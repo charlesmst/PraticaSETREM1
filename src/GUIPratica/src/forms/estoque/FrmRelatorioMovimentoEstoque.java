@@ -454,6 +454,9 @@ public class FrmRelatorioMovimentoEstoque extends JPanelControleButtons {
             gerarRelatorio();
             JRBeanCollectionDataSource jrs = new JRBeanCollectionDataSource(listaImprimir);
             Map parametros = new HashMap();
+            parametros.put("saldoQT", quantidadeTotal + "");
+            parametros.put("saldoVM", Utils.formataDinheiro(valotUniMed));
+            parametros.put("saldoVT", Utils.formataDinheiro(quantidadeTotal * valotUniMed));
             parametros.put("vendaBruta", Utils.formataDinheiro(getVendaBruta()));
             parametros.put("custoMedio", Utils.formataDinheiro(getCustoMPM()));
             parametros.put("lucroBruto", Utils.formataDinheiro(getLucroBruto()));

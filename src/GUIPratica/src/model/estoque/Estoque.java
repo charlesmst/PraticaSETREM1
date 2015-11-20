@@ -113,4 +113,10 @@ public class Estoque implements Serializable {
     public void setDataCompra(Date dataCompra) {
         this.dataCompra = dataCompra;
     }
+
+    @Override
+    public String toString() {
+        return item.getDescricao();
+    }
+
 }
