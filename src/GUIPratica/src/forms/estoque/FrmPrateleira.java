@@ -32,6 +32,7 @@ public class FrmPrateleira extends JPanelControleButtons {
 
     public FrmPrateleira() {
         initComponents();
+        
         table.setDefaultRenderer(Object.class, new CellRenderer());
         setBtnAddEnable(true);
         setBtnAlterarEnable(true);

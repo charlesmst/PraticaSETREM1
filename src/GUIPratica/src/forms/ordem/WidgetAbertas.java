@@ -5,9 +5,11 @@
  */
 package forms.ordem;
 
+import components.CellRenderer;
 import components.JTableDataBinderListener;
 import components.WidgetProCar;
 import java.util.Collection;
+import javax.swing.SwingConstants;
 import model.ordem.Ordem;
 import services.ServiceException;
 import services.ordem.OrdemService;
@@ -28,6 +30,8 @@ public class WidgetAbertas extends javax.swing.JPanel implements WidgetProCar {
         initComponents();
         service = new OrdemService();
 
+        table.setDefaultRenderer(Object.class, new CellRenderer(SwingConstants.CENTER));
+
         table.setListener(new JTableDataBinderListener<Ordem>() {
 
             @Override
@@ -42,7 +46,7 @@ public class WidgetAbertas extends javax.swing.JPanel implements WidgetProCar {
                 return new Object[]{
                     dado.getId() + "",
                     Utils.formataDate(dado.getPrazo()),
-                    dado.getPessoa().getNome(),
+                    dado.getPessoa().getNome() + "",
                     dado.getVeiculo() != null ? dado.getVeiculo().toString() : ""
 
                 };
@@ -78,7 +82,7 @@ public class WidgetAbertas extends javax.swing.JPanel implements WidgetProCar {
 
             },
             new String [] {
-                "Código", "Prazo", "Cliente", "Veículo"
+                "Cód.", "Prazo", "Cliente", "Veículo"
             }
         ) {
             Class[] types = new Class [] {
@@ -104,7 +108,7 @@ public class WidgetAbertas extends javax.swing.JPanel implements WidgetProCar {
         });
         jScrollPane2.setViewportView(table);
         if (table.getColumnModel().getColumnCount() > 0) {
-            table.getColumnModel().getColumn(0).setMaxWidth(50);
+            table.getColumnModel().getColumn(0).setMaxWidth(60);
             table.getColumnModel().getColumn(1).setMaxWidth(90);
         }
 
@@ -114,12 +118,12 @@ public class WidgetAbertas extends javax.swing.JPanel implements WidgetProCar {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 438, Short.MAX_VALUE)
+                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 475, Short.MAX_VALUE)
                 .addContainerGap())
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addContainerGap()
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 438, Short.MAX_VALUE)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 475, Short.MAX_VALUE)
                     .addContainerGap()))
         );
         layout.setVerticalGroup(
@@ -137,9 +141,9 @@ public class WidgetAbertas extends javax.swing.JPanel implements WidgetProCar {
     }// </editor-fold>//GEN-END:initComponents
 
     private void tableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableMouseClicked
-        
+
         int id = table.getSelectedId();
-        if(id > 0){
+        if (id > 0) {
             new FrmOrdemCadastro(id).setVisible(true);
             atualizar();
         }

@@ -12,6 +12,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import javax.swing.SwingConstants;
 import model.estoque.EstoqueMovimentacao;
 import model.estoque.Item;
 import model.estoque.MovimentacaoTipo;
@@ -48,8 +49,22 @@ public class FrmRelatorioMovimentoEstoque extends JPanelControleButtons {
     public FrmRelatorioMovimentoEstoque() {
         initComponents();
         setBtnAtualizarEnable(true);
-        table.setDefaultRenderer(Object.class, new CellRenderer());
-        tableSaldo.setDefaultRenderer(Object.class, new CellRenderer());
+        CellRenderer cr1 = new CellRenderer();
+        cr1.setAlign(4, SwingConstants.RIGHT);
+        cr1.setAlign(5, SwingConstants.RIGHT);
+        cr1.setAlign(6, SwingConstants.RIGHT);
+        table.setDefaultRenderer(Object.class, cr1);
+
+        CellRenderer cr2 = new CellRenderer();
+        cr2.setAlign(1, SwingConstants.RIGHT);
+        cr2.setAlign(2, SwingConstants.RIGHT);
+        tableSaldo.setDefaultRenderer(Object.class, cr2);
+
+        CellRenderer cr3 = new CellRenderer();
+        cr3.setAlign(0, SwingConstants.RIGHT);
+        cr3.setAlign(1, SwingConstants.RIGHT);
+        tableResumos.setDefaultRenderer(Object.class, cr3);
+
         service = new EstoqueMovimentacaoService();
         setupForm();
     }
@@ -397,16 +412,16 @@ public class FrmRelatorioMovimentoEstoque extends JPanelControleButtons {
                         .addComponent(btnImprimir)
                         .addGap(334, 334, 334))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jScrollPane4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 1019, Short.MAX_VALUE)
-                            .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel4)
                             .addComponent(jLabel3))
-                        .addGap(0, 0, Short.MAX_VALUE))))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane4)
+                            .addComponent(jScrollPane1))
+                        .addContainerGap())))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

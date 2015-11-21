@@ -10,15 +10,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.swing.JDialog;
+import javax.swing.SwingConstants;
 import model.estoque.Item;
 import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import net.sf.jasperreports.view.JasperViewer;
 import services.ServiceException;
-import services.estoque.EstoqueService;
 import services.estoque.ItemService;
 import utils.AlertaTipos;
 import utils.Utils;
@@ -34,7 +33,12 @@ public class FrmItem extends JPanelControleButtons {
 
     public FrmItem() {
         initComponents();
-        table.setDefaultRenderer(Object.class, new CellRenderer());
+        CellRenderer cr = new CellRenderer();
+        cr.setAlign(4, SwingConstants.RIGHT);
+        cr.setAlign(4, SwingConstants.CENTER);
+        cr.setAlign(6, SwingConstants.RIGHT);
+        cr.setAlign(7, SwingConstants.RIGHT);
+        table.setDefaultRenderer(Object.class, cr);
         setBtnAddEnable(true);
         setBtnAlterarEnable(true);
         setBtnExcluirEnable(true);

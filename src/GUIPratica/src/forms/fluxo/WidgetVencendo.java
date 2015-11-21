@@ -5,6 +5,7 @@
  */
 package forms.fluxo;
 
+import components.CellRenderer;
 import forms.ordem.*;
 import components.JTableDataBinderListener;
 import components.WidgetProCar;
@@ -13,6 +14,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import javax.swing.ImageIcon;
+import javax.swing.SwingConstants;
 import model.fluxo.Conta;
 import model.fluxo.ContaCategoria;
 import model.fluxo.Parcela;
@@ -38,6 +40,8 @@ public class WidgetVencendo extends javax.swing.JPanel implements WidgetProCar {
         initComponents();
         service = new ContaService();
 
+        table.setDefaultRenderer(Object.class, new CellRenderer(SwingConstants.CENTER));
+
         table.setListener(new JTableDataBinderListener<Conta>() {
 
             @Override
@@ -54,7 +58,7 @@ public class WidgetVencendo extends javax.swing.JPanel implements WidgetProCar {
                     Optional<Parcela> p = service.proximaParcela(c1);
                     Optional<Parcela> p2 = service.proximaParcela(c2);
                     //De traz pra frente
-                    return p.get().getDataLancamento().compareTo(p2.get().getDataLancamento())  * -1;
+                    return p.get().getDataLancamento().compareTo(p2.get().getDataLancamento()) * -1;
                 });
                 return l;
             }
@@ -63,13 +67,11 @@ public class WidgetVencendo extends javax.swing.JPanel implements WidgetProCar {
             public Object[] addRow(Conta dado) {
 
                 Object[] obj = new Object[5];
-                obj[0] = dado.getId();
+                obj[0] = dado.getId() + "";
                 obj[1] = dado.getCategoria().toString();
-                obj[2] = dado.getPessoa().getNome();
-                obj[3] = service.statusParcela(dado);
-
+                obj[2] = dado.getPessoa().getNome()+"";
+                obj[3] = service.statusParcela(dado) + "";
                 obj[4] = dado.getCategoria().getTipo() == ContaCategoria.TipoCategoria.entrada ? "R" : "P";
-
 
                 return obj;
 
@@ -104,7 +106,7 @@ public class WidgetVencendo extends javax.swing.JPanel implements WidgetProCar {
 
             },
             new String [] {
-                "Código", "Categoria", "Pessoa", "Situação", "Tipo"
+                "Cód.", "Categoria", "Pessoa", "Situação", "Tipo"
             }
         ) {
             Class[] types = new Class [] {
@@ -130,8 +132,8 @@ public class WidgetVencendo extends javax.swing.JPanel implements WidgetProCar {
         });
         jScrollPane2.setViewportView(table);
         if (table.getColumnModel().getColumnCount() > 0) {
-            table.getColumnModel().getColumn(0).setMaxWidth(50);
-            table.getColumnModel().getColumn(1).setMaxWidth(90);
+            table.getColumnModel().getColumn(0).setMaxWidth(60);
+            table.getColumnModel().getColumn(1).setPreferredWidth(50);
             table.getColumnModel().getColumn(4).setMaxWidth(30);
         }
 
@@ -141,12 +143,12 @@ public class WidgetVencendo extends javax.swing.JPanel implements WidgetProCar {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 438, Short.MAX_VALUE)
+                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 454, Short.MAX_VALUE)
                 .addContainerGap())
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addContainerGap()
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 438, Short.MAX_VALUE)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 454, Short.MAX_VALUE)
                     .addContainerGap()))
         );
         layout.setVerticalGroup(
