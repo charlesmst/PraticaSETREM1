@@ -51,6 +51,8 @@ public class FrmVeiculoCadastro extends JDialogController {
         validator.validarDeBanco(txtCor, new CorService());
         validator.validarDeBanco(txtModelo, new ModeloService());
         validator.validarCustom(txtPlaca, (v) -> {
+			if(v.equals(""))
+				return true;
             try {
                 Veiculo veiculo = new Veiculo();
                 veiculo.setPlaca(v);
