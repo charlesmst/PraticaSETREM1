@@ -220,6 +220,10 @@ public class FrmContaCadastro extends JDialogController {
         jrbAPagar.setEnabled(false);
         jrbAReceber.setEnabled(false);
         jcbFormaPagamento.setEnabled(false);
+        if(conta.getCategoria().getTipo() ==ContaCategoria.TipoCategoria.entrada)
+            jrbAReceber.setSelected(true);
+        else
+            jrbAPagar.setSelected(true);
     }
 
     private void save() {
