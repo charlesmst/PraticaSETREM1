@@ -645,6 +645,7 @@ public class FrmOrdemCadastro extends JDialogController {
                     ordem.setConta(c);
                     int codigoStatus = Integer.parseInt(Parametros.getInstance().getValue("status_finalizador"));
                     ordem.setOrdemStatus(new OrdemStatusService().findById(codigoStatus));
+                    ordem.setDesconto(desconto);
                     salvar();
                     imprimirFicha();
                     Forms.mensagem("Ordem de serviço finalizada", AlertaTipos.sucesso);

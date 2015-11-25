@@ -66,6 +66,7 @@ public class FrmDescontoCadastro extends JDialogController {
         if (!validator.isValido()) {
             return;
         }
+        
         listener.accept(txtDesconto.getValue());
         dispose();
     }
