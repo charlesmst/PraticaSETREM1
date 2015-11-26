@@ -252,6 +252,7 @@ public class FrmRelatorioMovimentoEstoque extends JPanelControleButtons {
                 valorTotal -= (estMov.getQuantidade() * valorUniSaldo);
                 venda += estMov.getQuantidade() * valorUniSaldo;
                 qtdSaldo -= estMov.getQuantidade();
+                
             }
         }
 
