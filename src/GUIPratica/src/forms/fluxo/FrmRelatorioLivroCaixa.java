@@ -344,7 +344,7 @@ public class FrmRelatorioLivroCaixa extends JPanelControleButtons {
         parametros.put("saldoPeriodo", Utils.formataDinheiro(getValorPeriodo((ContaBancaria) jcbCaixa.getSelectedItem())));
         try {
             JasperPrint jpr = JasperFillManager
-                    .fillReport("src/relatorios/livro_caixa.jasper",
+                    .fillReport("relatorios/livro_caixa.jasper",
                             parametros,
                             jrs);
             Forms.showJasperModal(jpr);

@@ -314,7 +314,7 @@ public class FrmRelatorioMovimentoCaixa extends JPanelControleButtons {
 
         try {
             JasperPrint jpr = JasperFillManager
-                    .fillReport("src/relatorios/movimentacao.jasper",
+                    .fillReport("relatorios/movimentacao.jasper",
                             parametros,
                             jrs);
             

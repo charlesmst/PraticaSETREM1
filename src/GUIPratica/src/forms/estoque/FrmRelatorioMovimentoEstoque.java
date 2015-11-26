@@ -479,7 +479,7 @@ public class FrmRelatorioMovimentoEstoque extends JPanelControleButtons {
 
             try {
                 JasperPrint jpr = JasperFillManager
-                        .fillReport("src/relatorios/movimentacao_estoque.jasper",
+                        .fillReport("relatorios/movimentacao_estoque.jasper",
                                 parametros,
                                 jrs);
 

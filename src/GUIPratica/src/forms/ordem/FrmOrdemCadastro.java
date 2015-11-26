@@ -365,7 +365,7 @@ public class FrmOrdemCadastro extends JDialogController {
             Map parametros = new HashMap();
             try {
                 JasperPrint jpr = JasperFillManager
-                        .fillReport("src/relatorios/ordem_servico.jasper",
+                        .fillReport("relatorios/ordem_servico.jasper",
                                 parametros, jrs);
                 Forms.showJasperModal(jpr);
 

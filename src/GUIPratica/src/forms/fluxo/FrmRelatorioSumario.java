@@ -417,7 +417,7 @@ public class FrmRelatorioSumario extends JPanelControleButtons {
 //        parametros.put("comprasvendas", jrs);
         try {
             JasperPrint jpr = JasperFillManager
-                    .fillReport("src/relatorios/registro_de_operacoes.jasper",
+                    .fillReport("relatorios/registro_de_operacoes.jasper",
                             parametros, jrs);
             Forms.showJasperModal(jpr);
         } catch (JRException ex) {
